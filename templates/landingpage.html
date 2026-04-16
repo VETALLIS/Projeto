@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vetallis</title>
+    <!-- Folha de estilos personalizada do projeto -->
+    <link rel="stylesheet" href="./static/style.css">
+</head>
+
+<body>
+    <!-- Cabeçalho com navegação, vídeo de fundo e slogan -->
+    <header>
+        <div id="home">
+            <!-- Barra de navegação principal -->
+            <nav id="menu-nav">
+                <ul>
+                    <!-- Logo no menu -->
+                    <li id="logo-menu">
+                        <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="logo">
+                    </li>
+                    <!-- Links de navegação com âncoras para as seções da página -->
+                    <li class="menu-link"><a href="#home" class="menu-a-link">Home</a></li>
+                    <li class="menu-link"><a href="#produtos-container" class="menu-a-link">Produto</a></li>
+                    <li class="menu-link"><a href="#sobre-nos-section" class="menu-a-link">Sobre nós</a></li>
+                    <li class="menu-link"><a href="#plano-container" class="menu-a-link">Planos</a></li>
+                    <li class="menu-link"><a href="#contato-section" class="menu-a-link">Contato</a></li>
+                </ul>
+                <!-- Botão de acesso à página de login, gerado via Flask -->
+                <a id="botao-login-menu" href="{{ url_for('novo_login') }}">Login</a>
+            </nav>
+        </div>
+
+        <!-- Vídeo de fundo reproduzido automaticamente, em loop e sem som -->
+        <video id="video-menu" src="/static/imagens/videomain.mp4" autoplay loop muted></video>
+
+        <!-- Slogan exibido sobre o vídeo -->
+        <aside id="slogan-content">
+            <h2 id="slogan">INOVAÇÃO <br> QUE CUIDA DA PECUÁRIA</h2>
+        </aside>
+    </header>
+
+    <main>
+        <!-- Seção de cards descrevendo os diferenciais do produto -->
+        <section id="produtos-container">
+            <div id="cards-produto">
+
+                <!-- Card: O que oferecemos -->
+                <div id="card-oferecemos" class="cards-medianos">
+                    <img src="/static/imagens/box-iso.svg" alt="oq_oferecemos" id="icone-oferecemos" class="imagens">
+                    <h1 id="titulo-oferecemos">O que <br> oferecemos</h1>
+                    <div id="texto-oferecemos">
+                        <h2 id="prod">Solução Inteligente</h2>
+                        <p>Sistema completo de monitoramento e gerenciamento de medicamentos veterinários, garantindo
+                            controle preciso, organização eficiente e maior segurança no armazenamento.</p>
+                    </div>
+                </div>
+
+                <!-- Card: Tecnologia utilizada -->
+                <div id="card-tecnologia-utilizada" class="cards-pequenos">
+                    <img src="/static/imagens/computer.svg" alt="tecnologia_utilizada" id="icone-tecnologia" class="imagens">
+                    <h1 id="titulo-tecnologia">Tecnologia <br> Utilizada</h1>
+                    <div id="texto-tecnologia">
+                        <h2>Controle Total</h2>
+                        <p>Controle 24h do ambiente, por meio de sensores integrados e automação do sistema, com
+                            registros em tempo real e alertas automáticos para prevenir quaisquer irregularidades.</p>
+                    </div>
+                </div>
+
+                <!-- Card: Inovação -->
+                <div id="card-inovacao" class="cards-medianos">
+                    <img src="/static/imagens/light-bulb-on.svg" alt="inovacao" id="icone-inovacao" class="imagens">
+                    <h1 id="titulo-inovacao">Inovação</h1>
+                    <div id="texto-inovacao">
+                        <h2>Tecnologia Que Une <br> Sustentabilidade e Eficiência</h2>
+                        <p>Plataforma versátil que otimiza o uso de seus recursos, reduz desperdícios e promove uma
+                            gestão inteligente e sustentável.</p>
+                    </div>
+                </div>
+
+                <!-- Card: Problema solucionado (maior, com imagem ilustrativa) -->
+                <div id="card-solucao">
+                    <img src="/static/imagens/warning-triangle.svg" alt="solucao" id="icone-solucao" class="imagens">
+                    <h1 id="titulo-solucao">Problema <br>Solucionado</h1>
+                    <div id="texto-solucao">
+                        <h2 id="subtitulo-solucao">Fim das Perdas por Falhas <br>na Gestão de Estoque</h2>
+                        <p>Nosso sistema elimina prejuízos causados por controle inadequado, vencimentos e armazenamento
+                            incorreto, garantindo maior segurança e eficiência na gestão dos medicamentos.</p>
+                    </div>
+                    <img src="/static/imagens/Spreadsheets-pana.svg" alt="img_animais_solucao" id="img-solucao">
+                </div>
+
+                <!-- Card: Planos futuros -->
+                <div id="card-planos-futuros" class="cards-medianos">
+                    <img src="/static/imagens/calendar.svg" alt="planos_futuros" id="icone-planos-futuros" class="imagens">
+                    <h1 id="titulo-planos-futuros">Planos <br> Futuros</h1>
+                    <div id="texto-planos-futuros">
+                        <h2>O Futuro do Seu Estoque</h2>
+                        <p>Implementação de rastreamento de localização dentro do estoque, permitindo identificar
+                            rapidamente onde cada medicamento está armazenado, tornando a gestão ágil e precisa.</p>
+                    </div>
+                </div>
+
+                <!-- Card: Dados do mercado -->
+                <div id="card-dados-mercado" class="cards-pequenos">
+                    <img src="static/imagens/graph-up.svg" alt="dados_mercado" id="icone-mercado" class="imagens">
+                    <h1 id="titulo-mercado">Dados do <br>Mercado</h1>
+                    <div id="texto-dados">
+                        <h2>Mercado em Alerta</h2>
+                        <p>
+                            • 100% das fazendas possuem descarte incorreto! <br>
+                            • Perda de 10% do lucro total em 6 meses! <br>
+                            • 9,25 milhões de reais perdidos!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Seção Sobre Nós com canvas para efeito de ondas no fundo -->
+        <section id="sobre-nos-section">
+            <!-- Canvas da onda traseira (renderizada via script.js) -->
+            <canvas id="canvas-ondas-back"></canvas>
+            <div class="sobre-nos-container">
+                <!-- Imagem ilustrativa da equipe ou produto -->
+                <div id="img-sobre">
+                    <img src="/static/imagens/Imagem_correta.jpg" alt="">
+                </div>
+                <!-- Texto descritivo da empresa -->
+                <div id="texto-sobre">
+                    <h1 id="titulo-sobre">Sobre Nós</h1>
+                    <p>Nós somos a equipe Vetallis e desenvolvemos um software que tem como objetivo erradicar as perdas
+                        de medicamentos veterinários em estoques...</p>
+                </div>
+            </div>
+            <!-- Canvas da onda frontal (renderizada via script.js) -->
+            <canvas id="canvas-ondas-front"></canvas>
+        </section>
+
+        <!-- Seção de planos e preços -->
+        <section id="plano-container">
+            <div>
+                <div class="plano">
+                    <h1>PLANOS PERSONALIZADOS</h1>
+                    <h5>A partir de</h5>
+                    <h2>R$59,90</h2>
+                    <button>Consulte-nos</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de contato com campos de nome, email e mensagem -->
+        <section id="contato-section">
+            <div id="contato-container">
+                <!-- Logo exibida ao lado do formulário -->
+                <div id="img-contato">
+                    <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="contato">
+                </div>
+                <!-- Campos do formulário de contato -->
+                <div id="campos-contato">
+                    <h1 id="titulo-contato">Contato</h1>
+                    <input type="text" placeholder="Nome Completo" class="dados-contato">
+                    <input type="email" placeholder="Email" class="dados-contato">
+                    <textarea name="text" id="mensagem-contato" placeholder="Escreva sua mensagem"></textarea>
+                    <button id="botao-enviar-contato">Enviar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé com links, informações de contato, aplicações e redes sociais -->
+    <footer>
+        <section id="rodape-container">
+
+            <!-- Coluna de navegação do rodapé -->
+            <div class="footer-container" id="footer-menu">
+                <nav class="links-rodape">
+                    <h6 class="rodape-titulo">Menu</h6>
+                    <ul class="escrito_footer">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#produtos-container">Produto</a></li>
+                        <li><a href="#sobre-nos-section">Sobre nós</a></li>
+                        <li><a href="#plano-container">Planos</a></li>
+                        <li><a href="#contato-section">Contato</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Coluna de informações de contato -->
+            <div class="footer-container">
+                <nav id="informacao-rodape" class="links_rodape">
+                    <h6 class="rodape-titulo">Informações</h6>
+                    <ul class="escrito_footer">
+                        <li><a href="">vetalisge@gmail.com</a></li>
+                        <li><a href="">Telefone</a></li>
+                        <li><a href="">Itapira, SP</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Coluna com os segmentos de mercado atendidos -->
+            <div class="footer-container" id="aplicacao_footer">
+                <nav class="links_rodape">
+                    <h6 class="rodape-titulo">Aplicações</h6>
+                    <ul class="escrito_footer">
+                        <li><a href="">Fazendas</a></li>
+                        <li><a href="">Zoológicos</a></li>
+                        <li><a href="">Navios cargueiros de animais</a></li>
+                        <li><a href="">Hospitais veterinários</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Ícones com links para as redes sociais -->
+            <div>
+                <ul id="redes_sociais">
+                    <li><a href="https://www.facebook.com/?locale=pt_BR"><img src="/static/imagens/facebook2021.png" alt="" class="social_icon"></a></li>
+                    <li><a href="https://www.instagram.com/"><img src="/static/imagens/instagram.png" alt="" class="social_icon"></a></li>
+                    <li><a href="https://www.tiktok.com/pt-BR/"><img src="/static/imagens/tik-tok2021.png" alt="" class="social_icon"></a></li>
+                    <li><a href="https://x.com/?lang=pt"><img src="/static/imagens/twitter.png" alt="" class="social_icon"></a></li>
+                </ul>
+            </div>
+
+        </section>
+        <!-- Nome da marca no rodapé -->
+        <h1 id="vetallis-rodape">VETALLIS</h1>
+    </footer>
+
+    <!-- Script principal responsável pelas animações e interatividade da página -->
+    <script src="/static/script.js"></script>
+
+</body>
+</html>

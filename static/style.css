@@ -1,0 +1,1143 @@
+/* ==========================================
+   Configurações iniciais e reset global
+   ========================================== */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Gradiente de fundo aplicado em todas as páginas */
+body {
+    background: linear-gradient(#498C79, #1B5953, #074040);
+    width: 100%;
+    overflow-x: hidden; /* Impede scroll horizontal */
+}
+
+/* Cabeçalho ocupa a tela inteira e esconde o conteúdo que ultrapassar */
+header {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ==========================================
+   Menu de navegação
+   ========================================== */
+
+/* Barra de navegação fixada no topo, sobreposta ao conteúdo */
+#menu-nav {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    height: 85px;
+}
+
+/* Remove sublinhado e define cor dos links do menu */
+.menu-a-link {
+    text-decoration: none;
+    color: #FFFFF0;
+}
+
+/* Lista de itens do menu com fundo translúcido e borda sutil (efeito glassmorphism) */
+#menu-nav ul {
+    display: flex;
+    list-style: none;
+    padding: 10px 30px;
+    align-items: center;
+    gap: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 45px;
+    font-size: 25px;
+    margin-top: 35px;
+    margin-left: -5px;
+    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174);
+}
+
+/* Estilo dos itens individuais do menu */
+.menu-link {
+    color: #FFFFF0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    margin-top: 5px;
+}
+
+/* Linha animada que aparece abaixo do link ao passar o mouse */
+#menu-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -0.2rem;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #265C4B;
+    transition: width 0.3s ease;
+}
+
+/* Expande a linha ao passar o mouse */
+#menu-nav a:hover::after {
+    width: 100%;
+}
+
+#menu-nav li {
+    text-decoration: none;
+}
+
+/* Tamanho e posicionamento da logo dentro do menu */
+#logo-menu img {
+    max-width: 70px;
+    max-height: 70px;
+    margin-top: 0.7rem;
+    object-fit: contain;
+    margin-left: -15px;
+}
+
+/* Vídeo de fundo posicionado dentro do header com bordas arredondadas */
+#video-menu {
+    border-radius: 15px;
+    position: absolute;
+    width: 98%;
+    height: 97%;
+    object-fit: cover;
+    top: 2%;
+    left: 1%;
+    z-index: 0;
+    border: none;
+}
+
+/* Slogan centralizado sobre o vídeo */
+#slogan-content h2 {
+    position: absolute;
+    z-index: 3;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFFFF0;
+    text-align: center;
+    font-size: 4.5rem;
+    font-weight: 550;
+}
+
+/* Animação de digitação do slogan — expande a largura do texto gradualmente */
+#slogan {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: digitar 3s steps(31) forwards;
+}
+
+@keyframes digitar {
+    to {
+        width: 100%;
+    }
+}
+
+/* Botão de login no menu */
+#botao-login-menu {
+    background: #FFFFF0;
+    opacity: 85%;
+    color: #074040;
+    font-size: 1.1rem;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 45px;
+    width: 85px;
+    height: 35px;
+    margin-top: 42px;
+    margin-left: 15px;
+    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174);
+    font-weight: 500;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+/* Leve aumento e claridade ao passar o mouse no botão de login */
+#botao-login-menu:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 95%;
+}
+
+
+/* ==========================================
+   Seção Sobre Nós
+   ========================================== */
+
+#sobre-nos-section {
+    padding: 50px 30px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#titulo-sobre {
+    color: #FFFFF0;
+    font-size: 2.5rem;
+    padding-bottom: 10px;
+}
+
+/* Container do conteúdo com efeito glassmorphism */
+.sobre-nos-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 100px;
+    border-radius: 60px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    min-height: 450px;
+}
+
+/* Canvas da onda traseira — fica atrás do conteúdo */
+#canvas-ondas-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none; /* Não interfere com cliques */
+}
+
+/* Canvas da onda frontal — fica na frente do conteúdo */
+#canvas-ondas-front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Imagem da seção Sobre Nós com bordas arredondadas */
+#img-sobre img {
+    max-width: 465px;
+    height: 350px;
+    border-radius: 60px;
+    object-fit: cover;
+    padding: 40px;
+}
+
+#texto-sobre {
+    flex: 1;
+    max-width: 100%;
+    margin: 30px;
+}
+
+#texto-sobre p {
+    font-size: 20px;
+    color: #FFFFF0;
+    box-sizing: border-box;
+}
+
+
+/* ==========================================
+   Seção de Contato
+   ========================================== */
+
+#contato-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#contato-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    gap: 60px;
+}
+
+#img-contato {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+#img-contato img {
+    width: 700px;
+}
+
+/* Card do formulário de contato com efeito glassmorphism */
+#campos-contato {
+    width: 100%;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#titulo-contato {
+    color: #FFFFF0;
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Campos de texto do formulário de contato */
+.dados-contato {
+    width: 100%;
+    margin-bottom: 20px;
+    height: 40px;
+    border-radius: 75px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFF0;
+    border: 1px solid rgba(255, 255, 255, 0.074);
+    padding-left: 15px;
+}
+
+.dados-contato::placeholder {
+    color: #FFFFF0;
+}
+
+/* Campo de textarea para a mensagem */
+#mensagem-contato {
+    width: 100%;
+    height: 100px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFF0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 15px;
+    resize: vertical; /* Permite redimensionar apenas verticalmente */
+}
+
+#mensagem-contato::placeholder {
+    color: #FFFFF0;
+}
+
+/* Botão de envio do formulário de contato */
+#botao-enviar-contato {
+    margin-top: 20px;
+    background-color: #03A64A;
+    opacity: 85%;
+    width: 100%;
+    padding: 10px;
+    border-radius: 60px;
+    color: #FFFFF0;
+    font-size: large;
+    text-align: center;
+    border: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Efeito de hover: aumenta o botão e muda a cor */
+#botao-enviar-contato:hover {
+    transform: scale(1.1);
+    background-color: #93d94e;
+    opacity: 100%;
+}
+
+
+/* ==========================================
+   Rodapé
+   ========================================== */
+
+footer {
+    color: #FFFFF0;
+    padding: 40px 20px;
+}
+
+.rodape-titulo {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFFFF0;
+}
+
+/* Layout do rodapé em linha com espaçamento entre colunas */
+#rodape-container {
+    display: flex;
+    padding-left: 10px;
+    gap: 80px;
+}
+
+#footer-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer a {
+    color: #FFFFF0;
+    text-decoration: none;
+    font-size: 18px;
+    transition: opacity 0.3s;
+    display: block;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
+
+/* Nome "VETALLIS" em tamanho gigante e transparente no rodapé */
+#vetallis-rodape {
+    font-size: 17rem;
+    font-weight: 700;
+    letter-spacing: 20px;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    margin-top: 0.3%;
+}
+
+#informacao-rodape a {
+    font-size: 18px;
+}
+
+#informacao-rodape {
+    margin-left: 90px;
+}
+
+#aplicacao_footer {
+    margin-left: 90px;
+}
+
+/* Ícones de redes sociais dispostos em linha */
+#redes_sociais {
+    display: flex;
+}
+
+.social_icon {
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+}
+
+
+/* ==========================================
+   Grid de cards de produto
+   ========================================== */
+
+/* Layout em grid com áreas nomeadas para posicionar cada card */
+#cards-produto {
+    padding: 80px 50px 40px 50px;
+    margin-top: 50px;
+    color: #FFFFF0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 200px 300px auto;
+    grid-template-areas:
+        "a a b b"  /* Oferecemos e Solução */
+        "c d b b"  /* Dados do mercado, Tecnologia e Solução */
+        "e e f f"; /* Planos futuros e Inovação */
+    gap: 16px;
+    height: 150vh;
+}
+
+#card-produto h1 {
+    font-size: 70px;
+    font-weight: 80;
+}
+
+#cards-produto h2 {
+    font-size: 40px;
+    font-weight: 400;
+}
+
+#cards-produto p {
+    font-size: 23px;
+    font-weight: 300;
+}
+
+
+/* ==========================================
+   Card: O que oferecemos (área a)
+   Padrão de interação: título some e texto aparece no hover
+   ========================================== */
+
+#card-oferecemos {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    grid-area: a;
+    color: #FFFFF0;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Título posicionado absolutamente para ser animado no hover */
+#titulo-oferecemos {
+    width: 100%;
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+/* Texto inicialmente invisível, aparece no hover */
+#texto-oferecemos {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 10%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-oferecemos:hover > #texto-oferecemos { opacity: 1; }
+
+/* Título desfoca e some ao passar o mouse */
+#card-oferecemos:hover > #titulo-oferecemos {
+    height: 65%;
+    opacity: 0.2;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+/* Ícone também desfoca e fica branco no hover */
+#card-oferecemos:hover > #icone-oferecemos {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+/* Leve escala e mudança de fundo no hover */
+#card-oferecemos:hover {
+    background-color: #93d94327;
+    transform: scale(1.03);
+}
+
+#icone-oferecemos {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+
+/* ==========================================
+   Card: Problema Solucionado (área b)
+   ========================================== */
+
+#card-solucao {
+    position: relative;
+    overflow: hidden;
+    grid-area: b;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#card-solucao:hover > #titulo-solucao {
+    opacity: 0.5;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#titulo-solucao {
+    width: 100%;
+    position: absolute;
+    transition: 1s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-solucao {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 10%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-solucao:hover > #texto-solucao { opacity: 1; }
+
+#card-solucao:hover > #icone-solucao {
+    opacity: 0.3;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+/* Imagem ilustrativa também desfoca no hover */
+#card-solucao:hover > #img-solucao {
+    opacity: 0.2;
+    animation: anim 10s infinite;
+    filter: blur(9px);
+}
+
+#card-solucao:hover {
+    background-color: #93d94327;
+    transform: scale(1.02);
+}
+
+#icone-solucao {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+
+/* ==========================================
+   Card: Dados do Mercado (área c)
+   ========================================== */
+
+#card-dados-mercado {
+    position: relative;
+    grid-area: c;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#titulo-mercado {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-dados {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 5%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-dados-mercado:hover > #texto-dados { opacity: 1; }
+
+#card-dados-mercado:hover > #titulo-mercado {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-dados-mercado:hover > #icone-mercado {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-dados-mercado:hover {
+    background-color: #93d94327;
+    transform: scale(1.03);
+}
+
+#icone-mercado {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+
+/* ==========================================
+   Card: Tecnologia Utilizada (área d)
+   ========================================== */
+
+#card-tecnologia-utilizada {
+    position: relative;
+    grid-area: d;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+#titulo-tecnologia {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+/* Texto começa um pouco acima para compensar o padding-top */
+#texto-tecnologia {
+    padding-top: 40px;
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: -5%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-tecnologia-utilizada:hover > #texto-tecnologia { opacity: 1; }
+
+#card-tecnologia-utilizada:hover > #titulo-tecnologia {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-tecnologia-utilizada:hover > #icone-tecnologia {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-tecnologia-utilizada:hover {
+    background-color: #93d94327;
+    transform: scale(1.03);
+}
+
+#icone-tecnologia {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+
+/* ==========================================
+   Card: Planos Futuros (área e)
+   ========================================== */
+
+#card-planos-futuros {
+    position: relative;
+    grid-area: e;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#titulo-planos-futuros {
+    width: 100%;
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-planos-futuros {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 6%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-planos-futuros:hover > #texto-planos-futuros { opacity: 1; }
+
+#card-planos-futuros:hover > #titulo-planos-futuros {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-planos-futuros:hover > #icone-planos-futuros {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-planos-futuros:hover {
+    background-color: #93d94327;
+    transform: scale(1.03);
+}
+
+#icone-planos-futuros {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+
+/* ==========================================
+   Card: Inovação (área f)
+   ========================================== */
+
+#card-inovacao {
+    position: relative;
+    grid-area: f;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 200px;
+}
+
+#titulo-inovacao {
+    width: 100%;
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-inovacao {
+    opacity: 0;
+    flex-direction: column;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#card-inovacao:hover > #texto-inovacao { opacity: 1; }
+
+#card-inovacao:hover > #titulo-inovacao {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-inovacao:hover > #icone-inovacao {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-inovacao:hover {
+    background-color: #93d94327;
+    transform: scale(1.03);
+}
+
+#icone-inovacao {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+
+/* Estilo padrão compartilhado por todos os ícones dos cards */
+.imagens {
+    display: block;
+    padding-left: 10px;
+    padding-top: 10px;
+    filter: brightness(0) invert(1); /* Torna o ícone branco */
+    width: 50px;
+}
+
+/* Imagem ilustrativa do card Solução, posicionada no canto inferior direito */
+#img-solucao {
+    width: 53%;
+    position: absolute;
+    bottom: -30px;
+    left: 40%;
+}
+
+
+/* ==========================================
+   Seção de Planos
+   ========================================== */
+
+#plano-container {
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card do plano com glassmorphism e animação de entrada */
+.plano {
+    width: 500px;
+    height: 350px;
+    padding: 40px 30px;
+    text-align: center;
+    border-radius: 20px;
+    backdrop-filter: blur(10px) brightness(1.1);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 40%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.484);
+    animation: aparecer 0.8s ease forwards;
+    overflow: hidden;
+}
+
+/* Faixa decorativa no topo do card de plano */
+.plano::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(110deg, #498c79, #1b5953);
+}
+
+.plano h1 {
+    font-size: 35px;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.plano h2 {
+    font-size: 70px;
+    color: white;
+    margin: 10px 0 40px 0;
+}
+
+.plano h5 {
+    font-size: 18px;
+    color: white;
+    margin-top: 5px;
+}
+
+.plano button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background: linear-gradient(#1b5953);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+}
+
+/* Botão do plano sobe levemente e escurece no hover */
+.plano button:hover {
+    transform: translateY(-3px) scale(1.03);
+    background: linear-gradient(45deg, #1b5953, #074040);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.plano:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* Animação de entrada do card de plano (sobe e aparece) */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==========================================
+   Tela de Login
+   ========================================== */
+
+.login-container {
+    height: 100vh;
+}
+
+/* Card central do login com glassmorphism */
+.login-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 380px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+}
+
+/* Logo posicionada sobre o card, semitransparente */
+.logo {
+    width: 75%;
+    margin-bottom: 20px;
+    position: absolute;
+    opacity: 30%;
+}
+
+/* Campos de formulário com fundo escuro e borda sutil */
+.form-control {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #334155;
+    color: #fff;
+}
+
+.form-control:focus {
+    color: #fff;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-login {
+    border: none;
+}
+
+.btn-login:hover {
+    opacity: 0.9;
+}
+
+/* Linha animada abaixo do link "Esqueceu a senha" */
+.btn-esqueceu-senha::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #FFFFF0;
+    transition: width 0.3s ease-in-out;
+}
+
+.btn-esqueceu-senha:hover::after {
+    width: 100%;
+}
+
+.btn-esqueceu-senha {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+/* Linha animada abaixo do botão "Cadastre-se" */
+#botao-cadastro::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #FFFFF0;
+    transition: width 0.3s ease-in-out;
+}
+
+#botao-cadastro:hover::after {
+    width: 100%;
+}
+
+#botao-cadastro {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+.text-muted {
+    color: #94a3b8 !important;
+}
+
+
+/* ==========================================
+   Tela de Cadastro
+   ========================================== */
+
+.cadastro-container {
+    height: 30%;
+}
+
+/* Card de cadastro com glassmorphism */
+.cadastro-card {
+    border-radius: 16px;
+    width: 400px;
+    background: rgba(255, 255, 255, 0.15);
+    position: relative;
+}
+
+/* Campos de input do formulário de cadastro */
+.dados_formulario {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border: 1px solid #fff;
+    background: #fff;
+}
+
+.input-centro {
+    text-align: center;
+}
+
+.form-container {
+    place-items: center;
+}
+
+.btn-cadastro {
+    border: none;
+}
+
+.btn-cadastro:hover {
+    opacity: 0.9;
+}
+
+/* Linha animada abaixo do link "Voltar Para Login" */
+.btn-voltar-login::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #FFFFF0;
+    transition: width 0.3s ease-in-out;
+}
+
+.btn-voltar-login:hover::after {
+    width: 100%;
+}
+
+.btn-voltar-login {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+    width: 30%;
+}
