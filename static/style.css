@@ -1,21 +1,23 @@
-/* ==========================================
-   Configurações iniciais e reset global
-   ========================================== */
-   * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+   
 }
 
-/* Gradiente de fundo aplicado em todas as páginas */
-body {
-    background: linear-gradient(#498C79, #1B5953, #074040);
+html, body {
+    min-height: 100vh;
+    background-color: hsla(0, 0%, 0%, 1) !important;
+    background-image:
+        radial-gradient(at 41% 89%, hsla(162, 31%, 41%, 0.84) 0px, transparent 50%),
+        radial-gradient(at 26% 30%, hsla(180, 100%, 22%, 0.66) 0px, transparent 50%),
+        radial-gradient(at 80% 35%, hsla(174, 100%, 22%, 1) 0px, transparent 50%) !important;
+    background-attachment: fixed !important;
     width: 100%;
-    overflow-x: hidden; /* Impede scroll horizontal */
+    overflow-x: hidden;
 }
 
-/* Cabeçalho ocupa a tela inteira e esconde o conteúdo que ultrapassar */
 header {
     position: relative;
     height: 100vh;
@@ -25,12 +27,7 @@ header {
     padding: 0;
 }
 
-
-/* ==========================================
-   Menu de navegação
-   ========================================== */
-
-/* Barra de navegação fixada no topo, sobreposta ao conteúdo */
+/*------------ Menu ---------- */
 #menu-nav {
     position: fixed;
     right: 0;
@@ -40,15 +37,15 @@ header {
     display: flex;
     justify-content: center;
     height: 85px;
+
 }
 
-/* Remove sublinhado e define cor dos links do menu */
 .menu-a-link {
     text-decoration: none;
     color: #FFFFF0;
 }
 
-/* Lista de itens do menu com fundo translúcido e borda sutil (efeito glassmorphism) */
+
 #menu-nav ul {
     display: flex;
     list-style: none;
@@ -64,7 +61,6 @@ header {
     box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174);
 }
 
-/* Estilo dos itens individuais do menu */
 .menu-link {
     color: #FFFFF0;
     text-decoration: none;
@@ -75,8 +71,7 @@ header {
     margin-top: 5px;
 }
 
-/* Linha animada que aparece abaixo do link ao passar o mouse */
-#menu-nav a::after {
+#menu-nav .menu-a-link::after {
     content: '';
     position: absolute;
     bottom: -0.2rem;
@@ -87,7 +82,6 @@ header {
     transition: width 0.3s ease;
 }
 
-/* Expande a linha ao passar o mouse */
 #menu-nav a:hover::after {
     width: 100%;
 }
@@ -96,16 +90,15 @@ header {
     text-decoration: none;
 }
 
-/* Tamanho e posicionamento da logo dentro do menu */
 #logo-menu img {
     max-width: 70px;
-    max-height: 70px;
+    max-height: 70;
     margin-top: 0.7rem;
     object-fit: contain;
     margin-left: -15px;
 }
 
-/* Vídeo de fundo posicionado dentro do header com bordas arredondadas */
+
 #video-menu {
     border-radius: 15px;
     position: absolute;
@@ -115,10 +108,10 @@ header {
     top: 2%;
     left: 1%;
     z-index: 0;
+
     border: none;
 }
 
-/* Slogan centralizado sobre o vídeo */
 #slogan-content h2 {
     position: absolute;
     z-index: 3;
@@ -131,7 +124,6 @@ header {
     font-weight: 550;
 }
 
-/* Animação de digitação do slogan — expande a largura do texto gradualmente */
 #slogan {
     white-space: nowrap;
     overflow: hidden;
@@ -145,7 +137,7 @@ header {
     }
 }
 
-/* Botão de login no menu */
+
 #botao-login-menu {
     background: #FFFFF0;
     opacity: 85%;
@@ -169,7 +161,6 @@ header {
     text-decoration: none;
 }
 
-/* Leve aumento e claridade ao passar o mouse no botão de login */
 #botao-login-menu:hover {
     transform: scale(1.1);
     background-color: rgba(255, 255, 255, 0.8);
@@ -177,12 +168,9 @@ header {
 }
 
 
-/* ==========================================
-   Seção Sobre Nós
-   ========================================== */
-
+/*---------- Sobre nós ----------*/
 #sobre-nos-section {
-    padding: 50px 30px;
+    padding: 50px 30px 50px 30px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -197,7 +185,6 @@ header {
     padding-bottom: 10px;
 }
 
-/* Container do conteúdo com efeito glassmorphism */
 .sobre-nos-container {
     display: flex;
     align-items: center;
@@ -213,7 +200,6 @@ header {
     min-height: 450px;
 }
 
-/* Canvas da onda traseira — fica atrás do conteúdo */
 #canvas-ondas-back {
     position: absolute;
     top: 0;
@@ -221,10 +207,9 @@ header {
     width: 100%;
     height: 100%;
     z-index: 0;
-    pointer-events: none; /* Não interfere com cliques */
+    pointer-events: none;
 }
 
-/* Canvas da onda frontal — fica na frente do conteúdo */
 #canvas-ondas-front {
     position: absolute;
     top: 0;
@@ -235,7 +220,6 @@ header {
     pointer-events: none;
 }
 
-/* Imagem da seção Sobre Nós com bordas arredondadas */
 #img-sobre img {
     max-width: 465px;
     height: 350px;
@@ -257,10 +241,7 @@ header {
 }
 
 
-/* ==========================================
-   Seção de Contato
-   ========================================== */
-
+/*---------- Contato ----------*/
 #contato-section {
     display: flex;
     align-items: center;
@@ -286,7 +267,6 @@ header {
     width: 700px;
 }
 
-/* Card do formulário de contato com efeito glassmorphism */
 #campos-contato {
     width: 100%;
     padding: 40px;
@@ -306,7 +286,6 @@ header {
     margin-bottom: 20px;
 }
 
-/* Campos de texto do formulário de contato */
 .dados-contato {
     width: 100%;
     margin-bottom: 20px;
@@ -323,7 +302,6 @@ header {
     color: #FFFFF0;
 }
 
-/* Campo de textarea para a mensagem */
 #mensagem-contato {
     width: 100%;
     height: 100px;
@@ -332,14 +310,13 @@ header {
     color: #FFFFF0;
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding-left: 15px;
-    resize: vertical; /* Permite redimensionar apenas verticalmente */
+    resize: vertical;
 }
 
 #mensagem-contato::placeholder {
     color: #FFFFF0;
 }
 
-/* Botão de envio do formulário de contato */
 #botao-enviar-contato {
     margin-top: 20px;
     background-color: #03A64A;
@@ -354,7 +331,6 @@ header {
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-/* Efeito de hover: aumenta o botão e muda a cor */
 #botao-enviar-contato:hover {
     transform: scale(1.1);
     background-color: #93d94e;
@@ -362,13 +338,10 @@ header {
 }
 
 
-/* ==========================================
-   Rodapé
-   ========================================== */
-
+/* ---------- Rodape ----------*/
 footer {
     color: #FFFFF0;
-    padding: 40px 20px;
+    padding: 40px 20px 40px 20px;
 }
 
 .rodape-titulo {
@@ -378,7 +351,6 @@ footer {
     color: #FFFFF0;
 }
 
-/* Layout do rodapé em linha com espaçamento entre colunas */
 #rodape-container {
     display: flex;
     padding-left: 10px;
@@ -408,7 +380,6 @@ footer a:hover {
     opacity: 0.7;
 }
 
-/* Nome "VETALLIS" em tamanho gigante e transparente no rodapé */
 #vetallis-rodape {
     font-size: 17rem;
     font-weight: 700;
@@ -426,11 +397,14 @@ footer a:hover {
     margin-left: 90px;
 }
 
+#links-rodape {
+    margin-left: 10px;
+}
+
 #aplicacao_footer {
     margin-left: 90px;
 }
 
-/* Ícones de redes sociais dispostos em linha */
 #redes_sociais {
     display: flex;
 }
@@ -442,11 +416,7 @@ footer a:hover {
 }
 
 
-/* ==========================================
-   Grid de cards de produto
-   ========================================== */
-
-/* Layout em grid com áreas nomeadas para posicionar cada card */
+/*---------- Cards Produto------------*/
 #cards-produto {
     padding: 80px 50px 40px 50px;
     margin-top: 50px;
@@ -455,48 +425,50 @@ footer a:hover {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 200px 300px auto;
     grid-template-areas:
-        "a a b b"  /* Oferecemos e Solução */
-        "c d b b"  /* Dados do mercado, Tecnologia e Solução */
-        "e e f f"; /* Planos futuros e Inovação */
+        "a a b b"
+        "c d b b"
+        "e e f f";
     gap: 16px;
     height: 100vh;
 }
 
+
 #card-produto h1 {
     font-size: 70px;
     font-weight: 80;
+    font-style: normal;
+    margin-right: 20px;
 }
 
 #cards-produto h2 {
     font-size: 40px;
     font-weight: 400;
+    font-style: normal;
 }
 
 #cards-produto p {
     font-size: 23px;
     font-weight: 300;
+    font-style: normal;
 }
 
 
-/* ==========================================
-   Card: O que oferecemos (área a)
-   Padrão de interação: título some e texto aparece no hover
-   ========================================== */
-
+/* =========== Card o que oferecemos ==========*/
 #card-oferecemos {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     grid-area: a;
+    transition: 0.5s;
     color: #FFFFF0;
     transition: 0.2s ease-in-out;
     width: 100%;
     height: 100%;
     overflow: hidden;
     position: relative;
+
 }
 
-/* Título posicionado absolutamente para ser animado no hover */
 #titulo-oferecemos {
     width: 100%;
     position: absolute;
@@ -506,7 +478,6 @@ footer a:hover {
     margin-left: 1.5rem;
 }
 
-/* Texto inicialmente invisível, aparece no hover */
 #texto-oferecemos {
     display: flex;
     flex-direction: column;
@@ -520,26 +491,26 @@ footer a:hover {
     right: 20px;
 }
 
-#card-oferecemos:hover > #texto-oferecemos { opacity: 1; }
+#card-oferecemos:hover>#texto-oferecemos {
+    opacity: 1;
+}
 
-/* Título desfoca e some ao passar o mouse */
-#card-oferecemos:hover > #titulo-oferecemos {
+#card-oferecemos:hover>#titulo-oferecemos {
     height: 65%;
     opacity: 0.2;
     filter: blur(9px);
     animation: anim 3s infinite;
 }
 
-/* Ícone também desfoca e fica branco no hover */
-#card-oferecemos:hover > #icone-oferecemos {
+#card-oferecemos:hover>#icone-oferecemos {
     opacity: 0.2;
     animation: anim 3s infinite;
     filter: blur(9px) brightness(0) invert(1);
 }
 
-/* Leve escala e mudança de fundo no hover */
 #card-oferecemos:hover {
     background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transform: scale(1.03);
 }
 
@@ -549,14 +520,12 @@ footer a:hover {
 }
 
 
-/* ==========================================
-   Card: Problema Solucionado (área b)
-   ========================================== */
-
+/* ========== Card Solução ==========*/
 #card-solucao {
     position: relative;
     overflow: hidden;
     grid-area: b;
+    transition: 0.2 ease-in-out;
     width: 100%;
     height: 100%;
     border-radius: 20px;
@@ -564,7 +533,7 @@ footer a:hover {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-#card-solucao:hover > #titulo-solucao {
+#card-solucao:hover>#titulo-solucao {
     opacity: 0.5;
     height: 65%;
     filter: blur(9px);
@@ -593,16 +562,17 @@ footer a:hover {
     right: 20px;
 }
 
-#card-solucao:hover > #texto-solucao { opacity: 1; }
+#card-solucao:hover>#texto-solucao {
+    opacity: 1;
+}
 
-#card-solucao:hover > #icone-solucao {
+#card-solucao:hover>#icone-solucao {
     opacity: 0.3;
     animation: anim 3s infinite;
     filter: blur(9px) brightness(0) invert(1);
 }
 
-/* Imagem ilustrativa também desfoca no hover */
-#card-solucao:hover > #img-solucao {
+#card-solucao:hover>#img-solucao {
     opacity: 0.2;
     animation: anim 10s infinite;
     filter: blur(9px);
@@ -610,6 +580,7 @@ footer a:hover {
 
 #card-solucao:hover {
     background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transform: scale(1.02);
 }
 
@@ -619,13 +590,12 @@ footer a:hover {
 }
 
 
-/* ==========================================
-   Card: Dados do Mercado (área c)
-   ========================================== */
-
+/* ========== Dados do mercado ==========*/
 #card-dados-mercado {
     position: relative;
     grid-area: c;
+    flex-direction: column;
+    transition: 0.2 ease-in-out;
     width: 100%;
     height: 100%;
     border-radius: 20px;
@@ -652,16 +622,18 @@ footer a:hover {
     right: 20px;
 }
 
-#card-dados-mercado:hover > #texto-dados { opacity: 1; }
+#card-dados-mercado:hover>#texto-dados {
+    opacity: 1;
+}
 
-#card-dados-mercado:hover > #titulo-mercado {
+#card-dados-mercado:hover>#titulo-mercado {
     opacity: 0.2;
     height: 65%;
     filter: blur(9px);
     animation: anim 3s infinite;
 }
 
-#card-dados-mercado:hover > #icone-mercado {
+#card-dados-mercado:hover>#icone-mercado {
     opacity: 0.2;
     animation: anim 3s infinite;
     filter: blur(9px) brightness(0) invert(1);
@@ -669,6 +641,7 @@ footer a:hover {
 
 #card-dados-mercado:hover {
     background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transform: scale(1.03);
 }
 
@@ -678,10 +651,8 @@ footer a:hover {
 }
 
 
-/* ==========================================
-   Card: Tecnologia Utilizada (área d)
-   ========================================== */
 
+/* ========= Tecnologia Utilizada ==========*/
 #card-tecnologia-utilizada {
     position: relative;
     grid-area: d;
@@ -702,7 +673,6 @@ footer a:hover {
     margin-left: 1.5rem;
 }
 
-/* Texto começa um pouco acima para compensar o padding-top */
 #texto-tecnologia {
     padding-top: 40px;
     opacity: 0;
@@ -715,16 +685,18 @@ footer a:hover {
     right: 20px;
 }
 
-#card-tecnologia-utilizada:hover > #texto-tecnologia { opacity: 1; }
+#card-tecnologia-utilizada:hover>#texto-tecnologia {
+    opacity: 1;
+}
 
-#card-tecnologia-utilizada:hover > #titulo-tecnologia {
+#card-tecnologia-utilizada:hover>#titulo-tecnologia {
     opacity: 0.2;
     height: 65%;
     filter: blur(9px);
     animation: anim 3s infinite;
 }
 
-#card-tecnologia-utilizada:hover > #icone-tecnologia {
+#card-tecnologia-utilizada:hover>#icone-tecnologia {
     opacity: 0.2;
     animation: anim 3s infinite;
     filter: blur(9px) brightness(0) invert(1);
@@ -732,6 +704,7 @@ footer a:hover {
 
 #card-tecnologia-utilizada:hover {
     background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transform: scale(1.03);
 }
 
@@ -741,10 +714,7 @@ footer a:hover {
 }
 
 
-/* ==========================================
-   Card: Planos Futuros (área e)
-   ========================================== */
-
+/* ========= Planos Futuros ========= */
 #card-planos-futuros {
     position: relative;
     grid-area: e;
@@ -776,16 +746,18 @@ footer a:hover {
     right: 20px;
 }
 
-#card-planos-futuros:hover > #texto-planos-futuros { opacity: 1; }
+#card-planos-futuros:hover>#texto-planos-futuros {
+    opacity: 1;
+}
 
-#card-planos-futuros:hover > #titulo-planos-futuros {
+#card-planos-futuros:hover>#titulo-planos-futuros {
     opacity: 0.2;
     height: 65%;
     filter: blur(9px);
     animation: anim 3s infinite;
 }
 
-#card-planos-futuros:hover > #icone-planos-futuros {
+#card-planos-futuros:hover>#icone-planos-futuros {
     opacity: 0.2;
     animation: anim 3s infinite;
     filter: blur(9px) brightness(0) invert(1);
@@ -793,6 +765,7 @@ footer a:hover {
 
 #card-planos-futuros:hover {
     background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transform: scale(1.03);
 }
 
@@ -802,13 +775,11 @@ footer a:hover {
 }
 
 
-/* ==========================================
-   Card: Inovação (área f)
-   ========================================== */
-
+/* ========= Inovação ========*/
 #card-inovacao {
     position: relative;
     grid-area: f;
+    flex-direction: column;
     transition: 0.2s ease-in-out;
     width: 100%;
     height: 100%;
@@ -839,16 +810,18 @@ footer a:hover {
     margin-left: 1rem;
 }
 
-#card-inovacao:hover > #texto-inovacao { opacity: 1; }
+#card-inovacao:hover>#texto-inovacao {
+    opacity: 1;
+}
 
-#card-inovacao:hover > #titulo-inovacao {
+#card-inovacao:hover>#titulo-inovacao {
     opacity: 0.2;
     height: 65%;
     filter: blur(9px);
     animation: anim 3s infinite;
 }
 
-#card-inovacao:hover > #icone-inovacao {
+#card-inovacao:hover>#icone-inovacao {
     opacity: 0.2;
     animation: anim 3s infinite;
     filter: blur(9px) brightness(0) invert(1);
@@ -856,6 +829,7 @@ footer a:hover {
 
 #card-inovacao:hover {
     background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transform: scale(1.03);
 }
 
@@ -865,27 +839,22 @@ footer a:hover {
 }
 
 
-/* Estilo padrão compartilhado por todos os ícones dos cards */
+
 .imagens {
     display: block;
+    width: 100%;
     padding-left: 10px;
     padding-top: 10px;
-    filter: brightness(0) invert(1); /* Torna o ícone branco */
+    filter: brightness(0) invert(1);
     width: 50px;
 }
 
-/* Imagem ilustrativa do card Solução, posicionada no canto inferior direito */
 #img-solucao {
     width: 53%;
     position: absolute;
     bottom: -30px;
     left: 40%;
 }
-
-
-/* ==========================================
-   Seção de Planos
-   ========================================== */
 
 #plano-container {
     z-index: 1;
@@ -895,7 +864,6 @@ footer a:hover {
     align-items: center;
 }
 
-/* Card do plano com glassmorphism e animação de entrada */
 .plano {
     width: 500px;
     height: 350px;
@@ -908,10 +876,12 @@ footer a:hover {
     opacity: 40%;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.484);
     animation: aparecer 0.8s ease forwards;
+    border-radius: 20px;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
 }
 
-/* Faixa decorativa no topo do card de plano */
 .plano::before {
     content: "";
     position: absolute;
@@ -927,17 +897,21 @@ footer a:hover {
     letter-spacing: 1px;
     margin-bottom: 15px;
     color: white;
+    font-family: "Poppins", sans-serif;
 }
 
 .plano h2 {
     font-size: 70px;
+    margin-bottom: 25px;
     color: white;
-    margin: 10px 0 40px 0;
+    font-family: "Poppins", sans-serif;
+    margin: 10px 0 40px 0
 }
 
 .plano h5 {
     font-size: 18px;
     color: white;
+    font-family: "Poppins", sans-serif;
     margin-top: 5px;
 }
 
@@ -951,11 +925,11 @@ footer a:hover {
     color: white;
     font-weight: bold;
     font-size: 15px;
+    font-family: "Poppins", sans-serif;
     margin-bottom: 25px;
     transition: all 0.3s ease;
 }
 
-/* Botão do plano sobe levemente e escurece no hover */
 .plano button:hover {
     transform: translateY(-3px) scale(1.03);
     background: linear-gradient(45deg, #1b5953, #074040);
@@ -967,12 +941,12 @@ footer a:hover {
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
 }
 
-/* Animação de entrada do card de plano (sobe e aparece) */
 @keyframes aparecer {
     from {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -980,15 +954,22 @@ footer a:hover {
 }
 
 
-/* ==========================================
-   Tela de Login
-   ========================================== */
+/* ================== Tela de login ================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+
+
 
 .login-container {
     height: 100vh;
 }
 
-/* Card central do login com glassmorphism */
 .login-card {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 16px;
@@ -999,15 +980,14 @@ footer a:hover {
     position: relative;
 }
 
-/* Logo posicionada sobre o card, semitransparente */
 .logo {
     width: 75%;
     margin-bottom: 20px;
     position: absolute;
     opacity: 30%;
+
 }
 
-/* Campos de formulário com fundo escuro e borda sutil */
 .form-control {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid #334155;
@@ -1015,6 +995,7 @@ footer a:hover {
 }
 
 .form-control:focus {
+
     color: #fff;
 }
 
@@ -1030,7 +1011,7 @@ footer a:hover {
     opacity: 0.9;
 }
 
-/* Linha animada abaixo do link "Esqueceu a senha" */
+
 .btn-esqueceu-senha::after {
     content: '';
     position: absolute;
@@ -1042,6 +1023,7 @@ footer a:hover {
     transition: width 0.3s ease-in-out;
 }
 
+
 .btn-esqueceu-senha:hover::after {
     width: 100%;
 }
@@ -1052,7 +1034,6 @@ footer a:hover {
     padding-bottom: 4px;
 }
 
-/* Linha animada abaixo do botão "Cadastre-se" */
 #botao-cadastro::after {
     content: '';
     position: absolute;
@@ -1064,8 +1045,8 @@ footer a:hover {
     transition: width 0.3s ease-in-out;
 }
 
-#botao-cadastro:hover::after {
-    width: 100%;
+.text-muted {
+    color: #94a3b8 !important;
 }
 
 #botao-cadastro {
@@ -1074,28 +1055,29 @@ footer a:hover {
     padding-bottom: 4px;
 }
 
-.text-muted {
-    color: #94a3b8 !important;
-}
+
+/* ================== Tela de cadastro ================== */
 
 
-/* ==========================================
-   Tela de Cadastro
-   ========================================== */
 
 .cadastro-container {
     height: 100vh;
 }
 
-/* Card de cadastro com glassmorphism */
 .cadastro-card {
+    position: relative;
     border-radius: 16px;
     width: 400px;
     background: rgba(255, 255, 255, 0.15);
-    position: relative;
 }
 
-/* Campos de input do formulário de cadastro */
+.logo {
+    opacity: 30%;
+    width: 75%;
+    position: absolute;
+}
+
+
 .dados_formulario {
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
@@ -1119,7 +1101,6 @@ footer a:hover {
     opacity: 0.9;
 }
 
-/* Linha animada abaixo do link "Voltar Para Login" */
 .btn-voltar-login::after {
     content: '';
     position: absolute;
@@ -1131,6 +1112,7 @@ footer a:hover {
     transition: width 0.3s ease-in-out;
 }
 
+
 .btn-voltar-login:hover::after {
     width: 100%;
 }
@@ -1139,5 +1121,4 @@ footer a:hover {
     position: relative;
     display: inline-block;
     padding-bottom: 4px;
-    width: 30%;
 }
