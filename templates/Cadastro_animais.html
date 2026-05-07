@@ -1,52 +1,59 @@
-{% extends 'base.html'%}
-{% block conteudo %}
-<div>
-    <h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Cadastro de
-        Animais</h3>
-    <form method="POST" action="" class="form-sensor" >
-        <div class=" d-flex mt-4 ">
-            <div class="divisao-form me-4" style="width: 100%;">
-                <div class="mb-5 text-start">
-                    <div class="input-group">
-                        <input type="name" name="especie" class="form-control" placeholder="Espécie:" required>
-                    </div>
-                </div>
+{%extends 'base.html'%}
+{%block conteudo%}
 
-                <div class="mb-5 text-start">
-                    <div class="input-group">
-                        <input type="text" name="sexo" class="form-control" placeholder="Sexo: " required>
-                    </div>
-                </div>
-
-                <div class="mb-5 text-start">
-                    <div class="input-group">
-                        <input type="text" name="faixa_etaria" class="form-control" placeholder="Idade:" required>
-                    </div>
+<h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Cadastro de
+    Animais</h3>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for categoria, mensagem in messages %}
+<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
+    {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor" style="padding: 10px;">
+    <div class="cadastro-sensor d-flex mt-4 ms-4">
+        <div class="divisao-form me-4" style="max-width: 600px;width: 100%;">
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="name" name="especie" class="form-control" placeholder="Espécie:" required>
                 </div>
             </div>
-            <div style=" width: 100%;">
-                <div class="mb-5 text-start">
-                    <div class="input-group">
-                        <input type="text" name="raca" class="form-control" placeholder="Raça:" required>
-                    </div>
-                </div>
 
-                <div class="mb-5 text-start">
-                    <div class="input-group">
-                        <input type="text" name="identificacao_animal" class="form-control"
-                            placeholder="Identificação de animal:" required>
-                    </div>
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="text" name="sexo" class="form-control" placeholder="Sexo: " required>
                 </div>
-                <div class="text-center">
-                    <button class="btn btn-login w-100 text-white "
-                        style="background: #03c356; border-radius: 15px;"
-                        type="submit">Cadastrar</button>
-                </div>
+            </div>
 
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="text" name="faixa_etaria" class="form-control" placeholder="Idade:" required>
+                </div>
             </div>
         </div>
+        <div style="max-width: 550px !important; width: 100%;">
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="text" name="raca" class="form-control" placeholder="Raça:" required>
+                </div>
+            </div>
 
-    </form>
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="text" name="identificacao_animal" class="form-control"
+                        placeholder="Identificação de animal:" required>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-login w-100 text-white "
+                    style="background: #03c356; border-radius: 25px; max-width: 600px;" type="submit">Cadastrar</button>
+            </div>
+
+        </div>
+    </div>
+
+</form>
 </div>
-
-{% endblock %}
+{%endblock%}
