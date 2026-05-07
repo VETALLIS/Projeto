@@ -7,6 +7,7 @@ from models.sensor import Sensor
 from models.usuario import Usuario
 from models.lista_compra import Lista_compra
 from models.login import Login
+from models.fornecedor import Fornecedor
 
 # definição da variavel app
 app = Flask(__name__)
@@ -78,10 +79,21 @@ def get_sensor_form():
         "sensor_nome": request.form.get("nome", "").strip(),
         "sensor_descricao":request.form.get("descricao", "").strip(),
         "sensor_modelo": request.form.get("modelo", "").strip(),
-        "sensor_voltagem": request.form.get("voltagem", "").strip(),
-        "sensor_n_serie": request.form.get("numero_serie", "").strip(),
+        "sensor_voltagem": to_float(request.form.get("voltagem", "")),
+        "sensor_n_serie": to_int(request.form.get("numero_serie", "")),
         "sensor_tipo_conexao" : to_int(request.form.get("conexao")),
         "sensor_localizacao": request.form.get("localizacao", "").strip(),
+    }
+
+# ====== Pegando os dados para cadastro de fornecedor ======#
+
+def get_fornecedor_form():
+    return {
+        "nome": request.form.get("fornecedor_nome", "").strip(),
+        "cnpj": (request.form.get("fornecedor_cnpj", "")),
+        "endereço":(request.form.get("fornecedor_endereço")),
+        "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
+        "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
     }
 
 # ====== Pegando os dados para a lista de compra ======#
@@ -111,7 +123,6 @@ def index():
 def inicial():
     #produtos_baixo = Produto.low_stock()
     return render_template("base.html")
-
 
 
 # ====== Endpoints para o cadastro de produtos ====== #
@@ -458,7 +469,7 @@ def lista_compra():
 
 @app.route("/lista_compra/novo")
 def novo_lista_compra():
-    return render_template("Lista_compra.html", lista_compra=None)
+    return render_template("formulario_lista_compra.html", lista_compra=None)
 
 # ====== Adicionado novos itens na lista de compra ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
@@ -502,7 +513,7 @@ def editar_pesquisa_item(id):
     if not pesquisa_item:
         flash("Item não encontrado.", "erro")
         return redirect(url_for("pesquisa_item"))
-    return render_template("pesquisa.html", pesquisa_item=pesquisa_item)
+    return render_template("formulario_pesquisa_item.html", pesquisa_item=pesquisa_item)
 
 
 # ====== Endpoints para o login ======#
@@ -541,40 +552,38 @@ def salvar_login():
         flash(f"Erro ao fazer login", "danger")
         return render_template("login.html", login=dados)
 
-#Endpoints de animal 
-
+#ENDPOINS ANIMAL
 @app.route("/animal")
 def animal():
+    #produtos_baixo = Produto.low_stock()
     return render_template("Cadastro_animais.html")
 
-#Endpoints fornecedor 
+#ENDPOINTS fornecedor
 
 @app.route("/fornecedor")
 def fornecedor():
     return render_template("Cadastro_fornecedor.html")
 
-#Endpoints Gerenciamento de perfil
+@app.route("/fornecedor", methods=["POST"])
+def gravar_fornecedor():
+    dados = get_fornecedor_form()
+    fornecedor = Fornecedor(**dados)
+    erros = fornecedor.validar_fornecedor()
 
-@app.route("/gerenciamento")
-def gerenciamento():
-    return render_template("Gerenciamento_perfil.html")
+    try:
 
-#Endpoints Informação de produto
-@app.route("/inf_produto")
-def inf_produto():
-    return render_template("Informacoes_produto.html")
+        if erros:
+            flash(erros, "danger")
+            return render_template("Cadastro_fornecedor.html")
 
+        fornecedor.gravar_fornecedor()
 
-# Endpoints Pedido Entrada
-@app.route("/pedido_entrada")
-def pedido_entrada():
-    return render_template("pedido_entrada.html")
+        flash("Fornecedor cadastrado.", "success")
+        return redirect(url_for("fornecedor"))
 
-# Endpoints Pedido Saida
-@app.route("/pedido_saida")
-def pedido_saida():
-    return render_template("pedido_saida.html")
-
+    except Exception as e:
+        flash(f"Erro ao cadastrar fornecedor", "danger")
+        return render_template("Cadastrar_fornecedor.html", login=dados)
 
 
 

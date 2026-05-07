@@ -1,39 +1,44 @@
-{%extends 'base.html'%}
-{%block conteudo%}
+{% extends 'base.html'%}
+{% block conteudo%}
 
 <div class="d-flex justify-content-start">
     <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;height: 40px;">Voltar</a>
 </div>
-<h3 class="text-start " style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Sensor
+<h3 class="text-start mt-4" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Sensor
 </h3>
 <form method="POST" action="" class="form-sensor">
     <div class="cadastro-sensor mt-4">
-        <div class="divisao-form " style="max-width: 1400px; width: 100%;">
-            <div class="mb-5 text-start">
-                <div class="input-group" style="max-width: 1400px; width: 100%;">
-                    <input type="name" name="name" class="form-control" placeholder="Nome do sensor:"  required>
+        <div class="d-flex" style=" width: 100%;max-width: 1200px;">
+            <div class="divisao-form " style=" width: 100%;max-width: 1200px;">
+                <div class="mb-5 text-start">
+                    <div class="input-group" style="max-width: 1200px; width: 100%;">
+                        <input type="name" name="name" class="form-control" placeholder="Nome do sensor:" required>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="d-flex">
-            <div class="input-group">
-                <textarea name="motivo" placeholder="Motivo" class="form-area" style="max-width: 800px !important;width: 100%; min-height: 150px !important; border: solid 1px #fff; color:#fff "></textarea>
+            <div class="mb-5 text-start" style="width: 100%;">
+                <div class="input-group">
+                    <textarea name="motivo" placeholder="Motivo" class="form-area" style="max-width: 800px !important;width: 100%;
+                                        border: solid 1px #fff; color:#fff "></textarea>
+                </div>
             </div>
-            <div class=" mb-3 ms-4" style="width: 100%;">
-                <div class="mb-5 text-start" style=" width: 100%;">
+            <div class="ms-4 mb-3" style="width: 600px;">
+                <div class="mb-5 text-start" style="max-width: 550px; width: 100%;">
                     <div class="input-group">
                         <input type="text" name="alcance" class="form-control" placeholder="Alcance" required>
                     </div>
                 </div>
-                <div class="d-flex ">
-                    <div class=" me-5 text-start" style="width: 100%;">
-                        <div class="input-group" >
+                <div class="d-flex">
+                    <div class="mb-5 me-5 text-start">
+                        <div class="input-group" style="width: 100%; max-width: 225px;">
                             <input type="text" name="voltagem" class="form-control" placeholder="Voltagem:" required>
                         </div>
                     </div>
 
-                    <div class=" text-start" style="width: 100%;">
-                        <div class="input-group">
+                    <div class="mb-5 text-start">
+                        <div class="input-group" style="width: 100%; max-width: 225;">
                             <input type="text" name="tipo_conexao" class="form-control" placeholder="Tipo de conexão:"
                                 required>
                         </div>
@@ -54,22 +59,18 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex" style="width: 1400px;">
-            <div class="mb-3 me-3 text-start" style="max-width: 600px;width: 100%;">
+        <div class="d-flex" style="width: 1200px;">
+            <div class="mb-3 me-3 text-start" style="max-width: 550px;width: 100%;">
                 <div class="input-group">
                     <input type="text" name="localizacao" class="form-control" placeholder="Localização:" required>
                 </div>
             </div>
-            <div class="text-center" style="max-width: 700px; width: 100%;">
-                <button class="btn btn-login w-100 text-white " style="background: #03c356; border-radius: 15px; "
+            <div class="text-center" style="max-width: 550px; width: 100%;">
+                <button class="btn btn-login w-100 text-white " style="background: #03c356; border-radius: 25px; "
                     type="submit">Cadastrar</button>
             </div>
         </div>
     </div>
 
-    </div>
 
-    </div>
-</form>
-
-{%endblock%}
+    {% endblock %}
