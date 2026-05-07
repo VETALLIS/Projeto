@@ -1,15 +1,11 @@
-# ===== Importar as classes =====#
+from dataclasses import fields
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 
-# ===== Cria a classe Animal ===#
 class Animal(Crud_base):
-
-    # Define a tabela e os campos do banco
     tabela = "animal"
     fields = ["animal_especie", "animal_quantidade", "animal_sexo", "animal_raca", "animal_identificacao", "animal_idade"]
 
-    # Define os atributos 
     def __init__(self, animal_especie, animal_quantidade, animal_sexo, animal_raca, animal_identificacao, animal_idade):
         self.animal_especie = animal_especie
         self.animal_quantidade = animal_quantidade
@@ -18,58 +14,53 @@ class Animal(Crud_base):
         self.animal_identificacao = animal_identificacao
         self.animal_idade = animal_idade
 
-    # Faz a validação dos dados para a gravação com o banco
     def validar(self):
         erros = [
-            Manipular.validar_vazio(self.animal_especie, "especie"), # verifica se os dados estão vazio
-            Manipular.validar_vazio(self.animal_quantidade, "quantidade"), # verifica se os dados estão vazio
-            Manipular.validar_vazio(self.animal_sexo, "sexo"), # verifica se os dados estão vazio
-            Manipular.validar_vazio(self.animal_raca, "raca"), # verifica se os dados estão vazio
-            Manipular.validar_vazio(self.animal_identificacao, "identificacao"), # verifica se os dados estão vazio
-            Manipular.validar_vazio(self.animal_idade, "idade"), # verifica se os dados estão vazio
-            Manipular.validar_caracter(self.animal_especie, "especie"), # verifica se o dados tem caracteres especiais
-            Manipular.validar_caracter(self.animal_quantidade, "quantidade"), # verifica se o dados tem caracteres especiais
-            Manipular.validar_caracter(self.animal_sexo, "sexo"), # verifica se o dados tem caracteres especiais
-            Manipular.validar_caracter(self.animal_raca, "raca"), # verifica se o dados tem caracteres especiais
-            Manipular.validar_caracter(self.animal_identificacao, "identificacao"), # verifica se o dados tem caracteres especiais
+            Manipular.validar_vazio(self.animal_especie, "especie"),
+            Manipular.validar_vazio(self.animal_quantidade, "quantidade"),
+            Manipular.validar_vazio(self.animal_sexo, "sexo"),
+            Manipular.validar_vazio(self.animal_raca, "raca"),
+            Manipular.validar_vazio(self.animal_identificacao, "identificacao"),
+            Manipular.validar_vazio(self.animal_idade, "idade"),
+            Manipular.validar_caracter(self.animal_especie, "especie"),
+            Manipular.validar_caracter(self.animal_quantidade, "quantidade"),
+            Manipular.validar_caracter(self.animal_sexo, "sexo"),
+            Manipular.validar_caracter(self.animal_raca, "raca"),
+            Manipular.validar_caracter(self.animal_identificacao, "identificacao"),
         ]
 
-        return [ erro for erro in erros if erro] # Retorna  os erros 
+        return [ erro for erro in erros if erro]
 
-    # ====== Método de gravação dos dados do animal ==== #
     def gravar_animal(self):
-        animal = self.gravar() # chama o método gravar da Classe Crude_base
+        animal = self.gravar()
 
-        if not animal: # Verifica se a gravação no banco deu certo
-            raise ValueError("Erro ao cadastrar animal.") # Retorna o erro
+        if not animal:
+            raise ValueError("Erro ao cadastrar animal.")
 
-        return "Animal Cadastrado com sucesso!" # Retorna mensagem de sucesso
+        return "Animal Cadastrado com sucesso!"
 
-    # ===== Método de deletar dados dos animais ===== #
     def deletar_animal(self, id):
-        animal = self.buscar_por_id(id) # chama o método de buscar por id do Crud_base
+        animal = self.buscar_por_id(id)
 
-        if not animal: # Verifica se os dados foram encontrados 
+        if not animal:
             raise ValueError("Animal não encontrado.")
 
-        self.deletar(id) # Chama o método deletar da classe Crud_base
-        return "Animal deletado com sucesso!" # retorna se os dados foram deletados
+        self.deletar(id)
+        return "Animal deletado com sucesso!"
 
-    # ====== Método para atualizar os dados dos animais ===== #
     def atualizar_animal(self, id):
-        animal = self.buscar_por_id(id) # busca o animal por id, para ver se está no banco
+        animal = self.buscar_por_id(id)
 
-        if not animal: # verifica se foi encontrado
+        if not animal:
             raise ValueError("Animal não encontrado.")
 
-        self.atualizar(id) # chama o método de atualizar do Crud_base
-        return "Animal autualizado com sucesso!" # retorna se os dados foram atualizados
+        self.atualizar(id)
+        return "Animal autualizado com sucesso!"
 
-    # ===== Método para buscar animal pelo id ===== #
     def buscar_animal_por_id(self, id):
-        animal = self.buscar_por_id(id) # chama o método para de buscar por id do Crud_base
+        animal = self.buscar_por_id(id)
 
-        if not animal: # verifica se foi encontrado
-            raise ValueError("Animal não encontrado.") # retorna se tiver erro
+        if not animal:
+            raise ValueError("Animal não encontrado.")
 
-        return Animal(**animal)# retorna os dados encontrado
+        return Animal(**animal)

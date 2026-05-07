@@ -1,4 +1,3 @@
-# define as configurações para a conexão com o banco
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",

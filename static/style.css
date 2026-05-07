@@ -4,11 +4,10 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-
+   
 }
 
-html,
-body {
+html, body {
     min-height: 100vh;
     background-color: hsla(0, 0%, 0%, 1) !important;
     background-image:
@@ -955,6 +954,10 @@ footer a:hover {
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
+
+
+
+
 
 .login-container {
     height: 100vh;
