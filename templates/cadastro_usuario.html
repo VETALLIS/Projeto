@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="container d-flex align-items-center justify-content-center cadastro-container">
+    <div class="container d-flex align-items-center justify-content-center cadastro-container" >
         <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="logo" class="logo">
         <div class=" cadastro-card text-center ">
             <h2 class="mb-1 mt-4 text-white "><strong>VETALLIS</strong></h2>
@@ -28,13 +28,13 @@
             {% endif %}
             {% endwith %}
             <form method="POST" class="form-container" action="/usuario/salvar">
-                <div class="mb-2 text-start input-centro ">
+                <div class="mb-2 text-start input-centro " >
                     <label class="form-label text-white">Nome</label>
                     <div class="input-group ">
                         <span class="input-group-text bg-transparent border-secundary">
                             <i class="bi bi-person-circle text-white"></i>
                         </span>
-                        <input type="text" name="nome" class="dados_formulario " placeholder="Digite seu nome" required>
+                        <input type="text" name="nome" class="dados_formulario form-control" placeholder="Digite seu nome" required>
                     </div>
                 </div>
                 <div class="mb-2 text-start">
@@ -43,7 +43,7 @@
                         <span class="input-group-text bg-transparent border-secundary">
                             <i class="bi bi-envelope-at text-white"></i>
                         </span>
-                        <input type="email" name="email" class="dados_formulario" placeholder="Digite seu email"
+                        <input type="email" name="email" class="dados_formulario form-control" placeholder="Digite seu email"
                             required>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                         <span class="input-group-text bg-transparent border-secundary">
                             <i class="bi bi-person-badge text-white"></i>
                         </span>
-                        <input type="text" name="cpf" class="dados_formulario" placeholder="Digite seu CPF" required>
+                        <input type="text" name="cpf" class="dados_formulario form-control" placeholder="Digite seu CPF" required>
                     </div>
                 </div>
                 <div class="mb-2 text-start">
@@ -62,7 +62,7 @@
                         <span class="input-group-text bg-transparent border-secundary">
                             <i class="bi bi-key text-white"></i>
                         </span>
-                        <input type="password" name="senha" class="dados_formulario" placeholder="Crie uma senha"
+                        <input type="password" name="senha" class="dados_formulario form-control" placeholder="Crie uma senha"
                             required>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                         <span class="input-group-text bg-transparent border-secundary">
                             <i class="bi bi-key-fill text-white"></i>
                         </span>
-                        <input type="password" name="confirmar_senha" class="dados_formulario" placeholder="Confirme sua senha"
+                        <input type="password" name="confirmar_senha" class="dados_formulario form-control" placeholder="Confirme sua senha"
                             required>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                         <span class="input-group-text bg-transparent border-secundary">
                             <i class="bi bi-patch-check text-white"></i>
                         </span>
-                        <input type="text" name="cargo" class="dados_formulario" placeholder="Insira seu cargo."
+                        <input type="text" name="cargo" class="dados_formulario form-control" placeholder="Insira seu cargo."
                             required>
                     </div>
                 </div>

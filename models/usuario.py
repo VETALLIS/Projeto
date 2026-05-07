@@ -15,7 +15,7 @@ class Usuario(Crud_base):
         self.usuario_cargo = usuario_cargo
         self.usuario_confirmar_senha = usuario_confirmar_senha
 
-    def validar(self, secret_key):
+    def validar_usuario(self, secret_key):
         erros = [
             Manipular.validar_vazio(self.usuario_senha, "senha"),
             Manipular.validar_vazio(self.usuario_nome, "nome"),

@@ -8,6 +8,7 @@ from models.usuario import Usuario
 from models.lista_compra import Lista_compra
 from models.login import Login
 from models.fornecedor import Fornecedor
+from models.animal import Animal
 
 # definição da variavel app
 app = Flask(__name__)
@@ -33,13 +34,22 @@ def to_float(value, default=0.0):
 
 # ====== Pegando os dados do Front End ====== #
 
+def get_animal_form():
+    return{
+        "animal_especie": request.form.get("especie", "").strip(),
+        "animal_sexo": request.form.get("sexo", "").strip(),
+        "animal_idade": request.form.get("faixa_etaria", "").strip(),  
+        "animal_raca": request.form.get("raca", "").strip(),
+        "animal_identificacao": request.form.get("identificacao_animal", "").strip(),
+    }
+
 # ====== Pegando os dados de produto ====== #
 def get_produto_form(): 
     return {
         "produto_nome": request.form.get("nome", "").strip(),
         "produto_descricao": request.form.get("descricao", "").strip(),
         "produto_categoria": request.form.get("categoria", "").strip(),
-        "usuario_usuario_id": request.form.get("usuario_usuario_id", "").strip()
+
     }
 
 
@@ -76,13 +86,13 @@ def get_login_form():
 # ====== Pegando os dados para o cadastro de sensores ====== #
 def get_sensor_form():
     return{
-        "sensor_nome": request.form.get("nome", "").strip(),
-        "sensor_descricao":request.form.get("descricao", "").strip(),
-        "sensor_modelo": request.form.get("modelo", "").strip(),
-        "sensor_voltagem": to_float(request.form.get("voltagem", "")),
-        "sensor_n_serie": to_int(request.form.get("numero_serie", "")),
-        "sensor_tipo_conexao" : to_int(request.form.get("conexao")),
-        "sensor_localizacao": request.form.get("localizacao", "").strip(),
+        "sensor_nome": request.form.get("sensor_nome", "").strip(),
+        "sensor_descricao":request.form.get("sensor_descricao", "").strip(),
+        "sensor_modelo": request.form.get("sensor_modelo", "").strip(),
+        "sensor_voltagem": request.form.get("sensor_voltagem", "").strip(),
+        "sensor_n_serie": request.form.get("sensor_n_serie", "").strip(),
+        "sensor_tipo_conexao" : (request.form.get("sensor_tipo_conexao", "")),
+        "sensor_localizacao": request.form.get("sensor_localizacao", "").strip(),
     }
 
 # ====== Pegando os dados para cadastro de fornecedor ======#
@@ -116,182 +126,99 @@ def get_pesquisa_item_form():
 # ====== Rota de teste ====== #
 @app.route("/")
 def index():
-
     return render_template("landingpage.html")
 
 @app.route("/inicial")
 def inicial():
-
     return render_template("base.html")
 
 # ====== Endpoints para o cadastro de produtos ====== #
 
-# ===== Buscando produtos ====== #
-@app.route("/produtos", methods=["GET"])
+# ===== Rotas iniciais tela de produto ====== #
+@app.route("/produtos")
 def produtos():
-    return render_template("produtos.html", produtos=Produto.buscar_todo_produto(order_by="produto_nome"))
-
+    return render_template("cadastro_produto.html")
 
 @app.route("/produto/novo")
 def novo_produto():
-    return render_template("Cadastro_produto.html", produto=None)
+    return render_template("cadastro_produto.html", produto=None)
+
 
 # ====== Cadaastrando novos produtos ====== #
 @app.route("/produto/salvar", methods=["POST"])
 def salvar_produto():
     dados = get_produto_form()
     produto = Produto(**dados)
-    erros = produto.validar()
+    erros = produto.validar_produto()
 
     if erros:
         for erro in erros:
-            flash(erro, "erro")
-        #return render_template("formulario_produto.html", produto=dados)
-            return f"Erro: {erro}"
+            flash(erro, "danger")
+        return render_template("cadastro_produto.html", produto=dados)
 
     try:
         produto.gravar_produto()
-        flash("Produto cadastrado com sucesso.", "sucesso")
-        return redirect(url_for("produtos")), 200
-    except Exception as e:
-        flash(f"Erro ao cadastrar produto: {e}", "erro")
-        #return render_template("formulario_produto.html", produto=dados)
-        return f"Erro: {e}"
-
-'''
-@app.route("/produto/editar/<int:id>")
-def editar_produto(id):
-    produto = Produto.find_by_id(id)
-    if not produto:
-        flash("Produto não encontrado.", "erro")
+        flash("Produto cadastrado com sucesso.", "success")
         return redirect(url_for("produtos"))
-    return render_template("formulario_produto.html", produto=produto)'''
+    except Exception as e:
+        flash(f"Erro ao cadastrar produto: {e}", "danger")
+        return render_template("cadastro_produto.html", produto=dados)
+
+
 
 # ====== Editando cadastros de produtos ======#
 @app.route("/produto/atualizar/<int:id>", methods=["PUT"])
 def atualizar_produto(id):
     dados = get_produto_form()
     produto = Produto(**dados)
-    erros = produto.validar()
+    erros = produto.validar_produto()
 
     if erros:
         for erro in erros:
-            flash(erro, "erro")
+            flash(erro, "danger")
         dados["id"] = id
-        #return render_template("formulario_produto.html", produto=dados)
-        return f"Erro: {erro}"
+        return render_template("cadastro_produto.html", produto=dados)
 
     try:
         if not Produto.buscar_por_id(id):
-            flash("Produto não encontrado.", "erro")
+            flash("Produto não encontrado.", "danger")
             return redirect(url_for("produtos"))
 
         produto.atualizar_produto(id)
-        flash("Produto atualizado com sucesso.", "sucesso")
-        return redirect(url_for("produtos")), 200
+        flash("Produto atualizado com sucesso.", "success")
+        return redirect(url_for("produtos"))
     except Exception as e:
         dados["id"] = id
-        flash(f"Erro ao atualizar produto: {e}", "erro")
-        #return render_template("formulario_produto.html", produto=dados)
-        return f"Erro: {e}"
+        flash(f"Erro ao atualizar produto: {e}", "danger")
+        return render_template("cadastro_produto.html", produto=dados)
+
 
 # ====== Deletando produtos ====== #
 @app.route("/produto/excluir/<int:id>", methods=["DELETE"])
 def excluir_produto(id):
     try:
         Produto.deletar_produto(id)
-        flash("Produto excluído com sucesso.", "sucesso")
+        flash("Produto excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
-        return f"erro: {e}"
+        return render_template("cadastro_produto.html")
     except Exception as e:
-        flash(f"Erro ao excluir produto: {e}", "erro")
-        return f"erro: {e}"
-    return redirect(url_for("produtos")), 200
-
-# ====== Endpoints de pedido ====== #
-
-'''
-@app.route("/pedidos")
-def pedidos():
-    return render_template("pedidos.html", pedidos=PedidoMovimentacao.find_all_with_product())
-
-
-@app.route("/pedido/novo/<tipo>/<int:produto_id>")
-def novo_pedido(tipo, produto_id):
-    produto = Produto.find_by_id(produto_id)
-    tipo = tipo.upper()
-
-    if not produto:
-        flash("Produto não encontrado.", "erro")
-        return redirect(url_for("produtos"))
-
-    if tipo not in ["ENTRADA", "SAIDA"]:
-        flash("Tipo de pedido inválido.", "erro")
-        return redirect(url_for("produtos"))
-
-    return render_template("formulario_pedido.html", produto=produto, tipo=tipo, pedido=None)
-
-
-@app.route("/pedido/salvar", methods=["POST"])
-def salvar_pedido():
-    dados = get_pedido_form()
-    produto = Produto.find_by_id(dados["produto_id"])
-    pedido = PedidoMovimentacao(**dados)
-    erros = pedido.validate()
-
-    if not produto:
-        flash("Produto não encontrado.", "erro")
-        return redirect(url_for("produtos"))
-
-    if erros:
-        for erro in erros:
-            flash(erro, "erro")
-        return render_template("formulario_pedido.html", produto=produto, tipo=dados["tipo"], pedido=dados)
-
-    try:
-        pedido.insert()
-        flash("Pedido criado com sucesso.", "sucesso")
-        return redirect(url_for("pedidos"))
-    except Exception as e:
-        flash(f"Erro ao criar pedido: {e}", "erro")
-        return render_template("formulario_pedido.html", produto=produto, tipo=dados["tipo"], pedido=dados)
-
-
-@app.route("/pedido/processar/<int:id>")
-def processar_pedido(id):
-    try:
-        mensagem = PedidoMovimentacao.processar(id)
-        flash(mensagem, "sucesso")
-    except ValueError as e:
-        flash(str(e), "erro")
-    except Exception as e:
-        flash(f"Erro ao processar pedido: {e}", "erro")
-    return redirect(url_for("pedidos"))
-
-
-@app.route("/pedido/cancelar/<int:id>")
-def cancelar_pedido(id):
-    try:
-        mensagem = PedidoMovimentacao.cancelar(id)
-        flash(mensagem, "sucesso")
-    except ValueError as e:
-        flash(str(e), "erro")
-    except Exception as e:
-        flash(f"Erro ao cancelar pedido: {e}", "erro")
-    return redirect(url_for("pedidos"))
-'''
+        flash(f"Erro ao excluir produto: {e}", "danger")
+        return render_template("cadastro_produto.html")
+    return redirect(url_for("produtos"))
 
 
 # ====== Endpoint de movimentação de produtos ======#
 
 @app.route("/movimentacoes")
 def movimentacoes():
-    return render_template("movimentacoes.html", movimentacoes=Movimentacao.find_all_with_product())
+    return render_template("movimentacoes.html")
 
 
 # ====== Endpoints de cadstro de novos usuarios ======#
-
+@app.route("/usuario")
+def usuario():
+    return render_template("cadastro_usuario.html", usuario=None)
 
 @app.route("/usuario/novo", methods=['GET', 'POST'])
 def novo_usuario():
@@ -303,7 +230,7 @@ def salvar_usuario():
     try:
         dados = get_usuario_form()
         usuario = Usuario(**dados)
-        erros = usuario.validar(app.secret_key)
+        erros = usuario.validar_usuario(app.secret_key)
 
         if erros:
             for erro in erros:
@@ -327,8 +254,7 @@ def buscar_usuario(id):
     if not usuario:
         flash("Usuario não encontrado.", "erro")
         return redirect(url_for("usuario"))
-    #return render_template("formulario_usuario.html", usuario=usuario)
-    return "Usuario encontrado"
+    return render_template("cadastro_usuario.html", usuario=usuario)
 
 # ====== Atualizando dados de usuario ====== #
 @app.route("/usuario/atualizar/<int:id>", methods=["PUT"])
@@ -341,8 +267,7 @@ def atualizar_usuario(id):
         for erro in erros:
             flash(erro, "erro")
         dados["id"] = id
-        #return render_template("formulario_usuario.html", usuario=dados)
-        return f"Erro: {erro}"
+        return render_template("formulario_usuario.html", usuario=dados)
 
     try:
         if not Usuario.buscar_usuario_por_id(id):
@@ -355,8 +280,7 @@ def atualizar_usuario(id):
     except Exception as e:
         dados["id"] = id
         flash(f"Erro ao atualizar usuario: {e}", "erro")
-        #return render_template("formulario_usuario.html", usuario=dados)
-        return f"Erro: {e}"
+        return render_template("cadastro_usuario.html", usuario=dados)
 
 # ====== Excluindo usuarios ====== #
 @app.route("/usuario/excluir/<int:id>", methods=["DELETE"])
@@ -364,26 +288,27 @@ def excluir_usuario(id):
     try:
         Usuario.deletar_usuario(id)
         flash("Usuario excluído com sucesso.", "sucesso")
-        return "Usuario deletado", 200
+        return "Usuario deletado"
     except ValueError as e:
         flash(str(e), "erro")
+        return f"Erro ao excluir usaurio: {e}"
     except Exception as e:
         flash(f"Erro ao excluir usuario: {e}", "erro")
-        return f"Erro ao excluir usaurio: {e}", 500
+        return f"Erro ao excluir usaurio: {e}"
     return redirect(url_for("novo_usuario"))
 
 
 # ====== Endpoints de cadstro de sensor ====== #
-''''
+
 
 @app.route("/sensores")
-def sensores():
-    return render_template("Cadastro_sensor.html", sensores=Sensor.find_all(order_by="nome"))'''
+def sensor():
+    return render_template("cadastro_sensor.html")
 
 
 @app.route("/sensor/novo", methods=['GET', 'POST'])
 def novo_sensor():
-    return render_template("Cadastro_sensor.html", sensor=None)
+    return render_template("cadastro_sensor.html", sensor=None)
 
 # ====== Adicionado novos sensores ====== #
 @app.route("/sensor/salvar", methods=['POST'])
@@ -396,15 +321,14 @@ def salvar_sensor():
         for erro in erros:
             flash(erro, "danger")
         dados["id"] = id
-        return render_template("Cadastro_sensor.html", usuario=dados)
+        return render_template("cadastro_sensor.html", usuario=dados)
     
-
     try:
         sensor.gravar_sensor()
         flash("Sensor cadastrado com sucesso.", "success")
         return redirect(url_for("novo_sensor"))
     except Exception as e:
-        flash(f"Erro ao cadastrar sensor: {e}", "erro")
+        flash(f"Erro ao cadastrar sensor: {e}", "danger")
         return render_template("Cadastro_sensor.html", sensor=dados)
 
 # ====== Editando dados de sensores ====== #
@@ -412,9 +336,9 @@ def salvar_sensor():
 def editar_sensor(id):
     sensor = Sensor.buscar_sensor(id)
     if not sensor:
-        flash("Sensor não encontrado.", "erro")
-        return redirect(url_for("sensor"))
-    return render_template("formulario_sensor.html", sensor=sensor)
+        flash("Sensor não encontrado.", "danger")
+        return redirect(url_for("successs"))
+    return render_template("cadastro_sensor.html", sensor=sensor)
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:id>", methods=["POST"])
@@ -425,37 +349,36 @@ def atualizar_sensor(id):
 
     if erros:
         for erro in erros:
-            flash(erro, "erro")
+            flash(erro, "danger")
         dados["id"] = id
-        return render_template("formulario_sensor.html", sensor=dados)
+        return render_template("cadastro_sensor.html", sensor=dados)
 
     try:
         if not Sensor.buscar_sensor(id):
-            flash("Sensor não encontrado.", "erro")
-            return redirect(url_for("sensores"))
+            flash("Sensor não encontrado.", "danger")
+            return redirect(url_for("sensor"))
 
         sensor.atualizar_sensor(id)
-        flash("Sensor atualizado com sucesso.", "sucesso")
-        return redirect(url_for("sensores")), 200
+        flash("Sensor atualizado com sucesso.", "success")
+        return redirect(url_for("sensor")), 200
     except Exception as e:
         dados["id"] = id
-        flash(f"Erro ao atualizar sensor: {e}", "erro")
-        #return render_template("formulario_sensor.html", sensor=dados)
-        return f"erro: {e}"
+        flash(f"Erro ao atualizar sensor: {e}", "danger")
+        return render_template("cadastro_sensor.html", sensor=dados)
 
 # ====== Excluindo sensores ====== #
 @app.route("/sensor/excluir/<int:id>", methods=["DELETE"])
 def excluir_sensor(id):
     try:
         Sensor.deletar_sensor(id)
-        flash("Sensor excluído com sucesso.", "sucesso")
+        flash("Sensor excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
         return f"erro: {e}"
     except Exception as e:
-        flash(f"Erro ao excluir sensor: {e}", "erro")
+        flash(f"Erro ao excluir sensor: {e}", "danger")
         return f"erro: {e}"
-    return redirect(url_for("sensores")), 200
+    return redirect(url_for("sensor"))
 
 
 # ====== Endpoints da lista de compra ====== #
@@ -463,43 +386,43 @@ def excluir_sensor(id):
 
 @app.route("/lista_compra")
 def lista_compra():
-    return render_template("lista_compra.html", lista_compra=Lista_compra.find_all(order_by="nome"))
+    return render_template("lista_compra.html")
 
 
 @app.route("/lista_compra/novo")
 def novo_lista_compra():
-    return render_template("formulario_lista_compra.html", lista_compra=None)
+    return render_template("lista_compra.html", lista_compra=None)
 
 # ====== Adicionado novos itens na lista de compra ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
 def salvar_lista_compra():
     dados = get_lista_compra_form()
     lista_compra = Lista_compra(**dados)
-    erros = lista_compra.validate()
+    erros = lista_compra.validar()
 
     if erros:
         for erro in erros:
             flash(erro, "erro")
-        return render_template("formulario_lista_compra.html", lista_compra=dados)
+        return render_template("lista_compra.html", lista_compra=dados)
 
     try:
         lista_compra.insert()
-        flash("Lista compra feita com sucesso.", "sucesso")
+        flash("Lista compra feita com sucesso.", "success")
         return redirect(url_for("lista_compra"))
     except Exception as e:
-        flash(f"Erro ao criar lista de compras: {e}", "erro")
-        return render_template("formulario_lista_compra.html", lista_compra=dados)
+        flash(f"Erro ao criar lista de compras: {e}", "danger")
+        return render_template("lista_compra.html", lista_compra=dados)
 
 # ====== Excluindo itens da lista de compra ======#
 @app.route("/lista_compra/excluir/<int:id>")
 def excluir_lista_compra(id):
     try:
         Lista_compra.safe_delete(id)
-        flash("Lista de compra excluíds com sucesso.", "sucesso")
+        flash("Lista de compra excluíds com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
     except Exception as e:
-        flash(f"Erro ao excluir lista de compra: {e}", "erro")
+        flash(f"Erro ao excluir lista de compra: {e}", "danger")
     return redirect(url_for("lista_compra"))
 
 
@@ -510,7 +433,7 @@ def excluir_lista_compra(id):
 def editar_pesquisa_item(id):
     pesquisa_item = pesquisa_item.find_by_id(id)
     if not pesquisa_item:
-        flash("Item não encontrado.", "erro")
+        flash("Item não encontrado.", "danger")
         return redirect(url_for("pesquisa_item"))
     return render_template("formulario_pesquisa_item.html", pesquisa_item=pesquisa_item)
 
@@ -529,7 +452,7 @@ def novo_login():
 def salvar_login():
     dados = get_login_form()
     login = Login(**dados)
-    erros = login.login_validar(app.secret_key)
+    erros = login.validar_login(app.secret_key)
 
     if erros:
         for erro in erros:
@@ -548,24 +471,61 @@ def salvar_login():
         return redirect(url_for("novo_login"))
 
     except Exception as e:
-        flash(f"Erro ao fazer login", "danger")
+        flash(f"Erro ao fazer login {e}", "danger")
         return render_template("login.html", login=dados)
 
-# Endpoints animal
-
+#endpoint animal
 @app.route("/animal")
 def animal():
+    return render_template("cadastro_animais.html")
 
-    return render_template("Cadastro_animais.html")
+@app.route("/animal/novo", methods=['GET', 'POST'])
+def novo_animal():
+    return render_template("cadastro_animais.html", usuario=None)
+
+
+@app.route("/animal/salvar", methods=["POST"])
+def salvar_animal():
+    try:
+        dados = get_animal_form()
+        animal = Animal(**dados)
+        erros = animal.validar()
+
+        if erros:
+            for erro in erros:
+                flash(erro, "danger")
+            return render_template("cadastro_animais.html", usuario=dados)
+
+        animal.gravar_animal()
+        flash("Animal cadastrado com sucesso.", "success")
+        return redirect(url_for("novo_animal"))
+        
+    except Exception as e:
+        flash(f"Erro ao cadastrar animal {e}", "danger")
+        return render_template("cadastro_animais.html", usuario=dados)
+
+
+
+@app.route("/animal/buscar/<int:id>", methods=["GET"])
+def buscar_animal(id):
+    animal = Animal.buscar_animal_por_id(id)
+    if not animal:
+        flash("Animal não encontrado.", "erro")
+        return redirect(url_for("animal"))
+    return render_template("cadastro_usuario.html", animal=animal)
+
 
 # Endpoints fornecedor
 
 @app.route("/fornecedor")
 def fornecedor():
+    return render_template("cadastro_fornecedor.html")
 
-    return render_template("Cadastro_fornecedor.html")
+@app.route("/fornecedor/novo")
+def fornecedor_novo():
+    return render_template("cadastro_fornecedor.html")
 
-@app.route("/fornecedor", methods=["POST"])
+@app.route("/fornecedor/salvar", methods=["POST"])
 def gravar_fornecedor():
     dados = get_fornecedor_form()
     fornecedor = Fornecedor(**dados)
@@ -575,19 +535,16 @@ def gravar_fornecedor():
 
         if erros:
             flash(erros, "danger")
-            return render_template("Cadastro_fornecedor.html")
+            return render_template("cadastro_fornecedor.html")
 
         fornecedor.gravar_fornecedor()
 
         flash("Fornecedor cadastrado.", "success")
-        return redirect(url_for("fornecedor"))
+        return redirect(url_for("fornecedor_novo"))
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
-        return render_template("Cadastrar_fornecedor.html", login=dados)
-
-
-
+        return render_template("cadastrar_fornecedor.html", login=dados)
 
 
 # ====== Executar codigo ======#

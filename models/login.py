@@ -7,7 +7,7 @@ class Login(Crud_base):
         self.usuario_email = login_email
         self.usuario_senha = login_senha
 
-    def login_validar(self, secret_key):
+    def validar_login(self, secret_key):
         erros = [
             Manipular.validar_email(self.usuario_email, "email", secret_key),
             Manipular.validar_vazio(self.usuario_email, "email"),

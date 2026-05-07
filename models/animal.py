@@ -18,7 +18,7 @@ class Animal(Crud_base):
         self.animal_idade = animal_idade
 
     # Faz a validação dos dados para a gravação com o banco
-    def validar(self):
+    def validar_animal(self):
         erros = [
             Manipular.validar_vazio(self.animal_especie, "especie"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_sexo, "sexo"), # verifica se os dados estão vazio

@@ -24,11 +24,8 @@ class Sensor(Crud_base):
             Manipular.validar_vazio(self.sensor_voltagem, "voltagem"),
             Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"),
             Manipular.validar_vazio(self.sensor_localizacao, "Localização")
-        ]
+        ]     
             
-            
-
-
         return [ erro for erro in erros if erro]
 
     def gravar_sensor(self):

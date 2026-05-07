@@ -13,10 +13,9 @@ class Produto(Crud_base):
         self.produto_categoria = produto_categoria
         self.usuario_usuario_id =  1
 
-    def validar(self):
+    def validar_produto(self):
         erros = [
             Manipular.validar_vazio(self.produto_nome, "nome"),
-            #Manipular.validar_caracter(self.produto_nome, "nome"),
             Manipular.validar_vazio(self.produto_categoria, "categoria")
         ]
 
