@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% block conteudo%}
+    <h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Produto
+    </h3>
+    <form method="POST" action="" class="form-sensor">
+        <div class="cadastro-sensor mt-4">
+            <div class="d-flex justify-content-start mb-3 ">
+                <div class="upload-imagem me-5 ">
+                    <label for="imagem_produto" class="upload-box"
+                        style=" margin-left: 0 !important; align-self: flex-start;">
+                        <span class="text-white mt-2">Clique para adicionar imagem</span>
+                    </label>
+                    <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
+                </div>
+
+                <div class="divisao-form"  style="width: 100%;">
+                    <div class="mb-5 text-start">
+                        <div class="input-group">
+                            <input type="name" name="name" class="form-control" placeholder="Nome:" required>
+                        </div>
+                    </div>
+                    <div class="mb-5 text-start">
+                        <div>
+                            <textarea name="motivo" placeholder="Motivo" class="form-area"
+                                style="max-width: 900px !important; border: solid 1px #fff; color:#fff "></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="mb-2  me-4 text-start" style="max-width: 500px; width: 100%;">
+                            <div class="input-group">
+                                <input type="text" name="categoria" class="form-control" placeholder="Categoria:"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="justify-content-center" style=" width: 100%;">
+                            <button class="btn btn-login w-100 text-white  "
+                                style="background: #03c356; border-radius: 15px;" type="submit">Cadastrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+</div>
+</form>
+{% endblock%}

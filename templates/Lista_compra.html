@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+{% block conteudo%}
+
+<div class="d-flex justify-content-between mt-5"
+    style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 100%;">
+    <h3 class="mb-4 text-start">
+        Lista de compra</h3>
+    <button class="btn btn-login w-100 text-white "
+        style="background: #03c356; border-radius: 15px; max-width: 20%; height: 50px; " type="submit">Adicionar
+        Item</button>
+</div>
+<div class="table-responsive mt-5">
+    <table class="table">
+        <tr>
+            <th style="width: 500px;"></th>
+            <th class="text-white">Pre-unitário</th>
+            <th class="text-white">Quantidade</th>
+            <th class="text-white">total</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <td>
+                <button class="btn btn-sm btn-link text-white" onclick="editarItem(1)">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-link text-danger" onclick="excluirItem(1)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+
+        </tr>
+    </table>
+</div>
+ {% endblock %}

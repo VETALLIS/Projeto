@@ -1,0 +1,18 @@
+    {% extends "base.html" %}
+
+    {% block titulo %}Resultados para {{ termo }}{% endblock %}
+
+    {% block conteudo %}
+    <h1>Resultados para: {{ termo }}</h1>
+
+    {% if resultados %}
+    {% for item in resultados %}
+    <div>
+        <h2>{{ item.titulo }}</h2>
+        <p>{{ item.descricao }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Nenhum resultado encontrado.</p>
+    {% endif %}
+    {% endblock %}

@@ -118,6 +118,12 @@ def index():
     #produtos_baixo = Produto.low_stock()
     return render_template("landingpage.html")
 
+@app.route("/inicial")
+def inicial():
+    #produtos_baixo = Produto.low_stock()
+    return render_template("base.html")
+
+
 
 # ====== Endpoints para o cadastro de produtos ====== #
 
@@ -131,7 +137,7 @@ def produtos():
 # Exibe o formulário de cadastro de novo produto
 @app.route("/produto/novo")
 def novo_produto():
-    return render_template("formulario_produto.html", produto=None)
+    return render_template("Cadastro_produto.html", produto=None)
 
 # ====== Cadastrando novos produtos ====== #
 # Recebe os dados do formulário, valida e persiste um novo produto no banco
@@ -220,7 +226,7 @@ def movimentacoes():
 # Exibe o formulário de cadastro de novo usuário
 @app.route("/usuario/novo", methods=['GET', 'POST'])
 def novo_usuario():
-    return render_template("cadastro.html", usuario=None)
+    return render_template("cadastro_usuario.html", usuario=None)
 
 # ====== Adicionado novo usuario ====== #
 # Recebe os dados do formulário, valida e persiste um novo usuário no banco
@@ -235,7 +241,7 @@ def salvar_usuario():
         if erros:
             for erro in erros:
                 flash(erro, "danger")
-            return render_template("cadastro.html", usuario=dados)
+            return render_template("cadastro_usuario.html", usuario=dados)
 
         usuario.gravar_usuario()
         flash("Usuario cadastrado com sucesso.", "success")
@@ -243,7 +249,7 @@ def salvar_usuario():
         
     except Exception as e:
         flash(f"Erro ao cadastrar usuario {e}", "danger")
-        return render_template("cadastro.html", usuario=dados)
+        return render_template("cadastro_usuario.html", usuario=dados)
 
 
 
@@ -315,7 +321,7 @@ def sensores():
 # Exibe o formulário de cadastro de novo sensor
 @app.route("/sensor/novo")
 def novo_sensor():
-    return render_template("formulario_sensor.html", sensor=None)
+    return render_template("Cadastro_sensor.html", sensor=None)
 
 # ====== Adicionado novos sensores ====== #
 # Recebe os dados do formulário e persiste um novo sensor no banco
@@ -406,7 +412,7 @@ def lista_compra():
 # Exibe o formulário de adição de novo item na lista de compra
 @app.route("/lista_compra/novo")
 def novo_lista_compra():
-    return render_template("formulario_lista_compra.html", lista_compra=None)
+    return render_template("Lista_compra.html", lista_compra=None)
 
 # ====== Adicionado novos itens na lista de compra ====== #
 # Recebe os dados do formulário, valida e insere um novo item na lista de compra
@@ -454,7 +460,7 @@ def editar_pesquisa_item(id):
     if not pesquisa_item:
         flash("Item não encontrado.", "erro")
         return redirect(url_for("pesquisa_item"))
-    return render_template("formulario_pesquisa_item.html", pesquisa_item=pesquisa_item)
+    return render_template("pesquisa.html", pesquisa_item=pesquisa_item)
 
 
 # ====== Endpoints para o login ======#
@@ -494,6 +500,44 @@ def salvar_login():
     except Exception as e:
         flash(f"Erro ao fazer login", "danger")
         return render_template("login.html", login=dados)
+
+#Endpoints de animal 
+
+@app.route("/animal")
+def animal():
+    return render_template("Cadastro_animais.html")
+
+#Endpoints fornecedor 
+
+@app.route("/fornecedor")
+def fornecedor():
+    return render_template("Cadastro_fornecedor.html")
+
+#Endpoints Gerenciamento de perfil
+
+@app.route("/gerenciamento")
+def gerenciamento():
+    return render_template("Gerenciamento_perfil.html")
+
+#Endpoints Informação de produto
+@app.route("/inf_produto")
+def inf_produto():
+    return render_template("Informacoes_produto.html")
+
+
+# Endpoints Pedido Entrada
+@app.route("/pedido_entrada")
+def pedido_entrada():
+    return render_template("pedido_entrada.html")
+
+# Endpoints Pedido Saida
+@app.route("/pedido_saida")
+def pedido_saida():
+    return render_template("pedido_saida.html")
+
+
+
+
 
 
 # ====== Executar codigo ======#
