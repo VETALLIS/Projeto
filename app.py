@@ -116,14 +116,13 @@ def get_pesquisa_item_form():
 # ====== Rota de teste ====== #
 @app.route("/")
 def index():
-    #produtos_baixo = Produto.low_stock()
+
     return render_template("landingpage.html")
 
 @app.route("/inicial")
 def inicial():
-    #produtos_baixo = Produto.low_stock()
-    return render_template("base.html")
 
+    return render_template("base.html")
 
 # ====== Endpoints para o cadastro de produtos ====== #
 
@@ -375,38 +374,38 @@ def excluir_usuario(id):
 
 
 # ====== Endpoints de cadstro de sensor ====== #
-
+''''
 
 @app.route("/sensores")
 def sensores():
-    return render_template("sensores.html", sensores=Sensor.find_all(order_by="nome"))
+    return render_template("Cadastro_sensor.html", sensores=Sensor.find_all(order_by="nome"))'''
 
 
-@app.route("/sensor/novo")
+@app.route("/sensor/novo", methods=['GET', 'POST'])
 def novo_sensor():
     return render_template("Cadastro_sensor.html", sensor=None)
 
 # ====== Adicionado novos sensores ====== #
-@app.route("/sensor/salvar", methods=["POST"])
+@app.route("/sensor/salvar", methods=['POST'])
 def salvar_sensor():
     dados = get_sensor_form()
     sensor = Sensor(**dados)
-    #erros = sensor.validar()
+    erros = sensor.validar_sensor()
 
-    '''
     if erros:
         for erro in erros:
-            flash(erro, "erro")
-        return render_template("formulario_sensor.html", sensor=dados)'''
+            flash(erro, "danger")
+        dados["id"] = id
+        return render_template("Cadastro_sensor.html", usuario=dados)
+    
 
     try:
         sensor.gravar_sensor()
-        flash("Sensor cadastrado com sucesso.", "sucesso")
-        return redirect(url_for("sensores")), 200
+        flash("Sensor cadastrado com sucesso.", "success")
+        return redirect(url_for("novo_sensor"))
     except Exception as e:
         flash(f"Erro ao cadastrar sensor: {e}", "erro")
-        #return render_template("formulario_sensor.html", sensor=dados)
-        return f"erro: {e}"
+        return render_template("Cadastro_sensor.html", sensor=dados)
 
 # ====== Editando dados de sensores ====== #
 @app.route("/sensor/editar/<int:id>")
@@ -422,13 +421,13 @@ def editar_sensor(id):
 def atualizar_sensor(id):
     dados = get_sensor_form()
     sensor = Sensor(**dados)
-    #erros = sensor.validar()
-    '''
+    erros = sensor.validar()
+
     if erros:
         for erro in erros:
             flash(erro, "erro")
         dados["id"] = id
-        return render_template("formulario_sensor.html", sensor=dados)'''
+        return render_template("formulario_sensor.html", sensor=dados)
 
     try:
         if not Sensor.buscar_sensor(id):
@@ -552,16 +551,18 @@ def salvar_login():
         flash(f"Erro ao fazer login", "danger")
         return render_template("login.html", login=dados)
 
-#ENDPOINS ANIMAL
+# Endpoints animal
+
 @app.route("/animal")
 def animal():
-    #produtos_baixo = Produto.low_stock()
+
     return render_template("Cadastro_animais.html")
 
-#ENDPOINTS fornecedor
+# Endpoints fornecedor
 
 @app.route("/fornecedor")
 def fornecedor():
+
     return render_template("Cadastro_fornecedor.html")
 
 @app.route("/fornecedor", methods=["POST"])

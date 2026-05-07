@@ -7,11 +7,11 @@ class Produto(Crud_base):
     pk = "produto_id"
     fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id"]
 
-    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id):
+    def __init__(self, produto_nome, produto_descricao, produto_categoria):
         self.produto_nome = produto_nome
         self.produto_descricao = produto_descricao
         self.produto_categoria = produto_categoria
-        self.usuario_usuario_id = usuario_usuario_id
+        self.usuario_usuario_id =  1
 
     def validar(self):
         erros = [
