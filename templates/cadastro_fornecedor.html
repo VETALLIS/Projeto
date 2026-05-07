@@ -1,13 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <h1>Cadastro fornecedor</h1>
+{% extends 'base.html'%}
+{% block conteudo%}
+
+
+<div class="d-flex justify-content-start">
+    <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
+</div>
+<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de
+    Fornecedor</h3>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for categoria, mensagem in messages %}
+<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
+    {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form method="POST" action="" class="form-sensor">
+    <div class=" mt-4">
+        <div class="divisao-form me-4 " style="max-width: 1200px; width: 100%;">
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="name" name="fornecedor_nome" class="form-control" placeholder="Nome do fornecedor:" required>
+                </div>
+            </div>
+
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_endereço" class="form-control" placeholder="Endereço:" required>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex">
+            <div class="me-4" style="max-width: 600px; width: 100%;">
+                <div class="mb-5 text-start">
+                    <div class="input-group">
+                        <input type="text" name="fornecedor_tipo_produtos" class="form-control" placeholder="Tipo de Produto:"
+                            required>
+                    </div>
+                </div>
+                <div class="mb-5 text-start">
+                    <div class="input-group">
+                        <input type="text" name="fornecedor_pedido_minimo" class="form-control"
+                            placeholder="Pedido Mínimo:" required>
+                    </div>
+                </div>
+            </div>
+            <div style="max-width: 575px; width: 100%;">
+                <div class="mb-5 text-start">
+                    <div class="input-group">
+                        <input type="text" name="fornecedor_cnpj" class="form-control" placeholder="CNPJ:" required>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-login w-100 text-white mt-2 mb-3 "
+                        style="background: #03c356; border-radius: 25px; max-width: 575px;"
+                        type="submit">Cadastrar</button>
+                </div>
+            </div>
+
+        </div>
     </div>
-</body>
-</html>
+
+</form>
+
+
+
+
+{% endblock %}

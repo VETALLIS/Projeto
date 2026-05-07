@@ -1,18 +1,10 @@
 {%extends 'base.html'%}
 {%block conteudo%}
 
+
 <h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Cadastro de
     Animais</h3>
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for categoria, mensagem in messages %}
-<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-    {{ mensagem }}
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-<form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor" style="padding: 10px;">
+<form method="POST" action="" class="form-sensor" style="padding: 10px;">
     <div class="cadastro-sensor d-flex mt-4 ms-4">
         <div class="divisao-form me-4" style="max-width: 600px;width: 100%;">
             <div class="mb-5 text-start">
@@ -55,5 +47,6 @@
     </div>
 
 </form>
-</div>
-{%endblock%}
+
+
+{% endblock %}
