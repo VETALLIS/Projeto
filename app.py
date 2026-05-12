@@ -545,6 +545,14 @@ def gravar_fornecedor():
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
         return render_template("cadastrar_fornecedor.html", login=dados)
+    
+# Endpoint gerenciamento de perfil
+
+@app.route("/gerenciar_perfil")
+def gerenciar_perfil():
+    return render_template("gerenciamento_perfil.html")
+
+
 
 
 # ====== Executar codigo ======#
