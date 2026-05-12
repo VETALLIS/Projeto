@@ -603,14 +603,12 @@ def inforcao_produto_novo():
         return {"erro": "Produto não encontrado"}, 404
 
     return {
-        "id": produto.id,
-        "nome": produto.nome,
-        "quantidade": produto.quantidade,
-        "estoque_minimo": produto.estoque_minimo
+        "id": produto.produto_id,              
+        "nome": produto.produto_nome,          
+        "descricao": produto.produto_descricao,
+        "categoria": produto.produto_categoria,
+        "usuario_id": produto.usuario_usuario_id 
     }
-
-
-
 
 
 
