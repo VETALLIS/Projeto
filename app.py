@@ -119,10 +119,10 @@ def get_lista_compra_form():
     }
 
 def get_gerenciar_perfil_form():
-        return{
+    return{
         "usuario_nome": request.form.get("usuario_nome", "").strip(),
-        "usuario_email": to_int(request.form.get("usuario_email", "")),
-        "usuario_cargo": to_int(request.form.get("usuario_cargo", "")),
+        "usuario_email": request.form.get("usuario_email", "").strip(),  
+        "usuario_cargo": request.form.get("usuario_cargo", "").strip(),
     }
 
 # ====== Pegando os dados para a pesquisa ====== #
@@ -571,7 +571,7 @@ def gerenciar_perfil_salvar():
 
     dados = get_gerenciar_perfil_form()
     atualizar = GerenciamentoPerfil(**dados)
-    erros = atualizar.validar_perfil()
+    erros = atualizar.validar_perfil(app.secret_key)
 
     try:
 
@@ -582,11 +582,11 @@ def gerenciar_perfil_salvar():
         atualizar.atualizar_usuario()
 
         flash("Dados atualizados.", "success")
-        return redirect(url_for(""))
+        return redirect(url_for("gerenciamento_perfil_atualizar"))
 
     except Exception as e:
         flash(f"Erro ao atualizar dados", "danger")
-        return render_template("cadastrar_fornecedor.html", login=dados)
+        return render_template("gerenciamento_perfil.html", login=dados)
 
 
 # Endpoint informação produto
