@@ -566,7 +566,7 @@ def gerenciar_perfil_atualizar():
     return render_template("gerenciamento_perfil.html")
 
 @app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
-def gerenciar_perfil_atualizar_salvar():
+def gerenciar_perfil_salvar():
 
     dados = get_fornecedor_form()
     atualizar = GerenciametoPerfil(**dados)
