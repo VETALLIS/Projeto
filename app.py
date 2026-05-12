@@ -570,9 +570,7 @@ def produto_entrada():
 def produto_saida():
     return render_template("informacao_produto.html")
 
-@app.route("lista_compra/")
-def lista_compra():
-    return render_template("lista_compra.html")
+
 
 
 # ====== Executar codigo ======#
