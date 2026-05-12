@@ -17,22 +17,22 @@
         <form class="mb-4">
             <div class="mb-3 d-flex">
                 <label class="form-label" style="color: #fff; width: 180px; min-width: 180px;">Nome do Produto:</label>
-                <input type="text" class="form-control bg-transparent border-0" readonly>
+                <input type="text" class="form-control bg-transparent border-0" readonly value="{{produto_nome}}">
             </div>
             <div class="d-flex ms-4">
                 <div class="mb-3 d-flex">
                     <label class="form-label " style="color:#fff; width: 180px; min-width: 180px;">Quantidade em
                         estoque:</label>
-                    <input type="text" class="form-control bg-transparent border-0" readonly>
+                    <input type="text" class="form-control bg-transparent border-0" readonly value="{{produto_quantidade}}">
                 </div>
                 <div class="mb-3 d-flex">
                     <label class="form-label" style="color:#fff; width: 80px; min-width: 80px;">Validade:</label>
-                    <input type="text" class="form-control bg-transparent border-0" onfocus="this.type='date'" readonly>
+                    <input type="text" class="form-control bg-transparent border-0" onfocus="this.type='date'" readonly value="{{produto_validade}}">
                 </div>
             </div>
             <div class="mb-3 d-flex">
                 <label class="form-label " style="color:#fff; width: 130px; min-width: 130px;">Descrição:</label>
-                <input type="text" class="form-control bg-transparent border-0" readonly>
+                <input type="text" class="form-control bg-transparent border-0" readonly value="{{produto_descricao}}">
             </div>
 
         </form>
