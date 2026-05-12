@@ -8,6 +8,9 @@ from models.lista_compra import Lista_compra
 from models.login import Login
 from models.fornecedor import Fornecedor
 from models.animal import Animal
+from models.pedido_entrada import Pedido_entrada
+from models.gerenciamento_perfil import GerenciametoPerfil
+
 
 # definição da variavel app
 app = Flask(__name__)
@@ -112,6 +115,13 @@ def get_lista_compra_form():
         "produto_id": to_int(request.form.get("produto_id")),
         "quantidade": to_int(request.form.get("quantidade")),
         "custo_compra": to_float(request.form.get("custo_compra")),
+    }
+
+def get_gerenciar_perfil_form():
+        return{
+        "nome": request.form.get("nome", "").strip(),
+        "email": to_int(request.form.get("email", "")),
+        "cargo": to_int(request.form.get("cargo", "")),
     }
 
 # ====== Pegando os dados para a pesquisa ====== #
@@ -526,7 +536,7 @@ def fornecedor_novo():
 
 @app.route("/fornecedor/salvar", methods=["POST"])
 def gravar_fornecedor():
-    dados = get_fornecedor_form()
+    dados = get_gerenciar_perfil_form()
     fornecedor = Fornecedor(**dados)
     erros = fornecedor.validar_fornecedor()
 
@@ -547,9 +557,36 @@ def gravar_fornecedor():
     
 # Endpoint gerenciamento de perfil
 
-@app.route("/gerenciar_perfil")
+@app.route("/gerenciar_perfil", methods=["GET"])
 def gerenciar_perfil():
     return render_template("gerenciamento_perfil.html")
+
+@app.route("/gerenciar_perfil/atualizar", methods=["GET"])
+def gerenciar_perfil_atualizar():
+    return render_template("gerenciamento_perfil.html")
+
+@app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
+def gerenciar_perfil_atualizar_salvar():
+
+    dados = get_fornecedor_form()
+    atualizar = GerenciametoPerfil(**dados)
+    erros = atualizar.validar_perfil()
+
+    try:
+
+        if erros:
+            flash(erros, "danger")
+            return render_template("gerenciar_perfil.html")
+
+        atualizar.atualizar_usuario()
+
+        flash("Dados atualizados.", "success")
+        return redirect(url_for(""))
+
+    except Exception as e:
+        flash(f"Erro ao atualizar dados", "danger")
+        return render_template("cadastrar_fornecedor.html", login=dados)
+
 
 # Endpoint informação produto
 
@@ -567,7 +604,7 @@ def produto_entrada():
 
 @app.route("/produto_saida")
 def produto_saida():
-    return render_template("informacao_produto.html")
+    return render_template("pedido_saida.html")
 
 
 
