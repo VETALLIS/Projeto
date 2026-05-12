@@ -1,7 +1,8 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+from core.conectar import Database
 
-class produto(Crud_base):
+class Informacao_Produto(Crud_base):
 
     # Define a tabela e os campos do banco
     tabela = "produto"
