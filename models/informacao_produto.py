@@ -13,17 +13,6 @@ class Informacao_Produto(Crud_base):
         self.produto_categoria = produto_categoria
         self.usuario_usuario_id = usuario_usuario_id
 
-    @classmethod
-    def low_stock(cls):
-        conexao = Database.connect()
-        cursor = conexao.cursor(dictionary=True)
-        try:
-            sql = "SELECT * FROM produto WHERE produto_quantidade <= produto_estoque_minimo"
-            cursor.execute(sql)
-            return cursor.fetchall()
-        finally:
-            cursor.close()
-            conexao.close()
 
     @classmethod
     def buscar_produto(cls, produto_id):
