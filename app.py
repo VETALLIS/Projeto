@@ -552,7 +552,27 @@ def gravar_fornecedor():
 def gerenciar_perfil():
     return render_template("gerenciamento_perfil.html")
 
+# Endpoint informação produto
 
+@app.route("/informacao_produto")
+def inforcao_produto():
+    return render_template("informacao_produto.html")
+
+# Endpoint entrada produto
+
+@app.route("/produto_entrada")
+def produto_entrada():
+    return render_template("pedido_entrada.html")
+
+# Endpoint saída produto
+
+@app.route("/produto_saida")
+def produto_saida():
+    return render_template("informacao_produto.html")
+
+@app.route("lista_compra/")
+def lista_compra():
+    return render_template("lista_compra.html")
 
 
 # ====== Executar codigo ======#
