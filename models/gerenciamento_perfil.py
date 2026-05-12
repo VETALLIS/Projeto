@@ -1,11 +1,11 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 
-class GerenciametoPerfil(Crud_base):
+class GerenciamentoPerfil(Crud_base):
     tabela = "usuario"
     pk = "usuario_id"
 
-    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo" ]
+    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cargo" ]
 
     def __init__(self, usuario_nome, usuario_email, usuario_cargo):
         self.usuario_nome = usuario_nome
@@ -49,7 +49,7 @@ class GerenciametoPerfil(Crud_base):
             raise ValueError("Usuario não encontrado.")
 
         usuario.pop("usuario_id", None)
-        return GerenciametoPerfil(**usuario)
+        return GerenciamentoPerfil(**usuario)
 
     
 
