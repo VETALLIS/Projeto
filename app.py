@@ -120,9 +120,9 @@ def get_lista_compra_form():
 
 def get_gerenciar_perfil_form():
         return{
-        "nome": request.form.get("nome", "").strip(),
-        "email": to_int(request.form.get("email", "")),
-        "cargo": to_int(request.form.get("cargo", "")),
+        "usuario_nome": request.form.get("usuario_nome", "").strip(),
+        "usuario_email": to_int(request.form.get("usuario_email", "")),
+        "usuario_cargo": to_int(request.form.get("usuario_cargo", "")),
     }
 
 # ====== Pegando os dados para a pesquisa ====== #
@@ -537,7 +537,7 @@ def fornecedor_novo():
 
 @app.route("/fornecedor/salvar", methods=["POST"])
 def gravar_fornecedor():
-    dados = get_gerenciar_perfil_form()
+    dados = get_fornecedor_form()
     fornecedor = Fornecedor(**dados)
     erros = fornecedor.validar_fornecedor()
 
@@ -569,7 +569,7 @@ def gerenciar_perfil_atualizar():
 @app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
 def gerenciar_perfil_salvar():
 
-    dados = get_fornecedor_form()
+    dados = get_gerenciar_perfil_form()
     atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil()
 
