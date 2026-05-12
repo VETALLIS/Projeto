@@ -7,20 +7,17 @@ class GerenciametoPerfil(Crud_base):
 
     fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo" ]
 
-    def __init__(self, usuario_senha, usuario_nome, usuario_email, usuario_confirmar_senha):
-        self.usuario_senha = usuario_senha
+    def __init__(self, usuario_nome, usuario_email, usuario_cargo):
         self.usuario_nome = usuario_nome
         self.usuario_email = usuario_email
-        self.usuario_confirmar_senha = usuario_confirmar_senha
+        self.usuario_cargo = usuario_cargo
 
-    def validar_usuario(self, secret_key):
+    def validar_perfil(self, secret_key):
         erros = [
-            Manipular.validar_vazio(self.usuario_senha, "senha"),
             Manipular.validar_vazio(self.usuario_nome, "nome"),
             Manipular.validar_vazio(self.usuario_email, "email"),
-            Manipular.validar_vazio(self.usuario_confirmar_senha, "confirmar_senha"),
+            Manipular.validar_vazio(self.usuario_confirmar_senha, "cargo"),
             Manipular.validar_email(self.usuario_email, "email", secret_key),
-            Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha)
         ]
 
         return [ erro for erro in erros if erro]
