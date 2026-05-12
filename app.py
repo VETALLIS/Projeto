@@ -547,7 +547,7 @@ def gravar_fornecedor():
     
 # Endpoint gerenciamento de perfil
 
-@app.route("/gerenciar_perfil")
+@app.route("/gerenciar_perfil", methods=["GET"])
 def gerenciar_perfil():
     return render_template("gerenciamento_perfil.html")
 
