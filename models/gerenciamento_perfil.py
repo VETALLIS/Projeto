@@ -16,7 +16,7 @@ class GerenciamentoPerfil(Crud_base):
         erros = [
             Manipular.validar_vazio(self.usuario_nome, "nome"),
             Manipular.validar_vazio(self.usuario_email, "email"),
-            Manipular.validar_vazio(self.usuario_confirmar_senha, "cargo"),
+            Manipular.validar_vazio(self.usuario_cargo, "cargo"),
             Manipular.validar_email(self.usuario_email, "email", secret_key),
         ]
 
