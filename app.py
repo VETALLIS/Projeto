@@ -9,7 +9,8 @@ from models.login import Login
 from models.fornecedor import Fornecedor
 from models.animal import Animal
 from models.pedido_entrada import Pedido_entrada
-from models.gerenciamento_perfil import GerenciametoPerfil
+from models.gerenciamento_perfil import GerenciamentoPerfil
+from models.informacao_produto import Informacao_Produto
 
 
 # definição da variavel app
@@ -569,7 +570,7 @@ def gerenciar_perfil_atualizar():
 def gerenciar_perfil_salvar():
 
     dados = get_fornecedor_form()
-    atualizar = GerenciametoPerfil(**dados)
+    atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil()
 
     try:
@@ -593,6 +594,25 @@ def gerenciar_perfil_salvar():
 @app.route("/informacao_produto")
 def inforcao_produto():
     return render_template("informacao_produto.html")
+
+@app.route("/informacao_produto/novo")
+def inforcao_produto_novo():
+    produto = Informacao_Produto.buscar_produto(id)
+
+    if not produto:
+        return {"erro": "Produto não encontrado"}, 404
+
+    return {
+        "id": produto.id,
+        "nome": produto.nome,
+        "quantidade": produto.quantidade,
+        "estoque_minimo": produto.estoque_minimo
+    }
+
+
+
+
+
 
 # Endpoint entrada produto
 
