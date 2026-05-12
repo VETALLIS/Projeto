@@ -551,6 +551,10 @@ def gravar_fornecedor():
 def gerenciar_perfil():
     return render_template("gerenciamento_perfil.html")
 
+@app.route("/gerenciar_perfil_atualizar", methods=["GET", "POST"])
+def gerenciar_perfil_atualizar():
+    return render_template("gerenciamento_perfil.html")
+
 # Endpoint informação produto
 
 @app.route("/informacao_produto")
@@ -567,7 +571,7 @@ def produto_entrada():
 
 @app.route("/produto_saida")
 def produto_saida():
-    return render_template("informacao_produto.html")
+    return render_template("pedido_saida.html")
 
 
 
