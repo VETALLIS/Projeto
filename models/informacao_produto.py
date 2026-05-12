@@ -1,14 +1,11 @@
 from core.crud_base import Crud_base
-from core.manipular import Manipular
 from core.conectar import Database
 
 class Informacao_Produto(Crud_base):
 
-    # Define a tabela e os campos do banco
     tabela = "produto"
-    fields = ["produto_id","produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id"]
+    fields = ["produto_id", "produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id"]
 
-    # Define os atributos 
     def __init__(self, produto_id, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id):
         self.produto_id = produto_id
         self.produto_nome = produto_nome
@@ -21,36 +18,36 @@ class Informacao_Produto(Crud_base):
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
         try:
-            sql = "SELECT * FROM produto WHERE id=%s"
+            sql = "SELECT * FROM produto WHERE produto_quantidade <= produto_estoque_minimo"
             cursor.execute(sql)
             return cursor.fetchall()
         finally:
             cursor.close()
             conexao.close()
 
-    
-    def deletar_produto(self, id):
-        produto = self.buscar_por_id(id)
-
-        if not produto:
-            raise ValueError("Produto não encontrado")
-
-        self.deletar()
-        return "Produto deletado com sucesso!"
-
-    def atualizar_produto(self, id):
-        produto = self.buscar_por_id(id)
-
-        if not produto:
-            raise ValueError("Produto não encontrado")
-
-        self.atualizar()
-        return "Produto atualizado com sucesso!"
-
-    def buscar_produto(self):
-        produto  = self.buscar_por_id(id)
+    @classmethod
+    def buscar_produto(cls, produto_id):
+        produto = cls.buscar_por_id(produto_id)
 
         if not produto:
             raise ValueError("Produto não encontrado!")
 
-        return produto(**produto)
+        return produto
+
+    def deletar_produto(self, produto_id):
+        produto = self.buscar_por_id(produto_id)
+
+        if not produto:
+            raise ValueError("Produto não encontrado")
+
+        produto.deletar()
+        return "Produto deletado com sucesso!"
+
+    def atualizar_produto(self, produto_id):
+        produto = self.buscar_por_id(produto_id)
+
+        if not produto:
+            raise ValueError("Produto não encontrado")
+
+        produto.atualizar()
+        return "Produto atualizado com sucesso!"
