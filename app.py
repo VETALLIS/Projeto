@@ -2,7 +2,6 @@
 #from crypt import methods
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models.produto import Produto
-from models.movimentacao import Movimentacao
 from models.sensor import Sensor
 from models.usuario import Usuario
 from models.lista_compra import Lista_compra
