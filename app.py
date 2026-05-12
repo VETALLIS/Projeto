@@ -8,6 +8,8 @@ from models.lista_compra import Lista_compra
 from models.login import Login
 from models.fornecedor import Fornecedor
 from models.animal import Animal
+from models.pedido_entrada import Pedido_entrada
+
 
 # definição da variavel app
 app = Flask(__name__)
