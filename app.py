@@ -570,7 +570,7 @@ def gerenciar_perfil_atualizar_salvar():
 
     dados = get_fornecedor_form()
     atualizar = GerenciametoPerfil(**dados)
-    erros = atualizar.validar_fornecedor()
+    erros = atualizar.validar_perfil()
 
     try:
 
