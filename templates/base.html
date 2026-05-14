@@ -20,7 +20,7 @@
         <section class="topbar">
             <div class="topbar-logo">
                 <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="Vetalis Logo">
-                <span class="topbar-brand">Hello, *nome</span>
+                <span class="topbar-brand">Hello, {{session['usuario_nome']}}</span>
             </div>
 
             <div class="topbar-search">
@@ -44,7 +44,7 @@
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <nav class="sidebar-nav">
+        <nav class="sidebar-nav" style="margin-top: -10px;">
             <a href="{{ url_for('inicial') }}" class="sidebar-link active" title="Início">
                 <i class="bi bi-house"></i>
             </a>
@@ -56,6 +56,12 @@
             </a>
             <a href="{{ url_for('gerenciar_perfil_atualizar', usuario_id=session.get('usuario_id')) }}" class="sidebar-link" title="Configurações">
                 <i class="bi bi-gear"></i>
+            </a>
+            <a href="#" class="sidebar-link" title="Sensor">
+                <i class="bi bi-radar"></i>
+            </a>
+            <a href="#" class="sidebar-link" title="Lista de compra">
+                <i class="bi bi-cart3"></i>
             </a>
             <a href="#" class="sidebar-link" title="Sair">
                 <i class="bi bi-box-arrow-right"></i>
