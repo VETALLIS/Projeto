@@ -29,7 +29,7 @@ class Item_pedido_saida(Crud_base):
 
     def gravar_item_pedido_saida(self):
         pedido_saida = self.gravar()
-        nova_quantidade = 
+        
 
         if not pedido_saida:
             raise ValueError("Erro ao criar pedido!")
