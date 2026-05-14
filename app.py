@@ -591,17 +591,13 @@ def gerenciar_perfil_salvar():
 
 # Endpoint informação produto
 
-@app.route("/informacao_produto")
-def inforcao_produto():
-    return render_template("informacao_produto.html")
-
 @app.route("/informacao_produto/<int:produto_id>")
-def inforcao_produto_ver(produto_id):
+def informacao_produto_ver(produto_id):
     produto = Informacao_Produto.buscar_produto_com_estoque(produto_id)
 
     if not produto:
         flash("Produto não encontrado", "danger")
-        return redirect(url_for("informacao_produto"))
+        return redirect(url_for("produtos"))
     
     return render_template("informacao_produto.html", produto=produto)
     
