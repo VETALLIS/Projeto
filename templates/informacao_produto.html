@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+ {% extends 'base.html'%}
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
@@ -11,38 +11,31 @@
         <label for="imagem_produto" class="upload-box" style="max-height: 300px !important; width: 275px;"
             style=" margin-left: 0 !important; align-self: flex-start;">
         </label>
-        <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
+        
     </div>
     <div class="d-flex align-items-center" style="padding: 20px;">
-        <form class="mb-4">
-            <div class="mb-3 d-flex">
-                <label class="form-label" style="color: #fff; width: 180px; min-width: 180px;">Nome do Produto:</label>
-                <input type="text" class="form-control bg-transparent border-0" readonly value="{{produto_nome}}">
+        <form class="mb-4 ">
+            <div class="mb-3 d-flex gap-2">
+                <label class="form-label" style="color: #fff; ">Nome do Produto:</label>
+                <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
             </div>
-            <div class="d-flex ms-4">
-                <div class="mb-3 d-flex">
-                    <label class="form-label " style="color:#fff; width: 180px; min-width: 180px;">Quantidade em
-                        estoque:</label>
-                    <input type="text" class="form-control bg-transparent border-0" readonly value="{{produto_quantidade}}">
-                </div>
-                <div class="mb-3 d-flex">
-                    <label class="form-label" style="color:#fff; width: 80px; min-width: 80px;">Validade:</label>
-                    <input type="text" class="form-control bg-transparent border-0" onfocus="this.type='date'" readonly value="{{produto_validade}}">
-                </div>
+            <div class="mb-3 d-flex gap-2">
+                <label  style="color:#fff;">Quantidade:</label>
+                <label for="" class="d-nome" style="color: #fff;">{{produto.estoque_quantidade}}</label>
             </div>
-            <div class="mb-3 d-flex">
-                <label class="form-label " style="color:#fff; width: 130px; min-width: 130px;">Descrição:</label>
+            <div class="mb-3 d-flex gap-2">
+                <label class="form-label " style="color:#fff;">Descrição:</label>
+                <label for="" class="d-nome" style="color: #fff;">{{produto.produto_descricao}}</label>
+            </div>
+            <div class="mb-3 d-flex text-start gap-2">
+                <label class="form-label " style="color:#fff; min-width: 100px;">Nota fiscal:</label>
                 <input type="text" class="form-control bg-transparent border-0" readonly value="{{produto_descricao}}">
             </div>
-
         </form>
 
     </div>
 </div>
-<div class="input-group mb-4" style="width: 25%;">
-    <input type="text" name="nota_fiscal" placeholder="Nota Fiscal" onfocus="this.type='file'" accept=".pdf,.xml"
-        class="form-control" required>
-</div>
+
 <div class="d-flex">
     <button class="btn btn-danger w-100 text-white me-3" type="submit">Retirar</button>
     <button class="btn  w-100 text-white" style="background-color:#03A64A;" type="submit">Adicionar</button>

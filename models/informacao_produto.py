@@ -4,6 +4,7 @@ from core.conectar import Database
 class Informacao_Produto(Crud_base):
 
     tabela = "produto"
+    pk = "produto_id"
     fields = ["produto_id", "produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id"]
 
     def __init__(self, produto_id, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id):
@@ -15,8 +16,30 @@ class Informacao_Produto(Crud_base):
 
 
     @classmethod
+    def buscar_produto_com_estoque(cls, produto_id):
+        """Busca produto + estoque usando JOIN"""
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+
+        try:
+            sql = (
+                "SELECT p.produto_id, p.produto_nome, p.produto_descricao, "
+                "p.produto_categoria, p.usuario_usuario_id, e.estoque_id, "
+                "e.estoque_quantidade, e.estoque_observacao "
+                "FROM produto p "
+                "LEFT JOIN estoque e ON p.produto_id = e.produto_produto_id "
+                "WHERE p.produto_id = %s"
+            )
+            cursor.execute(sql, (produto_id,))
+            return cursor.fetchone()
+        finally:
+            cursor.close()
+            conexao.close()
+
+    @classmethod
     def buscar_produto(cls, produto_id):
-        produto = cls.buscar_por_id(produto_id)
+        """Mantém compatibilidade com o método anterior"""
+        produto = cls.buscar_produto_com_estoque(produto_id)
 
         if not produto:
             raise ValueError("Produto não encontrado!")
