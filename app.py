@@ -427,6 +427,10 @@ def salvar_lista_compra():
     except Exception as e:
         flash(f"Erro ao criar lista de compras: {e}", "danger")
         return render_template("lista_compra.html", lista_compra=dados)
+    
+@app.route("/lista_compra/atualizar")
+def atualizar_lista_compra():
+    return render_template("adiciona_itens_lista_compra.html")
 
 # ====== Excluindo itens da lista de compra ======#
 @app.route("/lista_compra/excluir/<int:id>")
