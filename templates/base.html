@@ -54,7 +54,7 @@
             <a href="#" class="sidebar-link" title="Relatórios">
                 <i class="bi bi-graph-up"></i>
             </a>
-            <a href="{{url_for('gerenciar_perfil_atualizar', usuario_id=user_id)}}" class="sidebar-link" title="Configurações">
+            <a href="{{ url_for('gerenciar_perfil_atualizar', usuario_id=session.get('usuario_id')) }}" class="sidebar-link" title="Configurações">
                 <i class="bi bi-gear"></i>
             </a>
             <a href="#" class="sidebar-link" title="Sair">

@@ -26,4 +26,4 @@ class Login(Crud_base):
         if usuario["usuario_senha"] != self.usuario_senha:
             raise ValueError("Senha incorreta")
 
-        return "Login realizado com sucesso"
+        return "Login realizado com sucesso", usuario

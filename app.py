@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
@@ -141,9 +141,7 @@ def index():
 # ====== Tela inicial ====== #
 @app.route("/inicial")
 def inicial():
-
-    user_id = request.args.get("user_id")
-    return render_template("tela_inicial.html", user_id=user_id)
+    return render_template("tela_inicial.html")
 
 # ====== Endpoints para o cadastro de produtos ====== #
 
@@ -154,8 +152,8 @@ def produtos():
 
 @app.route("/produto/novo")
 def novo_produto():
-    user_id = request.args.get("user_id")
-    return render_template("cadastro_produto.html", produto=None, user_id=user_id)
+
+    return render_template("cadastro_produto.html", produto=None,)
 
 
 # ====== Cadaastrando novos produtos ====== #
@@ -468,7 +466,7 @@ def salvar_login():
     login = Login(**dados)
     erros = login.validar_login(app.secret_key)
 
-    usuario = login.autenticar_login()
+
 
     if erros:
         for erro in erros:
@@ -476,19 +474,30 @@ def salvar_login():
         return render_template("login.html", login=dados)
 
     try:
-        usuario = login.autenticar_login()
+        mensagem, usuario = login.autenticar_login()
 
         if not usuario:
             flash("Usuário não encontrado", "danger")
             return render_template("login.html", login=dados)
 
+        id_do_usuario = usuario.get('usuario_id')
+
+        session['usuario_id'] = usuario.get('usuario_id')
+        session['usuario_nome'] = usuario.get('usuario_nome')
 
         flash("Login feito com sucesso.", "success")
-        return redirect(url_for("inicial", user_id=usuario.usuario_id))
+        return redirect(url_for("inicial"))
 
     except Exception as e:
         flash(f"Erro ao fazer login {e}", "danger")
         return render_template("login.html", login=dados)
+
+# logout 
+@app.route("/logout")
+def logout():
+    session.clear() 
+    flash("Sessão encerrada.", "info")
+    return redirect(url_for("novo_login"))
 
 #endpoint animal
 @app.route("/animal")
@@ -567,13 +576,13 @@ def gravar_fornecedor():
 
 @app.route("/gerenciar_perfil/<int:usuario_id>", methods=["GET"])
 def gerenciar_perfil_atualizar(usuario_id):
-    usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
+    dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
 
     if not usuario:
         flash("Usuario não encontrdo", "danger")
         return redirect(url_for(novo_usuario))
     
-    return render_template("gerenciamento_perfil.html", usuario=usuario)
+    return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
 
 @app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
 def gerenciar_perfil_salvar():
