@@ -148,7 +148,7 @@ def inicial():
 # ===== Rotas iniciais tela de produto ====== #
 @app.route("/produtos")
 def produtos():
-    return render_template("cadastro_produto.html")
+    return render_template("produtos_cadastrados.html")
 
 @app.route("/produto/novo")
 def novo_produto():
