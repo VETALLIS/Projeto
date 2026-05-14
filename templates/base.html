@@ -28,10 +28,10 @@
                 <input type="text" placeholder="Pesquisar...">
             </div>
 
-            <div class="topbar-actions">
-                <button class="topbar-btn">
+            <div class="topbar-actions" style="text-decoration: none;">
+                <a class="topbar-btn" href="{{ url_for('novo_produto') }}">
                     <i class="bi bi-plus-circle"></i> ADD Produtos
-                </button>
+                </a>
                 <button class="topbar-btn topbar-btn-icon">
                     <i class="bi bi-file-earmark-text"></i>
                 </button>
@@ -45,16 +45,16 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <nav class="sidebar-nav">
-            <a href="#" class="sidebar-link active" title="Início">
+            <a href="{{ url_for('inicial') }}" class="sidebar-link active" title="Início">
                 <i class="bi bi-house"></i>
             </a>
-            <a href="#" class="sidebar-link" title="Produtos">
+            <a   class="sidebar-link" title="Produtos">
                 <i class="bi bi-capsule"></i>
             </a>
             <a href="#" class="sidebar-link" title="Relatórios">
                 <i class="bi bi-graph-up"></i>
             </a>
-            <a href="#" class="sidebar-link" title="Configurações">
+            <a href="{{url_for('gerenciar_perfil_atualizar', usuario_id=user_id)}}" class="sidebar-link" title="Configurações">
                 <i class="bi bi-gear"></i>
             </a>
             <a href="#" class="sidebar-link" title="Sair">

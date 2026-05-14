@@ -138,9 +138,12 @@ def get_pesquisa_item_form():
 def index():
     return render_template("landingpage.html")
 
+# ====== Tela inicial ====== #
 @app.route("/inicial")
 def inicial():
-    return render_template("base.html")
+
+    user_id = request.args.get("user_id")
+    return render_template("tela_inicial.html", user_id=user_id)
 
 # ====== Endpoints para o cadastro de produtos ====== #
 
@@ -151,7 +154,8 @@ def produtos():
 
 @app.route("/produto/novo")
 def novo_produto():
-    return render_template("cadastro_produto.html", produto=None)
+    user_id = request.args.get("user_id")
+    return render_template("cadastro_produto.html", produto=None, user_id=user_id)
 
 
 # ====== Cadaastrando novos produtos ====== #
@@ -464,6 +468,8 @@ def salvar_login():
     login = Login(**dados)
     erros = login.validar_login(app.secret_key)
 
+    usuario = login.autenticar_login()
+
     if erros:
         for erro in erros:
             flash(erro, "danger")
@@ -478,7 +484,7 @@ def salvar_login():
 
 
         flash("Login feito com sucesso.", "success")
-        return redirect(url_for("novo_login"))
+        return redirect(url_for("inicial", user_id=usuario.usuario_id))
 
     except Exception as e:
         flash(f"Erro ao fazer login {e}", "danger")
@@ -558,13 +564,16 @@ def gravar_fornecedor():
     
 # Endpoint gerenciamento de perfil
 
-@app.route("/gerenciar_perfil", methods=["GET"])
-def gerenciar_perfil():
-    return render_template("gerenciamento_perfil.html")
 
-@app.route("/gerenciar_perfil/atualizar", methods=["GET"])
-def gerenciar_perfil_atualizar():
-    return render_template("gerenciamento_perfil.html")
+@app.route("/gerenciar_perfil/<int:usuario_id>", methods=["GET"])
+def gerenciar_perfil_atualizar(usuario_id):
+    usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
+
+    if not usuario:
+        flash("Usuario não encontrdo", "danger")
+        return redirect(url_for(novo_usuario))
+    
+    return render_template("gerenciamento_perfil.html", usuario=usuario)
 
 @app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
 def gerenciar_perfil_salvar():
