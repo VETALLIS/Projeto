@@ -67,6 +67,12 @@ class Usuario(Crud_base):
         usuario.pop("usuario_id", None)
         return Usuario(**usuario)
 
-    
+    def buscar_email(self):
+        usuario = self.buscar_para_login
+
+        if usuario:
+            raise ValueError("Esse email já foi cadastrado")
+
+        return None
 
 

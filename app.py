@@ -247,9 +247,14 @@ def salvar_usuario():
         usuario = Usuario(**dados)
         erros = usuario.validar_usuario(app.secret_key)
 
+        email = usuario.buscar_email()
+
         if erros:
             for erro in erros:
                 flash(erro, "danger")
+            return render_template("cadastro_usuario.html", usuario=dados)
+        elif email:
+            flash(email, "danger")
             return render_template("cadastro_usuario.html", usuario=dados)
 
         usuario.gravar_usuario()
@@ -318,7 +323,7 @@ def excluir_usuario(id):
 
 @app.route("/sensores")
 def sensor():
-    return render_template("cadastro_sensor.html")
+    return render_template("sensores_cadastrados.html")
 
 
 @app.route("/sensor/novo", methods=['GET', 'POST'])
