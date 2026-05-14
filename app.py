@@ -176,6 +176,9 @@ def salvar_produto():
         flash(f"Erro ao cadastrar produto: {e}", "danger")
         return render_template("cadastro_produto.html", produto=dados)
 
+@app.route("/produto/atualizar")
+def atualizar():
+    return render_template("editar_produtos.html")
 
 
 # ====== Editando cadastros de produtos ======#
