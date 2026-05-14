@@ -499,7 +499,7 @@ def salvar_animal():
     try:
         dados = get_animal_form()
         animal = Animal(**dados)
-        erros = animal.validar()
+        erros = animal.validar_animal()
 
         if erros:
             for erro in erros:
@@ -595,20 +595,16 @@ def gerenciar_perfil_salvar():
 def inforcao_produto():
     return render_template("informacao_produto.html")
 
-@app.route("/informacao_produto/novo")
-def inforcao_produto_novo():
-    produto = Informacao_Produto.buscar_produto(id)
+@app.route("/informacao_produto/<int:produto_id>")
+def inforcao_produto_ver(produto_id):
+    produto = Informacao_Produto.buscar_produto_com_estoque(produto_id)
 
     if not produto:
-        return {"erro": "Produto não encontrado"}, 404
-
-    return {
-        "id": produto.produto_id,              
-        "nome": produto.produto_nome,          
-        "descricao": produto.produto_descricao,
-        "categoria": produto.produto_categoria,
-        "usuario_id": produto.usuario_usuario_id 
-    }
+        flash("Produto não encontrado", "danger")
+        return redirect(url_for("informacao_produto"))
+    
+    return render_template("informacao_produto.html", produto=produto)
+    
 
 
 
