@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+{% block conteudo%}
+<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Produtos
+</h3>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for categoria, mensagem in messages %}
+<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
+    {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div class="d-flex">
+    <div class="">
+        <label for="imagem_produto" class="upload-box" style="max-height:100px !important; width: 150px;"
+            style=" margin-left: 0 !important; align-self: flex-start;">
+        </label>
+        <div>
+            <label class="form-label" style="color: #fff; ">Nome:</label>
+            <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
+        </div>
+    </div>
+    <div class="">
+        <label for="imagem_produto" class="upload-box" style="max-height:100px !important; width: 150px;"
+            style=" margin-left: 0 !important; align-self: flex-start;">
+        </label>
+        <div>
+            <label class="form-label" style="color: #fff; ">Nome:</label>
+            <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
+        </div>
+    </div>
+    <div class="">
+        <label for="imagem_produto" class="upload-box" style="max-height:100px !important; width: 150px;"
+            style=" margin-left: 0 !important; align-self: flex-start;">
+        </label>
+        <div>
+            <label class="form-label" style="color: #fff; ">Nome:</label>
+            <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
+        </div>
+    </div>
+    <div class="">
+        <label for="imagem_produto" class="upload-box" style="max-height:100px !important; width: 150px;"
+            style=" margin-left: 0 !important; align-self: flex-start;">
+        </label>
+        <div>
+            <label class="form-label" style="color: #fff; ">Nome:</label>
+            <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
+        </div>
+    </div>
+</div>
+{% endblock%}
