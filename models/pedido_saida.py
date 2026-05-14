@@ -1,7 +1,7 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
 
-class Fornecedor(Crud_base):
+class Pedido_saida(Crud_base):
     tabela = "pedido_saida"
     fields = ["pedido_saida_id", "pedido_saida_nome", "pedido_saida_data", "pedido_saida_status", "animal_animal_id"]
 
@@ -47,8 +47,8 @@ class Fornecedor(Crud_base):
         self.atualizar()
         return "Pedido atualizado com sucesso!"
 
-    def buscar_pedido_saida(self):
-        pedido_saida  = self.buscar_por_id(id)
+    def buscar_todos_pedidos_saida(cls, order_by="pedido_saida_nome"):
+        pedido_saida  = cls.buscar_tudo(order_by)
 
         if not pedido_saida:
             raise ValueError("Pedido não encontrado!")
