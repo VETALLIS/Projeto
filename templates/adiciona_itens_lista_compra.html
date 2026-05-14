@@ -1,0 +1,80 @@
+{% extends 'base.html'%}
+{% block conteudo%}
+
+
+<div class="d-flex justify-content-start">
+    <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
+</div>
+<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Adicionar itens à
+    lista de compras</h3>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for categoria, mensagem in messages %}
+<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
+    {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form method="POST" action="{{ url_for('gravar_fornecedor') }} class=" form-sensor>
+    <div class=" mt-4">
+        <div class="divisao-form me-4 d-flex" style="max-width: 1200px; width: 100%;">
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="name" name="nome_item" class="form-control" placeholder="Nome do item:" required>
+                </div>
+            </div>
+
+            <div class="mb-5 text-start">
+                <div class="input-group">
+                    <input type="text" name="categoria" class="form-control" placeholder="Categoria:" required>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <div class="me-4 d-flex" style="max-width: 600px; width: 100%;">
+                <div class="mb-5 text-start">
+                    <div class="input-group">
+                        <input type="text" name="preco_unitario class="form-control
+                            placeholder="Preço unitário:" required>
+                    </div>
+                </div>
+                <div class="mb-5 text-start">
+                    <div class="input-group">
+                        <input type="text" name="quantidade" class="form-control"
+                            placeholder="Quantidade:" required>
+                    </div>
+                </div>
+                <div class="mb-5 text-start">
+                    <div class="input-group">
+                        <input type="text" name="total" class="form-control" placeholder="Total(R$):" required>
+                    </div>
+                </div>
+            </div>
+            <div style="max-width: 575px; width: 100%;">
+
+                <div class="text-center">
+                    <button class="btn btn-login w-100 text-white mt-2 mb-3 "
+                        style="background: #03c356; border-radius: 25px; max-width: 575px;"
+                        type="submit">Cadastrar</button>
+                </div>
+            </div>
+                        <div style="max-width: 575px; width: 100%;">
+
+                <div class="text-center">
+                    <button class="btn btn-login w-100 text-white mt-2 mb-3 "
+                        style="background: #e31818; border-radius: 25px; max-width: 575px;"
+                        type="submit">Cancelar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+
+
+
+{% endblock %}
