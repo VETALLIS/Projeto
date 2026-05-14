@@ -345,6 +345,10 @@ def salvar_sensor():
     except Exception as e:
         flash(f"Erro ao cadastrar sensor: {e}", "danger")
         return render_template("Cadastro_sensor.html", sensor=dados)
+    
+@app.route("/sensor/informacao", methods=['GET', 'POST'])
+def informacao_sensor():
+    return render_template("informacao_sensor.html", sensor=None)
 
 # ====== Editando dados de sensores ====== #
 @app.route("/sensor/editar/<int:id>")
