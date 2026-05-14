@@ -406,7 +406,7 @@ def lista_compra():
 
 @app.route("/lista_compra/novo")
 def novo_lista_compra():
-    return render_template("adicionar_itens_compra.html", lista_compra=None)
+    return render_template("adiciona_itens_compra.html", lista_compra=None)
 
 # ====== Adicionado novos itens na lista de compra ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
