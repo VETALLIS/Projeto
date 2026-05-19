@@ -1,5 +1,6 @@
 from core.crud_base import Crud_base
 from core.conectar import Database
+from core.manipular import Manipular
 
 class Lista_compra(Crud_base):
 
