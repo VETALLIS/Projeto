@@ -348,7 +348,7 @@ def salvar_sensor():
         return render_template("Cadastro_sensor.html", sensor=dados)
     
 @app.route("/sensor/informacao/<int:sensor_id>")
-def informacao_sensor():
+def informacao_sensor(sensor_id):
     return render_template("informacao_sensor.html", sensor=None)
 
 # ====== Formulário editar dados de sensores ====== #
