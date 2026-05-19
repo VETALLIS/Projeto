@@ -626,9 +626,9 @@ def gravar_fornecedor():
 def gerenciar_perfil_atualizar(usuario_id):
     dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
 
-    if not usuario:
+    if not dados_usuario:
         flash("Usuario não encontrdo", "danger")
-        return redirect(url_for(novo_usuario))
+        return redirect(url_for("novo_usuario"))
     
 
     return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
@@ -636,25 +636,25 @@ def gerenciar_perfil_atualizar(usuario_id):
 # ======= Salva a atualização ====== #
 @app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
 def gerenciar_perfil_salvar():
-
+    usuario_id = session.get("usuario_id")
     dados = get_gerenciar_perfil_form()
     atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil(app.secret_key)
+    dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
 
     try:
-
         if erros:
             flash(erros, "danger")
-            return render_template("gerenciar_perfil.html")
+            return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)  # ✅
 
-        atualizar.atualizar_usuario()
+        atualizar.atualizar_usuario(usuario_id) 
 
         flash("Dados atualizados.", "success")
-        return redirect(url_for("gerenciamento_perfil_atualizar"))
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))  # ✅
 
     except Exception as e:
-        flash(f"Erro ao atualizar dados", "danger")
-        return render_template("gerenciamento_perfil.html", login=dados)
+        flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
+        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
     
 # ====== Excluindo usuario ======#
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["DELETE"])
