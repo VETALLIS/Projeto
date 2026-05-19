@@ -5,7 +5,7 @@ class GerenciamentoPerfil(Crud_base):
     tabela = "usuario"
     pk = "usuario_id"
 
-    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cargo" ]
+    fields = ["usuario_nome", "usuario_email", "usuario_cargo" ]
 
     def __init__(self, usuario_nome, usuario_email, usuario_cargo):
         self.usuario_nome = usuario_nome

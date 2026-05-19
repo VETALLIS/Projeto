@@ -1,6 +1,16 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for categoria, mensagem in messages %}
+<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
+    {{ mensagem }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 1200px;">
     Gerenciamento
     de Perfil</h3>
@@ -16,7 +26,7 @@
         <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
     </div>
     <div class="d-flex">
-        <form>
+        <form method="POST" action="{{ url_for('gerenciar_perfil_salvar') }}" class="">
             <div class="mb-3 d-flex gap-2">
                 <label class="form-label" style="color: #fff">Nome:</label>
                 <label for="" class="d-nome" style="color: #fff;">{{usuario.usuario_nome}}</label>
