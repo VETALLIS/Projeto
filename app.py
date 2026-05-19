@@ -256,7 +256,7 @@ def salvar_usuario():
         usuario = Usuario(**dados)
         erros = usuario.validar_usuario(app.secret_key)
 
-        email = usuario.buscar_email()
+        email = usuario.buscar_email_existe()
 
         if erros:
             for erro in erros:
@@ -348,7 +348,7 @@ def salvar_sensor():
         return render_template("Cadastro_sensor.html", sensor=dados)
     
 @app.route("/sensor/informacao/<int:sensor_id>")
-def informacao_sensor():
+def informacao_sensor(sensor_id):
     return render_template("informacao_sensor.html", sensor=None)
 
 # ====== Formulário editar dados de sensores ====== #
@@ -630,6 +630,7 @@ def gerenciar_perfil_atualizar(usuario_id):
         flash("Usuario não encontrdo", "danger")
         return redirect(url_for(novo_usuario))
     
+
     return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
 
 # ======= Salva a atualização ====== #
