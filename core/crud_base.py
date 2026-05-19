@@ -102,3 +102,20 @@ class Crud_base:
         finally:
             cursor.close()
             conexao.close()
+
+    @classmethod
+    def buscar_email(cls, email):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+
+        try:
+            sql = "SELECT * FROM usuario WHERE usuario_email = %s "
+            cursor.execute(sql, (email,))
+            resultados = cursor.fetchall()
+            if resultados:
+                return False
+            else: 
+                return None
+        finally:
+            cursor.close()
+            conexao.close()

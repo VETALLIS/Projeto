@@ -256,7 +256,7 @@ def salvar_usuario():
         usuario = Usuario(**dados)
         erros = usuario.validar_usuario(app.secret_key)
 
-        email = usuario.buscar_email()
+        email = usuario.buscar_email_existe()
 
         if erros:
             for erro in erros:
@@ -630,6 +630,7 @@ def gerenciar_perfil_atualizar(usuario_id):
         flash("Usuario não encontrdo", "danger")
         return redirect(url_for(novo_usuario))
     
+
     return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
 
 # ======= Salva a atualização ====== #
