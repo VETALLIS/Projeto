@@ -1,36 +1,27 @@
 {% extends 'base.html'%}
 {% block conteudo %}
 
-<div class="">
-    <div class="d-flex justify-content-start">
-        <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
-    </div>
+<div class="container d-flex entrada-container row "
+    style=" border: none; margin-right: none  !important;padding-left:0 ; width: 100%; ">
     <div class=" card-entrada text-center align-items-center  mt-4 " style="width: 100%;">
         <h3 class="text-start text-white  " style="border-bottom:solid 1px #fff; padding: 5px; padding-top: 0; ">
-            Sensores cadastrados</h3>
-        <div class="d-flex">
-            <div class="card row" style="width: 18rem; ">
-                <div class="", style="width: 50%;"><img class="card-img-top" src="..." alt="Imagem", ></div>
-                <div class="card-body", style="width: 50%;">
-                    <p class="card-text">Nome sensor</p>
-                </div>
+            Sensores</h3>
+    </div>
+
+    <div class="card mb-3" style="max-width: 30%; min-height: 20%; ">
+        <div class="row ">
+            <div class="col-md-5" >
+                <img src="https://media.istockphoto.com/id/1980276924/pt/vetorial/no-photo-thumbnail-graphic-element-no-found-or-available-image-in-the-gallery-or-album.jpg?s=612x612&w=0&k=20&c=CDnsU7vr0NqIwm0CT_nc2RnpwyM3ZC5eVXDW449pKHE="
+                    alt="Trendy Pants and Shoes" class="img-fluid rounded-start" />
             </div>
-            <div class="card " style="width: 18rem;">
-                <div> <img class="card-img-top" src="..." alt="Imagem">
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Nome sensor</p>
-                </div>
-            </div>
-            <div class="card " style="width: 18rem;">
-                <div> <img class="card-img-top" src="..." alt="Imagem">
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Nome sensor</p>
+            <div class="col-md-7">
+                <div class="card-body text-start">
+                    <h5 class="card-title">Nome: <br> DHT11 </h5>
+                    
                 </div>
             </div>
         </div>
-
     </div>
+</div>
 
-    {% endblock %}
+{% endblock %}
