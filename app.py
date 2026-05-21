@@ -185,7 +185,7 @@ def salvar_produto():
         return redirect(url_for("produtos"))
     except Exception as e:
         flash(f"Erro ao cadastrar produto: {e}", "danger")
-        return render_template("cadastro_produto.html", produto=dados)
+        return redirect(url_for('produtos'))
     
 
 # ========= Formulário alterar dados produto ======== #
@@ -377,7 +377,7 @@ def editar_sensor(sensor_id):
     return render_template("editar_sensores.html", sensor=sensor)
 
 # ====== Atualizando dados de sensores ====== #
-@app.route("/sensor/atualizar/<int:sensor_id>", methods=["PUT"])
+@app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
 def atualizar_sensor(sensor_id):
     dados =  get_sensor_form()
     sensor = Sensor(**dados)
@@ -394,9 +394,9 @@ def atualizar_sensor(sensor_id):
             flash("Sensor não encontrado.", "danger")
             return redirect(url_for("sensor"))
 
-        sensor.atualizar_sensor(id)
+        sensor.atualizar_sensor(sensor_id)
         flash("Sensor atualizado com sucesso.", "success")
-        return redirect(url_for("sensor")), 200
+        return redirect(url_for("sensor"))
     except Exception as e:
         dados["id"] = id
         flash(f"Erro ao atualizar sensor: {e}", "danger")
@@ -540,7 +540,7 @@ def salvar_login():
 
         if not usuario:
             flash("Usuário não encontrado", "danger")
-            return render_template("login.html", login=dados)
+            return redirect(url_for('inicial'))
 
         id_do_usuario = usuario.get('usuario_id')
 
