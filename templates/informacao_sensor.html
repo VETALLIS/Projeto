@@ -1,3 +1,4 @@
+```html
 {% extends 'base.html'%}
 {% block conteudo%}
 
@@ -24,25 +25,26 @@
     <!-- Nome do sensor -->
     <div class=" mb-4">
         <div class="d-flex mb-4">
-            <label class="form-label" style="color: #fff; ">Nome do sensor:</label>
-            <label for="" class="d-nome" style="color: #fff;">{{sensor.sensor_nome}}</label>
+            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Nome do sensor:</label>
+            <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_nome}}</label>
         </div>
     </div>
 
     <!-- Descrição + Número de série, Modelo, Voltagem -->
     <div class="d-flex colum mt-5 mb-4">
         <div class="d-flex mb-4" style="width: 50%;">
-            <label class="form-label" style="color: #fff; ">Descrição:</label>
+            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Descrição:</label>
+            <label for="" class="d-nome  ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_descricao}}</label>
         </div>
         <div>
             <div class="mb-3">
-                <label class="form-label" style="color: #fff; ">Localização:</label>
-                <label for="" class="d-nome" style="color: #fff;">{{sensor.sensor_localizacao}}</label>
+                <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Localização:</label>
+                <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_localizacao}}</label>
             </div>
             <div class="d-flex ">
                 <div class="gap-2" style="width: 50%;">
-                    <label class="form-label" style="color: #fff; ">Modelo:</label>
-                    <label for="" class="d-nome" style="color: #fff;">{{sensor.sensor_modelo}}</label>
+                    <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Modelo:</label>
+                    <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_modelo}}</label>
                 </div>
             </div>
         </div>
@@ -51,19 +53,22 @@
     <!-- Tipo de conexão + Localização -->
     <div class="d-flex mt-5 ">
         <div class="d-flex colum gap-2 " style="width: 25%;">
-            <label class="form-label" style="color: #fff; ">N de serie:</label>
-            <label for="" class="d-nome" style="color: #fff;">{{sensor.sensor_n_serie}}</label>
+            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem; ">N de serie:</label>
+            <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_n_serie}}</label>
         </div>
         <div class="d-flex colum gap-2" style="width: 25%;">
-            <label class="form-label" style="color: #fff; ">Voltagem:</label>
-            <label for="" class="d-nome" style="color: #fff;">{{sensor.sensor_voltagem}}</label>
+            <label class="form-label text-decoration-underline" style="color: #fff;font-size: 1.2rem; ">Voltagem:</label>
+            <label for="" class="d-nome ms-2" style="color: #fff;font-size: 1.2rem;">{{sensor.sensor_voltagem}}</label>
         </div>
         <div class="d-flex colum gap-2">
-            <label class="form-label" style="color: #fff; ">Tipo de conexão:</label>
-            <label for="" class="d-nome" style="color: #fff;">{{sensor.sensor_conexao}}</label>
+            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem; ">Tipo de conexão:</label>
+            <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_tipo_conexao}}</label>
         </div>
     </div>
 
 </form>
 
 {% endblock %}
+```
+
+arrume para esse layout, no meu codigo
