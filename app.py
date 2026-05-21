@@ -170,6 +170,9 @@ def salvar_produto():
     produto = Produto(**dados)
     erros = produto.validar_produto()
 
+    usuario_id = session.get('usuario_id')
+    dados['usuario_usuario_id'] = usuario_id
+    produto = Produto(**dados)
     if erros:
         for erro in erros:
             flash(erro, "danger")
@@ -201,7 +204,7 @@ def atualizar_produto(id):
         for erro in erros:
             flash(erro, "danger")
         dados["id"] = id
-        return render_template("cadastro_produto.html", produto=dados)
+        return render_template("editar_produto.html", produto=dados)
 
     try:
         if not Produto.buscar_por_id(id):
@@ -214,7 +217,7 @@ def atualizar_produto(id):
     except Exception as e:
         dados["id"] = id
         flash(f"Erro ao atualizar produto: {e}", "danger")
-        return render_template("cadastro_produto.html", produto=dados)
+        return render_template("editar_produto.html", produto=dados)
 
 
 # ====== Deletando produtos ====== #
