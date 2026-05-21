@@ -438,17 +438,18 @@ def novo_lista_compra():
 def salvar_lista_compra():
     dados = get_lista_compra_form()
     lista_compra = Lista_compra(**dados)
-    erros = lista_compra.validar()
+    erros = lista_compra.validar_lista_compra()
 
     if erros:
         for erro in erros:
             flash(erro, "erro")
         return render_template("lista_compra.html", lista_compra=dados)
+    
 
     try:
-        lista_compra.insert()
+        lista_compra.gravar_lista_compra()
         flash("Lista compra feita com sucesso.", "success")
-        return redirect(url_for("lista_compra"))
+        return redirect(url_for("novo_lista_compra"))
     except Exception as e:
         flash(f"Erro ao criar lista de compras: {e}", "danger")
         return render_template("lista_compra.html", lista_compra=dados)
