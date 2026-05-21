@@ -30,7 +30,7 @@
             <div class="mb-3 d-flex gap-2">
                 <label class="form-label" style="color: #fff">Nome:</label>
                 <label for="" class="d-nome" style="color: #fff;">{{usuario.usuario_nome}}</label>
-                
+
             </div>
             <div class="mb-3 d-flex gap-2">
                 <label class="form-label" style="color:#fff">Email:</label>
@@ -64,15 +64,17 @@
                     <div class="text-start" style="max-width: 700px; width: 100%;">
                         <div class="mb-5 text-start">
                             <div class="input-group">
-                                <input type="text" name="usuario_cargo" class="form-control" placeholder="Cargo:" required>
+                                <input type="text" name="usuario_cargo" class="form-control" placeholder="Cargo:"
+                                    required>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="text-center d-flex" style="max-width: 1400px; width: 100%;">
-                    <button class="btn btn-danger w-100 text-white me-3" type="submit">Excluir conta</button>
-                    <button class="btn  w-100 text-white" style="background-color:#03A64A;" type="submit">Salvar
-                        alterações</button>
+                    <button class="btn btn-danger w-100 text-white me-3" type="submit" name="acao"
+                        value="excluir">Excluir conta</button>
+                    <button class="btn w-100 text-white" style="background-color:#03A64A;" type="submit" name="acao"
+                        value="salvar">Salvar alterações</button>
                 </div>
             </div>
         </div>
