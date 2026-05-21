@@ -365,8 +365,8 @@ def informacao_sensor(sensor_id):
 
 # ====== Formulário editar dados de sensores ====== #
 @app.route("/sensor/editar/<int:sensor_id>")
-def editar_sensor(id):
-    sensor = Sensor.buscar_sensor(id)
+def editar_sensor(sensor_id):
+    sensor = Sensor.buscar_sensor(sensor_id)
     if not sensor:
         flash("Sensor não encontrado.", "danger")
         return redirect(url_for("successs"))
@@ -374,7 +374,7 @@ def editar_sensor(id):
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["PUT"])
-def atualizar_sensor(id):
+def atualizar_sensor(sensor_id):
     dados =  get_lista_compra_form()
     sensor = Sensor(**dados)
     erros = sensor.validar_sensor()
@@ -386,7 +386,7 @@ def atualizar_sensor(id):
         return render_template("cadastro_sensor.html", sensor=dados)
 
     try:
-        if not Sensor.buscar_sensor(id):
+        if not Sensor.buscar_sensor(sensor_id):
             flash("Sensor não encontrado.", "danger")
             return redirect(url_for("sensor"))
 
