@@ -688,9 +688,8 @@ def gerenciar_perfil_salvar():
         return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
     
 # ====== Excluindo usuario ======#
-@app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["DELETE"])
+@app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
 def excluir_usuario(usuario_id):
-    usuario_id = session.get("usuario_id")
     try:
         Usuario.deletar_usuario(usuario_id)
         flash("Usuario excluído com sucesso.", "success")
@@ -698,7 +697,7 @@ def excluir_usuario(usuario_id):
         flash(str(e), "erro")
     except Exception as e:
         flash(f"Erro ao excluir Usuario: {e}", "danger")
-    return redirect(url_for("login"))
+    return redirect(url_for("novo_login"))
 
 
 # ======== Endpoint entrada produto ====== #
