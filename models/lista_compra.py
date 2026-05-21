@@ -11,7 +11,6 @@ class Lista_compra(Crud_base):
             "lista_compra_quantidade", 
             "lista_compra_valor", 
             "lista_compra_status", 
-            "estoque_estoque_id"
         ]
 
     def __init__(self, lista_compra_nome=None, lista_compra_quantidade=None, lista_compra_valor=None, lista_compra_status="Pendente", estoque_estoque_id=None, **kwargs):
@@ -19,7 +18,7 @@ class Lista_compra(Crud_base):
         self.lista_compra_quantidade = lista_compra_quantidade
         self.lista_compra_valor = lista_compra_valor
         self.lista_compra_status = lista_compra_status
-        self.estoque_estoque_id = estoque_estoque_id
+       
 
 
     def validar_lista_compra(self):
