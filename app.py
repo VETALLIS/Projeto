@@ -558,7 +558,7 @@ def logout():
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
-    dados  = Animal.
+
     return render_template("cadastro_animais.html")
 
 # ======== Formulário cadastro de animal ======= #
