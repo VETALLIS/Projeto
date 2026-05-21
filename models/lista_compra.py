@@ -72,4 +72,4 @@ class Lista_compra(Crud_base):
         if not lista_compra:
             raise ValueError("Lista de compra nãoencontrado")
 
-        return Lista_compra(**lista_compra)
+        return [Lista_compra(**item) for item in lista_compra]
