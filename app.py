@@ -429,7 +429,7 @@ def lista_compra():
     return render_template("lista_compra.html", dados=dados)
 
 # ======= Formulário add item na lista de compra ====== #
-@app.route("/lista_compra/novo")
+@app.route("/lista_compra/novo", methods=["GET", "POST"])
 def novo_lista_compra():
     return render_template("adiciona_itens_lista_compra.html", lista_compra=None)
 
