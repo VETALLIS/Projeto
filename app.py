@@ -370,7 +370,7 @@ def editar_sensor(sensor_id):
     if not sensor:
         flash("Sensor não encontrado.", "danger")
         return redirect(url_for("successs"))
-    return render_template("editar_sensor.html", sensor=sensor)
+    return render_template("editar_sensores.html", sensor=sensor)
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["PUT"])
@@ -434,7 +434,7 @@ def novo_lista_compra():
     return render_template("adiciona_itens_lista_compra.html", lista_compra=None)
 
 # ====== Adicionado novos itens na lista de compra ====== #
-@app.route("/lista_compra/salvar", methods=["POST"])
+@app.route("/lista_compra/salvar", methods=["GET", "POST"])
 def salvar_lista_compra():
     dados = get_lista_compra_form()
     lista_compra = Lista_compra(**dados)
