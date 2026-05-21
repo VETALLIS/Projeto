@@ -23,46 +23,62 @@
 <form method="POST" action="{{ url_for('salvar_sensor') }}" class="mt-4">
 
     <!-- Nome do sensor -->
-    <div class=" mb-4">
-        <div class="d-flex mb-4">
-            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Nome do sensor:</label>
-            <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_nome}}</label>
+    <div class=" mb-4" style="height: 75px; border-radius: 15px;background: rgba(255, 255, 255, 0.15);">
+        <div class="d-flex mb-4 align-items-center">
+            <div class="row text-start">
+                <label class="form-label" style="color: #fff; font-size: 1.2rem; margin-left: 5%;">Nome do
+                    sensor: </label>
+                <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem; ">{{sensor.sensor_nome}}</label>
+            </div>
         </div>
     </div>
 
     <!-- Descrição + Número de série, Modelo, Voltagem -->
-    <div class="d-flex colum mt-5 mb-4">
-        <div class="d-flex mb-4" style="width: 50%;">
-            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Descrição:</label>
-            <label for="" class="d-nome  ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_descricao}}</label>
-        </div>
-        <div>
-            <div class="mb-3">
-                <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Localização:</label>
-                <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_localizacao}}</label>
+    <div class=" mt-5 mb-4 " style="padding-top: 30px; ">
+        <div class="d-flex mb-4 align-items-center"style="height: 75px; border-radius: 15px;background: rgba(255, 255, 255, 0.15);">
+            <div class="row text-start">
+                <label class="form-label " style="color: #fff; font-size: 1.2rem;">Descrição:</label>
+                <label for="" class="d-nome  ms-2"style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_descricao}}</label>
             </div>
-            <div class="d-flex ">
-                <div class="gap-2" style="width: 50%;">
-                    <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem;">Modelo:</label>
-                    <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_modelo}}</label>
+        </div>
+        <div class="d-flex justify-content-between" style="padding-top: 30px; max-width: 1400px; width: 100%;">
+            <div class="d-flex mt-3 me-3"style="height: 75px; border-radius: 15px;background: rgba(255, 255, 255, 0.15); max-width: 650px; width: 100%;">
+                <div class="row text-start">
+                    <label class="form-label" style="color: #fff; font-size: 1.2rem;">Localização:</label>
+                    <label for="" class="d-nome ms-2"style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_localizacao}}</label>
+                </div>
+            </div>
+
+            <div class="gap-2 d-flex"style="width: 50% ;height: 75px; border-radius: 15px;background: rgba(255, 255, 255, 0.15);">
+                <div class="row text-start">
+                    <label class="form-label" style="color: #fff; font-size: 1.2rem;">Modelo:</label>
+                    <label for="" class="d-nome ms-2"style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_modelo}}</label>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Tipo de conexão + Localização -->
-    <div class="d-flex mt-5 ">
-        <div class="d-flex colum gap-2 " style="width: 25%;">
-            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem; ">N de serie:</label>
-            <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_n_serie}}</label>
+    <div class="d-flex mt-5 " style="width: 100%;">
+        <div class="d-flex colum  me-5"style="width: 33%; padding-top: 30px;height: 75px; border-radius: 15px;background: rgba(255, 255, 255, 0.15); ">
+           <div class="row text-start">
+                <label class="form-label" style="color: #fff; font-size: 1.2rem; ">N de serie:</label>
+                <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_n_serie}}</label>
+           </div>
         </div>
-        <div class="d-flex colum gap-2" style="width: 25%;">
-            <label class="form-label text-decoration-underline" style="color: #fff;font-size: 1.2rem; ">Voltagem:</label>
-            <label for="" class="d-nome ms-2" style="color: #fff;font-size: 1.2rem;">{{sensor.sensor_voltagem}}</label>
+
+        <div class="d-flex colum  me-5"style="width: 33%; padding-top: 30px;height: 75px; border-radius: 15px;background: rgba(255, 255, 255, 0.15);">
+            <div class="row text-start">
+                <label class="form-label" style="color: #fff;font-size: 1.2rem; ">Voltagem:</label>
+                <label for="" class="d-nome ms-2" style="color: #fff;font-size: 1.2rem;">{{sensor.sensor_voltagem}}</label>
+            </div>
         </div>
-        <div class="d-flex colum gap-2">
-            <label class="form-label text-decoration-underline" style="color: #fff; font-size: 1.2rem; ">Tipo de conexão:</label>
-            <label for="" class="d-nome ms-2" style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_tipo_conexao}}</label>
+
+        <div class="d-flex colum " style="padding-top: 30px;height: 75px; border-radius: 15px;background: rgba(255, 255, 255, 0.15); width: 33%;">
+            <div class="row text-start">
+                <label class="form-label " style="color: #fff; font-size: 1.2rem; ">Tipo de conexão:</label>
+                <label for="" class="d-nome ms-2"style="color: #fff; font-size: 1.2rem;">{{sensor.sensor_tipo_conexao}}</label>
+            </div>
         </div>
     </div>
 

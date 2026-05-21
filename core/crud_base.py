@@ -6,7 +6,7 @@ class Crud_base:
     pk = "id"
 
     @classmethod
-    def buscar_tudo(cls, order_by="id"):
+    def buscar_tudo(cls, order_by):
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
 

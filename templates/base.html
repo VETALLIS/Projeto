@@ -50,19 +50,20 @@
             <a href="{{ url_for('inicial') }}" class="sidebar-link active" title="Início">
                 <i class="bi bi-house"></i>
             </a>
-            <a   class="sidebar-link" title="Produtos">
+            <a class="sidebar-link" title="Produtos">
                 <i class="bi bi-capsule"></i>
             </a>
             <a href="#" class="sidebar-link" title="Relatórios">
                 <i class="bi bi-graph-up"></i>
             </a>
-            <a href="{{ url_for('gerenciar_perfil_atualizar', usuario_id=session.get('usuario_id')) }}" class="sidebar-link" title="Configurações">
+            <a href="{{ url_for('gerenciar_perfil_atualizar', usuario_id=session.get('usuario_id')) }}"
+                class="sidebar-link" title="Configurações">
                 <i class="bi bi-gear"></i>
             </a>
             <a href="#" class="sidebar-link" title="Sensor">
                 <i class="bi bi-radar"></i>
             </a>
-            <a href="#" class="sidebar-link" title="Lista de compra">
+            <a href="{{url_for('lista_compra')}}" class="sidebar-link" title="Lista de compra">
                 <i class="bi bi-cart3"></i>
             </a>
             <a href="#" class="sidebar-link" title="Sair">
@@ -75,7 +76,16 @@
     </aside>
     <main class="d-flex justify-content-center align-items-center" style=" padding: 100px 5px 40px 120px;">
         <div class="login-card text-center me-4" style="max-width: 1400px; width: 100%; min-height: 575px !important;">
-             {% block conteudo %} {% endblock %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for categoria, mensagem in messages %}
+            <div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
+                {{ mensagem }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% block conteudo %} {% endblock %}
         </div>
     </main>
 
