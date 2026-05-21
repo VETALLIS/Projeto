@@ -373,8 +373,8 @@ def editar_sensor(sensor_id):
     sensor = Sensor.buscar_sensor(sensor_id)
     if not sensor:
         flash("Sensor não encontrado.", "danger")
-        return redirect(url_for("successs"))
-    return render_template("editar_sensores.html", sensor=sensor)
+        return redirect(url_for("sensor"))
+    return render_template("editar_sensores.html", sensor=sensor, sensor_id=sensor_id)
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
