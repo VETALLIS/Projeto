@@ -377,7 +377,7 @@ def editar_sensor(sensor_id):
     return render_template("editar_sensores.html", sensor_id=sensor_id)
 
 # ====== Atualizando dados de sensores ====== #
-@app.route("/sensor/atualizar/<int:sensor_id>", methods=["GET", "POST"])
+@app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
 def atualizar_sensor(sensor_id):
     dados = get_sensor_form()
     atualizar = Sensor(**dados)
