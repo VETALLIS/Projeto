@@ -213,10 +213,10 @@ def atualizar_produto(id):
 
 
 # ====== Deletando produtos ====== #
-@app.route("/produto/excluir/<int:id>", methods=["DELETE"])
-def excluir_produto(id):
+@app.route("/produto/excluir/<int:produto_id>", methods=["DELETE"])
+def excluir_produto(produto_id):
     try:
-        Produto.deletar_produto(id)
+        Produto.deletar_produto(produto_id)
         flash("Produto excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
@@ -337,7 +337,7 @@ def salvar_sensor():
         for erro in erros:
             flash(erro, "danger")
         dados["id"] = id
-        return render_template("cadastro_sensor.html", usuario=dados)
+        return render_template("cadastro_sensor.html", sensor=dados)
     
     try:
         sensor.gravar_sensor()
@@ -347,9 +347,16 @@ def salvar_sensor():
         flash(f"Erro ao cadastrar sensor: {e}", "danger")
         return render_template("Cadastro_sensor.html", sensor=dados)
     
+# ====== Informação de sensor ======= #
 @app.route("/sensor/informacao/<int:sensor_id>")
 def informacao_sensor(sensor_id):
-    return render_template("informacao_sensor.html", sensor=None)
+    dados = Sensor.buscar_sensor(sensor_id)
+
+    if not sensor:
+        flash("Sensor nãao encontrato", "danger")
+        return redirect(url_for("sensor"))
+
+    return render_template("informacao_sensor.html", sensor=dados)
 
 # ====== Formulário editar dados de sensores ====== #
 @app.route("/sensor/editar/<int:sensor_id>")
@@ -387,10 +394,10 @@ def atualizar_sensor(id):
         return render_template("cadastro_sensor.html", sensor=dados)
 
 # ====== Excluindo  daodos sensores ====== #
-@app.route("/sensor/excluir/<int:id>", methods=["DELETE"])
-def excluir_sensor(id):
+@app.route("/sensor/excluir/<int:sensor_id>", methods=["DELETE"])
+def excluir_sensor(sensor_id):
     try:
-        Sensor.deletar_sensor(id)
+        Sensor.deletar_sensor(sensor_id)
         flash("Sensor excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
@@ -401,12 +408,20 @@ def excluir_sensor(id):
     return redirect(url_for("sensor"))
 
 
+
+
 # ====== Endpoints da lista de compra ====== #
 
 # ====== Mostrar itens cadastrados na lista de compra ====== #
 @app.route("/lista_compra")
 def lista_compra():
-    return render_template("lista_compra.html")
+    dados = Lista_compra.buscar_lista_compra()
+
+    if not dados:
+        flash("Nada encontrado", "danger")
+        return render_template("lista_compra.html")
+        
+    return render_template("lista_compra.html", dados=dados)
 
 # ======= Formulário add item na lista de compra ====== #
 @app.route("/lista_compra/novo")
@@ -446,7 +461,7 @@ def excluir_lista_compra(id):
         flash(f"Erro ao excluir lista de compra: {e}", "danger")
     return redirect(url_for("lista_compra"))
 
-# ======= Editar dados lista dr compra
+# ======= Editar dados lista dr compra ======= #
 @app.route("/listar_compra/atualizar/<int:lista_compra_id>", methods=["POST"])
 def atualizar_lista_compra(id):
     dados = get_lista_compra_form()
@@ -473,6 +488,8 @@ def atualizar_lista_compra(id):
         return render_template("lista_compra.html", lista=dados)
 
 
+
+
 # ====== Endpoints de pesquisas ====== #
 
 # ====== Editando pesquisa ====== #
@@ -485,8 +502,9 @@ def editar_pesquisa_item(id):
     return render_template("pesquisa.html", pesquisa_item=pesquisa_item)
 
 
-# ====== Endpoints para o login ======#
 
+
+# ====== Endpoints para o login ======#
 
 @app.route("/login/novo", methods=["GET", "POST"])
 def novo_login():
@@ -500,8 +518,6 @@ def salvar_login():
     dados = get_login_form()
     login = Login(**dados)
     erros = login.validar_login(app.secret_key)
-
-
 
     if erros:
         for erro in erros:
@@ -534,11 +550,15 @@ def logout():
     flash("Sessão encerrada.", "info")
     return redirect(url_for("novo_login"))
 
+
+
+
 # ======== Endpoint animal ======= #
 
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
+    dados  = Animal.
     return render_template("cadastro_animais.html")
 
 # ======== Formulário cadastro de animal ======= #
@@ -590,6 +610,8 @@ def excluir_animal(id):
     return redirect(url_for("animal"))
 
 
+
+
 # ======= Endpoints fornecedor ====== #
 
 # ======= Formulário de cadastro de fornecedor ===== #
@@ -618,6 +640,9 @@ def gravar_fornecedor():
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
         return render_template("cadastrar_fornecedor.html", login=dados)
+    
+
+
     
 # ========= Endpoint gerenciamento de perfil ======= #
 
