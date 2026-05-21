@@ -1,0 +1,97 @@
+{% extends 'base.html'%}
+{%block conteudo%}
+
+
+<!-- Conteúdo das abas -->
+<div class="d-flex justify-content-start">
+    <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;height: 40px;">Voltar</a>
+</div>
+<h3 class="text-start" style="color: white; padding:20px;padding-left: 0; border-bottom:solid 1px #fff; width: 1300px;">
+    Pedidos</h3>
+<ul class="nav nav-tabs mb-3" id="tipoPedido" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#entrada" type="button" style="color: white;"
+            onclick="
+                this.style.color='#074040';
+                document.querySelector('[data-bs-target=\'#saida\']').style.color='white';
+            ">
+            Entrada
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#saida" type="button" style="color: white;"
+            onclick="
+                this.style.color='#074040';
+                document.querySelector('[data-bs-target=\'#entrada\']').style.color='white';
+            ">
+            Saída
+        </button>
+    </li>
+</ul>
+<div style="padding: 20px; padding-left: 0;">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="entrada">
+            <form method="POST" action="{{url_for()}}" class="d-flex" style="width: 100%;">
+                <div class="me-3" style="width: 100%; max-width: 700px;">
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="Nome:">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="lote:">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="valor unitário:">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="fornecedor">
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="data:" onfocus="this.type='date'">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="quantidade:">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="data de validade:"
+                            onfocus="this.type='date'">
+                    </div>
+                    <button class="btn btn-login w-100 text-white "
+                        style="background: #03c356; border-radius: 15px; min-width: 650px;"
+                        type="submit">Enviar</button>
+                </div>
+            </form>
+
+        </div>
+        <div class="tab-pane fade" id="saida">
+            <form method="POST" action="{{url_for()}}" class="d-flex" style="width: 100%;">
+                <div class="me-3" style="width: 100%; max-width: 700px;">
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="Nome:">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="lote:">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="animal">
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="data:" onfocus="this.type='date'">
+                    </div>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" placeholder="lote:">
+                    </div>
+                    <button class="btn btn-login w-100 text-white "
+                        style="background: #03c356; border-radius: 15px; min-width: 650px;"
+                        type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    {%endblock%}
