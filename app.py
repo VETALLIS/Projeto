@@ -374,7 +374,7 @@ def editar_sensor(sensor_id):
     if not sensor:
         flash("Sensor não encontrado.", "danger")
         return redirect(url_for("novo_sensor"))
-    return render_template("editar_sensores.html", sensor_id=sensor_id)
+    return render_template("editar_sensores.html", sensor=sensor)
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
@@ -392,7 +392,7 @@ def atualizar_sensor(sensor_id):
         atualizar.atualizar_sensor(sensor_id) 
 
         flash("Dados atualizados.", "success")
-        return redirect(url_for("editar_sensor", sensor_id))  
+        return redirect(url_for("editar_sensor", sensor_id=sensor_id))  
 
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
