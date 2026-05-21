@@ -374,7 +374,7 @@ def editar_sensor(sensor_id):
     if not sensor:
         flash("Sensor não encontrado.", "danger")
         return redirect(url_for("sensor"))
-    return render_template("editar_sensores.html", sensor=sensor, sensor_id=sensor_id)
+    return render_template("editar_sensores.html", sensor_id=sensor_id)
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
@@ -741,7 +741,7 @@ def produto_saida():
     return render_template("pedido_saida.html")
 
 # ===== salvar saída de produtos ===== #
-@app.route("/produto_entrada/salvar", methods=["GET", "POST"])
+@app.route("/produto_saida/salvar", methods=["GET", "POST"])
 def produto_saida_salvar():
 
     dados = get_gerenciar_perfil_form()
