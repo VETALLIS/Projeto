@@ -14,7 +14,7 @@ class Lista_compra(Crud_base):
             "estoque_estoque_id"
         ]
 
-    def __init__(self, lista_compra_nome=None, lista_compra_quantidade=None, lista_compra_valor=None, lista_compra_status="Pendente", estoque_estoque_id=None, **kwargs):
+    def __init__(self, lista_compra_nome, lista_compra_quantidade, lista_compra_valor, lista_compra_status="Pendente", estoque_estoque_id=None, **kwargs):
         self.lista_compra_nome = lista_compra_nome 
         self.lista_compra_quantidade = lista_compra_quantidade
         self.lista_compra_valor = lista_compra_valor
@@ -65,7 +65,7 @@ class Lista_compra(Crud_base):
         if not lista_compra_id:
             raise ValueError("Lista de compra não encontrada!")
 
-        return Lista_compra(**lista_compra)
+        return Lista_compra(**Lista_compra)
 
     def buscar_lista_compra(cls):
         lista_compra=cls.buscar_tudo()
