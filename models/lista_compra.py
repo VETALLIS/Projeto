@@ -59,10 +59,18 @@ class Lista_compra(Crud_base):
         self.atualizar()
         return "Lista de compra atualizada com sucesso!"
 
-    def buscar_lista_compra(self):
-        lista_compra = self.buscar_por_id(id)
+    def buscar_lista_compra_id(self):
+        lista_compra_id = self.buscar_por_id(id)
+
+        if not lista_compra_id:
+            raise ValueError("Lista de compra não encontrada!")
+
+        return Lista_compra(**lista_compra)
+
+    def buscar_lista_compra(cls):
+        lista_compra=cls.buscar_tudo()
 
         if not lista_compra:
-            raise ValueError("Lista de compra não encontrada!")
+            raise ValueError("Lista de compra nãoencontrado")
 
         return Lista_compra(**lista_compra)
