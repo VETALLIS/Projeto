@@ -10,15 +10,6 @@
     Informação do Sensor
 </h3>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for categoria, mensagem in messages %}
-<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-    {{ mensagem }}
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
 
 <form method="POST" action="{{ url_for('salvar_sensor') }}" class="mt-4">
 

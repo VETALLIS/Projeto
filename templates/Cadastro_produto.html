@@ -1,16 +1,8 @@
 {% extends 'base.html'%}
 {% block conteudo%}
-<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Produto
-</h3>
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for categoria, mensagem in messages %}
-<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-    {{ mensagem }}
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
+
+<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Produto</h3>
+
 <form method="POST" action="{{url_for('salvar_produto')}}" class="form-sensor">
     <div class="cadastro-sensor mt-4">
         <div class="d-flex justify-content-start mb-3 ms-3">

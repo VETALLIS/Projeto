@@ -5,17 +5,8 @@
 <div class="d-flex justify-content-start">
     <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
 </div>
-<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de
-    Fornecedor</h3>
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for categoria, mensagem in messages %}
-<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-    {{ mensagem }}
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
+<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Fornecedor</h3>
+
 <form method="POST" action="{{ url_for('gravar_fornecedor') }}" class="form-sensor">
     <div class=" mt-4">
         <div class="divisao-form me-4 " style="max-width: 1200px; width: 100%;">
