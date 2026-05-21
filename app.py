@@ -381,7 +381,7 @@ def editar_sensor(sensor_id):
 def atualizar_sensor(sensor_id):
     dados = get_sensor_form()
     atualizar = Sensor(**dados)
-    erros = atualizar.validar_sensor(app.secret_key)
+    erros = atualizar.validar_sensor()
     dados_usuario = atualizar.buscar_sensor(sensor_id)
 
     try:
