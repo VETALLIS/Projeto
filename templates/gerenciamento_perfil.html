@@ -47,7 +47,7 @@
 <h4 class="mb-4 mt-2 text-start" style="color: white; padding:5px;">Editar
 </h4>
 <div>
-    <form method="POST" action="{{ url_for('gerenciar_perfil_salvar') }}" class="form-sensor">
+    <form method="POST"  class="form-sensor">
         <div class=" mt-4">
             <div class="divisao-form me-4 " style="max-width: 1200px; width: 100%;">
                 <div class="mb-5 text-start">
@@ -72,9 +72,9 @@
                 </div>
                 <div class="text-center d-flex" style="max-width: 1400px; width: 100%;">
                     <button class="btn btn-danger w-100 text-white me-3" type="submit" name="acao"
-                        value="excluir">Excluir conta</button>
+                        value="excluir" formaction="{{ url_for('excluir_conta') }}">Excluir conta</button>
                     <button class="btn w-100 text-white" style="background-color:#03A64A;" type="submit" name="acao"
-                        value="salvar">Salvar alterações</button>
+                        value="salvar" formaction="{{ url_for('gerenciar_perfil_salvar') }}"></button>>Salvar alterações</button>
                 </div>
             </div>
         </div>
