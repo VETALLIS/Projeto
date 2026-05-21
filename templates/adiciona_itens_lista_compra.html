@@ -17,14 +17,14 @@
 {% endif %}
 {% endwith %}
 
-<form method="POST" action="{{ url_for('novo_lista_compra') }}">
+<form method="POST" action="{{ url_for('salvar_lista_compra') }}">
     <div class="mt-4">
 
         <div class="d-flex gap-3 mb-4" style="max-width: 1400px;">
-            <input type="text" name="nome_item" placeholder="Nome do item:"
+            <input type="text" name="nome_produto" placeholder="Nome do item:"
                 style=" border:1.5px solid rgba(0, 0, 0, 0.6); border-radius:10px; color:rgb(30, 2, 2); padding:12px 16px;width: 100%; max-width: 466px;"
                 required>
-                <input type="text" name="preco_unitario"  placeholder="preço unitário:"
+            <input type="text" name="custo_compra"  placeholder="preço unitário:"
                 style=" border:1.5px solid rgba(255,255,255,0.6); border-radius:10px; color:rgb(0, 0, 0); padding:12px 16px;width: 100%; max-width: 466px; "
                 required>
             <input type="text" name="quantidade"  placeholder="Quantidade:"

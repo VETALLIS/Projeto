@@ -110,13 +110,14 @@ def get_fornecedor_form():
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
     }
 
-# ====== Pegando os dados para a lista de compra ======#
+
 def get_lista_compra_form():
-        return{
-        "nome_produto": request.form.get("nome_produto", "").strip(),
-        "produto_id": to_int(request.form.get("produto_id")),
-        "quantidade": to_int(request.form.get("quantidade")),
-        "custo_compra": to_float(request.form.get("custo_compra")),
+    return {
+        "lista_compra_nome": request.form.get("nome_produto", "").strip(),
+        "lista_compra_quantidade": to_int(request.form.get("quantidade")),
+        "lista_compra_valor": to_float(request.form.get("custo_compra")),
+        "lista_compra_status": request.form.get("status", "Pendente").strip(),
+        "estoque_estoque_id": to_int(request.form.get("produto_id")) 
     }
 
 def get_gerenciar_perfil_form():
@@ -437,7 +438,7 @@ def novo_lista_compra():
     return render_template("adiciona_itens_lista_compra.html", lista_compra=None)
 
 # ====== Adicionado novos itens na lista de compra ====== #
-@app.route("/lista_compra/salvar", methods=["GET", "POST"])
+@app.route("/lista_compra/salvar", methods=["POST"])
 def salvar_lista_compra():
     dados = get_lista_compra_form()
     lista_compra = Lista_compra(**dados)
@@ -445,8 +446,8 @@ def salvar_lista_compra():
 
     if erros:
         for erro in erros:
-            flash(erro, "erro")
-        return render_template("lista_compra.html", lista_compra=dados)
+            flash(erro, "danger")
+        return render_template("adiciona_itens_lista_compra.html", lista_compra=dados)
     
 
     try:
@@ -455,7 +456,7 @@ def salvar_lista_compra():
         return redirect(url_for("novo_lista_compra"))
     except Exception as e:
         flash(f"Erro ao criar lista de compras: {e}", "danger")
-        return render_template("lista_compra.html", lista_compra=dados)
+        return render_template("adiciona_itens_lista_compra.html", lista_compra=dados)
     
 
 # ====== Excluindo itens da lista de compra ======#
