@@ -21,12 +21,12 @@
             <th></th>
 
         </tr>
+        {% for produto in dados %}
         <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th class="text-white">{{ produto.lista_compra_nome }}</th>
+            <th class="text-white">R$ {{ produto.lista_compra_valor }}</th>
+            <th class="text-white">{{ produto.lista_compra_quantidade }}</th>
+            <th class="text-white">R$ {{ "%.2f"|format(produto.lista_compra_valor * produto.lista_compra_quantidade) }}</th>
             <td>
                 <button class="btn btn-sm btn-link text-white" onclick="editarItem(1)">
                     <i class="bi bi-pencil"></i>
@@ -37,6 +37,7 @@
             </td>
 
         </tr>
+        {% endfor %}
     </table>
 </div>
 
