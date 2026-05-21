@@ -436,7 +436,8 @@ def lista_compra():
 # ======= Formulário add item na lista de compra ====== #
 @app.route("/lista_compra/novo", methods=["GET", "POST"])
 def novo_lista_compra():
-    return render_template("adiciona_itens_lista_compra.html", lista_compra=None)
+    produtos = Produto.buscar_todo_produto()
+    return render_template("adiciona_itens_lista_compra.html", lista_compra=None, produtos=produtos)
 
 # ====== Adicionado novos itens na lista de compra ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
@@ -547,7 +548,6 @@ def salvar_login():
         session['usuario_id'] = usuario.get('usuario_id')
         session['usuario_nome'] = usuario.get('usuario_nome')
 
-        flash("Login feito com sucesso.", "success")
         return redirect(url_for("inicial"))
 
     except Exception as e:
