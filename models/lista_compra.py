@@ -6,13 +6,18 @@ class Lista_compra(Crud_base):
 
     tabela = "lista_compra"
     pk = "lista_compra_id"
-    fields = ["lista_compra_id, lista_compra_nome , lista_compra_quantidade, lista_compra_valor ,lista_compra_status ,estoque_estoque_id"]
+    fields = [
+            "lista_compra_nome", 
+            "lista_compra_quantidade", 
+            "lista_compra_valor", 
+            "lista_compra_status", 
+            "estoque_estoque_id"
+        ]
 
-    def __init__(self, lista_compra_id, lista_compra_nome , lista_compra_quantidade, lista_compra_valor ,lista_compra_status ,estoque_estoque_id ):
-        self.lista_compra_id = lista_compra_id
+    def __init__(self, lista_compra_nome=None, lista_compra_quantidade=None, lista_compra_valor=None, lista_compra_status="Pendente", estoque_estoque_id=None, **kwargs):
         self.lista_compra_nome = lista_compra_nome 
         self.lista_compra_quantidade = lista_compra_quantidade
-        self.lista_compra_valor =lista_compra_valor
+        self.lista_compra_valor = lista_compra_valor
         self.lista_compra_status = lista_compra_status
         self.estoque_estoque_id = estoque_estoque_id
 

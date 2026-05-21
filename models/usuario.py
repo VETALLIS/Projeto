@@ -25,6 +25,7 @@ class Usuario(Crud_base):
             Manipular.validar_vazio(self.usuario_confirmar_senha, "confirmar_senha"),
             Manipular.validar_cpf(self.usuario_cpf, "cpf", secret_key),
             Manipular.validar_email(self.usuario_email, "email", secret_key),
+            Manipular.validar_caracter(self.usuario_senha, "senha"),
             Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha)
         ]
 

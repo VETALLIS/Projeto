@@ -7,11 +7,11 @@ class Produto(Crud_base):
     pk = "produto_id"
     fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id"]
 
-    def __init__(self, produto_nome, produto_descricao, produto_categoria):
+    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id=None, **kwargs):
         self.produto_nome = produto_nome
         self.produto_descricao = produto_descricao
         self.produto_categoria = produto_categoria
-        self.usuario_usuario_id =  1
+        self.usuario_usuario_id =  usuario_usuario_id
 
     def validar_produto(self):
         erros = [
@@ -82,10 +82,11 @@ class Produto(Crud_base):
         return Produto(**produto)
 
     @classmethod
+    
     def buscar_todo_produto(cls, order_by="produto_nome"):
         produto = cls.buscar_tudo(order_by)
 
         if not produto:
             raise ValueError("Produtos não encontrado")
 
-        return f"Produtos: "
+        return produto
