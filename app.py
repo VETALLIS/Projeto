@@ -355,13 +355,13 @@ def salvar_sensor():
 # ====== Informação de sensor ======= #
 @app.route("/sensor/informacao/<int:sensor_id>")
 def informacao_sensor(sensor_id):
-    dados = Sensor.buscar_sensor(sensor_id)
+    sensor = Sensor.buscar_sensor(sensor_id)
 
     if not sensor:
         flash("Sensor nãao encontrato", "danger")
         return redirect(url_for("sensor"))
 
-    return render_template("informacao_sensor.html", sensor=dados)
+    return render_template("informacao_sensor.html", sensor=sensor)
 
 # ====== Formulário editar dados de sensores ====== #
 @app.route("/sensor/editar/<int:sensor_id>")
