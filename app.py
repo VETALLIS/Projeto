@@ -117,7 +117,7 @@ def get_lista_compra_form():
         "lista_compra_quantidade": to_int(request.form.get("quantidade")),
         "lista_compra_valor": to_float(request.form.get("custo_compra")),
         "lista_compra_status": request.form.get("status", "Pendente").strip(),
-        "estoque_estoque_id": to_int(request.form.get("produto_id")) 
+ 
     }
 
 def get_gerenciar_perfil_form():
@@ -370,38 +370,34 @@ def informacao_sensor(sensor_id):
 # ====== Formulário editar dados de sensores ====== #
 @app.route("/sensor/editar/<int:sensor_id>")
 def editar_sensor(sensor_id):
-    sensor = Sensor.buscar_sensor(sensor_id)
+    sensor = Sensor.buscar_por_id(sensor_id)
     if not sensor:
         flash("Sensor não encontrado.", "danger")
-        return redirect(url_for("sensor"))
+        return redirect(url_for("novo_sensor"))
     return render_template("editar_sensores.html", sensor_id=sensor_id)
 
 # ====== Atualizando dados de sensores ====== #
-@app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
+@app.route("/sensor/atualizar/<int:sensor_id>", methods=["GET", "POST"])
 def atualizar_sensor(sensor_id):
-    dados =  get_sensor_form()
-    sensor = Sensor(**dados)
-    erros = sensor.validar_sensor()
-
-    if erros:
-        for erro in erros:
-            flash(erro, "danger")
-        dados["id"] = id
-        return render_template("editar_sensores.html", sensor=dados)
+    dados = get_sensor_form()
+    atualizar = Sensor(**dados)
+    erros = atualizar.validar_sensor(app.secret_key)
+    dados_usuario = atualizar.buscar_sensor(sensor_id)
 
     try:
-        if not Sensor.buscar_sensor(sensor_id):
-            flash("Sensor não encontrado.", "danger")
-            return redirect(url_for("sensor"))
+        if erros:
+            flash(erros, "danger")
+            return render_template("editar_sensor.html", sensor=dados) 
 
-        sensor.atualizar_sensor(sensor_id)
-        flash("Sensor atualizado com sucesso.", "success")
-        return redirect(url_for("sensor"))
+        atualizar.atualizar_sensor(sensor_id) 
+
+        flash("Dados atualizados.", "success")
+        return redirect(url_for("editar_sensor", sensor_id))  
+
     except Exception as e:
-        dados["id"] = id
-        flash(f"Erro ao atualizar sensor: {e}", "danger")
-        return render_template("cadastro_sensor.html", sensor=dados)
-
+        flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
+        return render_template("editar_sensor.html", sensor=dados)
+    
 # ====== Excluindo  daodos sensores ====== #
 @app.route("/sensor/excluir/<int:sensor_id>", methods=["DELETE"])
 def excluir_sensor(sensor_id):
