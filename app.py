@@ -373,8 +373,8 @@ def editar_sensor(sensor_id):
     sensor = Sensor.buscar_sensor(sensor_id)
     if not sensor:
         flash("Sensor não encontrado.", "danger")
-        return redirect(url_for("successs"))
-    return render_template("editar_sensores.html", sensor=sensor)
+        return redirect(url_for("sensor"))
+    return render_template("editar_sensores.html", sensor=sensor, sensor_id=sensor_id)
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
@@ -436,7 +436,8 @@ def lista_compra():
 # ======= Formulário add item na lista de compra ====== #
 @app.route("/lista_compra/novo", methods=["GET", "POST"])
 def novo_lista_compra():
-    return render_template("adiciona_itens_lista_compra.html", lista_compra=None)
+    produtos = Produto.buscar_todo_produto()
+    return render_template("adiciona_itens_lista_compra.html", lista_compra=None, produtos=produtos)
 
 # ====== Adicionado novos itens na lista de compra ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
@@ -547,7 +548,6 @@ def salvar_login():
         session['usuario_id'] = usuario.get('usuario_id')
         session['usuario_nome'] = usuario.get('usuario_nome')
 
-        flash("Login feito com sucesso.", "success")
         return redirect(url_for("inicial"))
 
     except Exception as e:
