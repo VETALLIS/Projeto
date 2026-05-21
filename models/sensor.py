@@ -60,6 +60,9 @@ class Sensor(Crud_base):
 
         if not sensor:
             raise ValueError("Sensor não encontrado")
-
-        sensor.pop("sensor_id", None)
-        return Sensor(**sensor)
+            
+        sid = sensor["sensor_id"]      
+        del sensor["sensor_id"]        
+        obj = Sensor(**sensor)         
+        obj.sensor_id = sid
+        return obj

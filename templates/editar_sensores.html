@@ -6,15 +6,19 @@
 </div>
 
 <h3 class="text-start mt-4" style="color: white; padding:5px; border-bottom: solid 1px #fff;">
-    Editar informações de sensor
+    Editar informações de Sensor
 </h3>
 
+<form method="POST" action="{{ url_for('editar_sensor', sensor_id=sensor['sensor_id'] )}}" class="mt-4">
+
+    <!-- Nome do sensor -->
     <div class="row mb-4">
         <div class="col-12">
             <input type="text" name="sensor_nome" class="form-control" placeholder="Nome do sensor:" required>
         </div>
     </div>
 
+    <!-- Descrição + Número de série, Modelo, Voltagem -->
     <div class="row mb-4">
         <div class="col-12 col-md-7 mb-3 mb-md-0">
             <textarea name="sensor_descricao" placeholder="Descrição" class="form-control"
@@ -35,6 +39,7 @@
         </div>
     </div>
 
+    <!-- Tipo de conexão + Localização -->
     <div class="row mb-4">
         <div class="col-12 col-md-5 mb-3 mb-md-0">
             <input type="text" name="sensor_tipo_conexao" class="form-control" placeholder="Tipo de conexão:" required>
@@ -44,6 +49,7 @@
         </div>
     </div>
 
+    <!-- Botão -->
     <div class="row">
         <div class="col-12 col-md-5">
             <button type="submit" class="btn w-100 text-white"
