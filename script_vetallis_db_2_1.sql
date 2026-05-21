@@ -5,15 +5,15 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema vetallis_db_2_1
+-- Schema vetallis_db_2_2
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema vetallis_db_2_1
+-- Schema vetallis_db_2_2
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `vetallis_db_2_1` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `vetallis_db_2_2` DEFAULT CHARACTER SET utf8 ;
 SHOW WARNINGS;
-USE `vetallis_db_2_1` ;
+USE `vetallis_db_2_2` ;
 
 -- -----------------------------------------------------
 -- Table `usuario`
@@ -25,8 +25,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `usuario_nome` VARCHAR(100) NOT NULL,
   `usuario_cpf` VARCHAR(11) NOT NULL,
   `usuario_cargo` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`usuario_id`)
-)
+  PRIMARY KEY (`usuario_id`))
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -37,7 +36,7 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `produto` (
   `produto_id` INT NOT NULL AUTO_INCREMENT,
   `produto_nome` VARCHAR(100) NOT NULL,
-  `produto_descricao` VARCHAR(100) NOT NULL,
+  `produto_descricao` VARCHAR(100) NULL,
   `produto_categoria` VARCHAR(20) NOT NULL,
   `usuario_usuario_id` INT NOT NULL,
   PRIMARY KEY (`produto_id`, `usuario_usuario_id`),
@@ -46,7 +45,6 @@ CREATE TABLE IF NOT EXISTS `produto` (
     REFERENCES `usuario` (`usuario_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -66,7 +64,6 @@ CREATE TABLE IF NOT EXISTS `estoque` (
     REFERENCES `produto` (`produto_id` , `usuario_usuario_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -103,8 +100,7 @@ CREATE TABLE IF NOT EXISTS `sensor` (
   `sensor_voltagem` VARCHAR(30) NOT NULL,
   `sensor_tipo_conexao` VARCHAR(50) NOT NULL,
   `sensor_localizacao` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`sensor_id`)
-)
+  PRIMARY KEY (`sensor_id`))
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -114,11 +110,10 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dados_sensor` (
   `dados_sensor_id` INT NOT NULL AUTO_INCREMENT,
-  `dados_sensor_nome` VARCHAR(100) NOT NULL,
-  `dados_sensor_tipo` VARCHAR(20) NOT NULL,
-  `dados_sensor_local` VARCHAR(20) NOT NULL,
-  `dados_sensor_status` VARCHAR(20) NOT NULL,
-  `dados_sensor_data_install` DATE NOT NULL,
+  `dados_sensor_temperatura` DECIMAL(5,2) NOT NULL,
+  `dados_sensor_umidade` DECIMAL(5,2) NOT NULL,
+  `dados_sensor_luminosidade` DECIMAL(10,2) NOT NULL,
+  `dados_sensor_data_time` DATETIME NOT NULL,
   `sensor_sensor_id` INT NOT NULL,
   PRIMARY KEY (`dados_sensor_id`),
   CONSTRAINT `fk_dados_sensor_sensor1`
@@ -140,8 +135,7 @@ CREATE TABLE IF NOT EXISTS `fornecedor` (
   `fornecedor_endereço` VARCHAR(100) NOT NULL,
   `fornecedor_pedido_minimo` FLOAT NOT NULL,
   `fornecedor_tipo_produtos` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`fornecedor_id`)
-)
+  PRIMARY KEY (`fornecedor_id`))
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -172,7 +166,6 @@ CREATE TABLE IF NOT EXISTS `item_pedido_entrada` (
   `item_pedido_entrada_id` INT NOT NULL AUTO_INCREMENT,
   `item_pedido_entrada_lote` VARCHAR(100) NOT NULL,
   `item_pedido_entrada_quantidade` INT NOT NULL,
-  `item_pedido_entrada_data_validade` VARCHAR(10) NOT NULL,
   `item_pedido_entrada_valor_unitario` FLOAT NOT NULL,
   `pedido_entrada_pedido_entrada_id` INT NOT NULL,
   `item_pedido_entrada_nome` VARCHAR(45) NOT NULL,
@@ -198,12 +191,12 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `animal` (
   `animal_id` INT NOT NULL AUTO_INCREMENT,
   `animal_especie` VARCHAR(45) NOT NULL,
+  `animal_quantidade` INT NOT NULL,
   `animal_sexo` VARCHAR(45) NOT NULL,
   `animal_raca` VARCHAR(45) NOT NULL,
   `animal_identificacao` VARCHAR(45) NOT NULL,
   `animal_idade` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`animal_id`)
-)
+  PRIMARY KEY (`animal_id`))
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -215,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `pedido_saida` (
   `pedido_saida_id` INT NOT NULL AUTO_INCREMENT,
   `pedido_saida_nome` VARCHAR(100) NOT NULL,
   `pedido_saida_data` VARCHAR(10) NOT NULL,
-  `pedido_saida_status` VARCHAR(45) NOT NULL,
+  `pedido_entrada_status` VARCHAR(45) NOT NULL,
   `animal_animal_id` INT NOT NULL,
   PRIMARY KEY (`pedido_saida_id`),
   CONSTRAINT `fk_pedido_saida_animal1`
@@ -261,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `movimentacao` (
   `movimentacao_tipo` VARCHAR(45) NOT NULL,
   `movimentacao_quantidade` INT NOT NULL,
   `movimentacao_data` VARCHAR(10) NOT NULL,
-  `movimentacao_observacao` VARCHAR(50) NOT NULL,
+  `movimentacao_observacao` VARCHAR(50) NULL,
   `item_pedido_entrada_item_pedido_entrada_id` INT NOT NULL,
   `item_pedido_saida_item_pedido_saida_id` INT NOT NULL,
   PRIMARY KEY (`movimentacao_id`),
@@ -282,3 +275,4 @@ SHOW WARNINGS;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
