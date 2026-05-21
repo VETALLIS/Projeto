@@ -368,7 +368,7 @@ def informacao_sensor(sensor_id):
     return render_template("informacao_sensor.html", sensor=sensor)
 
 # ====== Formulário editar dados de sensores ====== #
-@app.route("/sensor/editar/<int:sensor_id>" methods=["GET", "POST"])
+@app.route("/sensor/editar/<int:sensor_id>" ,methods=["GET", "POST"])
 def editar_sensor(sensor_id):
     sensor = Sensor.buscar_por_id(sensor_id)
     if not sensor:
