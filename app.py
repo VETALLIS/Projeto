@@ -379,7 +379,7 @@ def editar_sensor(sensor_id):
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["PUT"])
 def atualizar_sensor(sensor_id):
-    dados =  get_lista_compra_form()
+    dados =  get_sensor_form()
     sensor = Sensor(**dados)
     erros = sensor.validar_sensor()
 
@@ -387,7 +387,7 @@ def atualizar_sensor(sensor_id):
         for erro in erros:
             flash(erro, "danger")
         dados["id"] = id
-        return render_template("cadastro_sensor.html", sensor=dados)
+        return render_template("editar_sensores.html", sensor=dados)
 
     try:
         if not Sensor.buscar_sensor(sensor_id):
@@ -424,7 +424,8 @@ def excluir_sensor(sensor_id):
 # ====== Mostrar itens cadastrados na lista de compra ====== #
 @app.route("/lista_compra")
 def lista_compra():
-    dados = Lista_compra.buscar_lista_compra()
+    lista_compra = Lista_compra()
+    dados = lista_compra.buscar_lista_compra()
 
     if not dados:
         flash("Nada encontrado", "danger")
