@@ -690,6 +690,7 @@ def gerenciar_perfil_salvar():
 # ====== Excluindo usuario ======#
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["DELETE"])
 def excluir_usuario(usuario_id):
+    usuario_id = session.get("usuario_id")
     try:
         Usuario.deletar_usuario(usuario_id)
         flash("Usuario excluído com sucesso.", "success")
