@@ -382,12 +382,12 @@ def atualizar_sensor(sensor_id):
     dados = get_sensor_form()
     atualizar = Sensor(**dados)
     erros = atualizar.validar_sensor()
-    dados_usuario = atualizar.buscar_sensor(sensor_id)
+    dados_sensor = atualizar.buscar_sensor(sensor_id)
 
     try:
         if erros:
             flash(erros, "danger")
-            return render_template("editar_sensores.html", sensor=dados_usuario) 
+            return render_template("editar_sensores.html", sensor=dados_sensor) 
 
         atualizar.atualizar_sensor(sensor_id) 
 
@@ -396,7 +396,7 @@ def atualizar_sensor(sensor_id):
 
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
-        return render_template("editar_sensores.html", sensor=dados_usuario)
+        return render_template("editar_sensores.html", sensor=dados_sensor)
     
 # ====== Excluindo  daodos sensores ====== #
 @app.route("/sensor/excluir/<int:sensor_id>", methods=["DELETE"])
