@@ -675,12 +675,12 @@ def gerenciar_perfil_salvar():
     try:
         if erros:
             flash(erros, "danger")
-            return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)  # ✅
+            return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario) 
 
         atualizar.atualizar_usuario(usuario_id) 
 
         flash("Dados atualizados.", "success")
-        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))  # ✅
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))  
 
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
@@ -688,9 +688,9 @@ def gerenciar_perfil_salvar():
     
 # ====== Excluindo usuario ======#
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["DELETE"])
-def excluir_usuario(id):
+def excluir_usuario(usuario_id):
     try:
-        Animal.deletar_animal(id)
+        Usuario.deletar_usuario(usuario_id)
         flash("Usuario excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
