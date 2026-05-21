@@ -204,7 +204,7 @@ def atualizar_produto(id):
         for erro in erros:
             flash(erro, "danger")
         dados["id"] = id
-        return render_template("editar_produto.html", produto=dados)
+        return render_template("editar_produtos.html", produto=dados)
 
     try:
         if not Produto.buscar_por_id(id):
@@ -217,7 +217,7 @@ def atualizar_produto(id):
     except Exception as e:
         dados["id"] = id
         flash(f"Erro ao atualizar produto: {e}", "danger")
-        return render_template("editar_produto.html", produto=dados)
+        return render_template("editar_produtos.html", produto=dados)
 
 
 # ====== Deletando produtos ====== #
