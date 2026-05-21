@@ -365,16 +365,16 @@ def informacao_sensor(sensor_id):
 
 # ====== Formulário editar dados de sensores ====== #
 @app.route("/sensor/editar/<int:sensor_id>")
-def editar_sensor(id):
-    sensor = Sensor.buscar_sensor(id)
+def editar_sensor(sensor_id):
+    sensor = Sensor.buscar_sensor(sensor_id)
     if not sensor:
         flash("Sensor não encontrado.", "danger")
         return redirect(url_for("successs"))
-    return render_template("editar_sensor.html", sensor=sensor)
+    return render_template("editar_sensores.html", sensor=sensor)
 
 # ====== Atualizando dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["PUT"])
-def atualizar_sensor(id):
+def atualizar_sensor(sensor_id):
     dados =  get_lista_compra_form()
     sensor = Sensor(**dados)
     erros = sensor.validar_sensor()
@@ -386,7 +386,7 @@ def atualizar_sensor(id):
         return render_template("cadastro_sensor.html", sensor=dados)
 
     try:
-        if not Sensor.buscar_sensor(id):
+        if not Sensor.buscar_sensor(sensor_id):
             flash("Sensor não encontrado.", "danger")
             return redirect(url_for("sensor"))
 
@@ -429,26 +429,27 @@ def lista_compra():
     return render_template("lista_compra.html", dados=dados)
 
 # ======= Formulário add item na lista de compra ====== #
-@app.route("/lista_compra/novo")
+@app.route("/lista_compra/novo", methods=["GET", "POST"])
 def novo_lista_compra():
     return render_template("adiciona_itens_lista_compra.html", lista_compra=None)
 
 # ====== Adicionado novos itens na lista de compra ====== #
-@app.route("/lista_compra/salvar", methods=["POST"])
+@app.route("/lista_compra/salvar", methods=["GET", "POST"])
 def salvar_lista_compra():
     dados = get_lista_compra_form()
     lista_compra = Lista_compra(**dados)
-    erros = lista_compra.validar()
+    erros = lista_compra.validar_lista_compra()
 
     if erros:
         for erro in erros:
             flash(erro, "erro")
         return render_template("lista_compra.html", lista_compra=dados)
+    
 
     try:
-        lista_compra.insert()
+        lista_compra.gravar_lista_compra()
         flash("Lista compra feita com sucesso.", "success")
-        return redirect(url_for("lista_compra"))
+        return redirect(url_for("novo_lista_compra"))
     except Exception as e:
         flash(f"Erro ao criar lista de compras: {e}", "danger")
         return render_template("lista_compra.html", lista_compra=dados)
@@ -689,6 +690,7 @@ def gerenciar_perfil_salvar():
 # ====== Excluindo usuario ======#
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["DELETE"])
 def excluir_usuario(usuario_id):
+    usuario_id = session.get("usuario_id")
     try:
         Usuario.deletar_usuario(usuario_id)
         flash("Usuario excluído com sucesso.", "success")
