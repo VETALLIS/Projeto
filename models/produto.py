@@ -82,10 +82,11 @@ class Produto(Crud_base):
         return Produto(**produto)
 
     @classmethod
+    
     def buscar_todo_produto(cls, order_by="produto_nome"):
         produto = cls.buscar_tudo(order_by)
 
         if not produto:
             raise ValueError("Produtos não encontrado")
 
-        return f"Produtos: "
+        return produto
