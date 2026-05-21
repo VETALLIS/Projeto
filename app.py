@@ -149,7 +149,12 @@ def inicial():
 # ===== Rotas tela de produto ====== #
 @app.route("/produtos")
 def produtos():
-    return render_template("produtos_cadastrados.html")
+    dados = Produto.buscar_todo_produto()
+
+    if not dados:
+        flash("Nenhum produto encontrado", "danger")
+
+    return render_template("produtos_cadastrados.html", dados=dados)
 
 
 # ======= Formulário cadastro de produtos =======#
