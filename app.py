@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
@@ -423,7 +423,7 @@ def lista_compra():
     lista_compra = Lista_compra()
     dados = lista_compra.buscar_lista_compra()
 
-    if not dados:
+    if dados == False:
         flash("Nada encontrado", "danger")
         return render_template("lista_compra.html")
         
@@ -537,14 +537,14 @@ def salvar_login():
 
         if not usuario:
             flash("Usuário não encontrado", "danger")
-            return redirect(url_for('inicial'))
 
         id_do_usuario = usuario.get('usuario_id')
 
         session['usuario_id'] = usuario.get('usuario_id')
         session['usuario_nome'] = usuario.get('usuario_nome')
 
-        return redirect(url_for("inicial"))
+
+        return render_template("tela_inicial.html", usuario=usuario)
 
     except Exception as e:
         flash(f"Erro ao fazer login {e}", "danger")

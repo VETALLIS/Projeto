@@ -3,4 +3,11 @@
 
 <h1 style="font-size: 80px;" class="d-flex justify-content-center">Tela inicial</h1>
 
+<script>
+    localStorage.setItem("usuario", JSON.stringify ({
+        id: "{{ usuario.get('usuario_id')}}",
+        nome: "{{usuario.get('usuario_nome')}}"
+    }))
+</script>
+
 {% endblock%}

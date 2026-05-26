@@ -27,3 +27,11 @@ class Login(Crud_base):
             raise ValueError("Senha incorreta")
 
         return "Login realizado com sucesso", usuario
+    
+    def buscar_login(self):
+        login = self.buscar_por_id()
+
+        if not login:
+            raise ValueError("Usuario não encontrado")
+        
+        return login
