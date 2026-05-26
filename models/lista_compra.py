@@ -71,6 +71,6 @@ class Lista_compra(Crud_base):
         lista_compra = cls.buscar_tudo(order_by)
 
         if not lista_compra:
-            raise ValueError("Nada encontrato") 
+            raise ValueError("Nada encontrato", False) 
 
         return lista_compra
