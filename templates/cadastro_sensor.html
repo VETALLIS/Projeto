@@ -11,49 +11,52 @@
 
 
 
+
 <form method="POST" action="{{ url_for('salvar_sensor') }}" class="mt-4">
 
-    <!-- Nome do sensor -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <input type="text" name="sensor_nome" class="form-control" placeholder="Nome do sensor:" required>
+   
+    <div class="d-flex mb-3" style="gap: 16px;">
+        <div style="flex: 1;">
+            <input type="text" name="sensor_nome" class="form-control" placeholder="Nome:" required
+                style="border-radius: 8px;">
+        </div>
+        <div style="flex: 1;">
+            <input type="text" name="sensor_tipo_conexao" class="form-control" placeholder="Tipo de conexão:" required
+                style="border-radius: 8px;">
         </div>
     </div>
 
-    <!-- Descrição + Número de série, Modelo, Voltagem -->
-    <div class="row mb-4">
-        <div class="col-12 col-md-7 mb-3 mb-md-0">
-            <textarea name="sensor_descricao" placeholder="Descrição" class="form-control"
-                style="height: 100px; resize: vertical; "></textarea>
+  
+    <div class="d-flex mb-3" style="gap: 16px;">
+        <div style="flex: 1;">
+            <textarea name="sensor_descricao" class="form-control" placeholder="Descrição:"
+                style="height: 97px; resize: vertical; border-radius: 8px;"></textarea>
         </div>
-        <div class="col-12 col-md-5">
-            <div class="mb-3">
-                <input type="text" name="sensor_n_serie" class="form-control" placeholder="Número de série:" required>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <input type="text" name="sensor_modelo" class="form-control" placeholder="Modelo:" required>
+        <div style="flex: 1;">
+            <div class="d-flex mb-3" style="gap: 16px;">
+                <div style="flex: 1;">
+                    <input type="text" name="sensor_n_serie" class="form-control" placeholder="N série:" required
+                        style="border-radius: 8px;">
                 </div>
-                <div class="col-6">
-                    <input type="number" name="sensor_voltagem" class="form-control" placeholder="Voltagem:" required>
+                <div style="flex: 1;">
+                    <input type="number" name="sensor_voltagem" class="form-control" placeholder="Voltagem:" required
+                        style="border-radius: 8px;">
                 </div>
+            </div>
+            <div>
+                <input type="text" name="sensor_modelo" class="form-control" placeholder="Modelo:" required
+                    style="border-radius: 8px;">
             </div>
         </div>
     </div>
 
-    <!-- Tipo de conexão + Localização -->
-    <div class="row mb-4">
-        <div class="col-12 col-md-5 mb-3 mb-md-0">
-            <input type="text" name="sensor_tipo_conexao" class="form-control" placeholder="Tipo de conexão:" required>
-        </div>
-        <div class="col-12 col-md-5">
-            <input type="text" name="sensor_localizacao" class="form-control" placeholder="Localização:" required>
-        </div>
-    </div>
 
-    <!-- Botão -->
-    <div class="row">
-        <div class="col-12 col-md-5">
+    <div class="d-flex" style="gap: 16px;">
+        <div style="flex: 1;">
+            <input type="text" name="sensor_localizacao" class="form-control" placeholder="Localização:" required
+                style="border-radius: 8px;">
+        </div>
+        <div style="flex: 1;">
             <button type="submit" class="btn w-100 text-white"
                 style="background: #03c356; border-radius: 25px;">Cadastrar</button>
         </div>
@@ -62,3 +65,6 @@
 </form>
 
 {% endblock %}
+
+
+
