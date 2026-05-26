@@ -725,7 +725,7 @@ def pedido_salvar():
 
     except Exception as e:
         flash(f"Erro ao cadastrar entrada", "danger")
-        return render_template("pedido.html", login=dados)
+        return render_template("pedido.html")
     
 # ======= Relatorio ======= #
 
