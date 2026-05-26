@@ -56,7 +56,7 @@
             <a href="#" class="sidebar-link" title="Relatórios">
                 <i class="bi bi-graph-up"></i>
             </a>
-            <a href="{{ url_for('gerenciar_perfil_atualizar', usuario_id=session.get('usuario_id')) }}"
+            <a id="link-perfil"
                 class="sidebar-link" title="Configurações">
                 <i class="bi bi-gear"></i>
             </a>
@@ -90,9 +90,8 @@
     </main>
     <script>
         const usuario = JSON.parse(localStorage.getItem("usuario"));
-        document.getElementById("nome").innerText = usuario.nome;
-
-
-        document.getElementById("nome").innerHTML = `<strong>${usuario.nome}</strong>`;
+        document.getElementById("nome").innerText = `Bem vindo, ${usuario.nome}`
+        document.getElementById("link-perfil").href = `/gerenciar_perfil/${usuario.id}`;
+        document.getElementById("input-id").value = usuario.id;
     </script>
 </body>

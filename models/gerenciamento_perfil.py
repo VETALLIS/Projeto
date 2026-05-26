@@ -7,10 +7,11 @@ class GerenciamentoPerfil(Crud_base):
 
     fields = ["usuario_nome", "usuario_email", "usuario_cargo" ]
 
-    def __init__(self, usuario_nome, usuario_email, usuario_cargo):
+    def __init__(self, usuario_nome, usuario_email, usuario_cargo, usuario_id):
         self.usuario_nome = usuario_nome
         self.usuario_email = usuario_email
         self.usuario_cargo = usuario_cargo
+        self.usuario_id = usuario_id
 
     def validar_perfil(self, secret_key):
         erros = [
