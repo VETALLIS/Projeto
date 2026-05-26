@@ -91,3 +91,15 @@ const observer = new IntersectionObserver((entries) => {
 
 observer.observe(section);
 requestAnimationFrame(draw);
+
+// Local Storage
+
+function salvarLogin() {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha"). value
+
+    const dados = {
+        email: email,
+        senha: senha
+    }
+}
