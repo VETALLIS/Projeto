@@ -33,28 +33,29 @@
         <div class="tab-pane fade show active" id="entrada">
             <form method="POST" action="{{url_for('pedido_salvar')}}" class="d-flex" style="width: 100%;">
                 <div class="me-3" style="width: 100%; max-width: 700px;">
+                    <input type="hidden" id="meuIdSecreto" name="tipo_movimentacao" value="entrada">
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="Nome:">
+                        <input type="text" class="form-control" name="pedido_entrada_nome"  placeholder="Nome:">
                     </div>
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="lote:">
+                        <input type="text" class="form-control" name="pedido_entrada_lote" placeholder="lote:">
                     </div>
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="valor unitário:">
+                        <input type="text" class="form-control" name="pedido_entrada_valor_unitario" placeholder="valor unitário:">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="fornecedor">
+                        <input type="text" class="form-control" name="fornecedor_fornecedor_id" placeholder="fornecedor">
                     </div>
                 </div>
                 <div>
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="data:" onfocus="this.type='date'">
+                        <input type="text" class="form-control" name="pedido_entrada_data" placeholder="data:" onfocus="this.type='date'">
                     </div>
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="quantidade:">
+                        <input type="text" class="form-control" name="quantidade" placeholder="quantidade:">
                     </div>
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="data de validade:"
+                        <input type="text" class="form-control" name="pedido_entrada_data_validade" placeholder="data de validade:"
                             onfocus="this.type='date'">
                     </div>
                     <button class="btn btn-login w-100 text-white "
@@ -68,10 +69,10 @@
             <form method="POST" action="{{url_for('pedido_salvar')}}" class="d-flex" style="width: 100%;">
                 <div class="me-3" style="width: 100%; max-width: 700px;">
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="Nome:">
+                        <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
                     </div>
                     <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="lote:">
+                        <input type="text" name="" class="form-control" placeholder="lote:">
                     </div>
                     <div class="mb-4">
                         <input type="text" class="form-control" placeholder="animal">
