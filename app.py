@@ -437,7 +437,7 @@ def lista_compra():
             
         return render_template("lista_compra.html", dados=dados)
     except ValueError as e:
-        flash(e, danger)
+        flash(e, "danger")
         return render_template("lista_compra.html")
 
 
@@ -448,7 +448,7 @@ def novo_lista_compra():
         produtos = Produto.buscar_todo_produto()
         return render_template("adiciona_itens_lista_compra.html", lista_compra=None, produtos=produtos)
     except ValueError as e:
-        flash(e, danger)
+        flash(e, "danger")
         return render_template("lista_compra.html")
 
 # ====== Adicionado novos itens na lista de compra ====== #
