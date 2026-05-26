@@ -191,7 +191,6 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `animal` (
   `animal_id` INT NOT NULL AUTO_INCREMENT,
   `animal_especie` VARCHAR(45) NOT NULL,
-  `animal_quantidade` INT NOT NULL,
   `animal_sexo` VARCHAR(45) NOT NULL,
   `animal_raca` VARCHAR(45) NOT NULL,
   `animal_identificacao` VARCHAR(45) NOT NULL,
