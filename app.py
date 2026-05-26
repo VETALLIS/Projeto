@@ -125,6 +125,7 @@ def get_gerenciar_perfil_form():
         "usuario_nome": request.form.get("usuario_nome", "").strip(),
         "usuario_email": request.form.get("usuario_email", "").strip(),  
         "usuario_cargo": request.form.get("usuario_cargo", "").strip(),
+        "usuario_id": request.form.get("usuario_id", ""),
     }
 
 # ====== Pegando os dados para a pesquisa ====== #
@@ -667,7 +668,7 @@ def gerenciar_perfil_salvar():
     atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil(app.secret_key)
 
-    usuario_id = get_gerenciar_perfil_form("usuario_id")
+    usuario_id  = dados.get("usuario_id")
     dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
 
     try:
