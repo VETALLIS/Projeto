@@ -66,6 +66,7 @@ class Lista_compra(Crud_base):
 
         return Lista_compra(**Lista_compra)
 
+    @classmethod
     def buscar_lista_compra(cls, order_by=pk):
         lista_compra = cls.buscar_tudo(order_by)
 
