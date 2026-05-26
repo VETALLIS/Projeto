@@ -200,7 +200,7 @@ def atualizar():
 
 
 # ====== Editando cadastros de produtos ====== #
-@app.route("/produto/atualizar/<int:prduto_id>", methods=["PUT"])
+@app.route("/produto/atualizar/<int:produto_id>", methods=["PUT"])
 def atualizar_produto(produto_id):
     dados = get_produto_form()
     produto = Produto(**dados)
