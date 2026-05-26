@@ -10,7 +10,8 @@
             <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
             </label>
             <h5 class="text-start text-white fw-bold mb-0 ps-2 fs-4" style="position: relative; top: -12px;">Produtos
-                <br>Adicionados</h5>
+                <br>Adicionados
+            </h5>
             <button
                 class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
                 style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.258);">
@@ -23,7 +24,8 @@
             <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
             </label>
             <h5 class="text-start text-white fw-bold mb-0 ps-2 fs-4" style="position: relative; top: -12px;">Produtos
-                <br>Revomidos</h5>
+                <br>Revomidos
+            </h5>
             <button
                 class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
                 style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.258);">
@@ -42,36 +44,39 @@
             style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.258);">
             <i class="bi bi-sliders text-white"></i>
         </button>
-        <div class="table-responsive mt-3">
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th style="width: 200px;"></th>
-                        <th class="text-white text-center">Total</th>
-                        <th class="text-white text-center">Qtd</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for produto in dados %}
-                    <tr class="border-top border-secondary">
-                        <td class="text-white">{{ produto.lista_compra_nome }}</td>
-                        <td class="text-white text-center">R$ {{ "%.2f"|format(produto.lista_compra_valor *
-                            produto.lista_compra_quantidade) }}</td>
-                        <td class="text-white text-center">{{ produto.lista_compra_quantidade }}</td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-link text-white p-0 me-1">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn btn-sm btn-link text-white p-0">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
+
+        <div class="table-responsive mt-5">
+            <table class="table">
+                <tr>
+                    <th style="width: 500px;"></th>
+                    <th class="text-white">Pre-unitário</th>
+                    <th class="text-white">Quantidade</th>
+                    <th class="text-white">total</th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+                {% for produto in dados %}
+                <tr>
+                    <th class="text-white">{{ produto.lista_compra_nome }}</th>
+                    <th class="text-white">R$ {{ produto.lista_compra_valor }}</th>
+                    <th class="text-white">{{ produto.lista_compra_quantidade }}</th>
+                    <th class="text-white">R$ {{ "%.2f"|format(produto.lista_compra_valor *
+                        produto.lista_compra_quantidade) }}</th>
+                    <td>
+                        <button class="btn btn-sm btn-link text-white" onclick="editarItem(1)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-link text-danger" onclick="excluirItem(1)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                </tr>
+                {% endfor %}
             </table>
         </div>
+
 
     </div>
 
