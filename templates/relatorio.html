@@ -4,46 +4,105 @@
 <h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Relatório</h3>
 <div class="d-flex width:10px">
 
-    <div class="me-2"style="width: 450px;">
-        <div class="mb-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    <div class="me-5" style="width: 450px;">
+        <div class="mb-4 position-relative" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
     padding: 5px;max-width:400px !important; width: 100% !important;height: 250px;">
             <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
             </label>
+            <h5 class="text-start text-white fw-bold mb-0 ps-2 fs-4" style="position: relative; top: -12px;">Produtos
+                <br>Adicionados</h5>
+            <button
+                class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+                style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.258);">
+                <i class="bi bi-sliders text-white"></i>
+            </button>
         </div>
 
-        <div  style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+        <div class="position-relative" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
     padding: 5px;max-width:400px !important; width: 100% !important;height: 250px;">
-            <label 
-                style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+            <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
             </label>
+            <h5 class="text-start text-white fw-bold mb-0 ps-2 fs-4" style="position: relative; top: -12px;">Produtos
+                <br>Revomidos</h5>
+            <button
+                class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+                style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.258);">
+                <i class="bi bi-sliders text-white"></i>
+            </button>
         </div>
     </div>
 
-    <div class="me-5 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    <div class="me-5 position-relative" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
     padding: 5px;max-width:400px !important; width: 100% !important;height: 520px;">
         <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
         </label>
+        <h5 class="text-start text-white fw-bold mb-0 ps-2 fs-2" style="position: relative; top: -12px;">Gastos</h5>
+        <button
+            class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+            style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.258);">
+            <i class="bi bi-sliders text-white"></i>
+        </button>
+        <div class="table-responsive mt-3">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th style="width: 200px;"></th>
+                        <th class="text-white text-center">Total</th>
+                        <th class="text-white text-center">Qtd</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in dados %}
+                    <tr class="border-top border-secondary">
+                        <td class="text-white">{{ produto.lista_compra_nome }}</td>
+                        <td class="text-white text-center">R$ {{ "%.2f"|format(produto.lista_compra_valor *
+                            produto.lista_compra_quantidade) }}</td>
+                        <td class="text-white text-center">{{ produto.lista_compra_quantidade }}</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-link text-white p-0 me-1">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-link text-white p-0">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
 
     <div class="col-4 d-flex flex-column gap-3">
-        <div class="me-5 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;max-width:400px !important; width: 100% !important;height: 130px;">
-        <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
-        </label>
-    </div>
+        <div class="me-4 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px;max-width:400px !important; width: 100% !important;height: 160px;">
+            <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5">Produtos <br>Vencidos</h5>
+            <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 ms-3 mt-3 "
+                style="width: 80px; height: 80px;">
+                <i class="bi bi-box-seam text-white" style="font-size: 3rem;"></i>
+            </div>
+        </div>
 
-        <div class="me-5 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;max-width:400px !important; width: 100% !important;height: 130px;">
-        <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
-        </label>
-    </div>
+        <div class="me-4 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px;max-width:400px !important; width: 100% !important;height: 160px;">
+            <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5;">Sensor</h5>
+            <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 ms-3 mt-3 "
+                style="width: 80px; height: 80px;">
+                <i class="bi bi-thermometer-sun text-white" style="font-size: 3rem;"></i>
+            </div>
+        </div>
 
-        <div class="me-5 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;max-width:400px !important; width: 100% !important;height: 130px;">
-        <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
-        </label>
-    </div>
+        <div class="me-4 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px;max-width:400px !important; width: 100% !important;height: 160px;">
+            <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5;">Total<br>Estoque</h5>
+            <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 ms-3 mt-3 "
+                style="width: 80px; height: 80px;">
+                <i class="bi bi-cart text-white" style="font-size: 3rem;"></i>
+            </div>
+        </div>
 
     </div>
 </div>
