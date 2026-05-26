@@ -700,13 +700,13 @@ def excluir_usuario(usuario_id):
 
 # ======== Endpoint entrada produto ====== #
 
-@app.route("/produto_entrada")
-def produto_entrada():
-    return render_template("pedido_entrada.html")
+@app.route("/pedido")
+def pedido():
+    return render_template("pedido.html")
 
-# ===== salvar entrada de produtos ===== #
-@app.route("/produto_entrada/salvar", methods=["GET", "POST"])
-def produto_entrada_salvar():
+# ===== salvar entrada de pedidos ===== #
+@app.route("/pedido/salvar", methods=["GET", "POST"])
+def pedido_salvar():
 
     dados = get_gerenciar_perfil_form()
     entrada = Pedido_entrada(**dados)
@@ -716,45 +716,16 @@ def produto_entrada_salvar():
 
         if erros:
             flash(erros, "danger")
-            return render_template("pedido_entrada.html")
+            return render_template("pedido.html")
 
         entrada.gravar_pedido_entrada()
 
         flash("Entrada cadastrada.", "success")
-        return redirect(url_for("produto_entrada"))
+        return redirect(url_for("pedido"))
 
     except Exception as e:
         flash(f"Erro ao cadastrar entrada", "danger")
-        return render_template("pedido_entrada.html", login=dados)
-
-# ======= Endpoint saída produto ===== #
-
-@app.route("/produto_saida")
-def produto_saida():
-    return render_template("pedido_saida.html")
-
-# ===== salvar saída de produtos ===== #
-@app.route("/produto_saida/salvar", methods=["GET", "POST"])
-def produto_saida_salvar():
-
-    dados = get_gerenciar_perfil_form()
-    saida = Pedido_saida(**dados)
-    erros = saida.validar_saida()
-
-    try:
-
-        if erros:
-            flash(erros, "danger")
-            return render_template("pedido_saida.html")
-
-        saida.gravar_pedido_saida()
-
-        flash("Saida cadastrada.", "success")
-        return redirect(url_for("produto_saida"))
-
-    except Exception as e:
-        flash(f"Erro ao cadastrar saida", "danger")
-        return render_template("pedido_saida.html", login=dados)
+        return render_template("pedido.html", login=dados)
     
 # ======= Relatorio ======= #
 
