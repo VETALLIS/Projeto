@@ -144,7 +144,7 @@ def index():
 # ====== Tela inicial ====== #
 @app.route("/inicial")
 def inicial():
-    return render_template("tela_inicial.html")
+    return render_template("tela_inicial.html", usuario=usuario)
 
 # ====== Endpoints para o cadastro de produtos ====== #
 
@@ -732,7 +732,8 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatori():
-    return render_template("relatorio.html")
+    dados  = Lista_compra.buscar_lista_compra()
+    return render_template("relatorio.html", dados=dados)
 
 
 

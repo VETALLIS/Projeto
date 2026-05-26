@@ -75,5 +75,14 @@ class Usuario(Crud_base):
             raise ValueError("Esse email já foi cadastrado")
 
         return None
+    
+    @classmethod
+    def buscar_usuario(cls):
+        usuario = cls.buscar_tudo()
+
+        if not usuario:
+            raise ValueError("Usuario não encontrato")
+        
+        return usuario
 
 
