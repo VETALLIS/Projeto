@@ -12,6 +12,7 @@
                     <span class="text-white mt-2">Clique para adicionar imagem</span>
                 </label>
                 <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
+                <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
             </div>
 
             <div class="divisao-form" style="width: 100%;">
@@ -44,4 +45,8 @@
     </div>
     </div>
 </form>
+<script>
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    document.getElementById("usuario_id").value = usuario.id;
+</script>
 {% endblock%}

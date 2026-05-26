@@ -53,7 +53,7 @@ def get_produto_form():
         "produto_nome": request.form.get("nome", "").strip(),
         "produto_descricao": request.form.get("descricao", "").strip(),
         "produto_categoria": request.form.get("categoria", "").strip(),
-
+        "usuario_usuario_id": request.form.get("usuario_usuario_id", "").strip(),
     }
 
 
