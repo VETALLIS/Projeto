@@ -194,13 +194,13 @@ def salvar_produto():
     
 
 # ========= Formulário alterar dados produto ======== #
-@app.route("/produto/atualizar")
+@app.route("/produto/atualizar", methods=["GET", "POST"] )
 def atualizar():
     return render_template("editar_produtos.html")
 
 
 # ====== Editando cadastros de produtos ====== #
-@app.route("/produto/atualizar/<int:produto_id>", methods=["PUT"])
+@app.route("/produto/atualizar/<int:produto_id>", methods=["POST"])
 def atualizar_produto(produto_id):
     dados = get_produto_form()
     produto = Produto(**dados)
