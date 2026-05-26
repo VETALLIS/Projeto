@@ -708,7 +708,7 @@ def pedido():
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
 
-    dados = get_gerenciar_perfil_form()
+    dados = get_pedido_form()
     entrada = Pedido_entrada(**dados)
     erros = entrada.validar_pedido_entrada()
 
