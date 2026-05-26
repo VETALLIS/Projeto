@@ -151,12 +151,18 @@ def inicial():
 # ===== Rotas tela de produto ====== #
 @app.route("/produtos")
 def produtos():
-    produtos = Produto.buscar_todo_produto()
 
-    if not produtos:
-        flash("Nenhum produto encontrado", "danger")
+    try:
+        produtos = Produto.buscar_todo_produto()
 
-    return render_template("produtos_cadastrados.html", produtos=produtos)
+        if not produtos:
+            flash("Nenhum produto encontrado", "danger")
+            return render_template("produto_cadastrados.html")
+
+        return render_template("produtos_cadastrados.html", produtos=produtos)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("produtos_cadastrados.html", produtos=[])
 
 
 # ======= Formulário cadastro de produtos =======#
