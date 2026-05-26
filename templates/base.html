@@ -22,7 +22,7 @@
         <section class="topbar">
             <div class="topbar-logo">
                 <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="Vetalis Logo">
-                <span class="topbar-brand">Hello, {{session['usuario_nome']}}</span>
+                <span class="topbar-brand"id="nome">Hello, </span>
             </div>
 
             <div class="topbar-search">
@@ -56,11 +56,11 @@
             <a href="#" class="sidebar-link" title="Relatórios">
                 <i class="bi bi-graph-up"></i>
             </a>
-            <a href="{{ url_for('gerenciar_perfil_atualizar', usuario_id=session.get('usuario_id')) }}"
+            <a id="link-perfil"
                 class="sidebar-link" title="Configurações">
                 <i class="bi bi-gear"></i>
             </a>
-            <a href="{{novo_sensor}}" class="sidebar-link" title="Sensor">
+            <a href="{{url_for('sensor')}}" class="sidebar-link" title="Sensor">
                 <i class="bi bi-radar"></i>
             </a>
             <a href="{{url_for('lista_compra')}}" class="sidebar-link" title="Lista de compra">
@@ -88,5 +88,10 @@
             {% block conteudo %} {% endblock %}
         </div>
     </main>
-
+    <script>
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        document.getElementById("nome").innerText = `Bem vindo, ${usuario.nome}`
+        document.getElementById("link-perfil").href = `/gerenciar_perfil/${usuario.id}`;
+        document.getElementById("input-id").value = usuario.id;
+    </script>
 </body>

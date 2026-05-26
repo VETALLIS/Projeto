@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
@@ -125,6 +125,7 @@ def get_gerenciar_perfil_form():
         "usuario_nome": request.form.get("usuario_nome", "").strip(),
         "usuario_email": request.form.get("usuario_email", "").strip(),  
         "usuario_cargo": request.form.get("usuario_cargo", "").strip(),
+        "usuario_id": request.form.get("usuario_id", ""),
     }
 
 # ====== Pegando os dados para a pesquisa ====== #
@@ -171,8 +172,6 @@ def salvar_produto():
     produto = Produto(**dados)
     erros = produto.validar_produto()
 
-    usuario_id = session.get('usuario_id')
-    dados['usuario_usuario_id'] = usuario_id
     produto = Produto(**dados)
     if erros:
         for erro in erros:
@@ -423,7 +422,7 @@ def lista_compra():
     lista_compra = Lista_compra()
     dados = lista_compra.buscar_lista_compra()
 
-    if not dados:
+    if dados == False:
         flash("Nada encontrado", "danger")
         return render_template("lista_compra.html")
         
@@ -537,14 +536,11 @@ def salvar_login():
 
         if not usuario:
             flash("Usuário não encontrado", "danger")
-            return redirect(url_for('inicial'))
 
         id_do_usuario = usuario.get('usuario_id')
 
-        session['usuario_id'] = usuario.get('usuario_id')
-        session['usuario_nome'] = usuario.get('usuario_nome')
 
-        return redirect(url_for("inicial"))
+        return render_template("tela_inicial.html", usuario=usuario)
 
     except Exception as e:
         flash(f"Erro ao fazer login {e}", "danger")
@@ -553,7 +549,7 @@ def salvar_login():
 # ======= Logout ======= #
 @app.route("/logout")
 def logout():
-    session.clear() 
+
     flash("Sessão encerrada.", "info")
     return redirect(url_for("novo_login"))
 
@@ -668,10 +664,11 @@ def gerenciar_perfil_atualizar(usuario_id):
 # ======= Salva a atualização ====== #
 @app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
 def gerenciar_perfil_salvar():
-    usuario_id = session.get("usuario_id")
     dados = get_gerenciar_perfil_form()
     atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil(app.secret_key)
+
+    usuario_id  = dados.get("usuario_id")
     dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
 
     try:
@@ -703,13 +700,13 @@ def excluir_usuario(usuario_id):
 
 # ======== Endpoint entrada produto ====== #
 
-@app.route("/produto_entrada")
-def produto_entrada():
-    return render_template("pedido_entrada.html")
+@app.route("/pedido")
+def pedido():
+    return render_template("pedido.html")
 
-# ===== salvar entrada de produtos ===== #
-@app.route("/produto_entrada/salvar", methods=["GET", "POST"])
-def produto_entrada_salvar():
+# ===== salvar entrada de pedidos ===== #
+@app.route("/pedido/salvar", methods=["GET", "POST"])
+def pedido_salvar():
 
     dados = get_gerenciar_perfil_form()
     entrada = Pedido_entrada(**dados)
@@ -719,45 +716,16 @@ def produto_entrada_salvar():
 
         if erros:
             flash(erros, "danger")
-            return render_template("pedido_entrada.html")
+            return render_template("pedido.html")
 
         entrada.gravar_pedido_entrada()
 
         flash("Entrada cadastrada.", "success")
-        return redirect(url_for("produto_entrada"))
+        return redirect(url_for("pedido"))
 
     except Exception as e:
         flash(f"Erro ao cadastrar entrada", "danger")
-        return render_template("pedido_entrada.html", login=dados)
-
-# ======= Endpoint saída produto ===== #
-
-@app.route("/produto_saida")
-def produto_saida():
-    return render_template("pedido_saida.html")
-
-# ===== salvar saída de produtos ===== #
-@app.route("/produto_saida/salvar", methods=["GET", "POST"])
-def produto_saida_salvar():
-
-    dados = get_gerenciar_perfil_form()
-    saida = Pedido_saida(**dados)
-    erros = saida.validar_saida()
-
-    try:
-
-        if erros:
-            flash(erros, "danger")
-            return render_template("pedido_saida.html")
-
-        saida.gravar_pedido_saida()
-
-        flash("Saida cadastrada.", "success")
-        return redirect(url_for("produto_saida"))
-
-    except Exception as e:
-        flash(f"Erro ao cadastrar saida", "danger")
-        return render_template("pedido_saida.html", login=dados)
+        return render_template("pedido.html")
     
 # ======= Relatorio ======= #
 
