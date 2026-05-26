@@ -151,12 +151,12 @@ def inicial():
 # ===== Rotas tela de produto ====== #
 @app.route("/produtos")
 def produtos():
-    dados = Produto.buscar_todo_produto()
+    produtos = Produto.buscar_todo_produto()
 
-    if not dados:
+    if not produtos:
         flash("Nenhum produto encontrado", "danger")
 
-    return render_template("produtos_cadastrados.html", dados=dados)
+    return render_template("produtos_cadastrados.html", produtos=produtos)
 
 
 # ======= Formulário cadastro de produtos =======#
@@ -327,7 +327,8 @@ def atualizar_usuario(id):
 # ====== Todos os sensores cadastrados ====== #
 @app.route("/sensores")
 def sensor():
-    return render_template("sensores_cadastrados.html")
+    sensores =  Sensor.buscar_sensores()
+    return render_template("sensores_cadastrados.html", sensores=sensores)
 
 # ====== Formulário de cadastro de senso ======= #
 @app.route("/sensor/novo", methods=['GET', 'POST'])
@@ -642,7 +643,7 @@ def gravar_fornecedor():
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
-        return render_template("cadastrar_fornecedor.html", login=dados)
+        return render_template("cadastro_fornecedor.html", login=dados)
     
 
 
@@ -708,7 +709,7 @@ def pedido():
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
 
-    dados = get_gerenciar_perfil_form()
+    dados = get_pedido_form()
     entrada = Pedido_entrada(**dados)
     erros = entrada.validar_pedido_entrada()
 

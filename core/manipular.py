@@ -11,7 +11,7 @@ class Manipular:
         return None
 
     def validar_caracter(dados, field_name):
-        special= ["!", "@", "#", "$","%", "&", "*",]
+        special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
         try:
             for caractere in dados:
                 if caractere in special:

@@ -55,7 +55,7 @@ class Sensor(Crud_base):
         return "Sensor atualizado com sucesso!"
 
     @classmethod
-    def buscar_sensor(cls, id):
+    def buscar_sensor_id(cls, id):
         sensor = cls.buscar_por_id(id)
 
         if not sensor:
@@ -66,3 +66,12 @@ class Sensor(Crud_base):
         obj = Sensor(**sensor)         
         obj.sensor_id = sid
         return obj
+    
+    @classmethod
+    def buscar_sensores(cls, order_by=pk):
+        sensor = cls.buscar_tudo(order_by)
+
+        if not sensor:
+            raise ValueError("Sensor não encontrato")
+        
+        return sensor
