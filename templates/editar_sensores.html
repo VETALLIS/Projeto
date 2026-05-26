@@ -9,8 +9,7 @@
     Editar informações de Sensor
 </h3>
 
-<form method="POST" action="{{ url_for('editar_sensor', sensor_id=sensor['sensor_id'] )}}" class="mt-4">
-
+<form method="POST" action="{{ url_for('atualizar_sensor', sensor_id=sensor['sensor_id']) }}" class="mt-4">
     <!-- Nome do sensor -->
     <div class="row mb-4">
         <div class="col-12">
