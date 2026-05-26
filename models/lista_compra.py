@@ -73,4 +73,4 @@ class Lista_compra(Crud_base):
         if not lista_compra:
             return False
 
-        return [Lista_compra(**item) for item in lista_compra]
+        return lista_compra
