@@ -426,20 +426,30 @@ def excluir_sensor(sensor_id):
 # ====== Mostrar itens cadastrados na lista de compra ====== #
 @app.route("/lista_compra")
 def lista_compra():
-    lista_compra = Lista_compra()
-    dados = lista_compra.buscar_lista_compra()
+    try:
 
-    if dados == False:
-        flash("Nada encontrado", "danger")
+        lista_compra = Lista_compra()
+        dados = lista_compra.buscar_lista_compra()
+
+        if dados == False:
+            flash("Nada encontrado", "danger")
+            return render_template("lista_compra.html")
+            
+        return render_template("lista_compra.html", dados=dados)
+    except ValueError as e:
+        flash(e, danger)
         return render_template("lista_compra.html")
-        
-    return render_template("lista_compra.html", dados=dados)
+
 
 # ======= Formulário add item na lista de compra ====== #
 @app.route("/lista_compra/novo", methods=["GET", "POST"])
 def novo_lista_compra():
-    produtos = Produto.buscar_todo_produto()
-    return render_template("adiciona_itens_lista_compra.html", lista_compra=None, produtos=produtos)
+    try:
+        produtos = Produto.buscar_todo_produto()
+        return render_template("adiciona_itens_lista_compra.html", lista_compra=None, produtos=produtos)
+    except ValueError as e:
+        flash(e, danger)
+        return render_template("lista_compra.html")
 
 # ====== Adicionado novos itens na lista de compra ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
@@ -738,8 +748,12 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatori():
-    dados  = Lista_compra.buscar_lista_compra()
-    return render_template("relatorio.html", dados=dados)
+    try:
+        dados  = Lista_compra.buscar_lista_compra()
+        return render_template("relatorio.html", dados=dados)
+    except ValueError as e:
+        
+        return render_template("lista_compra.html")
 
 
 
