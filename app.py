@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
@@ -171,8 +171,6 @@ def salvar_produto():
     produto = Produto(**dados)
     erros = produto.validar_produto()
 
-    usuario_id = session.get('usuario_id')
-    dados['usuario_usuario_id'] = usuario_id
     produto = Produto(**dados)
     if erros:
         for erro in erros:
@@ -540,9 +538,6 @@ def salvar_login():
 
         id_do_usuario = usuario.get('usuario_id')
 
-        session['usuario_id'] = usuario.get('usuario_id')
-        session['usuario_nome'] = usuario.get('usuario_nome')
-
 
         return render_template("tela_inicial.html", usuario=usuario)
 
@@ -553,7 +548,7 @@ def salvar_login():
 # ======= Logout ======= #
 @app.route("/logout")
 def logout():
-    session.clear() 
+
     flash("Sessão encerrada.", "info")
     return redirect(url_for("novo_login"))
 
@@ -668,10 +663,11 @@ def gerenciar_perfil_atualizar(usuario_id):
 # ======= Salva a atualização ====== #
 @app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
 def gerenciar_perfil_salvar():
-    usuario_id = session.get("usuario_id")
     dados = get_gerenciar_perfil_form()
     atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil(app.secret_key)
+
+    usuario_id = get_gerenciar_perfil_form("usuario_id")
     dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
 
     try:
