@@ -193,9 +193,21 @@ def salvar_produto():
     
 
 # ========= Formulário alterar dados produto ======== #
-@app.route("/produto/atualizar", methods=["GET", "POST"] )
-def atualizar():
-    return render_template("editar_produtos.html")
+@app.route("/produto/editar/<int:produto_id>", methods=["GET", "POST"] )
+def editar_produto(produto_id):
+
+    try:
+
+        produto = Produto.buscar_produto_id(produto_id)
+
+        if not produto:
+            flash("Produto não encontrado",  "danger")
+            return redirect(url_for('produtos'))
+        
+        return render_template("editar_produtos.html")
+    except ValueError as e :
+        flash(e, "danger")
+        return redirect(url_for('produtos'))
 
 
 # ====== Editando cadastros de produtos ====== #
