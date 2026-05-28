@@ -1,13 +1,58 @@
 {% extends 'base.html'%}
-{% block conteudo%}
+{% block conteudo%}5
+<div class="">
+    <div class="d-flex gap-3 mt-3">
+        <div class="ms-5 " style=" border-radius: 15px;background: #074040; 
+    padding: 5px;max-width:270px !important; width: 100% !important;height: 200px;">
+            <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+            </label>
+        </div>
 
-<h1 style="font-size: 80px;" class="d-flex justify-content-center">Tela inicial</h1>
+        <div class="ms-5" style=" border-radius: 15px;background: #074040; 
+    padding: 5px;max-width:270px !important; width: 100% !important;height: 200px;">
+            <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+            </label>
+        </div>
 
-<script>
-    localStorage.setItem("usuario", JSON.stringify ({
-        id: "{{ usuario.get('usuario_id')}}",
-        nome: "{{usuario.get('usuario_nome')}}"
-    }))
-</script>
 
-{% endblock%}
+    </div>
+
+
+    <div class="ms-5 mt-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px;max-width:610px !important; width: 100% !important;height: 450px;">
+        <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
+
+        <div class="d-flex gap-3">
+            <div class="ms-4 " style=" border-radius: 15px;background: #074040; 
+    padding: 5px;max-width:250px !important; width: 100% !important;height: 200px;">
+                <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+                </label>
+            </div>
+
+            <div class="ms-4" style=" border-radius: 15px;background: #074040; 
+    padding: 5px;max-width:250px !important; width: 100% !important;height: 200px;">
+                <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+                </label>
+            </div>
+        </div>
+
+        <div class="ms-4 mt-4" style=" border-radius: 15px;background: #074040; 
+    padding: 5px;max-width:545px !important; width: 100% !important;height: 150px;">
+            <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+            </label>
+        </div>
+
+
+    </div>
+
+    <div class="d-flex colum ms-5 mt-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px;max-width:610px !important; width: 100% !important;height: 450px;">
+        <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
+    </div>
+
+</div>
+
+
+
+
+    {% endblock%}
