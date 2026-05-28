@@ -46,21 +46,20 @@
                         <input type="hidden" id="input-id" name="usuario_id" value="">
                     </div>
                     <div class="input-group">
-                        
-                        <input type="name" name="usuario_nome" class="form-control" placeholder="Nome:" required>
+
+                        <input type="name" name="usuario_nome" class="form-control" value="{{usuario.usuario_nome}}" >
                     </div>
                 </div>
                 <div class="d-flex">
                     <div class="mb-5 me-2 text-start" style="max-width: 700px; width: 100%;">
                         <div class="input-group">
-                            <input type="text" name="usuario_email" class="form-control" placeholder="Email:" required>
+                            <input type="text" name="usuario_email" class="form-control" value="{{usuario.usuario_email}}" >
                         </div>
                     </div>
                     <div class="text-start" style="max-width: 700px; width: 100%;">
                         <div class="mb-5 text-start">
                             <div class="input-group">
-                                <input type="text" name="usuario_cargo" class="form-control" placeholder="Cargo:"
-                                    required>
+                                <input type="text" name="usuario_cargo" class="form-control" value="{{usuario.usuario_cargo}}">
                             </div>
                         </div>
                     </div>

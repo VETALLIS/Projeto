@@ -79,8 +79,10 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for categoria, mensagem in messages %}
-            <div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-                {{ mensagem }}
+            <div class="alert alert-primary alert-{{categoria}} alert-dismissible fade show border border-{{categoria}}-subtle border-2" role="alert">
+                <i class="bi bi-info-circle-fill"></i>
+                <strong>{{ mensagem }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             {% endfor %}
             {% endif %}
