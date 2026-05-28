@@ -372,7 +372,7 @@ def salvar_sensor():
         sensor.gravar_sensor()
         flash("Sensor cadastrado com sucesso.", "success")
         return redirect(url_for("novo_sensor"))
-    except Exception as e:
+    except ValueError as e:
         flash(f"Erro ao cadastrar sensor: {e}", "danger")
         return render_template("Cadastro_sensor.html", sensor=dados)
     
