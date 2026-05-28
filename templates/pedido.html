@@ -1,8 +1,6 @@
 {% extends 'base.html'%}
 {%block conteudo%}
 
-
-<!-- Conteúdo das abas -->
 <div class="d-flex justify-content-start">
     <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;height: 40px;">Voltar</a>
 </div>
@@ -10,8 +8,8 @@
     Pedidos</h3>
 <ul class="nav nav-tabs mb-3" id="tipoPedido" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#entrada" type="button" style="color: white;"
-            onclick="
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#entrada" type="button"
+            style="color: white;" onclick="
                 this.style.color='#074040';
                 document.querySelector('[data-bs-target=\'#saida\']').style.color='white';
             ">
@@ -28,71 +26,184 @@
         </button>
     </li>
 </ul>
+
 <div style="padding: 20px; padding-left: 0;">
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="entrada">
-            <form method="POST" action="{{url_for('pedido_salvar')}}" class="d-flex" style="width: 100%;">
-                <div class="me-3" style="width: 100%; max-width: 700px;">
-                    <input type="hidden" id="meuIdSecreto" name="tipo_movimentacao" value="entrada">
-                    <div class="mb-4">
-                        <input type="text" class="form-control" name="pedido_entrada_nome"  placeholder="Nome:">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" name="pedido_entrada_lote" placeholder="lote:">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" name="pedido_entrada_valor_unitario" placeholder="valor unitário:">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="fornecedor_fornecedor_id" placeholder="fornecedor">
-                    </div>
-                </div>
-                <div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" name="pedido_entrada_data" placeholder="data:" onfocus="this.type='date'">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" name="quantidade" placeholder="quantidade:">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" name="pedido_entrada_data_validade" placeholder="data de validade:"
-                            onfocus="this.type='date'">
-                    </div>
-                    <button class="btn btn-login w-100 text-white "
-                        style="background: #03c356; border-radius: 15px; min-width: 650px;"
-                        type="submit">Enviar</button>
-                </div>
-            </form>
 
-        </div>
-        <div class="tab-pane fade" id="saida">
-            <form method="POST" action="{{url_for('pedido_salvar')}}" class="d-flex" style="width: 100%;">
-                <div class="me-3" style="width: 100%; max-width: 700px;">
-                    <div class="mb-4">
-                        <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
+        <!-- ABA ENTRADA -->
+        <div class="tab-pane fade show active" id="entrada">
+            <form method="POST" action="{{url_for('pedido_salvar')}}" style="width: 100%;">
+                <input type="hidden" name="tipo_movimentacao" value="entrada">
+                <div class="me-3" style="width: 100%;">
+                    <div class="d-flex" style="width: 100%;">
+                        <div class="mb-4" style="max-width: 700px; width: 100%;">
+                            <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
+                        </div>
+                        <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
+                            <input type="text" class="form-control" placeholder="Animal:">
+                        </div>
                     </div>
-                    <div class="mb-4">
-                        <input type="text" name="" class="form-control" placeholder="lote:">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="animal">
+                    <div class="mb-4" style="max-width: 635px;">
+                        <input type="text" class="form-control" placeholder="Data:" onfocus="this.type='date'">
                     </div>
                 </div>
-                <div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="data:" onfocus="this.type='date'">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" class="form-control" placeholder="lote:">
-                    </div>
-                    <button class="btn btn-login w-100 text-white "
-                        style="background: #03c356; border-radius: 15px; min-width: 650px;"
+
+                <div class="d-flex justify-content-between"
+                    style="padding:20px;padding-left: 0; border-bottom:solid 1px #fff; width: 1300px;">
+                    <h3 class="text-start" style="color: white;">Item do Pedido</h3>
+                    <button type="button" class="btn btn-success btn-adicionar-item" data-template="templateItemEntrada"
+                        data-corpo="corpoItensEntrada">
+                        Adicionar Item
+                    </button>
+                </div>
+
+                <div class="table-responsive mt-2">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-white" style="width: 30%;">Produto</th>
+                                <th class="text-white" style="width: 25%;">Localização</th>
+                                <th class="text-white" style="width: 15%;">Quantidade</th>
+                                <th class="text-white" style="width: 15%;">Valor Unitário</th>
+                                <th class="text-white" style="width: 10%;">Data de validade</th>
+                                <th class="text-white" style="width: 5%;" class="text-center">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoItensEntrada"></tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <template id="templateItemEntrada">
+                    <tr>
+                        <td><input type="text" name="item_nome[]" class="bg-transparent border-0 form"
+                                placeholder="Nome"></td>
+                        <td><input type="text" name="item_lote[]" class="bg-transparent text-white border-0 form"
+                                placeholder="Lote"></td>
+                        <td><input type="number" name="item_quantidade[]"
+                                class="bg-transparent text-white border-0 form" placeholder="0" min="0.01" step="0.01">
+                        </td>
+                        <td><input type="number" name="item_valor_unitario[]"
+                                class="bg-transparent text-white border-0 form" placeholder="0.00" min="0" step="0.01">
+                        </td>
+                        <td><input type="date" name="item_data_validade[]"
+                                class="bg-transparent text-white border-0 form"></td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="removerLinha(this)">X</button>
+                        </td>
+                    </tr>
+                </template>
+
+                <div class="mt-3">
+                    <button class="btn btn-login w-100 text-white ms-auto"
+                        style="background: #03c356; border-radius: 15px; min-width: 400px; "
                         type="submit">Enviar</button>
                 </div>
             </form>
         </div>
+
+        <!-- ABA SAÍDA -->
+        <div class="tab-pane fade" id="saida">
+            <form method="POST" action="{{url_for('pedido_salvar')}}" style="width: 100%;">
+                <input type="hidden" name="tipo_movimentacao" value="saida">
+
+                <div class="me-3" style="width: 100%;">
+                    <div class="d-flex" style="width: 100%;">
+                        <div class="mb-4" style="max-width: 700px; width: 100%;">
+                            <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
+                        </div>
+                        <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
+                            <input type="text" class="form-control" placeholder="Animal:">
+                        </div>
+                    </div>
+                    <div class="mb-4" style="max-width: 635px;">
+                        <input type="text" class="form-control" placeholder="Data:" onfocus="this.type='date'">
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between"
+                    style="padding:20px;padding-left: 0; border-bottom:solid 1px #fff; width: 1300px;">
+                    <h3 class="text-start" style="color: white;">Item do Pedido</h3>
+                    <button type="button" class="btn btn-success btn-adicionar-item" data-template="templateItemSaida"
+                        data-corpo="corpoItensSaida">
+                        Adicionar Item
+                    </button>
+                </div>
+
+                <div class="table-responsive mt-2">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-white" style="width: 30%;">Produto</th>
+                                <th class="text-white" style="width: 25%;">Localização</th>
+                                <th class="text-white" style="width: 15%;">Quantidade</th>
+                                <th class="text-white" style="width: 15%;">Valor Unitário</th>
+                                <th class="text-white" style="width: 5%;" class="text-center">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpoItensSaida">
+                        </tbody>
+                    </table>
+                </div>
+
+                <template id="templateItemSaida">
+                    <tr>
+                        <td><input type="text" name="item_nome[]" class="bg-transparent border-0 form"
+                                placeholder="Nome"></td>
+                        <td><input type="text" name="item_lote[]" class="bg-transparent text-white border-0 form"
+                                placeholder="Lote"></td>
+                        <td><input type="number" name="item_quantidade[]"
+                                class="bg-transparent text-white border-0 form" placeholder="0" min="0.01" step="0.01">
+                        </td>
+                        <td><input type="number" name="item_valor_unitario[]"
+                                class="bg-transparent text-white border-0 form" placeholder="0.00" min="0" step="0.01">
+                        </td>
+                        <td><input type="date" name="item_data_validade[]"
+                                class="bg-transparent text-white border-0 form"></td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="removerLinha(this)">X</button>
+                        </td>
+                    </tr>
+                </template>
+                <style>
+                    .form::placeholder {
+                        color: #fff;
+                    }
+                </style>
+
+                <div class="mt-3">
+                    <button class="btn btn-login w-100 text-white ms-auto"
+                        style="background: #03c356; border-radius: 15px; min-width: 400px; "
+                        type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
+<script>
+    function adicionarItem(templateId, corpoId) {
+        const template = document.getElementById(templateId);
+        const corpo = document.getElementById(corpoId);
+        const novaLinha = template.content.cloneNode(true);
+        corpo.appendChild(novaLinha);
+    }
 
+    function removerLinha(botao) {
+        botao.closest("tr").remove();
+    }
 
+    document.addEventListener("DOMContentLoaded", function () {
+        adicionarItem("templateItemEntrada", "corpoItensEntrada");
+        adicionarItem("templateItemSaida", "corpoItensSaida");
+
+        document.getElementById("btnAdicionarEntrada").addEventListener("click", function () {
+            adicionarItem("templateItemEntrada", "corpoItensEntrada");
+        });
+
+        document.getElementById("btnAdicionarSaida").addEventListener("click", function () {
+            adicionarItem("templateItemSaida", "corpoItensSaida");
+        });
+    });
+</script>
 {%endblock%}
