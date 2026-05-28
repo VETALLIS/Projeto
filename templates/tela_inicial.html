@@ -56,8 +56,8 @@
 
 <script>
     localStorage.setItem("usuario", JSON.stringify ({
-        id: "{{ usuario.get('usuario_id')}}",
-        nome: "{{usuario.get('usuario_nome')}}"
+        id: "{{ session.get('usuario_id')}}",
+        nome: "{{ session.get('usuario_nome')}}"
     }))
 
     
