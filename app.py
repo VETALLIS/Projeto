@@ -464,18 +464,11 @@ def excluir_sensor(sensor_id):
 @app.route("/lista_compra")
 def lista_compra():
     try:
+        lista_compra = Lista_compra.buscar_lista_compra()
+    except ValueError:
+        lista_compra = []
 
-        lista_compra = Lista_compra()
-        dados = lista_compra.buscar_lista_compra()
-
-        if dados == False:
-            flash("Nada encontrado", "danger")
-            return render_template("lista_compra.html")
-            
-        return render_template("lista_compra.html", dados=dados)
-    except ValueError as e:
-        flash(e, "danger")
-        return render_template("lista_compra.html")
+    return render_template("lista_compra.html", lista_compra=lista_compra)
 
 
 # ======= Formulário add item na lista de compra ====== #
@@ -511,10 +504,11 @@ def salvar_lista_compra():
     
 
 # ====== Excluindo itens da lista de compra ======#
-@app.route("/lista_compra/excluir/<int:lista_compra_id>", methods=["DELETE"])
-def excluir_lista_compra(id):
+@app.route("/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
+def excluir_lista_compra(lista_compra_id):
     try:
-        Lista_compra.deletar_lista_compra(id)
+        lista_compra = Lista_compra()
+        lista_compra.deletar_lista_compra(lista_compra_id)
         flash("Lista de compra excluíds com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
@@ -795,11 +789,11 @@ def pedido_salvar():
 @app.route("/relatorio")
 def relatorio():
     try:
-        dados  = Lista_compra.buscar_lista_compra()
-        return render_template("relatorio.html", dados=dados)
-    except ValueError as e:
-        
-        return render_template("lista_compra.html")
+        lista_compra = Lista_compra.buscar_lista_compra()
+    except ValueError as e :
+        flash(e, "danger")
+
+    return render_template("relatorio.html", lista_compra=lista_compra)
 
 
 

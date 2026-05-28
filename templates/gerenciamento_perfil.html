@@ -42,8 +42,11 @@
         <div class=" mt-4">
             <div class="divisao-form me-4 " style="max-width: 1200px; width: 100%;">
                 <div class="mb-5 text-start">
+                    <div>
+                        <input type="hidden" id="input-id" name="usuario_id" value="">
+                    </div>
                     <div class="input-group">
-                         <input type="hidden" id="input-id" name="usuario_id" value="">
+                        
                         <input type="name" name="usuario_nome" class="form-control" placeholder="Nome:" required>
                     </div>
                 </div>
@@ -66,19 +69,15 @@
 
                     <button class="btn w-100 text-white" style="background-color:#03A64A;" type="submit" name="acao"
                         value="salvar" formaction="{{ url_for('gerenciar_perfil_salvar') }}">Salvar
-                        alterações</button>
+                        alterações
+                    </button>
+                    <button class="btn btn-danger w-100 text-white "style="margin-left:10px;" type="submit" formaction="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
+                        Excluir conta
+                    </button>
                 </div>
             </div>
         </div>
     </form>
-    <div class="divisao-form me-4 mt-3" style="max-width: 1200px; width: 100%;">
-        <form method="POST" action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
-
-            <button class="btn btn-danger w-100 text-white" type="submit">
-                Excluir conta
-            </button>
-        </form>
-    </div>
 </div>
 
 {% endblock%}

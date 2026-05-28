@@ -21,7 +21,7 @@
             <th></th>
 
         </tr>
-        {% for produto in dados %}
+        {% for produto in lista_compra %}
         <tr>
             <th class="text-white">{{ produto.lista_compra_nome }}</th>
             <th class="text-white">R$ {{ produto.lista_compra_valor }}</th>
@@ -31,14 +31,19 @@
                 <button class="btn btn-sm btn-link text-white" onclick="editarItem(1)">
                     <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm btn-link text-danger" onclick="excluirItem(1)">
+                <a class="btn btn-sm btn-link text-danger" href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}">
                     <i class="bi bi-trash"></i>
-                </button>
+                </a>
             </td>
 
         </tr>
         {% endfor %}
     </table>
 </div>
-
+<script>
+    localStorage.setItem("lista_compra", JSON.stringify({
+        id: "{{ lista_compra.lista_compra_id}}",
+        nome: "{{lista_compra.lista_compra_nome}}"
+    }))
+</script>
 {%endblock%}
