@@ -603,7 +603,7 @@ def salvar_login():
         return render_template("tela_inicial.html", usuario=usuario)
 
     except Exception as e:
-        flash(f"Erro ao fazer login {e}", "danger")
+        flash(f"Erro ao fazer login", "danger")
         return render_template("login.html", login=dados)
 
 # ======= Logout ======= #
