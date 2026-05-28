@@ -793,7 +793,7 @@ def pedido_salvar():
 # ======= Relatorio ======= #
 
 @app.route("/relatorio")
-def relatori():
+def relatorio():
     try:
         dados  = Lista_compra.buscar_lista_compra()
         return render_template("relatorio.html", dados=dados)
