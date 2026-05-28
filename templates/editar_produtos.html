@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 <div class="d-flex justify-content-start">
-    <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none; height: 40px;">Voltar</a>
+    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left text-white" style="text-decoration: none; height: 40px;">Voltar</a>
 </div>
 <h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Editar dados
 </h3>
@@ -20,19 +20,19 @@
             <div class="divisao-form" style="width: 100%;">
                 <div class="mb-5 text-start">
                     <div class="input-group">
-                        <input type="name" name="nome" class="form-control" placeholder="Nome:" required>
+                        <input type="name" name="nome" class="form-control" value="{{produto.produto_nome}}" required>
                     </div>
                 </div>
                 <div class="mb-5 text-start">
                     <div>
                         <textarea name="descricao" placeholder="Descrição" class="form-control"
-                            style="height: 230px; resize: vertical; "></textarea>
+                            style="height: 230px; resize: vertical; ">{{produto.produto_descricao}}</textarea>
                     </div>
                 </div>
                 <div class="d-flex">
                     <div class="mb-2  me-4 text-start" style="max-width: 500px; width: 100%;">
                         <div class="input-group">
-                            <input type="text" name="categoria" class="form-control" placeholder="Categoria:" required>
+                            <input type="text" name="categoria" class="form-control" value="{{produto.produto_categoria}}" required>
                         </div>
                     </div>
                     <div class="justify-content-center" style="max-width: 500px !important; width: 100%;">

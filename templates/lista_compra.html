@@ -17,8 +17,7 @@
             <th class="text-white fw-bold">Pre-unitário</th>
             <th class="text-white">Quantidade</th>
             <th class="text-white">total</th>
-            <th></th>
-            <th></th>
+            <th class="text-white">Ação</th>
 
         </tr>
         {% for produto in lista_compra %}
@@ -28,9 +27,6 @@
             <th class="text-white fw-normal">{{ produto.lista_compra_quantidade }}</th>
             <th class="text-white fw-normal">R$ {{ "%.2f"|format(produto.lista_compra_valor * produto.lista_compra_quantidade) }}</th>
             <td>
-                <button class="btn btn-sm btn-link text-white" onclick="editarItem(1)">
-                    <i class="bi bi-pencil"></i>
-                </button>
                 <a class="btn btn-sm btn-link text-danger" href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}">
                     <i class="bi bi-trash"></i>
                 </a>
