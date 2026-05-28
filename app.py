@@ -609,8 +609,8 @@ def salvar_login():
 # ======= Logout ======= #
 @app.route("/logout")
 def logout():
-
-    flash("Sessão encerrada.", "info")
+    session.clear()
+    flash("Você saiu do sistema.", "info")
     return redirect(url_for("novo_login"))
 
 
@@ -798,10 +798,10 @@ def pedido_salvar():
 def relatorio():
     try:
         lista_compra = Lista_compra.buscar_lista_compra()
+        return render_template("relatorio.html", lista_compra=lista_compra)
     except ValueError as e :
         flash(e, "danger")
-
-    return render_template("relatorio.html", lista_compra=lista_compra)
+        return render_template("relatorio.html")
 
 
 
