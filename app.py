@@ -139,12 +139,21 @@ def get_pesquisa_item_form():
 # ====== Rota inicial====== #
 @app.route("/")
 def index():
-    return render_template("landingpage.html", usuario=usuario)
+    
+    return render_template("landingpage.html")
 
 # ====== Tela inicial ====== #
 @app.route("/inicial")
 def inicial():
-    return render_template("tela_inicial.html", usuario=usuario)
+    usuario_id = session.get("usuario_id") 
+    
+
+    if usuario_id:
+        usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
+        return render_template("tela_inicial.html", usuario=usuario_completo)
+    
+
+    return redirect('/login')
 
 
 

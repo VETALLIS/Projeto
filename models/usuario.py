@@ -65,8 +65,8 @@ class Usuario(Crud_base):
         if not usuario:
             raise ValueError("Usuario não encontrado.")
 
-        usuario.pop("usuario_id", None)
-        return Usuario(**usuario)
+
+        return usuario
 
     def buscar_email_existe(self):
         usuario = self.buscar_email(self.usuario_email)
