@@ -79,6 +79,7 @@ class Produto(Crud_base):
         if not produto:
             raise ValueError("Produto não encontrado")
 
+        produto_id = produto_id
         return produto
 
     @classmethod
