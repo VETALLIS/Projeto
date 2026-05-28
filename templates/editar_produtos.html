@@ -42,9 +42,13 @@
                 </div>
             </div>
         </div>
-
-
-    </div>
     </div>
 </form>
+
+<script>
+    localStorage.setItem('usuario_nome', "{{ session.get('usuario_nome')}}")
+    localStorage.setItem('usuario_id', "{{ session.get('usuario_id')}}")
+    localStorage.setItem('usuario_cargo', "{{ session.get('usuario_cargo')}}")
+
+</script>
 {% endblock%}

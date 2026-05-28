@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash,  session
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
@@ -53,7 +53,7 @@ def get_produto_form():
         "produto_nome": request.form.get("nome", "").strip(),
         "produto_descricao": request.form.get("descricao", "").strip(),
         "produto_categoria": request.form.get("categoria", "").strip(),
-        "usuario_usuario_id": request.form.get("usuario_usuario_id", "").strip(),
+        "usuario_usuario_id": session["usuario_id"],
     }
 
 
@@ -146,6 +146,9 @@ def index():
 def inicial():
     return render_template("tela_inicial.html", usuario=usuario)
 
+
+
+
 # ====== Endpoints para o cadastro de produtos ====== #
 
 # ===== Rotas tela de produto ====== #
@@ -221,21 +224,25 @@ def atualizar_produto(produto_id):
     if erros:
         for erro in erros:
             flash(erro, "danger")
-        dados["id"] = produto_id
-        return redirect(url_for('editar_produto'))
+        produto_dict = Produto.buscar_por_id(produto_id)
+        return render_template("editar_produtos.html", produto_id=produto_dict)
 
     try:
-        if not Produto.buscar_por_id(produto_id):
+        produto_existente = Produto.buscar_por_id(produto_id)
+        
+        if not produto_existente:
             flash("Produto não encontrado.", "danger")
-            return redirect(url_for("produtos"))
+            return redirect(url_for('produtos'))
 
         produto.atualizar_produto(produto_id)
         flash("Produto atualizado com sucesso.", "success")
-        return redirect(url_for("produtos"))
+        
+        produto_atualizado = Produto.buscar_por_id(produto_id)
+        return render_template("editar_produtos.html", produto=produto_atualizado)
     except Exception as e:
-        dados["id"] = id
+        produto_dict = Produto.buscar_por_id(produto_id)
         flash(f"Erro ao atualizar produto: {e}", "danger")
-        return redirect(url_for('editar_produto'))
+        return render_template("editar_produtos.html", produto=produto_dict)
 
 
 # ====== Deletando produtos ====== #
@@ -589,8 +596,9 @@ def salvar_login():
         if not usuario:
             flash("Usuário não encontrado", "danger")
 
-        id_do_usuario = usuario.get('usuario_id')
-
+        session["usuario_id"] = usuario["usuario_id"]
+        session["usuario_nome"] = usuario["usuario_nome"]
+        session["usuario_cargo"] = usuario["usuario_cargo"]
 
         return render_template("tela_inicial.html", usuario=usuario)
 

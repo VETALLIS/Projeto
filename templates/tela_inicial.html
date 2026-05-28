@@ -14,14 +14,7 @@
             </label>
         </div>
 
-<script>
-    localStorage.setItem("usuario", JSON.stringify ({
-        id: "{{ usuario.get('usuario_id')}}",
-        nome: "{{usuario.get('usuario_nome')}}"
-    }))
 
-    
-</script>
 
     </div>
 
@@ -61,6 +54,13 @@
 </div>
 
 
+<script>
+    localStorage.setItem("usuario", JSON.stringify ({
+        id: "{{ usuario.get('usuario_id')}}",
+        nome: "{{usuario.get('usuario_nome')}}"
+    }))
 
+    
+</script>
 
-    {% endblock%}
+{% endblock%}
