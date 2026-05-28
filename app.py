@@ -204,7 +204,9 @@ def editar_produto(produto_id):
             flash("Produto não encontrado",  "danger")
             return redirect(url_for('produtos'))
         
-        return render_template("editar_produtos.html", produto=produto)
+        produto_id = produto[produto_id]
+        
+        return render_template("editar_produtos.html", produto=produto, produto_id=produto_id)
     except ValueError as e :
         flash(e, "danger")
         return redirect(url_for('produtos'))
