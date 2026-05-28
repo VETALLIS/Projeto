@@ -221,7 +221,7 @@ def atualizar_produto(produto_id):
         for erro in erros:
             flash(erro, "danger")
         dados["id"] = produto_id
-        return render_template("editar_produtos.html", produto=dados)
+        return redirect(url_for('editar_produto'))
 
     try:
         if not Produto.buscar_por_id(produto_id):
@@ -234,7 +234,7 @@ def atualizar_produto(produto_id):
     except Exception as e:
         dados["id"] = id
         flash(f"Erro ao atualizar produto: {e}", "danger")
-        return render_template("editar_produtos.html", produto=dados)
+        return redirect(url_for('editar_produto'))
 
 
 # ====== Deletando produtos ====== #
@@ -246,10 +246,10 @@ def excluir_produto(produto_id):
         return redirect(url_for("produtos"))
     except ValueError as e:
         flash(str(e), "erro")
-        return render_template("cadastro_produto.html")
+        return redirect(url_for("produtos"))
     except Exception as e:
         flash(f"Erro ao excluir produto: {e}", "danger")
-        return render_template("cadastro_produto.html")
+        return redirect(url_for("produtos"))
     
 
 # ====== Endpoint informação produto ======= #
@@ -267,7 +267,7 @@ def informacao_produto_ver(produto_id):
         return render_template("informacao_produto.html", produto=produto)
     except ValueError as e:
         flash(e, "danger")
-        return render_template("produtos_cadastrados.html")
+        return  redirect(url_for("produtos"))
 
 
 # ====== Endpoints de cadstro de novos usuarios ======#
@@ -299,7 +299,7 @@ def salvar_usuario():
 
         usuario.gravar_usuario()
         flash("Usuario cadastrado com sucesso.", "success")
-        return redirect(url_for("novo_usuario"))
+        return redirect(url_for("novo_login"))
         
     except Exception as e:
         flash(f"Erro ao cadastrar usuario {e}", "danger")
