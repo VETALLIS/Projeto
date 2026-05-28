@@ -6,39 +6,44 @@
     style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 100%;">
     <h3 class="mb-4 text-start">
         Lista de compra</h3>
-    <a class="btn btn-login w-100 text-white "
-        style="background: #03c356; border-radius: 15px; max-width: 20%; height: 50px; " type="submit" href="{{url_for('novo_lista_compra')}}">Adicionar
+    <a class="btn btn-login w-100 text-white d-flex justify-content-center"
+        style="background: #03c356; border-radius: 15px; max-width: 20%; height: 50px; align-items: center;" type="submit" href="{{url_for('novo_lista_compra')}}">Adicionar
         Item</a>
 </div>
 <div class="table-responsive mt-5">
     <table class="table">
         <tr>
-            <th style="width: 500px;"></th>
-            <th class="text-white">Pre-unitário</th>
+            <th class="text-white text-start">Nome</th>
+            <th class="text-white fw-bold">Pre-unitário</th>
             <th class="text-white">Quantidade</th>
             <th class="text-white">total</th>
             <th></th>
             <th></th>
 
         </tr>
-        {% for produto in dados %}
+        {% for produto in lista_compra %}
         <tr>
-            <th class="text-white">{{ produto.lista_compra_nome }}</th>
-            <th class="text-white">R$ {{ produto.lista_compra_valor }}</th>
-            <th class="text-white">{{ produto.lista_compra_quantidade }}</th>
-            <th class="text-white">R$ {{ "%.2f"|format(produto.lista_compra_valor * produto.lista_compra_quantidade) }}</th>
+            <th class="text-white fw-normal align-items-start text-start">{{ produto.lista_compra_nome }}</th>
+            <th class="text-white fw-normal">R$ {{ produto.lista_compra_valor }}</th>
+            <th class="text-white fw-normal">{{ produto.lista_compra_quantidade }}</th>
+            <th class="text-white fw-normal">R$ {{ "%.2f"|format(produto.lista_compra_valor * produto.lista_compra_quantidade) }}</th>
             <td>
                 <button class="btn btn-sm btn-link text-white" onclick="editarItem(1)">
                     <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm btn-link text-danger" onclick="excluirItem(1)">
+                <a class="btn btn-sm btn-link text-danger" href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}">
                     <i class="bi bi-trash"></i>
-                </button>
+                </a>
             </td>
 
         </tr>
         {% endfor %}
     </table>
 </div>
-
+<script>
+    localStorage.setItem("lista_compra", JSON.stringify({
+        id: "{{ lista_compra.lista_compra_id}}",
+        nome: "{{lista_compra.lista_compra_nome}}"
+    }))
+</script>
 {%endblock%}

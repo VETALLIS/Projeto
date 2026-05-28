@@ -53,7 +53,7 @@
             <a class="sidebar-link" title="Produtos" href="{{url_for('produtos')}}">
                 <i class="bi bi-capsule"></i>
             </a>
-            <a href="#" class="sidebar-link" title="Relatórios">
+            <a href="{{url_for('relatorio')}}" class="sidebar-link" title="Relatórios">
                 <i class="bi bi-graph-up"></i>
             </a>
             <a id="link-perfil"
@@ -66,7 +66,7 @@
             <a href="{{url_for('lista_compra')}}" class="sidebar-link" title="Lista de compra">
                 <i class="bi bi-cart3"></i>
             </a>
-            <a href="#" class="sidebar-link" title="Sair">
+            <a href="{{url_for('logout')}}" class="sidebar-link" title="Sair">
                 <i class="bi bi-box-arrow-right"></i>
             </a>
             <a href="#" class="sidebar-link" title="Ajuda">
@@ -79,8 +79,10 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for categoria, mensagem in messages %}
-            <div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-                {{ mensagem }}
+            <div class="alert alert-primary alert-{{categoria}} alert-dismissible fade show border border-{{categoria}}-subtle border-2" role="alert">
+                <i class="bi bi-info-circle-fill"></i>
+                <strong>{{ mensagem }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             {% endfor %}
             {% endif %}

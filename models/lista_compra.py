@@ -46,7 +46,7 @@ class Lista_compra(Crud_base):
         if not lista_compra:
             raise ValueError("Lista de compra não encontrada")
 
-        self.deletar()
+        self.deletar(id)
         return "Lista de compra deletada com sucesso!"
 
     def atualizar_lista_compra(self, id):
@@ -58,7 +58,7 @@ class Lista_compra(Crud_base):
         self.atualizar()
         return "Lista de compra atualizada com sucesso!"
 
-    def buscar_lista_compra_id(self):
+    def buscar_lista_compra_id(self, id):
         lista_compra_id = self.buscar_por_id(id)
 
         if not lista_compra_id:
@@ -71,6 +71,6 @@ class Lista_compra(Crud_base):
         lista_compra = cls.buscar_tudo(order_by)
 
         if not lista_compra:
-            raise ValueError("Nada encontrato", False) 
+            raise ValueError("Nada encontrato") 
 
         return lista_compra
