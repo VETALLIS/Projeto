@@ -8,7 +8,7 @@ class Pedido_saida(Crud_base):
 
     def __init__(self, pedido_saida_nome, pedido_saida_data, animal_animal_id, pedido_saida_status = "PENDENTE" ):
         self.pedido_saida_nome = pedido_saida_nome
-        self.pedido_saida_data = pedido_saida_data or datetime.now()
+        self.pedido_saida_data = pedido_saida_data 
         self.pedido_saida_status = pedido_saida_status
         self.animal_animal_id = animal_animal_id
 

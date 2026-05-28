@@ -49,8 +49,8 @@
         <nav class="sidebar-nav gap-2" style="margin-top: -20px;">
             <a href="{{ url_for('inicial') }}" class="sidebar-link active" title="Início">
                 <i class="bi bi-house"></i>
-            </a>
-            <a class="sidebar-link" title="Produtos">
+            </a> 
+            <a class="sidebar-link" title="Produtos" href="{{url_for('produtos')}}">
                 <i class="bi bi-capsule"></i>
             </a>
             <a href="#" class="sidebar-link" title="Relatórios">
@@ -86,6 +86,7 @@
             {% endif %}
             {% endwith %}
             {% block conteudo %} {% endblock %}
+            <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
         </div>
     </main>
     <script>
@@ -93,5 +94,7 @@
         document.getElementById("nome").innerText = `Bem vindo, ${usuario.nome}`
         document.getElementById("link-perfil").href = `/gerenciar_perfil/${usuario.id}`;
         document.getElementById("input-id").value = usuario.id;
+        document.getElementById("usuario_id").value = usuario.id;
+
     </script>
 </body>

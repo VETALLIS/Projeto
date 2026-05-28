@@ -5,7 +5,8 @@
 
 
 <div class="d-flex flex-wrap" style="padding-left : 20px; gap: 20px;">
-    {% for produto in dados %}
+    {%if produtos%}
+    {% for produto in produtos %}
     <div class="me-5" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); padding: 10px;">
         <label for="imagem_produto" class="upload-box" style="max-height:200px !important; width: 250px;"
             style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
@@ -15,15 +16,22 @@
             <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
         </div>
         <div class=" d-flex ">
-            <a href="" class="bi bi-arrow-bar-right text-white" style="text-decoration: none; height: 40px;">Ver
+            <a href="/informacao_produto/{{produto.produto_id}}" class="bi bi-arrow-bar-right text-white" style="text-decoration: none; height: 40px;">Ver
                 Detalhes</a>
         </div>
 
     </div>
-   
+    
+
 
     {% endfor %}
+    {% endif %}
 </div>
-
+<script>
+    localStorage.setItem("produtos", JSON.stringify({
+        id: "{{ produtos.produto_id}}",
+        nome: "{{produtos.produto_nome}}"
+    }))
+</script>
 
 {% endblock%}

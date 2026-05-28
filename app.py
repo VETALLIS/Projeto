@@ -53,7 +53,7 @@ def get_produto_form():
         "produto_nome": request.form.get("nome", "").strip(),
         "produto_descricao": request.form.get("descricao", "").strip(),
         "produto_categoria": request.form.get("categoria", "").strip(),
-
+        "usuario_usuario_id": request.form.get("usuario_usuario_id", "").strip(),
     }
 
 
@@ -144,19 +144,25 @@ def index():
 # ====== Tela inicial ====== #
 @app.route("/inicial")
 def inicial():
-    return render_template("tela_inicial.html")
+    return render_template("tela_inicial.html", usuario=usuario)
 
 # ====== Endpoints para o cadastro de produtos ====== #
 
 # ===== Rotas tela de produto ====== #
 @app.route("/produtos")
 def produtos():
-    dados = Produto.buscar_todo_produto()
 
-    if not dados:
-        flash("Nenhum produto encontrado", "danger")
+    try:
+        produtos = Produto.buscar_todo_produto()
 
-    return render_template("produtos_cadastrados.html", dados=dados)
+        if not produtos:
+            flash("Nenhum produto encontrado", "danger")
+            return render_template("produto_cadastrados.html")
+
+        return render_template("produtos_cadastrados.html", produtos=produtos)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("produtos_cadastrados.html", produtos=[])
 
 
 # ======= Formulário cadastro de produtos =======#
@@ -188,14 +194,14 @@ def salvar_produto():
     
 
 # ========= Formulário alterar dados produto ======== #
-@app.route("/produto/atualizar")
+@app.route("/produto/atualizar", methods=["GET", "POST"] )
 def atualizar():
     return render_template("editar_produtos.html")
 
 
 # ====== Editando cadastros de produtos ====== #
-@app.route("/produto/atualizar/<int:id>", methods=["PUT"])
-def atualizar_produto(id):
+@app.route("/produto/atualizar/<int:produto_id>", methods=["POST"])
+def atualizar_produto(produto_id):
     dados = get_produto_form()
     produto = Produto(**dados)
     erros = produto.validar_produto()
@@ -327,7 +333,8 @@ def atualizar_usuario(id):
 # ====== Todos os sensores cadastrados ====== #
 @app.route("/sensores")
 def sensor():
-    return render_template("sensores_cadastrados.html")
+    sensores =  Sensor.buscar_sensores()
+    return render_template("sensores_cadastrados.html", sensores=sensores)
 
 # ====== Formulário de cadastro de senso ======= #
 @app.route("/sensor/novo", methods=['GET', 'POST'])
@@ -419,20 +426,30 @@ def excluir_sensor(sensor_id):
 # ====== Mostrar itens cadastrados na lista de compra ====== #
 @app.route("/lista_compra")
 def lista_compra():
-    lista_compra = Lista_compra()
-    dados = lista_compra.buscar_lista_compra()
+    try:
 
-    if dados == False:
-        flash("Nada encontrado", "danger")
+        lista_compra = Lista_compra()
+        dados = lista_compra.buscar_lista_compra()
+
+        if dados == False:
+            flash("Nada encontrado", "danger")
+            return render_template("lista_compra.html")
+            
+        return render_template("lista_compra.html", dados=dados)
+    except ValueError as e:
+        flash(e, "danger")
         return render_template("lista_compra.html")
-        
-    return render_template("lista_compra.html", dados=dados)
+
 
 # ======= Formulário add item na lista de compra ====== #
 @app.route("/lista_compra/novo", methods=["GET", "POST"])
 def novo_lista_compra():
-    produtos = Produto.buscar_todo_produto()
-    return render_template("adiciona_itens_lista_compra.html", lista_compra=None, produtos=produtos)
+    try:
+        produtos = Produto.buscar_todo_produto()
+        return render_template("adiciona_itens_lista_compra.html", lista_compra=None, produtos=produtos)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("lista_compra.html")
 
 # ====== Adicionado novos itens na lista de compra ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
@@ -642,7 +659,7 @@ def gravar_fornecedor():
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
-        return render_template("cadastrar_fornecedor.html", login=dados)
+        return render_template("cadastro_fornecedor.html", login=dados)
     
 
 
@@ -731,7 +748,12 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatori():
-    return render_template("relatorio.html")
+    try:
+        dados  = Lista_compra.buscar_lista_compra()
+        return render_template("relatorio.html", dados=dados)
+    except ValueError as e:
+        
+        return render_template("lista_compra.html")
 
 
 
