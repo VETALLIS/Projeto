@@ -25,9 +25,6 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `usuario_nome` VARCHAR(100) NOT NULL,
   `usuario_cpf` VARCHAR(11) NOT NULL,
   `usuario_cargo` VARCHAR(100) NOT NULL,
-  `imagem_nome` VARCHAR(255) NULL,
-  `imagem_tipo` VARCHAR(100) NULL,
-  `imagem_blob` LONGBLOB NULL,
   PRIMARY KEY (`usuario_id`))
 ENGINE = InnoDB;
 
@@ -42,9 +39,6 @@ CREATE TABLE IF NOT EXISTS `produto` (
   `produto_descricao` VARCHAR(100) NULL,
   `produto_categoria` VARCHAR(20) NOT NULL,
   `usuario_usuario_id` INT NOT NULL,
-  `imagem_nome` VARCHAR(255) NULL,
-  `imagem_tipo` VARCHAR(100) NULL,
-  `imagem_blob` LONGBLOB NULL,
   PRIMARY KEY (`produto_id`, `usuario_usuario_id`),
   CONSTRAINT `fk_produto_usuario1`
     FOREIGN KEY (`usuario_usuario_id`)
@@ -106,9 +100,6 @@ CREATE TABLE IF NOT EXISTS `sensor` (
   `sensor_voltagem` VARCHAR(30) NOT NULL,
   `sensor_tipo_conexao` VARCHAR(50) NOT NULL,
   `sensor_localizacao` VARCHAR(50) NOT NULL,
-  `imagem_nome` VARCHAR(255) NULL,
-  `imagem_tipo` VARCHAR(100) NULL,
-  `imagem_blob` LONGBLOB NULL,
   PRIMARY KEY (`sensor_id`))
 ENGINE = InnoDB;
 
@@ -200,6 +191,7 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `animal` (
   `animal_id` INT NOT NULL AUTO_INCREMENT,
   `animal_especie` VARCHAR(45) NOT NULL,
+  `animal_quantidade` INT NOT NULL,
   `animal_sexo` VARCHAR(45) NOT NULL,
   `animal_raca` VARCHAR(45) NOT NULL,
   `animal_identificacao` VARCHAR(45) NOT NULL,
@@ -283,4 +275,11 @@ SHOW WARNINGS;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+ALTER TABLE lista_compra DROP FOREIGN KEY fk_lista_compra_estoque1;
+ALTER TABLE lista_compra DROP COLUMN estoque_estoque_id;
+
+ALTER TABLE animal DROP COLUMN animal_quantidade;
+
 

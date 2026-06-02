@@ -34,17 +34,20 @@
         <div class="tab-pane fade show active" id="entrada">
             <form method="POST" action="{{url_for('pedido_salvar')}}" style="width: 100%;">
                 <input type="hidden" name="tipo_movimentacao" value="entrada">
+                <input type="hidden" name="pedido_entrada_status" value="Concluido">
                 <div class="me-3" style="width: 100%;">
                     <div class="d-flex" style="width: 100%;">
+
                         <div class="mb-4" style="max-width: 700px; width: 100%;">
                             <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:">
                         </div>
                         <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
-                            <input type="text" name="fornecedor_fornecedor_id" class="form-control" placeholder="Fornecedor: ">
+                            <input type="text" name="fornecedor_fornecedor_id" class="form-control"
+                                placeholder="Fornecedor: ">
                         </div>
                     </div>
                     <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" nome="pedido_entrada_data" class="form-control" placeholder="Data:" onfocus="this.type='date'">
+                        <input type="date" name="pedido_entrada_data" class="form-control" placeholder="Data:">
                     </div>
                 </div>
 
@@ -118,7 +121,8 @@
                         </div>
                     </div>
                     <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" name="pedido_saida_data" class="form-control" placeholder="Data:" onfocus="this.type='date'">
+                        <input type="text" name="pedido_saida_data" class="form-control" placeholder="Data:"
+                            onfocus="this.type='date'">
                     </div>
                 </div>
 
