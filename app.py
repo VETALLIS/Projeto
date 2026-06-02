@@ -815,7 +815,7 @@ def pedido_salvar():
             return render_template("pedido.html")
 
         entrada.gravar_pedido_entrada()
-        produtos  = Produto.buscar
+
 
         flash("Entrada cadastrada.", "success")
         return redirect(url_for("pedido"))
