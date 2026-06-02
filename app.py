@@ -76,7 +76,6 @@ def get_produto_form():
 def get_pedido_saida_form():
     return {
         "pedido_saida_nome": request.form.get("nome_produto", "").strip(),
-        "produto_id": to_int(request.form.get("produto_id")),
         "pedido_saida_data": converter_data(request.form.get("categoria", "").strip()),
         "pedido_saida_status": request.form.get("status", "").strip(),
         "animal_animal_id": to_int(request.form.get("quantidade"))
@@ -797,8 +796,13 @@ def excluir_usuario(usuario_id):
 
 @app.route("/pedido")
 def pedido():
-    fornecedor = Fornecedor.buscar_fornecedor()
-    return render_template("pedido.html", fornecedor=fornecedor)
+    try:
+        fornecedor = Fornecedor.buscar_fornecedor()
+        return render_template("pedido.html", fornecedor=fornecedor)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("pedido.html")
+
 
 # ===== salvar entrada de pedidos ===== #
 @app.route("/pedido/salvar", methods=["GET", "POST"])
@@ -825,6 +829,7 @@ def pedido_salvar():
     except Exception as e:
         flash(f"Erro ao cadastrar entrada", "danger")
         return render_template("pedido.html")
+
     
 # ======= Relatorio ======= #
 
