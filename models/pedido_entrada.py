@@ -11,7 +11,7 @@ class Pedido_entrada(Crud_base):
         self.pedido_entrada_nome = pedido_entrada_nome
         self.pedido_entrada_data = pedido_entrada_data
         self.pedido_entrada_status = pedido_entrada_status
-        self.fornecedor_fornecedor_id = 1
+        self.fornecedor_fornecedor_id = fornecedor_fornecedor_id
 
     def validar_pedido_entrada (self):
         erros = [
@@ -79,3 +79,24 @@ class Pedido_entrada(Crud_base):
             raise ValueError("Pedidos de entrada não encontrados")
 
         return f"Pedidos de entrada: "
+
+class Pedido_saida(Crud_base):
+    tabela = "item_pedido_entrada"
+    pk = "item_pedido_entrada_id"
+    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id"]
+
+    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome):
+        self.item_pedido_entrada_lote = item_pedido_entrada_lote
+        self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
+        self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
+        self.item_pedido_entrada_nome = item_pedido_entrada_nome
+        self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
+
+    def validar_item_pedido_entrada (self):
+        erros = [
+            Manipular.validar_vazio (self.item_pedido_entrada_nome, "item_pedido_entrada_nome"),
+            Manipular.validar_vazio (self.item_pedido_entrada_lote, "item_pedido_entrada_lote"),
+            Manipular.validar_vazio (self.item_pedido_entrada_quantidade, "item_pedido_entrada_quantidade"),
+            Manipular.validar_vazio (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario")
+        ]
+        return [ erro for erro in erros if erro]
