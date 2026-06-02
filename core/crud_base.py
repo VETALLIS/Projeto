@@ -119,3 +119,20 @@ class Crud_base:
         finally:
             cursor.close()
             conexao.close()
+
+    @classmethod
+    def buscar_pesquisa(cls, nome):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+
+        try:
+            sql = "SELECT * FROM {cls.table} WHERE produto_nome LIKE  %s "
+            cursor.execute(sql, (nome,))
+            resultados = cursor.fetchall()
+            if resultados:
+                return False
+            else: 
+                return None
+        finally:
+            cursor.close()
+            conexao.close()
