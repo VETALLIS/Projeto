@@ -91,19 +91,40 @@
             </div>
         </div>
 
-        <div class="me-4 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;max-width:400px !important; width: 100% !important;height: 160px;">
+        <div class="me-4"
+            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; max-width:400px !important; width: 100% !important; height: 160px;">
             <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5;">Sensor</h5>
-            <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 ms-3 mt-3 "
-                style="width: 80px; height: 80px;">
-                <i class="bi bi-thermometer-sun text-white" style="font-size: 3rem;"></i>
+            <div class="d-flex align-items-center gap-3 mt-2 ms-3">
+                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5"
+                    style="width: 80px; height: 80px; flex-shrink: 0;">
+                    <i class="bi bi-thermometer-sun text-white" style="font-size: 3rem;"></i>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <!-- Mostra a quantidade total de sensores cadastrados -->
+                    <label class="form-label mb-0" style="color: #fff; font-size: 0.9rem;">Qtd. Sensores: <strong>{{
+                            total_sensores }}</strong></label>
+
+                    <label class="form-label mb-0 mt-1" style="color: #fff; font-size: 0.85rem;">Voltagem Total:</label>
+                    <span style="color: #fff; font-size: 1.8rem; font-weight: bold; line-height: 1;">
+                        {% if sensores %}
+                        {% set total_voltagem = sensores | map(attribute='sensor_voltagem') | map('float') | sum %}
+                        {{ "%.2f"|format(total_voltagem) }}V
+                        {% else %}
+                        0.00V
+                        {% endif %}
+                    </span>
+                </div>
             </div>
         </div>
 
-        <div class="me-4 " style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;max-width:400px !important; width: 100% !important;height: 160px;">
+
+
+        <!-- Card do Total Estoque (Sempre visível, fora do if) -->
+        <div class="me-4"
+            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; max-width:400px !important; width: 100% !important; height: 160px;">
             <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5;">Total<br>Estoque</h5>
-            <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 ms-3 mt-3 "
+            <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 ms-3 mt-3"
                 style="width: 80px; height: 80px;">
                 <i class="bi bi-cart text-white" style="font-size: 3rem;"></i>
             </div>
@@ -111,23 +132,5 @@
 
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 {% endblock%}

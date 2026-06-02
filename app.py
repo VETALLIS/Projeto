@@ -138,7 +138,7 @@ def get_gerenciar_perfil_form():
 # ====== Pegando os dados para a pesquisa ====== #
 def get_pesquisa_item_form():
         return{
-        "nome_produto": request.form.get("nome_produto", "").strip(),
+        "produto_nome": request.form.get("nome_produto", "").strip(),
     }
 
 # ========= Definição das rotas e dos endpoints ========= #
@@ -575,7 +575,7 @@ def atualizar_lista_compra(id):
 @app.route("/pesquisa_item/")
 def editar_pesquisa_item(id):
     try:
-        pesquisa_item = pesquisa_item.find_by_id(id)
+        pesquisa_item = pesquisa_item.buscar_tudo_pesquisa(id)
         if not pesquisa_item:
             flash("Item não encontrado.", "danger")
             return redirect(url_for("pesquisa_item"))
@@ -790,8 +790,10 @@ def pedido():
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
 
-    dados = get_pedido_form()
-    entrada = Pedido_entrada(**dados)
+    dados_entrado = get_pedido_entrada_form()
+    dados_saida = get_pedido_saida_form()
+    entrada = Pedido_entrada(**dados_entrado)
+    saida = Pedido_saida(**dados_saida)
     erros = entrada.validar_pedido_entrada()
 
     try:
