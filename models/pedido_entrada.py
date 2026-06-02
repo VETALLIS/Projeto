@@ -80,7 +80,7 @@ class Pedido_entrada(Crud_base):
 
         return f"Pedidos de entrada: "
 
-class Pedido_saida(Crud_base):
+class item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada"
     pk = "item_pedido_entrada_id"
     fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id"]
@@ -97,6 +97,8 @@ class Pedido_saida(Crud_base):
             Manipular.validar_vazio (self.item_pedido_entrada_nome, "item_pedido_entrada_nome"),
             Manipular.validar_vazio (self.item_pedido_entrada_lote, "item_pedido_entrada_lote"),
             Manipular.validar_vazio (self.item_pedido_entrada_quantidade, "item_pedido_entrada_quantidade"),
-            Manipular.validar_vazio (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario")
+            Manipular.validar_vazio (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario"),
+            Manipular.validar_numero_negativo (self.item_pedido_entrada_quantidade, "item_pedido_entrada_quantidade"),
+            Manipular.validar_numero_negativo (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario")
         ]
         return [ erro for erro in erros if erro]

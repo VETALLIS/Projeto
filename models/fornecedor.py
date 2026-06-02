@@ -57,8 +57,9 @@ class Fornecedor(Crud_base):
 
         return Fornecedor(**fornecedor)
     
-    def buscar_fornecedor(cls):
-        fornecedor  = cls.buscar_tudo()
+    @classmethod
+    def buscar_fornecedor(cls, order_by="fornecedor_nome"):
+        fornecedor  = cls.buscar_tudo(order_by)
 
         if not fornecedor:
             raise ValueError("Fornecedor não encontrado!")

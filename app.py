@@ -797,7 +797,7 @@ def excluir_usuario(usuario_id):
 
 @app.route("/pedido")
 def pedido():
-    fornecedor = Fornecedor.buscar_fornecedor
+    fornecedor = Fornecedor.buscar_fornecedor()
     return render_template("pedido.html", fornecedor=fornecedor)
 
 # ===== salvar entrada de pedidos ===== #
