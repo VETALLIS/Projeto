@@ -394,6 +394,7 @@ def atualizar_usuario(id):
 def sensor():
     try:
         sensores =  Sensor.buscar_sensores()
+        
         return render_template("sensores_cadastrados.html", sensores=sensores)
     except ValueError as e:
         flash(e, "danger")

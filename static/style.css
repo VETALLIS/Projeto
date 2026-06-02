@@ -1355,3 +1355,51 @@ input::placeholder {
     background: rgba(255, 255, 255, 0.05);
 }
 
+
+/* Carosel */
+    .carousel-vertical .carousel-inner {
+      height: 400px; /* ajuste conforme necessário */
+    }
+
+    .carousel-vertical .carousel-item {
+      transition: transform 0.6s ease;
+      position: absolute;
+      width: 100%;
+      top: -100%;
+    }
+
+    .carousel-vertical .carousel-item.active {
+      top: 0;
+    }
+
+    .carousel-vertical .carousel-item-next:not(.carousel-item-start),
+    .carousel-vertical .active.carousel-item-end {
+      transform: translateY(100%);
+      top: 0;
+    }
+
+    .carousel-vertical .carousel-item-prev:not(.carousel-item-end),
+    .carousel-vertical .active.carousel-item-start {
+      transform: translateY(-100%);
+      top: 0;
+    }
+
+    .carousel-vertical .carousel-item-next.carousel-item-start,
+    .carousel-vertical .carousel-item-prev.carousel-item-end,
+    .carousel-vertical .active {
+      transform: translateY(0);
+      top: 0;
+    }
+
+    /* Botões reposicionados para cima/baixo */
+    .carousel-vertical .carousel-control-prev {
+      top: 0;
+      bottom: auto;
+      height: 60px;
+    }
+
+    .carousel-vertical .carousel-control-next {
+      top: auto;
+      bottom: 0;
+      height: 60px;
+    }
