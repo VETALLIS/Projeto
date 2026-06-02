@@ -280,4 +280,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 ALTER TABLE lista_compra DROP FOREIGN KEY fk_lista_compra_estoque1;
 ALTER TABLE lista_compra DROP COLUMN estoque_estoque_id;
 
+ALTER TABLE animal DROP COLUMN animal_quantidade;
+
 
