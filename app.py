@@ -58,15 +58,22 @@ def get_produto_form():
 
 
 # ====== Pegando os dados de pedidos ====== #
-def get_pedido_form():
+def get_pedido_saida_form():
     return {
-        "nome_produto": request.form.get("nome_produto", "").strip(),
+        "pedido_saida_nome": request.form.get("nome_produto", "").strip(),
         "produto_id": to_int(request.form.get("produto_id")),
-        "categoria": request.form.get("categoria", "").strip(),
-        "quantidade": to_int(request.form.get("quantidade")),
-        "observacao": request.form.get("observacao", "").strip(),
-        "tipo_movimentacao": request.form.get("tipo_movimentacao", "").strip(),
-        "data_movimentacao":  request.form.get("data_movimentacao", "").strip()
+        "pedido_saida_data": request.form.get("categoria", "").strip(),
+        "pedido_saida_status": request.form.get("status", "").strip(),
+        "animal_animal_id": to_int(request.form.get("quantidade"))
+    }
+
+def get_pedido_entrada_form():
+    return {
+        "pedido_entrada_nome": request.form.get("nome_produto", "").strip(),
+        "produto_id": to_int(request.form.get("produto_id")),
+        "pedido_entrada_data": request.form.get("data", "").strip(),
+        "pedido_entrada_status": request.form.get("status", "").strip(),
+        "fornecedor_fornecedor_id": to_int(request.form.get("quantidade"))
     }
 
 # ====== Pegando os dados do usuario ====== #
