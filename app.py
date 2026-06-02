@@ -13,7 +13,7 @@ from models.gerenciamento_perfil import GerenciamentoPerfil
 from models.informacao_produto import Informacao_Produto
 from models.pedido_saida import Pedido_saida
 from models.pesquisa import Pesquisa
-import datetime
+from datetime import datetime
 
 
 
