@@ -790,8 +790,10 @@ def pedido():
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
 
-    dados = get_pedido_form()
-    entrada = Pedido_entrada(**dados)
+    dados_entrado = get_pedido_entrada_form()
+    dados_saida = get_pedido_saida_form()
+    entrada = Pedido_entrada(**dados_entrado)
+    saida = Pedido_saida(**dados_saida)
     erros = entrada.validar_pedido_entrada()
 
     try:
