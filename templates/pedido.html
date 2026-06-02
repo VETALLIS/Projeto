@@ -11,7 +11,7 @@
         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#entrada" type="button"
             style="color: white;" onclick="
                 this.style.color='#074040';
-                document.querySelector('[data-bs-target=\'#saida\']').style.color='white';
+                document.querySelector('[data-bs-target=\'#entrada\']').style.color='white';
             ">
             Entrada
         </button>
@@ -20,7 +20,7 @@
         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#saida" type="button" style="color: white;"
             onclick="
                 this.style.color='#074040';
-                document.querySelector('[data-bs-target=\'#entrada\']').style.color='white';
+                document.querySelector('[data-bs-target=\'#saida\']').style.color='white';
             ">
             Saída
         </button>
@@ -37,14 +37,14 @@
                 <div class="me-3" style="width: 100%;">
                     <div class="d-flex" style="width: 100%;">
                         <div class="mb-4" style="max-width: 700px; width: 100%;">
-                            <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
+                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:">
                         </div>
                         <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
-                            <input type="text" class="form-control" placeholder="Animal:">
+                            <input type="text" name="fornecedor_fornecedor_id" class="form-control" placeholder="Fornecedor: ">
                         </div>
                     </div>
                     <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" class="form-control" placeholder="Data:" onfocus="this.type='date'">
+                        <input type="text" nome="pedido_entrada_data" class="form-control" placeholder="Data:" onfocus="this.type='date'">
                     </div>
                 </div>
 
@@ -61,12 +61,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="text-white" style="width: 30%;">Produto</th>
-                                <th class="text-white" style="width: 25%;">Localização</th>
-                                <th class="text-white" style="width: 15%;">Quantidade</th>
-                                <th class="text-white" style="width: 15%;">Valor Unitário</th>
-                                <th class="text-white" style="width: 10%;">Data de validade</th>
-                                <th class="text-white" style="width: 5%;" class="text-center">Ação</th>
+                                <th class="text-white text-center" style="width: 30%;">Produto</th>
+                                <th class="text-white text-center" style="width: 25%;">Lote</th>
+                                <th class="text-white text-center" style="width: 15%;">Quantidade</th>
+                                <th class="text-white text-center" style="width: 15%;">Valor Unitário</th>
+                                <th class="text-white text-center" style="width: 10%;">Data de validade</th>
+                                <th class="text-white text-center" style="width: 5%;">Ação</th>
                             </tr>
                         </thead>
                         <tbody id="corpoItensEntrada"></tbody>
@@ -76,21 +76,22 @@
 
                 <template id="templateItemEntrada">
                     <tr>
-                        <td><input type="text" name="item_nome[]" class="bg-transparent border-0 form"
-                                placeholder="Nome"></td>
-                        <td><input type="text" name="item_lote[]" class="bg-transparent text-white border-0 form"
-                                placeholder="Lote"></td>
-                        <td><input type="number" name="item_quantidade[]"
-                                class="bg-transparent text-white border-0 form" placeholder="0" min="0.01" step="0.01">
+                        <td class="text-center"><input type="text" name="item_pedido_entrada_nome"
+                                class="bg-transparent border-0 form w-100 text-center text-white" placeholder="Nome">
                         </td>
-                        <td><input type="number" name="item_valor_unitario[]"
-                                class="bg-transparent text-white border-0 form" placeholder="0.00" min="0" step="0.01">
+                        <td class="text-center"><input type="text" name="item_pedido_entrada_lote"
+                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Lote">
                         </td>
-                        <td><input type="date" name="item_data_validade[]"
-                                class="bg-transparent text-white border-0 form"></td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-sm btn-danger" onclick="removerLinha(this)">X</button>
-                        </td>
+                        <td class="text-center"><input type="number" name="item_pedido_entrada_quantidade"
+                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0"
+                                min="0.01" step="0.01"></td>
+                        <td class="text-center"><input type="number" name="item_pedido_entrada_valor_unitario"
+                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0.00"
+                                min="0" step="0.01"></td>
+                        <td class="text-center"><input type="date" name="item_pedido_entrada_data_validade"
+                                class="bg-transparent text-white border-0 form w-100 text-center"></td>
+                        <td class="text-center"><button type="button" class="btn btn-sm btn-danger"
+                                onclick="removerLinha(this)">X</button></td>
                     </tr>
                 </template>
 
@@ -113,11 +114,11 @@
                             <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
                         </div>
                         <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
-                            <input type="text" class="form-control" placeholder="Animal:">
+                            <input type="text" name="animal_animal_id" class="form-control" placeholder="Animal:">
                         </div>
                     </div>
                     <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" class="form-control" placeholder="Data:" onfocus="this.type='date'">
+                        <input type="text" name="pedido_saida_data" class="form-control" placeholder="Data:" onfocus="this.type='date'">
                     </div>
                 </div>
 
@@ -134,10 +135,9 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="text-white" style="width: 30%;">Produto</th>
-                                <th class="text-white" style="width: 25%;">Localização</th>
-                                <th class="text-white" style="width: 15%;">Quantidade</th>
-                                <th class="text-white" style="width: 15%;">Valor Unitário</th>
+                                <th class="text-white text-center" style="width: 30%;">Produto</th>
+                                <th class="text-white text-center" style="width: 25%;">Lote</th>
+                                <th class="text-white text-center" style="width: 15%;">Quantidade</th>
                                 <th class="text-white" style="width: 5%;" class="text-center">Ação</th>
                             </tr>
                         </thead>
@@ -148,18 +148,16 @@
 
                 <template id="templateItemSaida">
                     <tr>
-                        <td><input type="text" name="item_nome[]" class="bg-transparent border-0 form"
-                                placeholder="Nome"></td>
-                        <td><input type="text" name="item_lote[]" class="bg-transparent text-white border-0 form"
-                                placeholder="Lote"></td>
-                        <td><input type="number" name="item_quantidade[]"
-                                class="bg-transparent text-white border-0 form" placeholder="0" min="0.01" step="0.01">
+                        <td><input type="text" name="item_pedido_saida_nome"
+                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Nome">
                         </td>
-                        <td><input type="number" name="item_valor_unitario[]"
-                                class="bg-transparent text-white border-0 form" placeholder="0.00" min="0" step="0.01">
+                        <td><input type="text" name="item_pedido_saida_lote"
+                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Lote">
                         </td>
-                        <td><input type="date" name="item_data_validade[]"
-                                class="bg-transparent text-white border-0 form"></td>
+                        <td><input type="number" name="item_pedido_saida_quantidade"
+                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0"
+                                min="0.01" step="0.01">
+                        </td>
                         <td class="text-center">
                             <button type="button" class="btn btn-sm btn-danger" onclick="removerLinha(this)">X</button>
                         </td>
@@ -197,12 +195,12 @@
         adicionarItem("templateItemEntrada", "corpoItensEntrada");
         adicionarItem("templateItemSaida", "corpoItensSaida");
 
-        document.getElementById("btnAdicionarEntrada").addEventListener("click", function () {
-            adicionarItem("templateItemEntrada", "corpoItensEntrada");
-        });
-
-        document.getElementById("btnAdicionarSaida").addEventListener("click", function () {
-            adicionarItem("templateItemSaida", "corpoItensSaida");
+        document.querySelectorAll(".btn-adicionar-item").forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const templateId = this.dataset.template;
+                const corpoId = this.dataset.corpo;
+                adicionarItem(templateId, corpoId);
+            });
         });
     });
 </script>

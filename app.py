@@ -58,15 +58,22 @@ def get_produto_form():
 
 
 # ====== Pegando os dados de pedidos ====== #
-def get_pedido_form():
+def get_pedido_saida_form():
     return {
-        "nome_produto": request.form.get("nome_produto", "").strip(),
+        "pedido_saida_nome": request.form.get("nome_produto", "").strip(),
         "produto_id": to_int(request.form.get("produto_id")),
-        "categoria": request.form.get("categoria", "").strip(),
-        "quantidade": to_int(request.form.get("quantidade")),
-        "observacao": request.form.get("observacao", "").strip(),
-        "tipo_movimentacao": request.form.get("tipo_movimentacao", "").strip(),
-        "data_movimentacao":  request.form.get("data_movimentacao", "").strip()
+        "pedido_saida_data": request.form.get("categoria", "").strip(),
+        "pedido_saida_status": request.form.get("status", "").strip(),
+        "animal_animal_id": to_int(request.form.get("quantidade"))
+    }
+
+def get_pedido_entrada_form():
+    return {
+        "pedido_entrada_nome": request.form.get("nome_produto", "").strip(),
+        "produto_id": to_int(request.form.get("produto_id")),
+        "pedido_entrada_data": request.form.get("data", "").strip(),
+        "pedido_entrada_status": request.form.get("status", "").strip(),
+        "fornecedor_fornecedor_id": to_int(request.form.get("quantidade"))
     }
 
 # ====== Pegando os dados do usuario ====== #
@@ -131,7 +138,7 @@ def get_gerenciar_perfil_form():
 # ====== Pegando os dados para a pesquisa ====== #
 def get_pesquisa_item_form():
         return{
-        "nome_produto": request.form.get("nome_produto", "").strip(),
+        "produto_nome": request.form.get("nome_produto", "").strip(),
     }
 
 # ========= Definição das rotas e dos endpoints ========= #
@@ -146,11 +153,12 @@ def index():
 @app.route("/inicial")
 def inicial():
     usuario_id = session.get("usuario_id") 
+    produtos  = Produto.buscar_todo_produto()
     
 
     if usuario_id:
         usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
-        return render_template("tela_inicial.html", usuario=usuario_completo)
+        return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos)
     
 
     return redirect('/login')
@@ -567,7 +575,7 @@ def atualizar_lista_compra(id):
 @app.route("/pesquisa_item/")
 def editar_pesquisa_item(id):
     try:
-        pesquisa_item = pesquisa_item.find_by_id(id)
+        pesquisa_item = pesquisa_item.buscar_tudo_pesquisa(id)
         if not pesquisa_item:
             flash("Item não encontrado.", "danger")
             return redirect(url_for("pesquisa_item"))
@@ -782,8 +790,10 @@ def pedido():
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
 
-    dados = get_pedido_form()
-    entrada = Pedido_entrada(**dados)
+    dados_entrado = get_pedido_entrada_form()
+    dados_saida = get_pedido_saida_form()
+    entrada = Pedido_entrada(**dados_entrado)
+    saida = Pedido_saida(**dados_saida)
     erros = entrada.validar_pedido_entrada()
 
     try:
