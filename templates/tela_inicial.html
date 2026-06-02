@@ -1,130 +1,149 @@
 {% extends 'base.html'%}
 {% block conteudo%}
-<div class="">
-    <div class="d-flex gap-3 mt-4 me-5 ms-3" style="align-items: flex-start;">
-        <div class=" position-relative overflow-hidden" style=" border-radius: 15px;background: #089068;
-    padding: 5px;max-width:300px !important; width: 100% !important;height: 190px;">
-            <span style="position: absolute; font-size: 8rem; font-weight: bold; color:#18C890 ;
+<div class="d-flex">
+    <div>
+        <div class="container row">
+            <div class="d-flex gap-3 mt-4 me-5 ms-2"
+                style="align-items: flex-start; max-width:610px !important; width: 100% !important;">
+                <div class=" position-relative overflow-hidden" style=" border-radius: 15px;background: #089068;
+    padding: 5px;max-width:400px !important; width: 100% !important;height: 190px;">
+                    <span style="position: absolute; font-size: 8rem; font-weight: bold; color:#18C890 ;
   z-index: 0; top: 50%; left: 50%; transform: translate(-50%, -50%);">15</span>
-            <label style=" margin-left: 0 !important; align-self: flex-start;">
-            </label>
-            <h5 class=" fw-bold mb-0 ps-2 display-5 text-center mt-5"
-                style="position: relative; z-index: 1;top: -12px; color:#006040;">Vacinas
-            </h5>
-            <button
-                class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
-                style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
-                <i class="bi bi-sliders text-white"></i>
-            </button>
+                    <label style=" margin-left: 0 !important; align-self: flex-start;">
+                    </label>
+                    <h5 class=" fw-bold mb-0 ps-2 display-5 text-center mt-5"
+                        style="position: relative; z-index: 1;top: -12px; color:#006040;">Vacinas
+                    </h5>
+                    <button
+                        class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+                        style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
+                        <i class="bi bi-sliders text-white"></i>
+                    </button>
+                </div>
+
+                <div class="position-relative overflow-hidden" style=" border-radius: 15px;background: #15B3BD; opacity: 50%; 
+    padding: 5px;max-width:400px !important; width: 100% !important; height: 190px;">
+                    <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+                    </label>
+                    <h5 class=" text-start fw-bold mb-0 ps-2 display-5 mt-2"
+                        style="position: relative; z-index: 1; color:#006040;">Estoque
+                    </h5>
+                    <button
+                        class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+                        style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
+                        <i class="bi bi-sliders text-white"></i>
+                    </button>
+                </div>
+
+            </div>
+
+
+
+            <div class=" mt-4 me-5 ms-3" style="
+     border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px;width:598px !important;height: 400px;">
+                <label style="align-self: flex-start; z-index: 1000;"></label>
+
+
+                <div class="d-flex gap-3 ms-3">
+
+
+                    <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
+                        style=" border-radius: 15px;background: #92D8CB;
+    padding: 5px;max-width:270px !important; width: 100% !important;height: 190px;">
+                        <button
+                            class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+                            style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
+                            <i class="bi bi-sliders text-white"></i>
+                        </button>
+                        <p class="ms-2 mb-1 fs-2 text-white " style="position: relative;">Luminosidade
+                        </p>
+                        <h4 class="ms-2 fw-bold  display-3" style="color: white;">300lux</h4>
+
+                    </div>
+
+                    <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
+                        style=" border-radius: 15px;background: #85D264;
+    padding: 5px;max-width:270px !important; width: 100% !important;height: 190px;">
+                        <button
+                            class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+                            style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
+                            <i class="bi bi-sliders text-white"></i>
+                        </button>
+                        <p class="ms-2 mb-1 fs-2 mt-3 text-white " style="position: relative; ">Umidade
+                        </p>
+                        <h4 class="fw-bold display-3 w-100 text-center mb-2" style="color: white;">20%</h4>
+
+                    </div>
+                </div>
+
+                <div class="position-relative overflow-hidden ms-3 mt-3  " style=" border-radius: 15px;background: #1C9E86;
+    padding: 5px;max-width:560px !important; width: 100% !important;height: 150px;">
+                    <div>
+                        <button
+                            class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
+                            style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
+                            <i class="bi bi-sliders text-white"></i>
+                        </button>
+                        <p class="mb-1 ms-2 fs-2 mt-3 text-white" style="position: absolute; top: 15px; left: 15px;">
+                            Temperatura
+                        </p>
+                    </div>
+                    <div style="position: absolute; bottom: 10px; right: 15px;">
+                        <h4 class="fw-bold display-3  mb-0" style="color: white;">15°C</h4>
+                    </div>
+                </div>
+
+
+            </div>
+
+
         </div>
 
-        <div class="position-relative overflow-hidden" style=" border-radius: 15px;background: #15B3BD; opacity: 50%; 
-    padding: 5px;max-width:300px !important; width: 100% !important;height: 190px;">
-            <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
-            </label>
-            <h5 class=" text-start fw-bold mb-0 ps-2 display-5 mt-2"
-                style="position: relative; z-index: 1; color:#006040;">Estoque
-            </h5>
-            <button
-                class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
-                style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
-                <i class="bi bi-sliders text-white"></i>
-            </button>
-        </div>
+    </div>
+    
         
 
-        <script>
-            localStorage.setItem("usuario", JSON.stringify({
-                id: "{{ usuario.get('usuario_id')}}",
-                nome: "{{usuario.get('usuario_nome')}}"
-            }))
 
 
-        </script>
-
-    </div>
 
 
-    <div class=" mt-4 me-5 ms-3" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;width:620px !important;height: 400px;">
-        <label style="align-self: flex-start; z-index: 1000;"></label>
+    <script>
+        localStorage.setItem("usuario", JSON.stringify({
+            id: "{{ usuario.get('usuario_id')}}",
+            nome: "{{usuario.get('usuario_nome')}}"
+        }))
 
 
-        <div class="d-flex gap-3 ms-3">
+    </script>
+
+</div>
 
 
-            <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
-                style=" border-radius: 15px;background: #92D8CB;
-    padding: 5px;max-width:280px !important; width: 100% !important;height: 190px;">
-                <button
-                    class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
-                    style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
-                    <i class="bi bi-sliders text-white"></i>
-                </button>
-                <p class="ms-2 mb-1 fs-2 text-white " style="position: relative;">Luminosidade
-                </p>
-                <h4 class="ms-2 fw-bold  display-3" style="color: white;">300lux</h4>
-
-            </div>
-
-            <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
-                style=" border-radius: 15px;background: #85D264;
-    padding: 5px;max-width:280px !important; width: 100% !important;height: 190px;">
-                <button
-                    class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
-                    style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
-                    <i class="bi bi-sliders text-white"></i>
-                </button>
-                <p class="ms-2 mb-1 fs-2 mt-3 text-white " style="position: relative; ">Umidade
-                </p>
-                <h4 class="fw-bold display-3 w-100 text-center mb-2" style="color: white;">20%</h4>
-
-            </div>
-        </div>
-
-        <div class="position-relative overflow-hidden ms-3 mt-3  " style=" border-radius: 15px;background: #1C9E86;
-    padding: 5px;max-width:578px !important; width: 100% !important;height: 150px;">
-            <div>
-                <button
-                    class="rounded-circle border-0 d-flex align-items-center justify-content-center  position-absolute top-0 end-0 m-2"
-                    style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
-                    <i class="bi bi-sliders text-white"></i>
-                </button>
-                <p class="mb-1 ms-2 fs-2 mt-3 text-white" style="position: absolute; top: 15px; left: 15px;">Temperatura
-                </p>
-            </div>
-            <div style="position: absolute; bottom: 10px; right: 15px;">
-                <h4 class="fw-bold display-3  mb-0" style="color: white;">15°C</h4>
-            </div>
-        </div>
 
 
-    </div>
-
-    <div class="d-flex colum mt-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+<div class="d-flex colum mt-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
     padding: 5px;max-width:1350px !important; width: 100% !important;height: 450px;">
-        <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
+    <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
 
-        <div class="table-responsive mt-3" style="width: 100%;;">
-            <table class="table">
-                <tr>
-                    <th class="text-white text-start">Nome</th>
-                    <th class="text-white fw-bold">Categoria</th>
-                    <th class="text-white">Quantidade</th>
+    <div class="table-responsive mt-3" style="width: 100%;;">
+        <table class="table">
+            <tr>
+                <th class="text-white text-start">Nome</th>
+                <th class="text-white fw-bold">Categoria</th>
+                <th class="text-white">Quantidade</th>
 
-                </tr>
-                {% for produto in lista_compra %}
-                <tr>
-                    <th class="text-white fw-normal align-items-start text-start">{{ produto.produto_nome }}</th>
-                    <th class="text-white fw-normal">R$ {{ produto.produto_categoria }}</th>
-                    <th class="text-white fw-normal">{{ produto.produto_quantidade }}</th>
+            </tr>
+            {% for produto in produtos %}
+            <tr>
+                <th class="text-white fw-normal align-items-start text-start">{{ produto.produto_nome }}</th>
+                <th class="text-white fw-normal">{{ produto.produto_categoria }}</th>
+                <th class="text-white fw-normal">{{ produto.estoque_quantidade }}</th>
 
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
-
 </div>
 
 
