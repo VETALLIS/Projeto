@@ -22,7 +22,7 @@
         <section class="topbar">
             <div class="topbar-logo">
                 <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="Vetalis Logo">
-                <span class="topbar-brand"id="nome">Hello, </span>
+                <span class="topbar-brand" id="nome">Hello, </span>
             </div>
 
             <div class="topbar-search">
@@ -35,10 +35,14 @@
                     <i class="bi bi-plus-circle"></i> ADD Produtos
                 </a>
                 <button class="topbar-btn topbar-btn-icon">
-                    <i class="bi bi-file-earmark-text"></i>
+                    <a id="link-perfil" title="Configurações" class="text-white">
+                        <i class="bi bi-gear"></i>
+                    </a>
                 </button>
                 <button class="topbar-btn topbar-btn-icon">
-                    <i class="bi bi-calendar3"></i>
+                    <a href="{{url_for('logout')}}" class="text-white" title="Sair">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
                 </button>
             </div>
         </section>
@@ -46,31 +50,27 @@
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <nav class="sidebar-nav gap-2" style="margin-top: -20px;">
+        <nav class="sidebar-nav gap-3" style="margin-top: -15px;">
             <a href="{{ url_for('inicial') }}" class="sidebar-link active" title="Início">
                 <i class="bi bi-house"></i>
-            </a> 
+            </a>
             <a class="sidebar-link" title="Produtos" href="{{url_for('produtos')}}">
                 <i class="bi bi-capsule"></i>
             </a>
-            <a href="{{url_for('relatorio')}}" class="sidebar-link" title="Relatórios">
-                <i class="bi bi-graph-up"></i>
-            </a>
-            <a id="link-perfil"
-                class="sidebar-link" title="Configurações">
-                <i class="bi bi-gear"></i>
+            <a href="{{url_for('animal')}}" class="sidebar-link" title="Animal">
+                <i class="bi bi-feather"></i>
             </a>
             <a href="{{url_for('sensor')}}" class="sidebar-link" title="Sensor">
                 <i class="bi bi-radar"></i>
             </a>
+            <a href="{{url_for('fornecedor_novo')}}" class="sidebar-link" title="Fornecedor">
+                <i class="bi bi-shop-window"></i>
+            </a>
             <a href="{{url_for('lista_compra')}}" class="sidebar-link" title="Lista de compra">
                 <i class="bi bi-cart3"></i>
             </a>
-            <a href="{{url_for('logout')}}" class="sidebar-link" title="Sair">
-                <i class="bi bi-box-arrow-right"></i>
-            </a>
-            <a href="#" class="sidebar-link" title="Ajuda">
-                <i class="bi bi-patch-question"></i>
+            <a href="{{url_for('relatorio')}}" class="sidebar-link" title="Relatórios">
+                <i class="bi bi-graph-up"></i>
             </a>
         </nav>
     </aside>
@@ -79,7 +79,8 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for categoria, mensagem in messages %}
-            <div class="alert alert-primary alert-{{categoria}} alert-dismissible fade show border border-{{categoria}}-subtle border-2" role="alert">
+            <div class="alert alert-primary alert-{{categoria}} alert-dismissible fade show border border-{{categoria}}-subtle border-2"
+                role="alert">
                 <i class="bi bi-info-circle-fill"></i>
                 <strong>{{ mensagem }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
