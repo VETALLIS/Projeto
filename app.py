@@ -13,6 +13,8 @@ from models.gerenciamento_perfil import GerenciamentoPerfil
 from models.informacao_produto import Informacao_Produto
 from models.pedido_saida import Pedido_saida
 from models.pesquisa import Pesquisa
+from datetime import datetime
+
 
 
 # definição da variavel app
@@ -35,6 +37,18 @@ def to_float(value, default=0.0):
         return float(value)
     except (TypeError, ValueError):
         return default
+    
+
+def converter_data(data_str):
+    formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']  # aceita vários formatos
+    
+    for formato in formatos:
+        try:
+            return datetime.strptime(data_str.strip(), formato).strftime('%Y-%m-%d')
+        except ValueError:
+            continue
+    
+    return None
 
 
 # ====== Pegando os dados do Front End ====== #
@@ -63,7 +77,7 @@ def get_pedido_saida_form():
     return {
         "pedido_saida_nome": request.form.get("nome_produto", "").strip(),
         "produto_id": to_int(request.form.get("produto_id")),
-        "pedido_saida_data": request.form.get("categoria", "").strip(),
+        "pedido_saida_data": converter_data(request.form.get("categoria", "").strip()),
         "pedido_saida_status": request.form.get("status", "").strip(),
         "animal_animal_id": to_int(request.form.get("quantidade"))
     }
@@ -72,7 +86,7 @@ def get_pedido_entrada_form():
     return {
         "pedido_entrada_nome": request.form.get("nome_produto", "").strip(),
         "produto_id": to_int(request.form.get("produto_id")),
-        "pedido_entrada_data": request.form.get("data", "").strip(),
+        "pedido_entrada_data":converter_data( request.form.get("data", "").strip()),
         "pedido_entrada_status": request.form.get("status", "").strip(),
         "fornecedor_fornecedor_id": to_int(request.form.get("quantidade"))
     }

@@ -101,17 +101,17 @@ class Manipular:
                         if dados[3:5] in meses:
                             if dados[3:5] in ['01', '03', '05', '07', '08', '10', '12']:
                                 if 0 < int(dados[0:2]) <= 31:
-                                    return True
+                                    return None
                                 else:
                                     return f"O campo {field_name} está incorreto"
                             elif dados[3:5] in ['04', '06', '09', '11']:
                                 if 0 < int(dados[0:2]) <= 30:
-                                    return True
+                                    return None
                                 else:
                                     return False
                             else:
                                 if int(dados[0:2]) == 28:
-                                    return True
+                                    return None
                                 else:
                                     return False
                         else:

@@ -83,7 +83,6 @@ class Produto(Crud_base):
         return produto
 
     @classmethod
-    
     def buscar_todo_produto(cls, order_by="produto_nome"):
         produto = cls.buscar_tudo(order_by)
 
