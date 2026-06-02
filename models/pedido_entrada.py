@@ -102,3 +102,30 @@ class item_pedido_entrada(Crud_base):
             Manipular.validar_numero_negativo (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario")
         ]
         return [ erro for erro in erros if erro]
+
+    def gravar_item_pedido_entrada (self):
+        item_pedido_entrada = self.gravar()
+
+        if not item_pedido_entrada:
+            raise ValueError("Erro ao cadastrar item de pedido de entrada.")
+        
+        return "Cadastrado"
+
+    def deletar_item_pedido_entrada(cls, id):
+        item_pedido_entrada = cls.buscar_por_id(id)
+
+        if not item_pedido_entrada:
+            raise ValueError("Item de Pedido de entrada não encontrado.")
+        if cls.relacao_entre_tabelas(id):
+            raise ValueError("Não é possível excluir o item de pedido de entrada porque ele possui pedidos ou movimentações vinculadas.")
+        cls.deletar(id)
+
+        return "Item de Pedido de entrada deletado com sucesso!"
+
+    def atualizar_item_pedido_entrada(self, id):
+        item_pedido_entrada = self.buscar_por_id(id)
+
+        if not item_pedido_entrada:
+            raise ValueError("Item de pedido de entrada não encontrado!")
+        self.atualizar(id)
+        return "Item de pedido de entrada atualizado com sucesso!"
