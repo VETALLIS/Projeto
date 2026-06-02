@@ -1,7 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
 import datetime
-
 class Pedido_saida(Crud_base):
     tabela = "pedido_saida"
     fields = ["pedido_saida_id", "pedido_saida_nome", "pedido_saida_data", "pedido_saida_status", "animal_animal_id"]
