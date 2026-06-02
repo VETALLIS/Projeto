@@ -153,11 +153,12 @@ def index():
 @app.route("/inicial")
 def inicial():
     usuario_id = session.get("usuario_id") 
+    produtos  = Produto.buscar_todo_produto()
     
 
     if usuario_id:
         usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
-        return render_template("tela_inicial.html", usuario=usuario_completo)
+        return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos)
     
 
     return redirect('/login')
