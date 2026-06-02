@@ -49,10 +49,18 @@ class Fornecedor(Crud_base):
         self.atualizar()
         return "Fornecedor atualizado com sucesso!"
 
-    def buscar_fornecedor(self):
+    def buscar_fornecedor_id(self):
         fornecedor  = self.buscar_por_id(id)
 
         if not fornecedor:
             raise ValueError("Fornecedor não encontrado!")
 
         return Fornecedor(**fornecedor)
+    
+    def buscar_fornecedor(cls):
+        fornecedor  = cls.buscar_tudo()
+
+        if not fornecedor:
+            raise ValueError("Fornecedor não encontrado!")
+
+        return fornecedor

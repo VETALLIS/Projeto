@@ -87,7 +87,7 @@ def get_pedido_entrada_form():
         "pedido_entrada_nome": request.form.get("nome_produto", "").strip(),
         "pedido_entrada_data":converter_data( request.form.get("data", "").strip()),
         "pedido_entrada_status": request.form.get("status", "").strip(),
-        "fornecedor_fornecedor_id": to_int(request.form.get("quantidade"))
+        "fornecedor_fornecedor_id": request.form.get('fornecedor_id')
     }
 
 # ====== Pegando os dados do usuario ====== #
@@ -797,7 +797,8 @@ def excluir_usuario(usuario_id):
 
 @app.route("/pedido")
 def pedido():
-    return render_template("pedido.html")
+    fornecedor = Fornecedor.buscar_fornecedor
+    return render_template("pedido.html", fornecedor=fornecedor)
 
 # ===== salvar entrada de pedidos ===== #
 @app.route("/pedido/salvar", methods=["GET", "POST"])
