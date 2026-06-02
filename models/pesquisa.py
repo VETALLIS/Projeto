@@ -1,7 +1,7 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
 
-class Produto(Crud_base):
+class Pesquisa(Crud_base):
     tabela = "produto"
     pk = "produto_id"
 
@@ -18,9 +18,8 @@ class Produto(Crud_base):
     
     
     @classmethod
-    
-    def buscar_pesquisa(cls, order_by="produto_nome"):
-        produto = cls.buscar_pesquisa()
+    def buscar_tudo_pesquisa(cls, dados):
+        produto = cls.buscar_pesquisa(dados)
 
         if not produto:
             raise ValueError("Produtos não encontrado")

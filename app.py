@@ -12,6 +12,9 @@ from models.pedido_entrada import Pedido_entrada
 from models.gerenciamento_perfil import GerenciamentoPerfil
 from models.informacao_produto import Informacao_Produto
 from models.pedido_saida import Pedido_saida
+from models.pesquisa import Pesquisa
+import datetime
+
 
 
 # definição da variavel app
@@ -34,6 +37,18 @@ def to_float(value, default=0.0):
         return float(value)
     except (TypeError, ValueError):
         return default
+    
+
+def converter_data(data_str):
+    formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']  # aceita vários formatos
+    
+    for formato in formatos:
+        try:
+            return datetime.strptime(data_str.strip(), formato).strftime('%Y-%m-%d')
+        except ValueError:
+            continue
+    
+    return None
 
 
 # ====== Pegando os dados do Front End ====== #
@@ -62,7 +77,7 @@ def get_pedido_saida_form():
     return {
         "pedido_saida_nome": request.form.get("nome_produto", "").strip(),
         "produto_id": to_int(request.form.get("produto_id")),
-        "pedido_saida_data": request.form.get("categoria", "").strip(),
+        "pedido_saida_data": converter_data(request.form.get("categoria", "").strip()),
         "pedido_saida_status": request.form.get("status", "").strip(),
         "animal_animal_id": to_int(request.form.get("quantidade"))
     }
@@ -71,7 +86,7 @@ def get_pedido_entrada_form():
     return {
         "pedido_entrada_nome": request.form.get("nome_produto", "").strip(),
         "produto_id": to_int(request.form.get("produto_id")),
-        "pedido_entrada_data": request.form.get("data", "").strip(),
+        "pedido_entrada_data":converter_data( request.form.get("data", "").strip()),
         "pedido_entrada_status": request.form.get("status", "").strip(),
         "fornecedor_fornecedor_id": to_int(request.form.get("quantidade"))
     }
@@ -137,9 +152,7 @@ def get_gerenciar_perfil_form():
 
 # ====== Pegando os dados para a pesquisa ====== #
 def get_pesquisa_item_form():
-        return{
-        "produto_nome": request.form.get("nome_produto", "").strip(),
-    }
+    return request.args.get("pesquisa", "").strip()
 
 # ========= Definição das rotas e dos endpoints ========= #
 
@@ -571,18 +584,18 @@ def atualizar_lista_compra(id):
 
 # ====== Endpoints de pesquisas ====== #
 
-# ====== Editando pesquisa ====== #
+# ====== pesquisa ====== #
 @app.route("/pesquisa_item/")
-def editar_pesquisa_item(id):
+def pesquisa():
+    q = get_pesquisa_item_form()
+
+
     try:
-        pesquisa_item = pesquisa_item.buscar_tudo_pesquisa(id)
-        if not pesquisa_item:
-            flash("Item não encontrado.", "danger")
-            return redirect(url_for("pesquisa_item"))
-        return render_template("pesquisa.html", pesquisa_item=pesquisa_item)
+        pesquisa_item = Pesquisa.buscar_tudo_pesquisa(q)
+        return render_template("pesquisa.html", pesquisa_item=pesquisa_item, q=q)
     except ValueError as e:
-        flash(e, "danger")
-        return render_template("tela_inicial.html")
+        flash(str(e), "danger")
+        return redirect(url_for("inicial"))
 
 
 
@@ -617,7 +630,7 @@ def salvar_login():
         session["usuario_nome"] = usuario["usuario_nome"]
         session["usuario_cargo"] = usuario["usuario_cargo"]
 
-        return render_template("tela_inicial.html", usuario=usuario)
+        return redirect(url_for("inicial"))
 
     except Exception as e:
         flash(f"Erro ao fazer login", "danger")

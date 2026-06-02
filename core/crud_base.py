@@ -126,13 +126,16 @@ class Crud_base:
         cursor = conexao.cursor(dictionary=True)
 
         try:
-            sql = "SELECT * FROM {cls.table} WHERE produto_nome LIKE  %s "
-            cursor.execute(sql, (nome,))
+            sql = f"SELECT * FROM {cls.tabela} WHERE produto_nome LIKE %s"
+
+            cursor.execute(sql, (f"%{nome}%",))
+
             resultados = cursor.fetchall()
+
             if resultados:
-                return False
-            else: 
-                return None
+                return resultados
+            else:
+                return None        
         finally:
             cursor.close()
             conexao.close()

@@ -27,13 +27,22 @@
 
             <div class="topbar-search">
                 <i class="bi bi-search"></i>
-                <input type="text" placeholder="Pesquisar...">
+                <form action="{{ url_for('pesquisa') }}" method="GET">
+                    <input type="text" name="pesquisa" placeholder="Pesquisar...">
+                </form>
             </div>
 
             <div class="topbar-actions" style="text-decoration: none;">
                 <a class="topbar-btn" href="{{ url_for('novo_produto') }}">
                     <i class="bi bi-plus-circle"></i> ADD Produtos
                 </a>
+                {%if session.get('usuario_cargo') == 'adm' %}
+                    <button class="topbar-btn topbar-btn-icon">
+                        <a title="Funcionarios" class="text-white" href="{{ url_for('novo_usuario')}}">
+                            <i class="bi bi-person"></i>
+                        </a>
+                    </button>
+                {% endif %}
                 <button class="topbar-btn topbar-btn-icon">
                     <a id="link-perfil" title="Configurações" class="text-white">
                         <i class="bi bi-gear"></i>
@@ -93,7 +102,6 @@
             {% endif %}
             {% endwith %}
             {% block conteudo %} {% endblock %}
-            <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
         </div>
     </main>
     <script>
@@ -101,7 +109,12 @@
         document.getElementById("nome").innerText = `Bem vindo, ${usuario.nome}`
         document.getElementById("link-perfil").href = `/gerenciar_perfil/${usuario.id}`;
         document.getElementById("input-id").value = usuario.id;
-        document.getElementById("usuario_id").value = usuario.id;
+
+        localStorage.setItem("usuario", JSON.stringify({
+            id: "{{ session.get('usuario_id')}}",
+            nome: "{{ session.get('usuario_nome')}}",
+            cargo: "{{ session.get('usuario_cargo')}}"
+        }))
 
     </script>
 </body>

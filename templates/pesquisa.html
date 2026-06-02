@@ -1,18 +1,43 @@
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
-    {% block titulo %}Resultados para {{ termo }}{% endblock %}
+{% block conteudo %}
+<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">
+    Resultados para: {{ q }}
+</h3>
 
-    {% block conteudo %}
-    <h1>Resultados para: {{ termo }}</h1>
+<div class="d-flex flex-wrap" style="padding-left: 20px; gap: 20px;">
+    {% if pesquisa_item %}
+    {% for produto in pesquisa_item %}
+    <div style="border-radius: 15px; background: rgba(255,255,255,0.15); padding: 10px; width: 250px;">
 
-    {% if resultados %}
-    {% for item in resultados %}
-    <div>
-        <h2>{{ item.titulo }}</h2>
-        <p>{{ item.descricao }}</p>
+        <div style="
+        border: 2px dashed rgba(255,255,255,0.4); 
+        border-radius: 10px; 
+        width: 100%; 
+        height: 180px; 
+        margin-bottom: 10px;
+        background: rgba(255,255,255,0.05);">
+        </div>
+
+        <div class="d-flex gap-1" style="margin-bottom: 8px;">
+            <label class="form-label" style="color: #fff; margin: 0;">Nome:</label>
+            <label style="color: #fff; margin: 0;">{{ produto.produto_nome }}</label>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <a href="/informacao_produto/{{ produto.produto_id }}" class="bi bi-arrow-bar-right text-white"
+                style="text-decoration: none;">
+                Ver Detalhes
+            </a>
+            <a href="/produto/editar/{{ produto.produto_id }}" class="bi bi-pencil-square text-white"
+                style="text-decoration: none;">
+                Editar
+            </a>
+        </div>
     </div>
     {% endfor %}
     {% else %}
-    <p>Nenhum resultado encontrado.</p>
+    <p style="color: white;">Nenhum resultado encontrado para "{{ q }}".</p>
     {% endif %}
-    {% endblock %}
+</div>
+{% endblock %}
