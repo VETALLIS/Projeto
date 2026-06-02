@@ -75,18 +75,18 @@ def get_produto_form():
 # ====== Pegando os dados de pedidos ====== #
 def get_pedido_saida_form():
     return {
-        "pedido_saida_nome": request.form.get("nome_produto", "").strip(),
-        "pedido_saida_data": converter_data(request.form.get("categoria", "").strip()),
-        "pedido_saida_status": request.form.get("status", "").strip(),
-        "animal_animal_id": to_int(request.form.get("quantidade"))
+        "pedido_saida_nome": request.form.get("pedido_saida_nome", "").strip(),
+        "pedido_saida_data": converter_data(request.form.get("pedido_saida_data", "").strip()),
+        "pedido_entrada_status": request.form.get("pedido_saida_status", "").strip(),
+        "animal_animal_id": to_int(request.form.get("animal_animal_id", ""))
     }
 
 def get_pedido_entrada_form():
     return {
-        "pedido_entrada_nome": request.form.get("nome_produto", "").strip(),
-        "pedido_entrada_data":converter_data( request.form.get("data", "").strip()),
-        "pedido_entrada_status": request.form.get("status", "").strip(),
-        "fornecedor_fornecedor_id": request.form.get('fornecedor_id')
+        "pedido_entrada_nome": request.form.get("pedido_entrada_nome", "").strip(),
+        "pedido_entrada_data":converter_data( request.form.get("pedido_entrada_data", "").strip()),
+        "pedido_entrada_status": request.form.get("pedido_entrada_status", "").strip(),
+        "fornecedor_fornecedor_id": request.form.get('fornecedor_fornecedor_id')
     }
 
 # ====== Pegando os dados do usuario ====== #
