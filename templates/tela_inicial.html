@@ -4,7 +4,7 @@
     <div>
         <div class="container row">
             <div class="d-flex gap-3 mt-4 me-5 ms-2"
-                style="align-items: flex-start; max-width:610px !important; width: 100% !important;">
+                style="align-items: flex-start; max-width:800px !important; width: 100% !important;">
                 <div class="position-relative overflow-hidden" style="border-radius: 15px;background: #089068;
     padding: 5px;max-width:400px !important; width: 100% !important;height: 190px;">
                     <span style="position: absolute; font-size: 8rem; font-weight: bold; color:#18C890 ;
@@ -33,13 +33,13 @@
             </div>
 
             <div class="mt-4 me-5 ms-3" style="border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;width:598px !important;height: 400px;">
+    padding: 5px;width:780px !important;height: 400px;">
                 <label style="align-self: flex-start; z-index: 1000;"></label>
 
                 <div class="d-flex gap-3 ms-3">
                     <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
                         style="border-radius: 15px;background: #92D8CB;
-    padding: 5px;max-width:270px !important; width: 100% !important;height: 190px;">
+    padding: 5px;max-width:360px !important; width: 100% !important;height: 190px;">
                         <button
                             class="rounded-circle border-0 d-flex align-items-center justify-content-center position-absolute top-0 end-0 m-2"
                             style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
@@ -51,7 +51,7 @@
 
                     <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
                         style="border-radius: 15px;background: #85D264;
-    padding: 5px;max-width:270px !important; width: 100% !important;height: 190px;">
+    padding: 5px;max-width:360px !important; width: 100% !important;height: 190px;">
                         <button
                             class="rounded-circle border-0 d-flex align-items-center justify-content-center position-absolute top-0 end-0 m-2"
                             style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="position-relative overflow-hidden ms-3 mt-3" style="border-radius: 15px;background: #1C9E86;
-    padding: 5px;max-width:560px !important; width: 100% !important;height: 150px;">
+    padding: 5px;max-width:734px !important; width: 100% !important;height: 150px;">
                     <button
                         class="rounded-circle border-0 d-flex align-items-center justify-content-center position-absolute top-0 end-0 m-2"
                         style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
@@ -79,25 +79,118 @@
         </div>
     </div>
 
-    <!-- ✅ Carousel com tamanho definido -->
-    <div id="carouselVertical" class="carousel slide carousel-vertical flex-grow-1" data-bs-ride="carousel"
-        style="width: 300px; height: 620px; overflow: hidden; border-radius: 15px;">
-        <div class="carousel-inner" style="height: 100%;">
-            <div class="carousel-item active" data-bs-interval="2000" style="height: 100%;">
-                <img src="https://picsum.photos/800/400?random=1" class="d-block w-100 h-100" style="object-fit: cover;"
-                    alt="Slide 1">
+    <div
+        style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); width: 500px; padding: 15px; position: relative;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="mb-0 ms-2 fs-2 text-white">Destaque</p>
+            <button class="rounded-circle border-0 d-flex align-items-center justify-content-center"
+                style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341);">
+                <i class="bi bi-sliders text-white"></i>
+            </button>
+        </div>
+
+        <div id="carouselVertical" class="carousel slide" data-bs-ride="carousel"
+            style="width: 100%; border-radius: 15px; overflow: hidden;">
+            <div class="carousel-inner">
+
+                <!-- Slide 1 -->
+                <div class="carousel-item active" data-bs-interval="2000">
+                    <div style="background: #1a2a2a; border-radius: 15px; padding: 20px; min-height: 500px;">
+                        <span class="badge mb-3"
+                            style="background:#2abfb0; font-size:1rem; padding: 8px 16px; border-radius: 8px;">NOVO</span>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h3 class="text-white fw-bold">Nome</h3>
+                                <p class="text-secondary">Em estoque</p>
+                            </div>
+                            <div
+                                style="background: white; border-radius: 15px; padding: 10px; width: 140px; height: 140px; display:flex; align-items:center; justify-content:center;">
+                                <img src="https://picsum.photos/120/120?random=10"
+                                    style="border-radius:10px; object-fit:cover; width:100%; height:100%;"
+                                    alt="produto">
+                            </div>
+                        </div>
+                        <div
+                            style="background: rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-top: 20px;">
+                            <p class="text-secondary mb-1">Quantidade</p>
+                            <p class="text-white mb-3">10.</p>
+                            <p class="text-secondary mb-1">Tipo</p>
+                            <p class="text-white mb-3">Gota.</p>
+                            <p class="text-secondary mb-1">Descrição</p>
+                            <p class="text-white mb-0">Cura dor de cabeça.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-item" data-bs-interval="2000">
+                    <div style="background: #1a2a2a; border-radius: 15px; padding: 20px; min-height: 500px;">
+                        <span class="badge mb-3"
+                            style="background:#089068; font-size:1rem; padding: 8px 16px; border-radius: 8px;">DESTAQUE</span>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h3 class="text-white fw-bold">Nome</h3>
+                                <p class="text-secondary">Em estoque</p>
+                            </div>
+                            <div
+                                style="background: white; border-radius: 15px; padding: 10px; width: 140px; height: 140px; display:flex; align-items:center; justify-content:center;">
+                                <img src="https://picsum.photos/120/120?random=20"
+                                    style="border-radius:10px; object-fit:cover; width:100%; height:100%;"
+                                    alt="produto">
+                            </div>
+                        </div>
+                        <div
+                            style="background: rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-top: 20px;">
+                            <p class="text-secondary mb-1">Quantidade</p>
+                            <p class="text-white mb-3">10.</p>
+                            <p class="text-secondary mb-1">Tipo</p>
+                            <p class="text-white mb-3">Gota.</p>
+                            <p class="text-secondary mb-1">Descrição</p>
+                            <p class="text-white mb-0">Cura dor de cabeça.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item" data-bs-interval="2000">
+                    <div style="background: #1a2a2a; border-radius: 15px; padding: 20px; min-height: 500px;">
+                        <span class="badge mb-3"
+                            style="background:#15B3BD; font-size:1rem; padding: 8px 16px; border-radius: 8px;">PROMOÇÃO</span>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h3 class="text-white fw-bold">Nome</h3>
+                                <p class="text-secondary">Em estoque</p>
+                            </div>
+                            <div
+                                style="background: white; border-radius: 15px; padding: 10px; width: 140px; height: 140px; display:flex; align-items:center; justify-content:center;">
+                                <img src="https://picsum.photos/120/120?random=30"
+                                    style="border-radius:10px; object-fit:cover; width:100%; height:100%;"
+                                    alt="produto">
+                            </div>
+                        </div>
+                        <div
+                            style="background: rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-top: 20px;">
+                            <p class="text-secondary mb-1">Quantidade</p>
+                            <p class="text-white mb-3">40.</p>
+                            <p class="text-secondary mb-1">Tipo</p>
+                            <p class="text-white mb-3">Comprimido.</p>
+                            <p class="text-secondary mb-1">Descrição</p>
+                            <p class="text-white mb-0">Cura dor de ombro.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="carousel-item" data-bs-interval="2000" style="height: 100%;">
-                <img src="https://picsum.photos/800/400?random=2" class="d-block w-100 h-100" style="object-fit: cover;"
-                    alt="Slide 2">
-            </div>
-            <div class="carousel-item" data-bs-interval="2000" style="height: 100%;">
-                <img src="https://picsum.photos/800/400?random=3" class="d-block w-100 h-100" style="object-fit: cover;"
-                    alt="Slide 3">
-            </div>
+
+            <!-- Controles -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselVertical" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselVertical" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
     </div>
-
 
 
 </div>
