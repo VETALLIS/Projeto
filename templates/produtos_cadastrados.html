@@ -8,10 +8,9 @@
     {%if produtos %}
     {% for produto in produtos %}
     <div class="me-5" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); padding: 10px;">
-        <label for="imagem_produto" class="upload-box" style="max-height:200px !important; width: 250px;"
-            style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
-            <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
+        <label for="imagem_produto" class="upload-box" style="max-height:200px !important; width: 250px;" style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+            <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}" 
+     style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
         </label>
         <div class="d-flex">
             <label class="form-label" style="color: #fff; ">Nome:</label>
