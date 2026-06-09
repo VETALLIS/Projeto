@@ -9,18 +9,18 @@
 <ul class="nav nav-tabs mb-3" id="tipoPedido" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#entrada" type="button"
-            style="color: white;" onclick="
+            style="color: black;" onclick="
                 this.style.color='#074040';
-                document.querySelector('[data-bs-target=\'#entrada\']').style.color='white';
+                document.querySelector('[data-bs-target=\'#entrada\']').style.color='black';
             ">
             Entrada
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#saida" type="button" style="color: white;"
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#saida" type="button" style="color: black;"
             onclick="
                 this.style.color='#074040';
-                document.querySelector('[data-bs-target=\'#saida\']').style.color='white';
+                document.querySelector('[data-bs-target=\'#saida\']').style.color='black';
             ">
             Saída
         </button>
@@ -45,7 +45,8 @@
                             <select name="fornecedor_fornecedor_id" class="form-select">
                                 <option value=""> Selecione um fornecedor</option>
                                 {% for f in fornecedor%}
-                                    <option value="{{ f.fornecedor_id }}" style="color: black;">{{ f.fornecedor_nome }}</option>
+                                <option value="{{ f.fornecedor_id }}" style="color: black;">{{ f.fornecedor_nome }}
+                                </option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -83,8 +84,14 @@
 
                 <template id="templateItemEntrada">
                     <tr>
-                        <td class="text-center"><input type="text" name="item_pedido_entrada_nome"
-                                class="bg-transparent border-0 form w-100 text-center text-white" placeholder="Nome">
+                        <td>
+                            <select name="item_pedido_entrada_nome" class="form-select">
+                                <option value=""> Selecione o produto</option>
+                                {% for p in produtos%}
+                                <option value="{{ p.produto_id }}" style="color: black;">{{ p.produto_nome }}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </td>
                         <td class="text-center"><input type="text" name="item_pedido_entrada_lote"
                                 class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Lote">
@@ -157,10 +164,17 @@
 
                 <template id="templateItemSaida">
                     <tr>
-                        <td><input type="text" name="item_pedido_saida_nome"
-                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Nome">
+                        <td>
+                            <select name="item_pedido_saida_nome" class="form-select">
+                                <option value=""> Selecione o produto</option>
+                                {% for p in produtos%}
+                                <option value="{{ p.produto_id }}" style="color: black;">{{ p.produto_nome }}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </td>
-                        <td><input type="text" name="item_pedido_saida_lote"
+                        <td>
+                            <input type="text" name="item_pedido_saida_lote"
                                 class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Lote">
                         </td>
                         <td><input type="number" name="item_pedido_saida_quantidade"

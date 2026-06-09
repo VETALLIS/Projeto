@@ -63,12 +63,26 @@ def get_animal_form():
     }
 
 # ====== Pegando os dados de produto ====== #
-def get_produto_form(): 
+def get_produto_form():
+    arquivo = request.files.get("imagem")
+
+    if arquivo and arquivo.filename != '':
+        produto_imagem = arquivo.filename  
+        imagem_tipo = arquivo.content_type
+        imagem_blob = arquivo.read()
+    else:
+        produto_imagem = None
+        imagem_tipo = None
+        imagem_blob = None
+        
     return {
         "produto_nome": request.form.get("nome", "").strip(),
         "produto_descricao": request.form.get("descricao", "").strip(),
         "produto_categoria": request.form.get("categoria", "").strip(),
         "usuario_usuario_id": session["usuario_id"],
+        "produto_imagem": produto_imagem,  
+        "imagem_tipo": imagem_tipo,
+        "imagem_blob": imagem_blob
     }
 
 
@@ -798,7 +812,8 @@ def excluir_usuario(usuario_id):
 def pedido():
     try:
         fornecedor = Fornecedor.buscar_fornecedor()
-        return render_template("pedido.html", fornecedor=fornecedor)
+        produtos= Produto.buscar_todo_produto()
+        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedido.html")
@@ -842,6 +857,18 @@ def relatorio():
     except ValueError as e :
         flash(e, "danger")
         return render_template("relatorio.html")
+    
+@app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
+def excluir_lista_compra_relatorio(lista_compra_id):
+    try:
+        lista_compra = Lista_compra()
+        lista_compra.deletar_lista_compra(lista_compra_id)
+        flash("Item excluído com sucesso.", "success")
+    except ValueError as e:
+        flash(str(e), "erro")
+    except Exception as e:
+        flash(f"Erro ao excluir lista de compra: {e}", "danger")
+    return redirect(url_for("relatorio"))
 
 
 
