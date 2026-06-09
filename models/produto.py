@@ -1,17 +1,21 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
+import base64
 
 class Produto(Crud_base):
     tabela = "produto"
     pk = "produto_id"
-    fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id"]
+    fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id", "produto_imagem", "imagem_tipo", "imagem_blob"]
 
-    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id=None, **kwargs):
+    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id=None, produto_imagem=None, imagem_tipo=None, imagem_blob=None, **kwargs):
         self.produto_nome = produto_nome
         self.produto_descricao = produto_descricao
         self.produto_categoria = produto_categoria
-        self.usuario_usuario_id =  usuario_usuario_id
+        self.usuario_usuario_id = usuario_usuario_id
+        self.produto_imagem = produto_imagem
+        self.imagem_tipo = imagem_tipo
+        self.imagem_blob = imagem_blob
 
     def validar_produto(self):
         erros = [
@@ -78,15 +82,21 @@ class Produto(Crud_base):
 
         if not produto:
             raise ValueError("Produto não encontrado")
+    
 
         
         return produto
 
     @classmethod
     def buscar_todo_produto(cls, order_by="produto_nome"):
-        produto = cls.buscar_tudo(order_by)
+        produtos = cls.buscar_tudo(order_by)  # renomear para "produtos"
 
-        if not produto:
-            raise ValueError("Produtos não encontrado")
+        if not produtos:
+            raise ValueError("Produtos não encontrados")
 
-        return produto
+        for produto in produtos:
+            produto["imagem_base64"] = None
+            if produto.get("imagem_blob"):
+                produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
+
+        return produtos

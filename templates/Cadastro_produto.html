@@ -3,7 +3,7 @@
 
 <h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Produto</h3>
 
-<form method="POST" action="{{url_for('salvar_produto')}}" class="form-sensor">
+<form method="POST" action="{{url_for('salvar_produto')}}" enctype="multipart/form-data" class="form-sensor">
     <div class="cadastro-sensor mt-4">
         <div class="d-flex justify-content-start mb-3 ms-3">
             <div class="upload-imagem me-5 ">
@@ -11,7 +11,7 @@
                     style=" margin-left: 0 !important; align-self: flex-start;">
                     <span class="text-white mt-2">Clique para adicionar imagem</span>
                 </label>
-                <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
+                <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
                 <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
             </div>
 
