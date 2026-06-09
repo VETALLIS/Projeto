@@ -8,9 +8,17 @@
         <div class="d-flex justify-content-start mb-3 ms-3">
             <div class="upload-imagem me-5 ">
                 <label for="imagem_produto" class="upload-box"
-                    style=" margin-left: 0 !important; align-self: flex-start;">
-                    <span class="text-white mt-2">Clique para adicionar imagem</span>
+                    style="margin-left: 0 !important; cursor: pointer; overflow: hidden; position: relative; width: 250px; height: 400px; display: flex; align-items: center; justify-content: center;">
+                    <img id="preview_imagem" src="" alt=""
+                        style="display:none; width:250px; height:400px; object-fit:cover; border-radius:10px; position:absolute; top:0; left:0;">
+                    <span id="texto_upload" class="text-white" style="text-align:center; z-index:1;">Clique para
+                        adicionar imagem</span>
+                    <div id="icone_trocar"
+                        style="display:none; position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.5); border-radius:50%; width:32px; height:32px; display:none; align-items:center; justify-content:center; z-index:2;">
+                        <i class="bi bi-pencil text-white  " style="font-size:14px;"></i>
+                    </div>
                 </label>
+
                 <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
                 <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
             </div>
@@ -50,5 +58,26 @@
         id: "{{ session.get('usuario_id')}}",
         nome: "{{ session.get('usuario_nome')}}"
     }))
+
+    document.getElementById("imagem_produto").addEventListener("change", function () {
+        const arquivo = this.files[0];
+
+        if (arquivo) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById("preview_imagem");
+                const texto = document.getElementById("texto_upload");
+                const icone = document.getElementById("icone_trocar");
+
+                preview.src = e.target.result;
+                preview.style.display = "block";
+                texto.style.display = "none";
+                icone.style.display = "flex";
+            };
+
+            reader.readAsDataURL(arquivo);
+        }
+    });
 </script>
 {% endblock%}

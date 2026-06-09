@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `pedido_saida` (
   `pedido_saida_id` INT NOT NULL AUTO_INCREMENT,
   `pedido_saida_nome` VARCHAR(100) NOT NULL,
   `pedido_saida_data` VARCHAR(10) NOT NULL,
-  `pedido_entrada_status` VARCHAR(45) NOT NULL,
+  `pedido_saida_status` VARCHAR(45) NOT NULL,
   `animal_animal_id` INT NOT NULL,
   PRIMARY KEY (`pedido_saida_id`),
   CONSTRAINT `fk_pedido_saida_animal1`
