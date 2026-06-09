@@ -75,3 +75,18 @@ class Sensor(Crud_base):
             raise ValueError("Sensor não encontrato")
         
         return sensor
+    
+    @classmethod
+    def contar_sensores(cls, order_by=pk):
+        sensor = cls.buscar_tudo(order_by)
+
+        if not sensor:
+            raise ValueError("Sensor não encontrato")
+        
+        sensores = 0
+        for i in sensor:
+            sensores = sensores + 1
+
+        
+        
+        return sensores
