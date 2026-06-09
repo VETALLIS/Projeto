@@ -18,7 +18,7 @@ class Pedido_entrada(Crud_base):
             Manipular.validar_vazio (self.pedido_entrada_nome, "pedido_entrada_nome"),
             Manipular.validar_vazio (self.pedido_entrada_data, "pedido_entrada_data"),
             Manipular.validar_vazio (self.pedido_entrada_status, "pedido_entrada_status"),
-            Manipular.validar_data(self.pedido_entrada_data, "data")
+            Manipular.validar_data(self.pedido_entrada_data, "pedido_entrada_data")
         ]
         return [ erro for erro in erros if erro]
     
