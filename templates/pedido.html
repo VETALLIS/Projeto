@@ -115,6 +115,7 @@
         <div class="tab-pane fade" id="saida">
             <form method="POST" action="{{url_for('pedido_salvar')}}" style="width: 100%;">
                 <input type="hidden" name="tipo_movimentacao" value="saida">
+                <input type="hidden" name="pedido_saida_status" value="Concluido">
 
                 <div class="me-3" style="width: 100%;">
                     <div class="d-flex" style="width: 100%;">

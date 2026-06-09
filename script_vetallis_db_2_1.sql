@@ -25,6 +25,9 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `usuario_nome` VARCHAR(100) NOT NULL,
   `usuario_cpf` VARCHAR(11) NOT NULL,
   `usuario_cargo` VARCHAR(100) NOT NULL,
+  `usuario_imagem` VARCHAR(255) NULL,
+  `imagem_tipo` VARCHAR(100) NULL,
+  `imagem_blob` LONGBLOB NULL
   PRIMARY KEY (`usuario_id`))
 ENGINE = InnoDB;
 
@@ -39,6 +42,9 @@ CREATE TABLE IF NOT EXISTS `produto` (
   `produto_descricao` VARCHAR(100) NULL,
   `produto_categoria` VARCHAR(20) NOT NULL,
   `usuario_usuario_id` INT NOT NULL,
+  `produto_imagem` VARCHAR(255) NULL,
+  `imagem_tipo` VARCHAR(100) NULL,
+  `imagem_blob` LONGBLOB NULL
   PRIMARY KEY (`produto_id`, `usuario_usuario_id`),
   CONSTRAINT `fk_produto_usuario1`
     FOREIGN KEY (`usuario_usuario_id`)
@@ -100,6 +106,9 @@ CREATE TABLE IF NOT EXISTS `sensor` (
   `sensor_voltagem` VARCHAR(30) NOT NULL,
   `sensor_tipo_conexao` VARCHAR(50) NOT NULL,
   `sensor_localizacao` VARCHAR(50) NOT NULL,
+  `sensor_imagem` VARCHAR(255) NULL,
+  `imagem_tipo` VARCHAR(100) NULL,
+  `imagem_blob` LONGBLOB NULL
   PRIMARY KEY (`sensor_id`))
 ENGINE = InnoDB;
 
