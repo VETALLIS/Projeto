@@ -14,7 +14,8 @@
                         style="position: relative; z-index: 1;top: -12px; color:#006040;">Vacinas</h5>
                     <button
                         class="rounded-circle border-0 d-flex align-items-center justify-content-center position-absolute top-0 end-0 m-2"
-                        style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;">
+                        style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;"
+                        data-bs-toggle="modal" data-bs-target="#modalFiltro">
                         <i class="bi bi-sliders text-white"></i>
                     </button>
                 </div>
@@ -185,17 +186,70 @@
                 <th class="text-white text-start">Nome</th>
                 <th class="text-white fw-bold">Categoria</th>
                 <th class="text-white">Quantidade</th>
-
             </tr>
             {% for produto in produtos %}
-            <tr>
+            <tr class="linha-produto" data-categoria="{{ produto.produto_categoria }}">
                 <th class="text-white fw-normal align-items-start text-start">{{ produto.produto_nome }}</th>
                 <th class="text-white fw-normal">{{ produto.produto_categoria }}</th>
                 <th class="text-white fw-normal">{{ produto.estoque_quantidade }}</th>
-
             </tr>
             {% endfor %}
         </table>
     </div>
 </div>
+
+<!-- Modal Filtro de Categorias -->
+<div class="modal fade" id="modalFiltro" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:360px;">
+        <div class="modal-content border-0" style="border-radius:16px; background:#2e8b6e; padding:8px;">
+            <div class="modal-body p-3">
+                <h5 class="text-white fw-semibold mb-3" style="font-size:22px;">Categorias</h5>
+                <ul class="list-unstyled mb-0">
+                    <li class="d-flex justify-content-between align-items-center py-3"
+                        style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                        <label for="c1" class="text-white mb-0" style="cursor:pointer;">Gota</label>
+                        <input type="checkbox" id="c1" value="Gota" class="filtro-check">
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center py-3"
+                        style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                        <label for="c2" class="text-white mb-0" style="cursor:pointer;">Comprimido</label>
+                        <input type="checkbox" id="c2" value="Comprimido" class="filtro-check">
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center py-3"
+                        style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                        <label for="c3" class="text-white mb-0" style="cursor:pointer;">Vacina</label>
+                        <input type="checkbox" id="c3" value="Vacina" class="filtro-check">
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center py-3"
+                        style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                        <label for="c4" class="text-white mb-0" style="cursor:pointer;">Antiparasitários</label>
+                        <input type="checkbox" id="c4" value="Antiparasitários" class="filtro-check">
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center py-3"
+                        style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                        <label for="c5" class="text-white mb-0" style="cursor:pointer;">Antibióticos</label>
+                        <input type="checkbox" id="c5" value="Antibióticos" class="filtro-check">
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center py-3"
+                        style="border-bottom:1px solid rgba(255,255,255,0.15);">
+                        <label for="c6" class="text-white mb-0" style="cursor:pointer;">Anti-inflamatórios e
+                            Analgésicos</label>
+                        <input type="checkbox" id="c6" value="Anti-inflamatórios e Analgésicos" class="filtro-check">
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center py-3">
+                        <label for="c7" class="text-white mb-0" style="cursor:pointer;">Anestésicos e Sedativos</label>
+                        <input type="checkbox" id="c7" value="Anestésicos e Sedativos" class="filtro-check">
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer border-0 pt-0 px-3 pb-3">
+                <button class="btn w-100 fw-semibold"
+                    style="background:#fff; color:#2e8b6e; border-radius:10px; padding:12px;"
+                    onclick="aplicarFiltro()">Aplicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
