@@ -812,7 +812,8 @@ def excluir_usuario(usuario_id):
 def pedido():
     try:
         fornecedor = Fornecedor.buscar_fornecedor()
-        return render_template("pedido.html", fornecedor=fornecedor)
+        produtos= Produto.buscar_todo_produto()
+        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedido.html")
