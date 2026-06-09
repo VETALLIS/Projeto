@@ -1,12 +1,13 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+import base64
 
 class Sensor(Crud_base):
     tabela = "sensor"
     pk = "sensor_id"
-    fields = ["sensor_nome", "sensor_descricao", "sensor_n_serie", "sensor_modelo", "sensor_voltagem", "sensor_tipo_conexao", "sensor_localizacao"]
+    fields = ["sensor_nome", "sensor_descricao", "sensor_n_serie", "sensor_modelo", "sensor_voltagem", "sensor_tipo_conexao", "sensor_localizacao", "sensor_imagem", "imagem_blob",  "imagem_tipo"]
 
-    def __init__(self, sensor_nome, sensor_descricao, sensor_n_serie, sensor_modelo, sensor_voltagem, sensor_tipo_conexao, sensor_localizacao):
+    def __init__(self, sensor_nome, sensor_descricao, sensor_n_serie, sensor_modelo, sensor_voltagem, sensor_tipo_conexao, sensor_localizacao, sensor_imagem, imagem_tipo, imagem_blob):
         self.sensor_nome = sensor_nome
         self.sensor_descricao = sensor_descricao
         self.sensor_n_serie = sensor_n_serie
@@ -14,6 +15,9 @@ class Sensor(Crud_base):
         self.sensor_voltagem = sensor_voltagem
         self.sensor_tipo_conexao = sensor_tipo_conexao
         self.sensor_localizacao = sensor_localizacao
+        self.sensor_imagem = sensor_imagem
+        self.imagem_tipo = imagem_tipo
+        self.imagem_blob = imagem_blob
 
     def validar_sensor(self):
         erros = [
@@ -69,12 +73,17 @@ class Sensor(Crud_base):
     
     @classmethod
     def buscar_sensores(cls, order_by=pk):
-        sensor = cls.buscar_tudo(order_by)
+        sensores = cls.buscar_tudo(order_by)
 
-        if not sensor:
+        if not sensores:
             raise ValueError("Sensor não encontrato")
         
-        return sensor
+        for sensor in sensores:
+            sensor["imagem_base64"] = None
+            if sensor.get("imagem_blob"):
+                sensor["imagem_base64"] = base64.b64encode(sensor["imagem_blob"]).decode("utf-8")
+        
+        return sensores
     
     @classmethod
     def contar_sensores(cls, order_by=pk):
