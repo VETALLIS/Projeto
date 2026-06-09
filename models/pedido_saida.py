@@ -92,6 +92,38 @@ class Item_pedido_saida(Crud_base):
             raise ValueError("Erro ao criar pedido!")
 
         return "Pedido criado com sucesso"
+    
+    def _validar_quantidade(self, cursor, id_produto, quantidade):
+        sql = """
+            SELECT estoque_quantidade
+            FROM estoque
+            WHERE id_produto = %s
+            AND id_localizacao = %s
+        """
+
+        cursor.execute(sql, (id_produto))
+        estoque = cursor.fetchone()
+
+        if estoque is None:
+            raise Exception("Produto não encontrado no estoque.")
+
+        quantidade_atual = float(estoque["estoque_quantidade"])
+
+        if quantidade_atual < quantidade:
+            raise Exception("Saldo insuficiente em estoque.")
+
+    def _atualizar_estoque_saida(self, cursor, id_produto, id_localizacao, quantidade):
+        sql = """
+            UPDATE estoque
+            SET estoque_quantidade = estoque_quantidade - %s
+            WHERE id_produto = %s
+            AND id_localizacao = %s
+        """
+
+        cursor.execute(
+            sql,
+            (quantidade, id_produto)
+        )
 
     def deletar_item_pedido_saida(self, id):
         pedido_saida = self.buscar_por_id(id)
