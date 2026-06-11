@@ -82,14 +82,12 @@ class Produto(Crud_base):
 
         if not produto:
             raise ValueError("Produto não encontrado")
-    
-
         
         return produto
 
     @classmethod
     def buscar_todo_produto(cls, order_by="produto_nome"):
-        produtos = cls.buscar_tudo(order_by)  # renomear para "produtos"
+        produtos = cls.buscar_tudo(order_by)  
 
         if not produtos:
             raise ValueError("Produtos não encontrados")

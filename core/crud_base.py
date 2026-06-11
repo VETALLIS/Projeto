@@ -46,9 +46,7 @@ class Crud_base:
         try:
             campos = ", ".join([f"{campo} = %s" for campo in self.fields])
             valores = tuple(getattr(self, campo) for campo in self.fields) + (id,)
-            sql = f"UPDATE {self.tabela} SET {campos} WHERE {self.pk} = %s"
-            print(f"SQL: {sql}")        # ← adicione isso
-            print(f"PK: {self.pk}")   
+            sql = f"UPDATE {self.tabela} SET {campos} WHERE {self.pk} = %s"  
             cursor.execute(sql, valores)
             conexao.commit()
             return cursor.rowcount
