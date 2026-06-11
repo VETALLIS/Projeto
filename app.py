@@ -91,7 +91,7 @@ def get_pedido_saida_form():
     return {
         "pedido_saida_nome": request.form.get("pedido_saida_nome", "").strip(),
         "pedido_saida_data": converter_data(request.form.get("pedido_saida_data", "").strip()),
-        "pedido_entrada_status": request.form.get("pedido_saida_status", "").strip(),
+        "pedido_saida_status": request.form.get("pedido_saida_status", "").strip(),
         "animal_animal_id": to_int(request.form.get("animal_animal_id", ""))
     }
 
@@ -123,14 +123,28 @@ def get_login_form():
 
 # ====== Pegando os dados para o cadastro de sensores ====== #
 def get_sensor_form():
-    return{
+    arquivo = request.files.get("imagem_produto")
+
+    if arquivo and arquivo.filename != '':
+        sensor_imagem = arquivo.filename
+        imagem_tipo = arquivo.content_type
+        imagem_blob = arquivo.read()
+    else:
+        sensor_imagem = None
+        imagem_tipo = None
+        imagem_blob = None
+
+    return {
         "sensor_nome": request.form.get("sensor_nome", "").strip(),
-        "sensor_descricao":request.form.get("sensor_descricao", "").strip(),
+        "sensor_descricao": request.form.get("sensor_descricao", "").strip(),
         "sensor_modelo": request.form.get("sensor_modelo", "").strip(),
         "sensor_voltagem": request.form.get("sensor_voltagem", "").strip(),
         "sensor_n_serie": request.form.get("sensor_n_serie", "").strip(),
-        "sensor_tipo_conexao" : (request.form.get("sensor_tipo_conexao", "")),
+        "sensor_tipo_conexao": request.form.get("sensor_tipo_conexao", ""),
         "sensor_localizacao": request.form.get("sensor_localizacao", "").strip(),
+        "sensor_imagem": sensor_imagem,
+        "imagem_tipo": imagem_tipo,
+        "imagem_blob": imagem_blob
     }
 
 # ====== Pegando os dados para cadastro de fornecedor ======#
