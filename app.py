@@ -895,7 +895,7 @@ def excluir_lista_compra_relatorio(lista_compra_id):
         flash(f"Erro ao excluir lista de compra: {e}", "danger")
     return redirect(url_for("relatorio"))
 
-
+''''
 # ====== Tela inicial ====== #
 @app.route("/usuario/atualizar/<int:id>", methods=["PUT"])
 def filtro_categoria(id):
@@ -905,7 +905,7 @@ def filtro_categoria(id):
     try:
         if not produto.produto_categoria(id):
             flash("erro")
-            return redirect(url_for("novo_usuario"))
+            return redirect(url_for("novo_usuario"))'''
 
 
 

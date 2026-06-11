@@ -59,70 +59,62 @@
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <nav class="sidebar-nav gap-2 align" style="margin-top: -15px;">
+        <nav class="sidebar-nav gap-2" style="margin-top: -15px;">
             <div class="text-center ">
-                <a href="{{ url_for('inicial') }}" class="sidebar-link active " title="Início"
+                <a href="{{ url_for('inicial') }}" class="sidebar-link active d-flex row align-items-center justify-content-center" title="Início"
                     style="text-decoration: none; ">
-                    <i class="bi bi-house fs-7 mt-1"><br>
-                        <h6 style="font-size: 65%;">Home</h6>
-                    </i>
+                    <i class="bi bi-house fs-7 mt-1"></i>
+                    <h6 style="font-size: 65%;">Home</h6>
                 </a>
             </div>
             <div class="text-center">
-                <a class="sidebar-link" title="Produtos" href="{{url_for('produtos')}}" style="text-decoration: none;">
-                    <i class="bi bi-capsule fs-7 mt-1">
-                        <h6 style="font-size:65%;">Produtos</h6>
-                    </i>
+                <a class="sidebar-link d-flex row align-items-center justify-content-center " title="Produtos" href="{{url_for('produtos')}}" style="text-decoration: none;">
+                    <i class="bi bi-capsule fs-7 mt-1"></i>
+                    <h6 style="font-size:65%;">Produtos</h6>
                 </a>
             </div>
 
             <div class="text-center">
                 <a href="{{url_for('animal')}}" class="sidebar-link" title="Animal" style="text-decoration: none;">
-                    <i class="bi bi-feather fs-7 mt-1">
-                        <h6 style="font-size: 65%;">Animais</h6>
-                    </i>
+                    <i class="bi bi-feather fs-7 mt-1"></i>
+                    <h6 style="font-size: 65%;">Animais</h6>
                 </a>
             </div>
 
             <div class="text-center">
                 <a href="{{url_for('sensor')}}" class="sidebar-link" title="Sensor" style="text-decoration: none;">
-                    <i class="bi bi-radar fs-7 mt-1">
-                        <h6 style="font-size: 65%;">Sensor</h6>
-                    </i>
+                    <i class="bi bi-radar fs-7 mt-1"></i>
+                    <h6 style="font-size: 65%;">Sensor</h6>
                 </a>
             </div>
 
             <div class="text-center">
                 <a href="{{url_for('fornecedor_novo')}}" class="sidebar-link" title="Fornecedor"
                     style="text-decoration: none;">
-                    <i class="bi bi-shop-window fs-7 mt-1">
-                        <h6 style="font-size: 55%;">Fornecedor</h6>
-                    </i>
+                    <i class="bi bi-shop-window fs-7 mt-1"></i>
+                    <h6 style="font-size: 55%;">Fornecedor</h6>
                 </a>
             </div>
 
             <div class="text-center">
                 <a href="{{url_for('pedido')}}" class="sidebar-link" title="Pedidos" style="text-decoration: none;">
-                    <i class="bi bi-box2 fs-7 mt-1">
-                        <h6 style="font-size: 60%;">Movimento</h6>
-                    </i>
+                    <i class="bi bi-box2 fs-7 mt-1"></i>
+                    <h6 style="font-size: 60%;">Movimento</h6>
                 </a>
             </div>
 
             <div class="text-center">
                 <a href="{{url_for('lista_compra')}}" class="sidebar-link" title="Lista de compra"
                     style="text-decoration: none;">
-                    <i class="bi bi-cart3 fs-7 mt-1">
-                        <h6 style="font-size: 65%;">Compra</h6>
-                    </i>
+                    <i class="bi bi-cart3 fs-7 mt-1"></i>
+                    <h6 style="font-size: 65%;">Compra</h6>
                 </a>
             </div>
 
             <div class="text-center">
                 <a href="{{url_for('relatorio')}}" class="sidebar-link" title="Relatórios" style="text-decoration: none;">
-                    <i class="bi bi-graph-up fs-7 mt-1">
-                        <h6 style="font-size: 65%;">Relatório</h6>
-                    </i>
+                    <i class="bi bi-graph-up fs-7 mt-1"></i>
+                    <h6 style="font-size: 65%;">Relatório</h6>
                 </a>
             </div>
 
