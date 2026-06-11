@@ -72,11 +72,6 @@ def get_produto_form():
         "imagem_blob": imagem_blob
     }
 
-def get_categoria_form():
-    return{
-        "categoria": request.form.get("categoria" "")
-    }
-
 
 # ====== Pegando os dados de pedidos ====== #
 def get_pedido_saida_form():
@@ -97,7 +92,7 @@ def get_pedido_entrada_form():
 
 def get_item_entrada_form():
     return {
-        "item_pedido_entrda_nome": request.form.get("produto", "").strip(),
+        "item_pedido_entrada_nome": request.form.get("produto", "").strip(),
         "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
         "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
         "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
@@ -192,10 +187,17 @@ def index():
     return render_template("landingpage.html")
 
 # ====== Tela inicial ====== #
+
+def get_categoria_form():
+
+    if request.method == "POST":
+        return request.form.get("categoria")
+    return None
+
 @app.route("/inicial", methods=["GET", "POST"])
 def inicial():
     usuario_id = session.get("usuario_id") 
-    produtos  = Produto.buscar_todo_produto()
+    produtos = Produto.buscar_todo_produto()
     
     dados = get_categoria_form()
     categoria = Produto.filtro_categoria(dados)
@@ -204,7 +206,6 @@ def inicial():
         usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
         return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos, categoria=categoria)
     
-
     return redirect('/login')
 
 

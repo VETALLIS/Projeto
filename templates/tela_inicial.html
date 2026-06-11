@@ -5,17 +5,31 @@
         <div class="container row">
             <div class="d-flex gap-3 mt-4 me-5 ms-2"
                 style="align-items: flex-start; max-width:800px !important; width: 100% !important;">
-                <div class="position-relative overflow-hidden" style="border-radius: 15px;background: #089068;
-    padding: 5px;max-width:400px !important; width: 100% !important;height: 190px;">
+                <div class="position-relative overflow-hidden"
+                    style="border-radius: 15px; background: #089068; padding: 5px; max-width:400px !important; width: 100% !important; height: 190px;">
+
+                    {% if categoria %}
                     {% for categorias in categoria %}
-                    <span style="position: absolute; font-size: 8rem; font-weight: bold; color:#18C890 ;
-  z-index: 0; top: 50%; left: 50%; transform: translate(-50%, -50%);">{{categorias.produto_categoria}}</span>
-                    <label style="margin-left: 0 !important; align-self: flex-start;"></label>
-                    <h5 class="fw-bold mb-0 ps-2 display-5 text-center mt-5"
-                        style="position: relative; z-index: 1;top: -12px; color:#006040;">
-                        {{categorias.produto_quantidade}}</h5>
+                    <span
+                        style="position: absolute; font-size: 5rem; font-weight: bold; color:#18C890; opacity: 0.3; z-index: 0; top: 40%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%;">
+                        {{ categorias.produto_categoria }}
+                    </span>
+
+                    <h5 class="fw-bold mb-0 ps-2 display-5 text-center"
+                        style="position: relative; z-index: 1; margin-top: 65px; color:#ffffff;">
+                        {{ categorias.estoque_quantidade }}
+                    </h5>
+                    <p class="text-center text-white-50" style="position: relative; z-index: 1; font-size: 0.9rem;">
+                        Unidades em Estoque</p>
                     {% endfor %}
-                    <button
+                    {% else %}
+                    <h5 class="fw-bold mb-0 ps-2 fs-4 text-center"
+                        style="position: relative; z-index: 1; margin-top: 75px; color:#ffffff; opacity: 0.7;">
+                        Nenhum filtro aplicado
+                    </h5>
+                    {% endif %}
+
+                    <button type="button"
                         class="rounded-circle border-0 d-flex align-items-center justify-content-center position-absolute top-0 end-0 m-2"
                         style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;"
                         data-bs-toggle="modal" data-bs-target="#modalFiltro">
@@ -201,7 +215,7 @@
     </div>
 </div>
 
-<form method="POST" action="{{ url_for('inicial') }}" >
+<form method="POST" action="{{ url_for('inicial') }}">
     <div class="modal fade" id="modalFiltro" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width:360px;">
             <div class="modal-content border-0" style="border-radius:16px; background:#089068; padding:8px;">
@@ -257,9 +271,10 @@
                     </ul>
                 </div>
                 <div class="modal-footer border-0 pt-0 px-3 pb-3">
-                    <button class="btn w-100 fw-semibold"
-                        style="background:#fff; color:#089068; border-radius:10px; padding:12px;"
-                        onclick="aplicarFiltro()">Aplicar</button>
+                    <button type="submit" class="btn w-100 fw-semibold"
+                        style="background:#fff; color:#089068; border-radius:10px; padding:12px;">
+                        Aplicar
+                    </button>
                 </div>
             </div>
         </div>
