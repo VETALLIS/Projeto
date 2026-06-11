@@ -859,8 +859,9 @@ def pedido_salvar():
     erros_saida = saida.validar_saida()
     erros_entrada = entrada.validar_pedido_entrada()
     conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
+    erros_item_entrada = item.validar_item_pedido_entrada()
 
-    if erros_entrada:
+    if erros_entrada and erros_item_entrada:
         for erro in erros_entrada:
             flash(erro, "danger")
         return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
