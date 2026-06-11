@@ -907,8 +907,11 @@ def filtro_categoria():
     dados = get_categoria_form()
 
     try:
-        produto = produto.filtro_categoria(dados):
+        produto = produto.filtro_categoria(dados)
         return redirect(url_for("telainicial", produto=produto))
+
+    except ValueError as e:
+        flash(str(e), "erro")
 
 
 
