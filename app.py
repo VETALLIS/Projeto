@@ -76,6 +76,11 @@ def get_produto_form():
         "imagem_blob": imagem_blob
     }
 
+def get_categoria_form():
+    return{
+        "categoria": request.form.get("categoria" "").strip()
+    }
+
 
 # ====== Pegando os dados de pedidos ====== #
 def get_pedido_saida_form():
@@ -897,15 +902,13 @@ def excluir_lista_compra_relatorio(lista_compra_id):
 
 
 # ====== Tela inicial ====== #
-@app.route("/usuario/atualizar/<int:id>", methods=["PUT"])
-def filtro_categoria(id):
+@app.route("/filtro/categoria", methods=["PUT"])
+def filtro_categoria():
     dados = get_categoria_form()
-    categoria = Categoria(**dados)
 
     try:
-        if not produto.produto_categoria(id):
-            flash("erro")
-            return redirect(url_for("novo_usuario"))
+        produto = produto.filtro_categoria(dados):
+        return redirect(url_for("telainicial", produto=produto))
 
 
 
