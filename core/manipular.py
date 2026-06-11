@@ -88,7 +88,6 @@ class Manipular:
     def validar_data(dados, field_name):
         meses = ['01', '02', '03', '04', '05', '06',
             '07', '08', '09', '10', '11', '12',]
-        if field_name == "data":
             if len(dados) == 10:
                 for data in dados:
                     if not(data.isdigit() or data == "/"):
@@ -122,6 +121,4 @@ class Manipular:
                     return f"A {field_name} está com a data incorreta"
             else:
                 return f"O {field_name} não está de acordo com essa validação"
-        else:
-            return ("erro na data")
         return False
