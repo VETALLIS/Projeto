@@ -7,11 +7,14 @@
                 style="align-items: flex-start; max-width:800px !important; width: 100% !important;">
                 <div class="position-relative overflow-hidden" style="border-radius: 15px;background: #089068;
     padding: 5px;max-width:400px !important; width: 100% !important;height: 190px;">
+                    {% for categorias in categoria %}
                     <span style="position: absolute; font-size: 8rem; font-weight: bold; color:#18C890 ;
-  z-index: 0; top: 50%; left: 50%; transform: translate(-50%, -50%);">{{produto.produto_categoria}}</span>
+  z-index: 0; top: 50%; left: 50%; transform: translate(-50%, -50%);">{{categorias.produto_categoria}}</span>
                     <label style="margin-left: 0 !important; align-self: flex-start;"></label>
                     <h5 class="fw-bold mb-0 ps-2 display-5 text-center mt-5"
-                        style="position: relative; z-index: 1;top: -12px; color:#006040;">{{produto.produto_quantidade}}</h5>
+                        style="position: relative; z-index: 1;top: -12px; color:#006040;">
+                        {{categorias.produto_quantidade}}</h5>
+                    {% endfor %}
                     <button
                         class="rounded-circle border-0 d-flex align-items-center justify-content-center position-absolute top-0 end-0 m-2"
                         style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;"
@@ -217,12 +220,12 @@
                 <li class="d-flex justify-content-between align-items-center py-3"
                     style="border-bottom:1px solid rgba(255,255,255,0.15);">
                     <label for="c2" class="text-white mb-0" style="cursor:pointer;">Comprimido</label>
-                    <input type="radio" name="categoria"id="c2" value="Comprimido" class="filtro-check">
+                    <input type="radio" name="categoria" id="c2" value="Comprimido" class="filtro-check">
                 </li>
                 <li class="d-flex justify-content-between align-items-center py-3"
                     style="border-bottom:1px solid rgba(255,255,255,0.15);">
                     <label for="c3" class="text-white mb-0" style="cursor:pointer;">Vacina</label>
-                    <input type="radio" name="categoria"id="c3" value="Vacina" class="filtro-check">
+                    <input type="radio" name="categoria" id="c3" value="Vacina" class="filtro-check">
                 </li>
                 <li class="d-flex justify-content-between align-items-center py-3"
                     style="border-bottom:1px solid rgba(255,255,255,0.15);">
@@ -238,7 +241,8 @@
                     style="border-bottom:1px solid rgba(255,255,255,0.15);">
                     <label for="c6" class="text-white mb-0" style="cursor:pointer;">Anti-inflamatórios e
                         Analgésicos</label>
-                    <input type="radio" name="categoria" id="c6" value="Anti-inflamatórios e Analgésicos" class="filtro-check">
+                    <input type="radio" name="categoria" id="c6" value="Anti-inflamatórios e Analgésicos"
+                        class="filtro-check">
                 </li>
                 <li class="d-flex justify-content-between align-items-center py-3">
                     <label for="c7" class="text-white mb-0" style="cursor:pointer;">Anestésicos e Sedativos</label>

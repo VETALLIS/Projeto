@@ -905,11 +905,11 @@ def excluir_lista_compra_relatorio(lista_compra_id):
 @app.route("/filtro/categoria", methods=["PUT"])
 def filtro_categoria():
     dados = get_categoria_form()
-    produto = Produto.filtro_categoria()
+    categoria = Produto.filtro_categoria()
 
     try:
         produto = produto.filtro_categoria(dados)
-        return redirect(url_for("telainicial", produto=produto))
+        return redirect(url_for("telainicial", categoria=categoria))
 
     except ValueError as e:
         flash(str(e), "erro")
