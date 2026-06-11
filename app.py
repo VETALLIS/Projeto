@@ -315,7 +315,7 @@ def atualizar_produto(produto_id):
 
 
 # ====== Deletando produtos ====== #
-@app.route("/produto/excluir/<int:produto_id>", methods=["DELETE"])
+@app.route("/produto/excluir/<int:produto_id>")
 def excluir_produto(produto_id):
     try:
         Produto.deletar_produto(produto_id)
@@ -895,10 +895,11 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatorio():
-    sensores = Sensor.contar_sensores()
+    
     try:
+        sensores = Sensor.contar_sensores()
         lista_compra = Lista_compra.buscar_lista_compra()
-        return render_template("relatorio.html", lista_compra=lista_compra, sensores=sensores)
+        return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
     except ValueError as e :
         flash(e, "danger")
         return render_template("relatorio.html")

@@ -28,14 +28,17 @@
             </div>
         </div>
 
-        <a href="/sensor/editar/{{sensor.sensor_id}}" class="bi bi-pencil text-white"
-            style="text-decoration: none; position: absolute; bottom: 10px; right: 10px;"> Editar</a>
-        <td>
-            <a class="btn btn-sm btn-link text-danger" style="text-decoration: none; position: absolute; bottom: 5px; right: 80px;"
+        <div class="container d-flex flex-column justify-content-between">
+            <a href="/sensor/editar/{{sensor.sensor_id}}" class="bi bi-pencil text-white"
+                style="text-decoration: none; position: absolute; bottom: 10px; right: 10px;"> Editar
+            </a>
+
+            <a class="btn btn-sm btn-link"
+                style="text-decoration: none; position: absolute; bottom: 5px; right: 80px; color: #fff;"
                 href="{{ url_for('excluir_sensor', sensor_id= sensor.sensor_id) }}">
                 <i class="bi bi-trash"></i>
             </a>
-        </td>
+        </div>
 
     </div>
     {% endfor %}
