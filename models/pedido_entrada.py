@@ -1,6 +1,7 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
+from datetime import datetime
 
 class Pedido_entrada(Crud_base):
     tabela = "pedido_entrada"
@@ -16,7 +17,7 @@ class Pedido_entrada(Crud_base):
     def validar_pedido_entrada (self):
         erros = [
             Manipular.validar_vazio (self.pedido_entrada_nome, "pedido_entrada_nome"),
-            Manipular.validar_vazio (self.pedido_entrada_data, "pedido_entrada_data"),
+            #Manipular.validar_vazio (self.pedido_entrada_data, "pedido_entrada_data"),
             Manipular.validar_vazio (self.pedido_entrada_status, "pedido_entrada_status"),
             Manipular.validar_data(self.pedido_entrada_data, "pedido_entrada_data")
         ]
@@ -85,7 +86,7 @@ class item_pedido_entrada(Crud_base):
     pk = "item_pedido_entrada_id"
     fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id"]
 
-    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome):
+    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id):
         self.item_pedido_entrada_lote = item_pedido_entrada_lote
         self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
@@ -101,7 +102,19 @@ class item_pedido_entrada(Crud_base):
             Manipular.validar_numero_negativo (self.item_pedido_entrada_quantidade, "item_pedido_entrada_quantidade"),
             Manipular.validar_numero_negativo (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario")
         ]
+
         return [ erro for erro in erros if erro]
+    
+    def converter_data(data_str):
+        formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']  # aceita vários formatos
+        
+        for formato in formatos:
+            try:
+                return datetime.strptime(data_str.strip(), formato).strftime('%Y-%m-%d')
+            except ValueError:
+                continue
+    
+        return None
 
     def gravar_item_pedido_entrada (self):
         item_pedido_entrada = self.gravar()
