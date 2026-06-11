@@ -37,18 +37,6 @@ def to_float(value, default=0.0):
     except (TypeError, ValueError):
         return default
     
-def converter_data(data_str):
-    formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']  # aceita vários formatos
-        
-    for formato in formatos:
-        try:
-            return datetime.strptime(data_str.strip(), formato).strftime('%Y-%m-%d')
-        except ValueError:
-            continue
-    
-    return None
-
-
 
 # ====== Pegando os dados do Front End ====== #
 
@@ -94,7 +82,7 @@ def get_categoria_form():
 def get_pedido_saida_form():
     return {
         "pedido_saida_nome": request.form.get("pedido_saida_nome", "").strip(),
-        "pedido_saida_data": converter_data(request.form.get("pedido_saida_data", "")),
+        "pedido_saida_data": request.form.get("pedido_saida_data", ""),
         "pedido_saida_status": request.form.get("pedido_saida_status", "").strip(),
         "animal_animal_id": to_int(request.form.get("animal_animal_id", ""))
     }
@@ -102,7 +90,7 @@ def get_pedido_saida_form():
 def get_pedido_entrada_form():
     return {
         "pedido_entrada_nome": request.form.get("pedido_entrada_nome", "").strip(),
-        "pedido_entrada_data": converter_data(request.form.get("pedido_entrada_data", "")),
+        "pedido_entrada_data": request.form.get("pedido_entrada_data", ""),
         "pedido_entrada_status": request.form.get("pedido_entrada_status", "").strip(),
         "fornecedor_fornecedor_id": request.form.get('fornecedor_fornecedor_id')
     }
@@ -463,7 +451,7 @@ def salvar_sensor():
     try:
         sensor.gravar_sensor()
         flash("Sensor cadastrado com sucesso.", "success")
-        return redirect(url_for("novo_sensor"))
+        return redirect(url_for("sensor"))
     except ValueError as e:
         flash(f"Erro ao cadastrar sensor: {e}", "danger")
         return render_template("Cadastro_sensor.html", sensor=dados)
@@ -862,6 +850,7 @@ def pedido_salvar():
     saida = Pedido_saida(**dados_saida)
     erros = entrada.validar_pedido_entrada()
 
+    conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
     if erros:
         for erro in erros:
             flash(erro, "danger")

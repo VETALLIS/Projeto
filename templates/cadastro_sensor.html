@@ -10,68 +10,60 @@
     Cadastro de Sensor
 </h3>
 
-
-
-
 <form method="POST" action="{{ url_for('salvar_sensor') }}" enctype="multipart/form-data" class="mt-4">
+    <div class="d-flex" style="gap: 24px;">
 
-
-    <div class="d-flex mb-3" style="gap: 16px;">
-        <div style="flex: 1;">
-            <input type="text" name="sensor_nome" class="form-control" placeholder="Nome:" required
-                style="border-radius: 8px;">
+        <!-- IMAGEM -->
+        <div style="width: 250px; min-width: 250px;">
+            <label for="imagem_produto" style="width: 100%; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                <img id="preview" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:10px;">
+                <span class="text-white" id="label_texto">Clique para adicionar imagem</span>
+            </label>
+            <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
+            <input type="hidden" name="usuario_usuario_id" value="">
         </div>
-        <div style="flex: 1;">
-            <input type="text" name="sensor_tipo_conexao" class="form-control" placeholder="Tipo de conexão:" required
-                style="border-radius: 8px;">
-        </div>
-    </div>
 
-
-    <div class="d-flex mb-3" style="gap: 16px;">
-        <div style="flex: 1;">
-            <textarea name="sensor_descricao" class="form-control" placeholder="Descrição:"
-                style="height: 97px; resize: vertical; border-radius: 8px;"></textarea>
-        </div>
-        <div style="flex: 1;">
+        <!-- FORMULÁRIO -->
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;" >
             <div class="d-flex mb-3" style="gap: 16px;">
-                <div style="flex: 1;">
-                    <input type="text" name="sensor_n_serie" class="form-control" placeholder="N série:" required
-                        style="border-radius: 8px;">
-                </div>
-                <div style="flex: 1;">
-                    <input type="number" name="sensor_voltagem" class="form-control" placeholder="Voltagem:" required
-                        style="border-radius: 8px;">
+                <input type="text" name="sensor_nome" class="form-control" placeholder="Nome:" required style="border-radius: 8px;" style="max-width: 50%;">
+                <input type="text" name="sensor_tipo_conexao" class="form-control" placeholder="Tipo de conexão:" required style="border-radius: 8px;" style="max-width: 50%;">
+            </div>
+
+            <div class="d-flex mb-3" style="gap: 16px;">
+                <textarea name="sensor_descricao" class="form-control" placeholder="Descrição:" style="height: 97px; resize: vertical; border-radius: 8px; max-width: 50%;"></textarea>
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
+                    <div class="d-flex" style="gap: 16px;">
+                        <input type="text" name="sensor_n_serie" class="form-control" placeholder="N série:" required style="border-radius: 8px;">
+                        <input type="number" name="sensor_voltagem" class="form-control" placeholder="Voltagem:" required style="border-radius: 8px;">
+                    </div>
+                    <input type="text" name="sensor_modelo" class="form-control" placeholder="Modelo:" required style="border-radius: 8px;">
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="me-3 " style="width: 100%; border: 2px dashed rgba(255, 255, 255, 0.4);" >
-                    <label for="imagem_produto" 
-                        style=" margin-left: 0 !important; align-self: flex-start; padding: 10px;">
-                        <span class="text-white mt-2">Clique para adicionar imagem</span>
-                    </label>
-                    <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
-                    <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
-                </div>
 
-                <input type="text" name="sensor_modelo" class="form-control" placeholder="Modelo:" required
-                    style="border-radius: 8px;">
+            <div class="d-flex" style="gap: 16px;">
+                <input type="text" name="sensor_localizacao" class="form-control" placeholder="Localização:" required style="border-radius: 8px;">
+                <button type="submit" class="btn w-100 text-white" style="background: #03c356; border-radius: 25px;">Cadastrar</button>
             </div>
         </div>
+
     </div>
-
-
-    <div class="d-flex" style="gap: 16px;">
-        <div style="flex: 1;">
-            <input type="text" name="sensor_localizacao" class="form-control" placeholder="Localização:" required
-                style="border-radius: 8px;">
-        </div>
-        <div style="flex: 1;">
-            <button type="submit" class="btn w-100 text-white"
-                style="background: #03c356; border-radius: 25px;">Cadastrar</button>
-        </div>
-    </div>
-
 </form>
+
+<script>
+    document.getElementById("imagem_produto").addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const preview = document.getElementById("preview");
+                preview.src = e.target.result;
+                preview.style.display = "block";
+                document.getElementById("label_texto").style.display = "none";
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 
 {% endblock %}
