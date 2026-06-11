@@ -130,3 +130,14 @@ class item_pedido_entrada(Crud_base):
             raise ValueError("Item de pedido de entrada não encontrado!")
         self.atualizar(id)
         return "Item de pedido de entrada atualizado com sucesso!"
+
+def converter_data(data_str):
+    formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']  # aceita vários formatos
+        
+    for formato in formatos:
+        try:
+            return datetime.strptime(data_str.strip(), formato).strftime('%Y-%m-%d')
+        except ValueError:
+            continue
+    
+    return None
