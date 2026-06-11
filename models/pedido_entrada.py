@@ -114,7 +114,7 @@ class item_pedido_entrada(Crud_base):
             except ValueError:
                 continue
     
-    return None
+        return None
 
     def gravar_item_pedido_entrada (self):
         item_pedido_entrada = self.gravar()
