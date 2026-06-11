@@ -99,7 +99,7 @@ class Produto(Crud_base):
 
         return produtos
 
-      @classmethod
+    @classmethod
     def filtro_categoria(cls, categoria):
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
