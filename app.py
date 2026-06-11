@@ -8,7 +8,7 @@ from models.lista_compra import Lista_compra
 from models.login import Login
 from models.fornecedor import Fornecedor
 from models.animal import Animal
-from models.pedido_entrada import Pedido_entrada
+from models.pedido_entrada import Pedido_entrada, item_pedido_entrada
 from models.gerenciamento_perfil import GerenciamentoPerfil
 from models.informacao_produto import Informacao_Produto
 from models.pedido_saida import Pedido_saida
@@ -74,7 +74,7 @@ def get_produto_form():
 
 def get_categoria_form():
     return{
-        "categoria": request.form.get("categoria" "").strip()
+        "categoria": request.form.get("categoria" "")
     }
 
 
@@ -192,15 +192,17 @@ def index():
     return render_template("landingpage.html")
 
 # ====== Tela inicial ====== #
-@app.route("/inicial")
+@app.route("/inicial", methods=["GET", "POST"])
 def inicial():
     usuario_id = session.get("usuario_id") 
     produtos  = Produto.buscar_todo_produto()
     
+    dados = get_categoria_form()
+    categoria = Produto.filtro_categoria(dados)
 
     if usuario_id:
         usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
-        return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos)
+        return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos, categoria=categoria)
     
 
     return redirect('/login')
@@ -844,13 +846,18 @@ def pedido_salvar():
     fornecedor = Fornecedor.buscar_fornecedor()
     produtos= Produto.buscar_todo_produto()
 
+
     dados_entrado = get_pedido_entrada_form()
     dados_saida = get_pedido_saida_form()
+    item = get_item_entrada_form()
+
     entrada = Pedido_entrada(**dados_entrado)
     saida = Pedido_saida(**dados_saida)
-    erros = entrada.validar_pedido_entrada()
+    item = item_pedido_entrada(**item)
 
+    erros = entrada.validar_pedido_entrada()
     conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
+
     if erros:
         for erro in erros:
             flash(erro, "danger")
@@ -863,6 +870,7 @@ def pedido_salvar():
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
 
         entrada.gravar_pedido_entrada()
+        item.gravar_item_pedido_entrada()
 
 
         flash("Entrada cadastrada.", "success")
@@ -897,19 +905,6 @@ def excluir_lista_compra_relatorio(lista_compra_id):
         flash(f"Erro ao excluir lista de compra: {e}", "danger")
     return redirect(url_for("relatorio"))
 
-
-# ====== Tela inicial ====== #
-@app.route("/filtro/categoria", methods=["PUT"])
-def filtro_categoria():
-    dados = get_categoria_form()
-    categoria = Produto.filtro_categoria()
-
-    try:
-        produto = produto.filtro_categoria(dados)
-        return redirect(url_for("telainicial", categoria=categoria))
-
-    except ValueError as e:
-        flash(str(e), "erro")
 
 
 

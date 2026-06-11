@@ -105,19 +105,28 @@ class Produto(Crud_base):
         cursor = conexao.cursor(dictionary=True)
 
         try:
-            sql = f"""select p.produto_categoria,  sum(e.estoque_quantidade) as estoque_quantidade from produto p
-            join estoque e on e.produto_produto_id = p.produto_id
-            where p.produto_categoria = %s
-            group by p.produto_categoria;"""
+           
+            sql = """
+                SELECT p.produto_categoria, SUM(e.estoque_quantidade) AS estoque_quantidade 
+                FROM produto p
+                JOIN estoque e ON e.produto_produto_id = p.produto_id
+                WHERE p.produto_categoria LIKE %s
+                GROUP BY p.produto_categoria;
+            """
             
             cursor.execute(sql, (f"%{categoria}%",))
-
             resultados = cursor.fetchall()
 
+           
             if resultados:
                 return resultados
             else:
-                return None        
+                return []  
+                
+        except Exception as e:
+            print(f"Erro na busca por categoria: {e}")
+            return [] 
+            
         finally:
             cursor.close()
             conexao.close()
