@@ -85,4 +85,24 @@ class Usuario(Crud_base):
         
         return usuario
 
+    @classmethod
+    def inserir_usuario_adm(cls, dados):
+        usuario = cls(
+                usuario_senha=dados.get("usuario_senha"),
+                usuario_nome=dados.get("usuario_nome"),
+                usuario_email=dados.get("usuario_email"),
+                usuario_cpf=dados.get("usuario_cpf", "00000000000"), 
+                usuario_cargo=dados.get("usuario_cargo", "admin"),   
+                usuario_confirmar_senha=dados.get("usuario_confirmar_senha")
+            )
 
+        inserir = cls.gravar(usuario)
+
+
+
+        if not inserir:
+            print("Usuario não cadastrado")
+            raise ValueError("Usuario não cadastrado")
+            
+
+        return inserir

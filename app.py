@@ -512,7 +512,7 @@ def atualizar_sensor(sensor_id):
         return render_template("editar_sensores.html", sensor=dados_sensor)
     
 # ====== Excluindo  daodos sensores ====== #
-@app.route("/sensor/excluir/<int:sensor_id>", methods=["DELETE"])
+@app.route("/sensor/excluir/<int:sensor_id>")
 def excluir_sensor(sensor_id):
     try:
         Sensor.deletar_sensor(sensor_id)
