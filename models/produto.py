@@ -101,6 +101,9 @@ class Produto(Crud_base):
 
     @classmethod
     def filtro_categoria(cls, categoria):
+        if not categoria:
+            return []
+
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
 
@@ -108,10 +111,10 @@ class Produto(Crud_base):
            
             sql = """
                 SELECT p.produto_categoria, SUM(e.estoque_quantidade) AS estoque_quantidade 
-                FROM produto p
-                JOIN estoque e ON e.produto_produto_id = p.produto_id
-                WHERE p.produto_categoria LIKE %s
-                GROUP BY p.produto_categoria;
+            FROM produto p
+            LEFT JOIN estoque e ON e.produto_produto_id = p.produto_id
+            WHERE p.produto_categoria LIKE %s
+            GROUP BY p.produto_categoria;
             """
             
             cursor.execute(sql, (f"%{categoria}%",))
