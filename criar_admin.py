@@ -7,7 +7,7 @@ dados = {
     "usuario_email": "admin@sistema.com",
     "usuario_senha": "123456",
     "usuario_cpf": "12345678901",
-    "usuario_cargo": "admin"
+    "usuario_cargo": "adm"
 }
 
 Usuario.inserir_usuario_adm(dados)

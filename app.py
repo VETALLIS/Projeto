@@ -14,6 +14,7 @@ from models.informacao_produto import Informacao_Produto
 from models.pedido_saida import Pedido_saida
 from models.pesquisa import Pesquisa
 from datetime import datetime
+import base64
 
 
 # definição da variavel app
@@ -629,9 +630,18 @@ def atualizar_lista_compra(id):
 def pesquisa():
     q = get_pesquisa_item_form()
 
-
     try:
         pesquisa_item = Pesquisa.buscar_tudo_pesquisa(q)
+        
+
+        if pesquisa_item:
+            for produto in pesquisa_item:
+                if produto["imagem_blob"]:
+                    produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
+                else:
+                    produto["imagem_base64"] = ""
+
+
         return render_template("pesquisa.html", pesquisa_item=pesquisa_item, q=q)
     except ValueError as e:
         flash(str(e), "danger")
