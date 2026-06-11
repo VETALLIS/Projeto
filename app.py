@@ -568,7 +568,7 @@ def salvar_lista_compra():
     try:
         lista_compra.gravar_lista_compra()
         flash("Lista compra feita com sucesso.", "success")
-        return redirect(url_for("novo_lista_compra"))
+        return redirect(url_for("lista_compra"))
     except Exception as e:
         flash(f"Erro ao criar lista de compras: {e}", "danger")
         return render_template("adiciona_itens_lista_compra.html", lista_compra=dados)
@@ -905,6 +905,7 @@ def excluir_lista_compra_relatorio(lista_compra_id):
 @app.route("/filtro/categoria", methods=["PUT"])
 def filtro_categoria():
     dados = get_categoria_form()
+    produto = Produto.filtro_categoria()
 
     try:
         produto = produto.filtro_categoria(dados)
