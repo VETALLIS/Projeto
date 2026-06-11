@@ -139,3 +139,5 @@ class Crud_base:
         finally:
             cursor.close()
             conexao.close()
+
+

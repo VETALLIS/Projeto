@@ -885,6 +885,18 @@ def excluir_lista_compra_relatorio(lista_compra_id):
     return redirect(url_for("relatorio"))
 
 
+# ====== Tela inicial ====== #
+@app.route("/usuario/atualizar/<int:id>", methods=["PUT"])
+def filtro_categoria(id):
+    dados = get_categoria_form()
+    categoria = Categoria(**dados)
+
+    try:
+        if not produto.produto_categoria(id):
+            flash("erro")
+            return redirect(url_for("novo_usuario"))
+
+
 
 # ====== Executar codigo ======#
 if __name__ == "__main__":

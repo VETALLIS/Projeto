@@ -100,3 +100,26 @@ class Produto(Crud_base):
                 produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
 
         return produtos
+
+      @classmethod
+    def filtro_categoria(cls, categoria):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+
+        try:
+            sql = f"""select p.produto_categoria,  sum(e.estoque_quantidade) as estoque_quantidade from produto p
+            join estoque e on e.produto_produto_id = p.produto_id
+            where p.produto_categoria = %s
+            group by p.produto_categoria;"""
+            
+            cursor.execute(sql, (f"%{categoria}%",))
+
+            resultados = cursor.fetchall()
+
+            if resultados:
+                return resultados
+            else:
+                return None        
+        finally:
+            cursor.close()
+            conexao.close()
