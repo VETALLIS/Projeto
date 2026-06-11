@@ -1,7 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
-from datetime import datetime
 
 class Pedido_entrada(Crud_base):
     tabela = "pedido_entrada"
@@ -105,17 +104,6 @@ class item_pedido_entrada(Crud_base):
 
         return [ erro for erro in erros if erro]
     
-    def converter_data(data_str):
-        formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']  # aceita vários formatos
-        
-        for formato in formatos:
-            try:
-                return datetime.strptime(data_str.strip(), formato).strftime('%Y-%m-%d')
-            except ValueError:
-                continue
-    
-        return None
-
     def gravar_item_pedido_entrada (self):
         item_pedido_entrada = self.gravar()
 
