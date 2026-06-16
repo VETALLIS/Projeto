@@ -1,8 +1,9 @@
- {% extends 'base.html'%}
+{% extends 'base.html'%}
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;height: 40px;">Voltar</a>
+    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left text-white"
+        style="text-decoration: none;height: 40px;">Voltar</a>
 </div>
 <h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 100%;">
     Informações do Produto</h3>
@@ -10,10 +11,10 @@
     <div class="upload-imagem me-5 ">
         <label for="imagem_produto" class="upload-box" style="max-height: 300px !important; width: 275px;"
             style=" margin-left: 0 !important; align-self: flex-start;">
-            <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}" 
-     style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
+            <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
+                style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
         </label>
-        
+
     </div>
     <div class="d-flex align-items-center" style="padding: 20px;">
         <form class="mb-4 ">
@@ -22,27 +23,27 @@
                 <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
             </div>
             <div class="mb-3 d-flex gap-2">
-                <label  style="color:#fff;">Quantidade:</label>
+                <label style="color:#fff;">Quantidade:</label>
                 <label for="" class="d-nome" style="color: #fff;">{{produto.estoque_quantidade}}</label>
             </div>
             <div class="mb-3 d-flex gap-2">
                 <label class="form-label " style="color:#fff;">Descrição:</label>
                 <label for="" class="d-nome" style="color: #fff;">{{produto.produto_descricao}}</label>
             </div>
-            <div class="mb-3 d-flex text-start gap-2">
-                <label class="form-label " style="color:#fff; min-width: 100px;">Nota fiscal:</label>
-                <input type="text" class="form-control bg-transparent border-0" readonly value="{{produto_descricao}}">
+            <div class="mb-3 d-flex gap-2">
+                <label class="form-label " style="color:#fff;">Categoria:</label>
+                <label for="" class="d-nome" style="color: #fff;">{{produto.produto_categoria}}</label>
             </div>
         </form>
 
-     
+
 
     </div>
 </div>
 
 <div class="d-flex">
-    <button class="btn btn-danger w-100 text-white me-3" type="submit">Retirar</button>
-    <button class="btn  w-100 text-white" style="background-color:#03A64A;" type="submit">Adicionar</button>
+    <a href="{{url_for('pedido')}}" class="btn btn-danger w-100 text-white me-3">Retirar</a>
+    <a href="{{url_for('pedido')}}" class="btn w-100 text-white" style="background-color:#03A64A;">Adicionar</a>
 </div>
 
 {% endblock%}

@@ -19,6 +19,7 @@ class Informacao_Produto(Crud_base):
 
 
 
+
     @classmethod
     def buscar_produto_com_estoque(cls, produto_id):
         """Busca produto + estoque usando JOIN"""
@@ -35,6 +36,7 @@ class Informacao_Produto(Crud_base):
                 "WHERE p.produto_id = %s"
             )
             cursor.execute(sql, (produto_id,))
+            
             return cursor.fetchone()
         finally:
             cursor.close()

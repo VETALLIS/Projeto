@@ -66,3 +66,11 @@ class Animal(Crud_base):
             raise ValueError("Animal não encontrado.") # retorna se tiver erro
 
         return Animal(**animal)# retorna os dados encontrado
+    
+    def buscar_animal(self):
+        animal = self.buscar_tudo() # chama o método para de buscar por id do Crud_base
+
+        if not animal: # verifica se foi encontrado
+            raise ValueError("Animal não encontrado.") # retorna se tiver erro
+
+        return animal# retorna os dados encontrado

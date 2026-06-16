@@ -67,7 +67,6 @@ class Produto(Crud_base):
     
     def atualizar_produto(self, id):
         produto = self.buscar_por_id(id)
-
         if not produto:
             raise ValueError("Produto não encontrado!")
         if self.relacao_entre_tabelas(id):

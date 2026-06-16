@@ -39,7 +39,7 @@ class Pedido_entrada(Crud_base):
         if not pedido_entrada:
             raise ValueError("Erro ao cadastrar pedido de entrada.")
         
-        return "Cadastrado"
+        return pedido_entrada
 
     @classmethod
     def relacao_entre_tabelas(cls, id):
@@ -94,14 +94,15 @@ class Pedido_entrada(Crud_base):
 class item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada"
     pk = "item_pedido_entrada_id"
-    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id"]
+    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "estoque_estoque_id"]
 
-    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id):
+    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, estoque_estoque_id=1):
         self.item_pedido_entrada_lote = item_pedido_entrada_lote
         self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
         self.item_pedido_entrada_nome = item_pedido_entrada_nome
         self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
+        self.estoque_estoque_id=1
 
     def validar_item_pedido_entrada (self):
         erros = [
@@ -115,9 +116,9 @@ class item_pedido_entrada(Crud_base):
 
         return [ erro for erro in erros if erro]
     
-    def gravar_item_pedido_entrada (self):
-        item_pedido_entrada = self.gravar()
-
+    def gravar_item_pedido_entrada (self,numero):
+        self.pedido_entrada_pedido_entrada_id= numero
+        itens= self.gravar()
         if not item_pedido_entrada:
             raise ValueError("Erro ao cadastrar item de pedido de entrada.")
         

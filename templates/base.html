@@ -37,22 +37,16 @@
                     <i class="bi bi-plus-circle"></i> ADD Produtos
                 </a>
                 {%if session.get('usuario_cargo') == 'adm' %}
-                <button class="topbar-btn topbar-btn-icon">
-                    <a title="Funcionarios" class="text-white" href="{{ url_for('novo_usuario')}}">
-                        <i class="bi bi-person"></i>
-                    </a>
-                </button>
+                <a title="Funcionarios" class="topbar-btn topbar-btn-icon text-white" href="{{ url_for('novo_usuario')}}">
+                    <i class="bi bi-person"></i>
+                </a>
                 {% endif %}
-                <button class="topbar-btn topbar-btn-icon">
-                    <a id="link-perfil" title="Configurações" class="text-white">
-                        <i class="bi bi-gear"></i>
-                    </a>
-                </button>
-                <button class="topbar-btn topbar-btn-icon">
-                    <a href="{{url_for('logout')}}" class="text-white" title="Sair">
-                        <i class="bi bi-box-arrow-right"></i>
-                    </a>
-                </button>
+                <a id="link-perfil" class="topbar-btn topbar-btn-icon text-white" title="Configurações">
+                    <i class="bi bi-gear"></i>
+                </a>
+                <a href="{{ url_for('logout') }}" class="topbar-btn topbar-btn-icon text-white" title="Sair">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
             </div>
         </section>
     </header>
@@ -61,28 +55,32 @@
     <aside class="sidebar">
         <nav class="sidebar-nav gap-2" style="margin-top: -15px;">
             <div class="text-center ">
-                <a href="{{ url_for('inicial') }}" class="sidebar-link active d-flex flex-column align-items-center justify-content-center" title="Início"
-                    style="text-decoration: none; ">
+                <a href="{{ url_for('inicial') }}"
+                    class="sidebar-link active d-flex flex-column align-items-center justify-content-center"
+                    title="Início" style="text-decoration: none; ">
                     <i class="bi bi-house fs-7 mt-1"></i>
                     <h6 style="font-size: 65%;">Home</h6>
                 </a>
             </div>
             <div class="text-center">
-                <a class="sidebar-link d-flex  flex-column align-items-center justify-content-center " title="Produtos" href="{{url_for('produtos')}}" style="text-decoration: none;">
+                <a class="sidebar-link d-flex  flex-column align-items-center justify-content-center " title="Produtos"
+                    href="{{url_for('produtos')}}" style="text-decoration: none;">
                     <i class="bi bi-capsule fs-7 mt-1"></i>
                     <h6 style="font-size: 65%; text-align: center;">Produto</h6>
                 </a>
             </div>
 
             <div class="text-center">
-                <a href="{{url_for('animal')}}" class="sidebar-link d-flex flex-column " title="Animal" style="text-decoration: none;">
+                <a href="{{url_for('animal')}}" class="sidebar-link d-flex flex-column " title="Animal"
+                    style="text-decoration: none;">
                     <i class="bi bi-feather fs-7 mt-1"></i>
                     <h6 style="font-size: 65%;">Animais</h6>
                 </a>
             </div>
 
             <div class="text-center">
-                <a href="{{url_for('sensor')}}" class="sidebar-link d-flex flex-column" title="Sensor" style="text-decoration: none;">
+                <a href="{{url_for('sensor')}}" class="sidebar-link d-flex flex-column" title="Sensor"
+                    style="text-decoration: none;">
                     <i class="bi bi-radar fs-7 mt-1"></i>
                     <h6 style="font-size: 65%;">Sensor</h6>
                 </a>
@@ -97,7 +95,8 @@
             </div>
 
             <div class="text-center">
-                <a href="{{url_for('pedido')}}" class="sidebar-link d-flex flex-column" title="Pedidos" style="text-decoration: none;">
+                <a href="{{url_for('pedido')}}" class="sidebar-link d-flex flex-column" title="Pedidos"
+                    style="text-decoration: none;">
                     <i class="bi bi-box2 fs-7 mt-1"></i>
                     <h6 style="font-size: 65%;">Pedido</h6>
                 </a>
@@ -112,7 +111,8 @@
             </div>
 
             <div class="text-center">
-                <a href="{{url_for('relatorio')}}" class="sidebar-link d-flex flex-column" title="Relatórios" style="text-decoration: none;">
+                <a href="{{url_for('relatorio')}}" class="sidebar-link d-flex flex-column" title="Relatórios"
+                    style="text-decoration: none;">
                     <i class="bi bi-graph-up fs-7 mt-1"></i>
                     <h6 style="font-size: 65%;">Relatório</h6>
                 </a>
