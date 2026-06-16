@@ -253,29 +253,6 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
 
--- -----------------------------------------------------
--- Table `movimentacao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `movimentacao` (
-  `movimentacao_id` INT NOT NULL AUTO_INCREMENT,
-  `movimentacao_tipo` VARCHAR(45) NOT NULL,
-  `movimentacao_quantidade` INT NOT NULL,
-  `movimentacao_data` VARCHAR(10) NOT NULL,
-  `movimentacao_observacao` VARCHAR(50) NULL DEFAULT NULL,
-  `item_pedido_entrada_item_pedido_entrada_id` INT NOT NULL,
-  `item_pedido_saida_item_pedido_saida_id` INT NOT NULL,
-  PRIMARY KEY (`movimentacao_id`),
-  CONSTRAINT `fk_movimentacao_item_pedido_entrada1`
-    FOREIGN KEY (`item_pedido_entrada_item_pedido_entrada_id`)
-    REFERENCES `item_pedido_entrada` (`item_pedido_entrada_id`),
-  CONSTRAINT `fk_movimentacao_item_pedido_saida1`
-    FOREIGN KEY (`item_pedido_saida_item_pedido_saida_id`)
-    REFERENCES `item_pedido_saida` (`item_pedido_saida_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-SHOW WARNINGS;
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
