@@ -1,5 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+from core.conectar import Database
 
 class Usuario(Crud_base):
     tabela = "usuario"
@@ -106,6 +107,24 @@ class Usuario(Crud_base):
             
 
         return inserir
+    
+    @classmethod
+    def has_related_records(cls, id):
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            queries = [
+                "SELECT COUNT(*) FROM produto WHERE usuario_usuario_id = %s",
+            ]
+            total = 0
+            for sql in queries:
+                cursor.execute(sql, (id,))
+                total += cursor.fetchone()[0]
+            return total > 0
+        finally:
+            cursor.close()
+            conexao.close()
+
     
     @classmethod
     def safe_delete(cls, id):

@@ -96,7 +96,7 @@ def get_item_entrada_form():
         "item_pedido_entrada_nome": request.form.get("produto", "").strip(),
         "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
         "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
-        "item_pedido_entrada_data": request.form.get("item_pedido_entrada_data", ""),
+        "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_data", ""),
         "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
         "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
@@ -843,7 +843,8 @@ def gerenciar_perfil_salvar():
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
 def excluir_usuario(usuario_id):
     try:
-        Usuario.deletar_usuario(usuario_id)
+        relacao = Usuario.has_related_records(usuario_id)
+        
         flash("Usuario excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
