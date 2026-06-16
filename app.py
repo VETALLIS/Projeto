@@ -909,14 +909,19 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatorio():
+
+    try: 
+       sensores = Sensor.contar_sensores() 
+    except ValueError as e:
+        sensor= 0
     
     try:
-        sensores = Sensor.contar_sensores()
         lista_compra = Lista_compra.buscar_lista_compra()
-        return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
-    except ValueError as e :
-        flash(e, "danger")
-        return render_template("relatorio.html")
+    except ValueError as e:
+        lista_compra = []
+    
+
+    return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
     
 @app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
 def excluir_lista_compra_relatorio(lista_compra_id):
