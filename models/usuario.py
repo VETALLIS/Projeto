@@ -106,3 +106,12 @@ class Usuario(Crud_base):
             
 
         return inserir
+    
+    @classmethod
+    def safe_delete(cls, id):
+        usuario = cls.buscar_por_id(id)
+        if not usuario:
+            raise ValueError("Usuario não encontrado.")
+        if cls.has_related_records(id):
+            raise ValueError("Não é possível excluir o usuario porque ele possui pedidos ou movimentações vinculadas.")
+        cls.delete(id)

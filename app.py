@@ -857,6 +857,7 @@ def pedido():
         return render_template("pedido.html")
     except Exception as e:
         flash(f"Erro ao excluir Usuario: {e}", "danger")
+        return render_template("pedido.html")
 
 
 # ===== salvar entrada de pedidos ===== #
@@ -875,8 +876,6 @@ def pedido_salvar():
         item = item_pedido_entrada(**item)
         erros_entrada = entrada.validar_pedido_entrada()
         erros_item_entrada = item.validar_item_pedido_entrada()
-
-
     else:
         saida = Pedido_saida(**dados_saida)
         erros_saida = saida.validar_pedido_saida ()
