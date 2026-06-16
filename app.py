@@ -131,7 +131,7 @@ def get_login_form():
 
 # ====== Pegando os dados para o cadastro de sensores ====== #
 def get_sensor_form():
-    arquivo = request.files.get("imagem_produto")
+    arquivo = request.files.get("imagem_sensor")
 
     if arquivo and arquivo.filename != '':
         sensor_imagem = arquivo.filename
@@ -177,6 +177,17 @@ def get_lista_compra_form():
     }
 
 def get_gerenciar_perfil_form():
+
+    arquivo = request.files.get("usuario_imagem")
+
+    if arquivo and arquivo.filename != '':
+        imagem_blob = arquivo.read()
+        imagem_tipo = arquivo.content_type
+        usuario_imagem = arquivo.filename
+    else:
+        imagem_blob = None
+        imagem_tipo = None
+        usuario_imagem = None
 
     return{
         "usuario_nome": request.form.get("usuario_nome", "").strip(),
@@ -845,9 +856,15 @@ def gerenciar_perfil_salvar():
         flash("Dados atualizados.", "success")
         return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))  
 
+        if dados_usuario.get("imagem_blob"):
+            dados_usuario["imagem_base64"] = base64.b64encode(dados_usuario["imagem_blob"] ).decode("utf-8")
+        else:
+            dados_usuario["imagem_base64"] = None
+
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
         return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
+
     
 # ====== Excluindo usuario ======#
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
