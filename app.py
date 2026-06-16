@@ -178,7 +178,7 @@ def get_lista_compra_form():
 
 def get_gerenciar_perfil_form():
 
-    arquivo = request.files.get("usuario_imagem")
+    arquivo = request.files.get("imagem_usuario")  
 
     if arquivo and arquivo.filename != '':
         imagem_blob = arquivo.read()
@@ -189,15 +189,16 @@ def get_gerenciar_perfil_form():
         imagem_tipo = None
         usuario_imagem = None
 
-    return{
+    
+
+    return {
         "usuario_nome": request.form.get("usuario_nome", "").strip(),
         "usuario_email": request.form.get("usuario_email", "").strip(),  
         "usuario_cargo": request.form.get("usuario_cargo", "").strip(),
         "usuario_id": request.form.get("usuario_id", ""),
-        "usuario_imagem": request.form.get("usuario_imagem", ""). strip(),
-        "imagem_tipo": request.form.get("imagem_tipo", ""). strip(),
-        "imagem_blob": request.form.get("imagem_blob", ""). strip(),
-
+        "usuario_imagem": usuario_imagem,   
+        "imagem_tipo": imagem_tipo,         
+        "imagem_blob": imagem_blob,          
     }
 
 # ====== Pegando os dados para a pesquisa ====== #
@@ -824,6 +825,11 @@ def gerenciar_perfil_atualizar(usuario_id):
 
     try:
         dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
+
+        if dados_usuario.get("imagem_blob"):
+            dados_usuario["imagem_base64"] = base64.b64encode(
+                dados_usuario["imagem_blob"]
+            ).decode("utf-8")
 
         if not dados_usuario:
             flash("Usuario não encontrdo", "danger")
