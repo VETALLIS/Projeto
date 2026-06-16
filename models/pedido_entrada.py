@@ -150,6 +150,6 @@ class item_pedido_entrada(Crud_base):
         item_pedido_entrada = cls.buscar_tudo(order_by)
 
         if not item_pedido_entrada:
-            raise ValueError("item_pdido_entrada não encontrado.") 
+            raise ValueError("item_pedido_entrada não encontrado.") 
 
         return item_pedido_entrada
