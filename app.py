@@ -101,6 +101,15 @@ def get_item_entrada_form():
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
     }
 
+def get_item_saida_form():
+    return {
+        "item_pedido_saida_nome": request.form.get("produto", "").strip(),
+        "item_pedido_saida_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
+        "item_pedido_saida_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
+        "pedido_saida_pedido_saida_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
+        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
+    }
+
 # ====== Pegando os dados do usuario ====== #
 def get_usuario_form():
     return{
