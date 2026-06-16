@@ -2,7 +2,8 @@
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('sensor')}}" class="bi bi-arrow-bar-left text-white" style="text-decoration: none; height: 40px;">Voltar</a>
+    <a href="{{url_for('sensor')}}" class="bi bi-arrow-bar-left text-white"
+        style="text-decoration: none; height: 40px;">Voltar</a>
 </div>
 
 <h3 class="text-start mt-4" style="color: white; padding:5px; border-bottom: solid 1px #fff;">
@@ -10,47 +11,65 @@
 </h3>
 
 <form method="POST" action="{{ url_for('atualizar_sensor', sensor_id=sensor['sensor_id']) }}" class="mt-4">
-    <!-- Nome do sensor -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <input type="text" name="sensor_nome" class="form-control" value="{{sensor.sensor_nome}}" required>
+    <div class="d-flex">
+        <label for="imagem_produto"
+            style="width: 250px; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <img id="preview" src="" alt=""
+                style="display:none;height:100%; object-fit:cover; border-radius:10px;">
+            <span class="text-white" id="label_texto">Clique para adicionar imagem</span>
+        </label>
+        <input type="file" id="imagem_produto" name="sensor_imagem" accept="image/*" class="d-none">
+        <div class="ms-4" style="width: 100%; max-width: 1000px;">
+            <!-- Nome do sensor -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <input type="text" name="sensor_nome" class="form-control" value="{{sensor.sensor_nome}}" required>
+                </div>
+            </div>
+
+            <!-- Descrição + Número de série, Modelo, Voltagem -->
+            <div class="row mb-4">
+                <div class="col-12 col-md-7 mb-3 mb-md-0">
+                    <textarea name="sensor_descricao" placeholder="Descrição" class="form-control"
+                        style="height: 100px; resize: vertical; ">{{sensor.sensor_descricao}}</textarea>
+                </div>
+                <div class="col-12 col-md-5">
+                    <div class="mb-3">
+                        <input type="text" name="sensor_n_serie" class="form-control" value="{{sensor.sensor_n_serie}}"
+                            required>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" name="sensor_modelo" class="form-control"
+                                value="{{sensor.sensor_modelo}}" required>
+                        </div>
+                        <div class="col-6">
+                            <input type="number" name="sensor_voltagem" class="form-control"
+                                value="{{sensor.sensor_voltagem}}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tipo de conexão + Localização -->
+            <div class="row mb-4 align-items-center">
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <input type="text" name="sensor_tipo_conexao" class="form-control"
+                        value="{{sensor.sensor_tipo_conexao}}" required>
+                </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <input type="text" name="sensor_localizacao" class="form-control"
+                        value="{{sensor.sensor_localizacao}}" required>
+                </div>
+                <div class="col-12 col-md-4">
+                    <button type="submit" class="btn w-100 text-white"
+                        style="background: #03c356; border-radius: 10px;">Editar</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Descrição + Número de série, Modelo, Voltagem -->
-    <div class="row mb-4">
-        <div class="col-12 col-md-7 mb-3 mb-md-0">
-            <textarea name="sensor_descricao" placeholder="Descrição" class="form-control"
-                style="height: 100px; resize: vertical; ">{{sensor.sensor_descricao}}</textarea>
-        </div>
-        <div class="col-12 col-md-5">
-            <div class="mb-3">
-                <input type="text" name="sensor_n_serie" class="form-control" value="{{sensor.sensor_n_serie}}" required>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <input type="text" name="sensor_modelo" class="form-control" value="{{sensor.sensor_modelo}}" required>
-                </div>
-                <div class="col-6">
-                    <input type="number" name="sensor_voltagem" class="form-control" value="{{sensor.sensor_voltagem}}" required>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Tipo de conexão + Localização -->
-    <div class="row mb-4 align-items-center">
-        <div class="col-12 col-md-4 mb-3 mb-md-0">
-            <input type="text" name="sensor_tipo_conexao" class="form-control" value="{{sensor.sensor_tipo_conexao}}" required>
-        </div>
-        <div class="col-12 col-md-4 mb-3 mb-md-0">
-            <input type="text" name="sensor_localizacao" class="form-control" value="{{sensor.sensor_localizacao}}" required>
-        </div>
-        <div class="col-12 col-md-4">
-            <button type="submit" class="btn w-100 text-white"
-                style="background: #03c356; border-radius: 10px;">Editar</button>
-        </div>
-    </div>
 </form>
 
 {% endblock %}
