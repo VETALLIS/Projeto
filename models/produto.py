@@ -53,11 +53,9 @@ class Produto(Crud_base):
             conexao.commit()
             
             return "Produto e estoque cadastrados com sucesso!"
-            
         except Exception as e:
             conexao.rollback() 
             raise ValueError(f"Erro ao cadastrar o estoque do produto: {e}")
-            
         finally:
             cursor.close()
             conexao.close()
