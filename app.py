@@ -99,7 +99,7 @@ def get_item_entrada_form():
         "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_validade", ""),
         "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
         "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
-        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
+        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")    
     }
 
 def get_item_saida_form():
