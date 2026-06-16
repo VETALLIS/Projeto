@@ -14,11 +14,12 @@
     <div class="d-flex">
         <label for="imagem_produto"
             style="width: 250px; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}">
             <img id="preview" src="" alt=""
                 style="display:none;height:100%; object-fit:cover; border-radius:10px;">
             <span class="text-white" id="label_texto">Clique para adicionar imagem</span>
         </label>
-        <input type="file" id="imagem_produto" name="sensor_imagem" accept="image/*" class="d-none">
+        <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
         <div class="ms-4" style="width: 100%; max-width: 1000px;">
             <!-- Nome do sensor -->
             <div class="row mb-4">
