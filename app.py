@@ -869,8 +869,9 @@ def pedido():
         fornecedor = Fornecedor.buscar_fornecedor()
         produtos= Produto.buscar_todo_produto()
         animal = Animal.buscar_animal()
+        lote = item_pedido_entrada.buscar_item_pedido_entrada()
 
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal, lote=lote)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedido.html")
