@@ -5,7 +5,7 @@ class GerenciamentoPerfil(Crud_base):
     tabela = "usuario"
     pk = "usuario_id"
 
-    fields = ["usuario_nome", "usuario_email", "usuario_cargo" ]
+    fields = ["usuario_nome", "usuario_email", "usuario_cargo", "usuario_imagem", "imagem_tipo" , "imagem_blob" ]
 
     def __init__(self, usuario_nome, usuario_email, usuario_cargo, usuario_id, usuario_imagem, imagem_tipo, imagem_blob):
         self.usuario_nome = usuario_nome
@@ -36,6 +36,7 @@ class GerenciamentoPerfil(Crud_base):
         cls.deletar(id)
 
     def atualizar_usuario(self, id):
+        
         usuario = self.buscar_por_id(id)
 
         if not usuario:
