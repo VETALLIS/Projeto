@@ -36,6 +36,7 @@ class GerenciamentoPerfil(Crud_base):
         cls.deletar(id)
 
     def atualizar_usuario(self, id):
+        
         usuario = self.buscar_por_id(id)
 
         if not usuario:

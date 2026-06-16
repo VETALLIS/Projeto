@@ -845,7 +845,6 @@ def gerenciar_perfil_salvar():
     usuario_id = dados.get("usuario_id") or session.get("usuario_id")
     dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id) if usuario_id else None
 
-
     try:
         if erros:
             flash(erros, "danger")
@@ -854,12 +853,15 @@ def gerenciar_perfil_salvar():
         atualizar.atualizar_usuario(usuario_id) 
 
         flash("Dados atualizados.", "success")
-        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))  
-
+        
         if dados_usuario.get("imagem_blob"):
             dados_usuario["imagem_base64"] = base64.b64encode(dados_usuario["imagem_blob"] ).decode("utf-8")
         else:
             dados_usuario["imagem_base64"] = None
+            return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))  
+         
+
 
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
