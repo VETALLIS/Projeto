@@ -98,4 +98,32 @@
     </div>
 </div>
 
+<script>
+    localStorage.setItem("usuario", JSON.stringify({
+        id: "{{ session.get('usuario_id')}}",
+        nome: "{{ session.get('usuario_nome')}}"
+    }))
+
+    document.getElementById("imagem_usuario").addEventListener("change", function () {
+        const arquivo = this.files[0];
+
+        if (arquivo) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById("preview_imagem");
+                const texto = document.getElementById("texto_upload");
+                const icone = document.getElementById("icone_trocar");
+
+                preview.src = e.target.result;
+                preview.style.display = "block";
+                texto.style.display = "none";
+                icone.style.display = "flex";
+            };
+
+            reader.readAsDataURL(arquivo);
+        }
+    });
+</script>
+
 {% endblock %}
