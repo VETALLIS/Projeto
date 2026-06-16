@@ -96,6 +96,7 @@ def get_item_entrada_form():
         "item_pedido_entrada_nome": request.form.get("produto", "").strip(),
         "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
         "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
+        "item_pedido_entrada_data": request.form.get("item_pedido_entrada_data", ""),
         "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
         "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
