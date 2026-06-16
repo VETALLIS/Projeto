@@ -849,9 +849,9 @@ def pedido():
     try:
         fornecedor = Fornecedor.buscar_fornecedor()
         produtos= Produto.buscar_todo_produto()
+        animal = Animal.buscar_animal()
 
-
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedido.html")
@@ -862,33 +862,37 @@ def pedido():
 # ===== salvar entrada de pedidos ===== #
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
+    fornecedor = Fornecedor.buscar_fornecedor()
+    produtos= Produto.buscar_todo_produto()
+    animal = Animal.buscar_animal()
+
+    dados_entrado = get_pedido_entrada_form()
+    dados_saida = get_pedido_saida_form()
+    item = get_item_entrada_form()
+
+    if "pedido_entrada_nome" in request.form:
+        entrada = Pedido_entrada(**dados_entrado)
+        item = item_pedido_entrada(**item)
+        erros_entrada = entrada.validar_pedido_entrada()
+        erros_item_entrada = item.validar_item_pedido_entrada()
+
+
+    else:
+        saida = Pedido_saida(**dados_saida)
+        erros_saida = saida.validar_pedido_saida ()
+
+    conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
+
+    if erros_entrada and erros_item_entrada:
+        for erro in erros_entrada:
+            flash(erro, "danger")
+        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
     try:
-        dados_entrado = get_pedido_entrada_form()
-        dados_saida = get_pedido_saida_form()
-        item = get_item_entrada_form()
-
-        entrada = Pedido_entrada(**dados_entrado)
-        saida = Pedido_saida(**dados_saida)
-        item = item_pedido_entrada(**item)
-
-        erros_saida = saida.validar_saida()
-        erros_entrada = entrada.validar_pedido_entrada()
-        conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
-        erros_item_entrada = item.validar_item_pedido_entrada() 
-
-        fornecedor = Fornecedor.buscar_fornecedor()
-        produtos= Produto.buscar_todo_produto()
-
-        if erros_entrada and erros_item_entrada:
-            for erro in erros_entrada:
-                flash(erro, "danger")
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
-
 
         if erros_entrada:
             flash(erros_entrada, "danger")
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
         numero = entrada.gravar_pedido_entrada()
         item.gravar_item_pedido_entrada(numero)
@@ -899,9 +903,6 @@ def pedido_salvar():
 
     except Exception as e:
         flash(f"Erro ao cadastrar entrada, {e}", "danger")
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
-    except ValueError as e:
-        flash(e, "danger")
         return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
 
     
