@@ -11,7 +11,7 @@ class Pedido_saida(Crud_base):
         self.pedido_saida_status = pedido_saida_status
         self.animal_animal_id = animal_animal_id
 
-    def validar_saida(self):
+    def validar_pedido_saida(self):
         erros = [
             Manipular.validar_vazio(self.pedido_saida_nome, "nome"),
             Manipular.validar_vazio(self.pedido_saida_data, "data"),
