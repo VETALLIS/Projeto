@@ -83,14 +83,20 @@ class Produto(Crud_base):
     @classmethod
     def deletar_produto(cls, id):
         produto = cls.buscar_por_id(id)
-
         if not produto:
-            raise ValueError("Produto não encontrado.")
-        if cls.relacao_entre_tabelas(id):
-            raise ValueError("Não é possível excluir o produto porque ele possui pedidos ou movimentações vinculadas.")
+            raise ValueError("Produto não encontrado")
+        
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            cursor.execute("DELETE FROM estoque WHERE produto_produto_id = %s", (id,))
+            conexao.commit()
+        finally:
+            cursor.close()
+            conexao.close()
+        
         cls.deletar(id)
-
-        return "Produto deletado com sucesso!"
+        return "Produto deletado com sucesso"
     
     def atualizar_produto(self, id):
         produto = self.buscar_por_id(id)
