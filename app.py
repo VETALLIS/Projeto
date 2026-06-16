@@ -846,15 +846,17 @@ def excluir_usuario(usuario_id):
 
 @app.route("/pedido")
 def pedido():
-    fornecedor = Fornecedor.buscar_fornecedor()
-    produtos= Produto.buscar_todo_produto()
-
     try:
-        
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+        fornecedor = Fornecedor.buscar_fornecedor()
+        produtos= Produto.buscar_todo_produto()
+        animal = Animal.buscar_animal()
+
+        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
     except ValueError as e:
         flash(e, "danger")
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+        return render_template("pedido.html")
+    except Exception as e:
+        flash(f"Erro ao excluir Usuario: {e}", "danger")
 
 
 # ===== salvar entrada de pedidos ===== #
@@ -862,6 +864,7 @@ def pedido():
 def pedido_salvar():
     fornecedor = Fornecedor.buscar_fornecedor()
     produtos= Produto.buscar_todo_produto()
+    animal = Animal.buscar_animal()
 
     dados_entrado = get_pedido_entrada_form()
     dados_saida = get_pedido_saida_form()
@@ -883,13 +886,13 @@ def pedido_salvar():
     if erros_entrada and erros_item_entrada:
         for erro in erros_entrada:
             flash(erro, "danger")
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
     try:
 
         if erros_entrada:
             flash(erros_entrada, "danger")
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
         numero = entrada.gravar_pedido_entrada()
         item.gravar_item_pedido_entrada(numero)

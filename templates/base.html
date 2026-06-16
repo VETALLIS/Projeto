@@ -37,11 +37,9 @@
                     <i class="bi bi-plus-circle"></i> ADD Produtos
                 </a>
                 {%if session.get('usuario_cargo') == 'adm' %}
-                <button class="topbar-btn topbar-btn-icon">
-                    <a title="Funcionarios" class="text-white" href="{{ url_for('novo_usuario')}}">
-                        <i class="bi bi-person"></i>
-                    </a>
-                </button>
+                <a title="Funcionarios" class="topbar-btn topbar-btn-icon text-white" href="{{ url_for('novo_usuario')}}">
+                    <i class="bi bi-person"></i>
+                </a>
                 {% endif %}
                 <a id="link-perfil" class="topbar-btn topbar-btn-icon text-white" title="Configurações">
                     <i class="bi bi-gear"></i>
