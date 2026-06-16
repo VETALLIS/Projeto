@@ -97,7 +97,6 @@ def get_item_entrada_form():
         "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
         "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
         "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
-        "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip().startswith,
         "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
     }
@@ -864,19 +863,22 @@ def pedido_salvar():
     fornecedor = Fornecedor.buscar_fornecedor()
     produtos= Produto.buscar_todo_produto()
 
-
     dados_entrado = get_pedido_entrada_form()
     dados_saida = get_pedido_saida_form()
     item = get_item_entrada_form()
 
-    entrada = Pedido_entrada(**dados_entrado)
-    saida = Pedido_saida(**dados_saida)
-    item = item_pedido_entrada(**item)
+    if "pedido_entrada_nome" in request.form:
+        entrada = Pedido_entrada(**dados_entrado)
+        item = item_pedido_entrada(**item)
+        erros_entrada = entrada.validar_pedido_entrada()
+        erros_item_entrada = item.validar_item_pedido_entrada()
 
-    erros_saida = saida.validar_saida()
-    erros_entrada = entrada.validar_pedido_entrada()
+
+    else:
+        saida = Pedido_saida(**dados_saida)
+        erros_saida = saida.validar_pedido_saida ()
+
     conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
-    erros_item_entrada = item.validar_item_pedido_entrada()
 
     if erros_entrada and erros_item_entrada:
         for erro in erros_entrada:
@@ -889,15 +891,15 @@ def pedido_salvar():
             flash(erros_entrada, "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
 
-        entrada.gravar_pedido_entrada()
-        item.gravar_item_pedido_entrada()
+        numero = entrada.gravar_pedido_entrada()
+        item.gravar_item_pedido_entrada(numero)
 
 
         flash("Entrada cadastrada.", "success")
         return redirect(url_for("pedido"))
 
     except Exception as e:
-        flash(f"Erro ao cadastrar entrada", "danger")
+        flash(f"Erro ao cadastrar entrada, {e}", "danger")
         return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
 
     
