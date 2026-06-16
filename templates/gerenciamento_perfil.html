@@ -1,15 +1,14 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 
-
 <h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 1200px;">
-    Gerenciamento
-    de Perfil</h3>
+    Gerenciamento de Perfil
+</h3>
 <h4 class="mb-4 text-start" style="color: white; padding:5px;">Informações Pessoais</h4>
 <div class="d-flex">
     <div class="upload-imagem me-5 ">
-        <label for="imagem_produto" class="upload-box" style="max-height: 200px !important; width: 275px;"
-            style=" margin-left: 0 !important; align-self: flex-start;">
+        <label for="imagem_produto" class="upload-box"
+            style="max-height: 200px !important; width: 275px; margin-left: 0 !important; align-self: flex-start;">
             <span class="input-group-text bg-transparent border-0">
                 <i class="bi bi-person-fill text-white " style="font-size: 9rem;"></i>
             </span>
@@ -21,7 +20,6 @@
             <div class="mb-3 d-flex gap-2">
                 <label class="form-label" style="color: #fff">Nome:</label>
                 <label for="" class="d-nome" style="color: #fff;">{{usuario.usuario_nome}}</label>
-
             </div>
             <div class="mb-3 d-flex gap-2">
                 <label class="form-label" style="color:#fff">Email:</label>
@@ -34,49 +32,58 @@
         </form>
     </div>
 </div>
+
 <p style="border-bottom:solid 1px #fff; width: 1200px; padding: 5px;"></p>
-<h4 class="mb-4 mt-2 text-start" style="color: white; padding:5px;">Editar
-</h4>
+<h4 class="mb-4 mt-2 text-start" style="color: white; padding:5px;">Editar</h4>
+
 <div>
-    <form method="POST" class="form-sensor">
+    <form method="POST" action="{{ url_for('gerenciar_perfil_salvar') }}" class="form-sensor" id="form-salvar">
         <div class=" mt-4">
             <div class="divisao-form me-4 " style="max-width: 1200px; width: 100%;">
                 <div class="mb-5 text-start">
                     <div>
-                        <input type="hidden" id="input-id" name="usuario_id" value="">
+                        <input type="hidden" name="usuario_id" value="{{ usuario.usuario_id }}">
                     </div>
                     <div class="input-group">
-
-                        <input type="name" name="usuario_nome" class="form-control" value="{{usuario.usuario_nome}}" >
+                        <input type="name" name="usuario_nome" class="form-control" value="{{usuario.usuario_nome}}">
                     </div>
                 </div>
                 <div class="d-flex">
                     <div class="mb-5 me-2 text-start" style="max-width: 700px; width: 100%;">
                         <div class="input-group">
-                            <input type="text" name="usuario_email" class="form-control" value="{{usuario.usuario_email}}" >
+                            <input type="text" name="usuario_email" class="form-control"
+                                value="{{usuario.usuario_email}}">
                         </div>
                     </div>
                     <div class="text-start" style="max-width: 700px; width: 100%;">
                         <div class="mb-5 text-start">
                             <div class="input-group">
-                                <input type="text" name="usuario_cargo" class="form-control" value="{{usuario.usuario_cargo}}">
+                                <input type="text" name="usuario_cargo" class="form-control"
+                                    value="{{usuario.usuario_cargo}}">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="text-center d-flex" style="max-width: 1400px; width: 100%;">
-
-                    <button class="btn w-100 text-white" style="background-color:#03A64A;" type="submit" name="acao"
-                        value="salvar" formaction="{{ url_for('gerenciar_perfil_salvar') }}">Salvar
-                        alterações
-                    </button>
-                    <button class="btn btn-danger w-100 text-white "style="margin-left:10px;" type="submit" formaction="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
-                        Excluir conta
-                    </button>
-                </div>
             </div>
         </div>
     </form>
+    <div class="d-flex justify-content-between align-items-center mt-3" style="max-width: 1200px; width: 100%;">
+
+        <button class="btn text-white" style="background-color:#03A64A; width: 49%;" type="submit" name="acao"
+            value="salvar" form="form-salvar" formaction="{{ url_for('gerenciar_perfil_salvar') }}">
+            Salvar alterações
+        </button>
+
+        {% if usuario %}
+        <form method="POST" action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}"
+            style="width: 49%;">
+            <button class="btn btn-danger w-100 text-white" type="submit">
+                Excluir conta
+            </button>
+        </form>
+        {% endif %}
+
+    </div>
 </div>
 
-{% endblock%}
+{% endblock %}

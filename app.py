@@ -501,6 +501,10 @@ def editar_sensor(sensor_id):
         if not sensor:
             flash("Sensor não encontrado.", "danger")
             return redirect(url_for("novo_sensor"))
+        if sensor["imagem_blob"]:
+            sensor["imagem_base64"] = base64.b64encode(sensor["imagem_blob"]).decode("utf-8")
+        else:
+            sensor["imagem_base64"] = ""
         return render_template("editar_sensores.html", sensor=sensor)
     except ValueError as e:
         flash(e, "danger")
@@ -822,8 +826,9 @@ def gerenciar_perfil_salvar():
     atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil(app.secret_key)
 
-    usuario_id  = dados.get("usuario_id")
-    dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id)
+    usuario_id = dados.get("usuario_id") or session.get("usuario_id")
+    dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id) if usuario_id else None
+
 
     try:
         if erros:
@@ -843,24 +848,17 @@ def gerenciar_perfil_salvar():
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
 def excluir_usuario(usuario_id):
     try:
-        relacao = Usuario.has_related_records(usuario_id)
-        if relacao:
-            flash(relacao, "danger")
-            return render_template("gerenciar_perfil.html")
-        
-        deletar = Usuario.safe_delete(usuario_id)
-
-        if deletar:
-            flash(deletar, "danger")
-            return render_template("gerenciar_perfil.html")
-
-        return render_template("gerenciar_perfil.html")
+        Usuario.safe_delete(usuario_id)
+        flash("Usuário excluído com sucesso!", "success")
+        return redirect(url_for("tela_inicial")) 
             
     except ValueError as e:
-        flash(str(e), "erro")
+        flash(str(e), "danger") 
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
+        
     except Exception as e:
         flash(f"Erro ao excluir Usuario: {e}", "danger")
-    return redirect(url_for("novo_login"))
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
 
 
 # ======== Endpoint entrada produto ====== #
