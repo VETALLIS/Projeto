@@ -103,7 +103,7 @@ class item_pedido_entrada(Crud_base):
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
         self.item_pedido_entrada_nome = item_pedido_entrada_nome
         self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
-        self.estoque_estoque_id= estoque_estoque_id
+        self.estoque_estoque_id= 1
 
     def validar_item_pedido_entrada (self):
         erros = [
@@ -180,3 +180,5 @@ class item_pedido_entrada(Crud_base):
             raise ValueError("item_pedido_entrada não encontrado.") 
 
         return item_pedido_entrada
+
+    
