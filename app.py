@@ -177,11 +177,16 @@ def get_lista_compra_form():
     }
 
 def get_gerenciar_perfil_form():
+
     return{
         "usuario_nome": request.form.get("usuario_nome", "").strip(),
         "usuario_email": request.form.get("usuario_email", "").strip(),  
         "usuario_cargo": request.form.get("usuario_cargo", "").strip(),
         "usuario_id": request.form.get("usuario_id", ""),
+        "usuario_imagem": request.form.get("usuario_imagem", ""). strip(),
+        "imagem_tipo": request.form.get("imagem_tipo", ""). strip(),
+        "imagem_blob": request.form.get("imagem_blob", ""). strip(),
+
     }
 
 # ====== Pegando os dados para a pesquisa ====== #
