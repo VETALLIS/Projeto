@@ -89,16 +89,17 @@ class Pedido_entrada(Crud_base):
         if not pedido_entrada:
             raise ValueError("Pedidos de entrada não encontrados")
 
-        return f"Pedidos de entrada: "
+        return f"Pedidos de entrada:"
 
 class item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada"
     pk = "item_pedido_entrada_id"
-    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "estoque_estoque_id"]
+    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "estoque_estoque_id"]
 
-    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, estoque_estoque_id=1):
+    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, estoque_estoque_id=1):
         self.item_pedido_entrada_lote = item_pedido_entrada_lote
         self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
+        self.item_pedido_entrada_validade = item_pedido_entrada_validade
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
         self.item_pedido_entrada_nome = item_pedido_entrada_nome
         self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
@@ -111,7 +112,8 @@ class item_pedido_entrada(Crud_base):
             Manipular.validar_vazio (self.item_pedido_entrada_quantidade, "item_pedido_entrada_quantidade"),
             Manipular.validar_vazio (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario"),
             Manipular.validar_numero_negativo (self.item_pedido_entrada_quantidade, "item_pedido_entrada_quantidade"),
-            Manipular.validar_numero_negativo (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario")
+            Manipular.validar_numero_negativo (self.item_pedido_entrada_valor_unitario, "item_pedido_entrada_valor_unitario"),
+            Manipular.validar_data(self.item_pedido_entrada_validade, "item_pedido_entrada_validade")
         ]
 
         return [ erro for erro in erros if erro]
@@ -143,3 +145,11 @@ class item_pedido_entrada(Crud_base):
         self.atualizar(id)
         return "Item de pedido de entrada atualizado com sucesso!"
 
+    @classmethod
+    def buscar_item_pedido_entrada(cls, order_by=pk):
+        item_pedido_entrada = cls.buscar_tudo(order_by)
+
+        if not item_pedido_entrada:
+            raise ValueError("item_pdido_entrada não encontrado.") 
+
+        return item_pedido_entrada

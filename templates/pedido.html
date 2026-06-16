@@ -100,12 +100,14 @@
                         <td class="text-center">
                             <input type="number" name="item_pedido_entrada_quantidade"
                                 class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0"
-                                min="0.01" step="0.01"></td>
+                                min="0.01" step="0.01">
+                        </td>
                         <td class="text-center">
                             <input type="number" name="item_pedido_entrada_valor_unitario"
                                 class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0.00"
-                                min="0" step="0.01"></td>
-                        <td class="text-center"><input type="text" name="item_pedido_entrada_data_validade"
+                                min="0" step="0.01">
+                        </td>
+                        <td class="text-center"><input type="text" name="item_pedido_entrada_validade"
                                 class="bg-transparent text-white border-0 form w-100 text-center"></td>
                         <td class="text-center"><button type="button" class="btn btn-sm btn-danger"
                                 onclick="removerLinha(this)">X</button></td>
@@ -132,12 +134,17 @@
                             <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
                         </div>
                         <div class="mb-4 ms-4" style="max-width: 700px; width: 100%;">
-                            <input type="text" name="animal_animal_id" class="form-control" placeholder="Animal:">
+                            <select name="animal_animal_id" class="form-select">
+                                <option value=""> Selecione um animal</option>
+                                {% for f in animal%}
+                                <option value="{{ f.animal_id }}" style="color: black;">{{ f.animal_identificacao }}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                     <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" name="pedido_saida_data" class="form-control" placeholder="Data:"
-                            onfocus="this.type='date'">
+                        <input type="text" name="pedido_entrada_data" class="form-control" placeholder="Data:">
                     </div>
                 </div>
 
@@ -177,8 +184,14 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="item_pedido_saida_lote"
-                                class="bg-transparent text-white border-0 form w-100 text-center" placeholder="Lote">
+                            <select name="item_pedido_saida_lote" class="form-select">
+                                <option value=""> Selecione um lote</option>
+                                {% for i in pedido%}
+                                    <option value="{{ i.item_pedido_entrada_id }}" style="color: black;">{{
+                                        i.item_pedido_entrada_lote }}
+                                    </option>
+                                {% endfor %}
+                            </select>
                         </td>
                         <td><input type="number" name="item_pedido_saida_quantidade"
                                 class="bg-transparent text-white border-0 form w-100 text-center" placeholder="0"

@@ -2,6 +2,7 @@ from core.crud_base import Crud_base
 from core.manipular import Manipular 
 import datetime
 class Pedido_saida(Crud_base):
+    pk = "pedido_saida_id"
     tabela = "pedido_saida"
     fields = ["pedido_saida_id", "pedido_saida_nome", "pedido_saida_data", "pedido_saida_status", "animal_animal_id"]
 
@@ -59,6 +60,7 @@ from core.crud_base import Crud_base
 from core.manipular import Manipular 
 
 class Item_pedido_saida(Crud_base):
+    pk = "item_pedido_saida_id"
     tabela = "item_pedido_saida"
     fields = ["item_pedido_saida_id", "item_pedido_saida_nome", "item_pedido_saida_data_validade", 
     "item_pedido_saida_quantidade","item_pedido_saida_lote", "estoque_estoque_id", "pedido_saida_pedido_saida_id"]
@@ -151,3 +153,12 @@ class Item_pedido_saida(Crud_base):
 
 
         return Item_pedido_saida(**item_pedido_saida)
+
+    @classmethod
+    def buscar_todo_item_pedido_saida(cls, order_by=pk):
+        item_pedido_saida = cls.buscar_tudo(order_by) 
+
+        if not item_pedido_saida: 
+            raise ValueError("Item de pedido de saida nao encontrado não encontrado.") 
+
+        return item_pedido_saida

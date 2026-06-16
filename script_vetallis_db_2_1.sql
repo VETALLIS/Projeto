@@ -184,6 +184,7 @@ CREATE TABLE IF NOT EXISTS `item_pedido_entrada` (
   `pedido_entrada_pedido_entrada_id` INT NOT NULL,
   `item_pedido_entrada_nome` VARCHAR(45) NOT NULL,
   `estoque_estoque_id` INT NOT NULL,
+  `item_pedido_entrada_validade` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`item_pedido_entrada_id`),
   CONSTRAINT `fk_entrada_item_pedido_entrada1`
     FOREIGN KEY (`pedido_entrada_pedido_entrada_id`)
@@ -221,7 +222,6 @@ CREATE TABLE IF NOT EXISTS `item_pedido_saida` (
   `item_pedido_saida_id` INT NOT NULL AUTO_INCREMENT,
   `item_pedido_saida_lote` VARCHAR(100) NOT NULL,
   `item_pedido_saida_quantidade` INT NOT NULL,
-  `item_pedido_saida_data_validade` VARCHAR(10) NOT NULL,
   `pedido_saida_pedido_saida_id` INT NOT NULL,
   `item_pedido_saida_nome` VARCHAR(45) NOT NULL,
   `estoque_estoque_id` INT NOT NULL,
