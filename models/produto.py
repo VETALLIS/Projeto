@@ -7,6 +7,7 @@ class Produto(Crud_base):
     tabela = "produto"
     pk = "produto_id"
     fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id", "produto_imagem", "imagem_tipo", "imagem_blob"]
+    fields_estoque = ["estoque_quantidade", "estoque_observacao", "produto_produto_id", "produto_usuario_usuario_id"]
 
     def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id=None, produto_imagem=None, imagem_tipo=None, imagem_blob=None, **kwargs):
         self.produto_nome = produto_nome
@@ -25,13 +26,39 @@ class Produto(Crud_base):
 
         return [ erro for erro in erros if erro]
     
-    def gravar_produto(self):
-        produto = self.gravar()
+    def gravar_produto(self, estoque_quantidade=0, estoque_observacao=None):
+        produto_id = self.gravar()
 
-        if not produto:
+        if not produto_id:
             raise ValueError("Erro ao cadastrar produto.")
         
-        return "Cadastrado"
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+
+        try:
+            sql = """
+                INSERT INTO estoque 
+                (estoque_quantidade, estoque_observacao, produto_produto_id, produto_usuario_usuario_id) 
+                VALUES (%s, %s, %s, %s)
+            """
+
+            valores = (
+                estoque_quantidade, 
+                estoque_observacao, 
+                produto_id,             
+                self.usuario_usuario_id  
+            )
+            
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            return "Produto e estoque cadastrados com sucesso!"
+        except Exception as e:
+            conexao.rollback() 
+            raise ValueError(f"Erro ao cadastrar o estoque do produto: {e}")
+        finally:
+            cursor.close()
+            conexao.close()
     
     @classmethod
     def relacao_entre_tabelas(cls, id):
