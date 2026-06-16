@@ -10,15 +10,16 @@
     Editar informações de Sensor
 </h3>
 
-<form method="POST" action="{{ url_for('atualizar_sensor', sensor_id=sensor['sensor_id']) }}" class="mt-4"  enctype="multipart/form-data">
+<form method="POST" action="{{ url_for('atualizar_sensor', sensor_id=sensor['sensor_id']) }}" class="mt-4"
+    enctype="multipart/form-data">
     <div class="d-flex">
         <label for="imagem_produto"
-            style="width: 250px; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-            <img id="preview" src="" alt="" style="display:none;height:100%; object-fit:cover; border-radius:10px;">
+            style="width: 250px; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden;">
+
             <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
-                style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
+                style="height:100%; width:100%; object-fit:cover; border-radius:10px;">
         </label>
-        <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
+        <input type="file" id="imagem_produto" name="imagem_sensor" accept="image/*" class="d-none">
         <input type="hidden" name="usuario_usuario_id" value="">
         <div class="ms-4" style="width: 100%; max-width: 1000px;">
             <!-- Nome do sensor -->

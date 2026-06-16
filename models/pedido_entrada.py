@@ -96,14 +96,14 @@ class item_pedido_entrada(Crud_base):
     pk = "item_pedido_entrada_id"
     fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "estoque_estoque_id"]
 
-    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, estoque_estoque_id=1):
+    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, estoque_estoque_id ):
         self.item_pedido_entrada_lote = item_pedido_entrada_lote
         self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
         self.item_pedido_entrada_validade = item_pedido_entrada_validade
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
         self.item_pedido_entrada_nome = item_pedido_entrada_nome
         self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
-        self.estoque_estoque_id=1
+        self.estoque_estoque_id= estoque_estoque_id
 
     def validar_item_pedido_entrada (self):
         erros = [
@@ -121,10 +121,37 @@ class item_pedido_entrada(Crud_base):
     def gravar_item_pedido_entrada (self,numero):
         self.pedido_entrada_pedido_entrada_id= numero
         itens= self.gravar()
+
         if not item_pedido_entrada:
             raise ValueError("Erro ao cadastrar item de pedido de entrada.")
         
-        return "Cadastrado"
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+
+        try:
+            sql = """
+                UPDATE estoque 
+                SET estoque_quantidade = estoque_quantidade + %s
+                WHERE estoque_id = %s
+            """
+
+            valores = (
+                self.item_pedido_entrada_quantidade,        
+                self.estoque_estoque_id  
+            )
+            
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            return "Produto e estoque cadastrados com sucesso!"
+            
+        except Exception as e:
+            conexao.rollback() 
+            raise ValueError(f"Erro ao cadastrar o estoque do produto: {e}")
+            
+        finally:
+            cursor.close()
+            conexao.close()
 
     def deletar_item_pedido_entrada(cls, id):
         item_pedido_entrada = cls.buscar_por_id(id)
