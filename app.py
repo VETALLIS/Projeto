@@ -862,33 +862,6 @@ def pedido():
 # ===== salvar entrada de pedidos ===== #
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
-<<<<<<< Updated upstream
-    fornecedor = Fornecedor.buscar_fornecedor()
-    produtos= Produto.buscar_todo_produto()
-
-    dados_entrado = get_pedido_entrada_form()
-    dados_saida = get_pedido_saida_form()
-    item = get_item_entrada_form()
-
-    if "pedido_entrada_nome" in request.form:
-        entrada = Pedido_entrada(**dados_entrado)
-        item = item_pedido_entrada(**item)
-        erros_entrada = entrada.validar_pedido_entrada()
-        erros_item_entrada = item.validar_item_pedido_entrada()
-
-
-    else:
-        saida = Pedido_saida(**dados_saida)
-        erros_saida = saida.validar_pedido_saida ()
-
-    conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
-
-    if erros_entrada and erros_item_entrada:
-        for erro in erros_entrada:
-            flash(erro, "danger")
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
-=======
->>>>>>> Stashed changes
 
     try:
         dados_entrado = get_pedido_entrada_form()
