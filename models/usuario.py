@@ -1,5 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+from core.conectar import Database
 
 class Usuario(Crud_base):
     tabela = "usuario"
@@ -106,3 +107,30 @@ class Usuario(Crud_base):
             
 
         return inserir
+    
+    @classmethod
+    def has_related_records(cls, id):
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            queries = [
+                "SELECT COUNT(*) FROM produto WHERE usuario_usuario_id = %s",
+            ]
+            total = 0
+            for sql in queries:
+                cursor.execute(sql, (id,))
+                total += cursor.fetchone()[0]
+            return total > 0
+        finally:
+            cursor.close()
+            conexao.close()
+
+    
+    @classmethod
+    def safe_delete(cls, id):
+        usuario = cls.buscar_por_id(id)
+        if not usuario:
+            raise ValueError("Usuario não encontrado.")
+        if cls.has_related_records(id):
+            raise ValueError("Não é possível excluir o usuario porque ele possui pedidos ou movimentações vinculadas.")
+        cls.delete(id)

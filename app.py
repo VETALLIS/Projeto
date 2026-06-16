@@ -96,8 +96,18 @@ def get_item_entrada_form():
         "item_pedido_entrada_nome": request.form.get("produto", "").strip(),
         "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
         "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
+        "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_data", ""),
         "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
         "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
+        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
+    }
+
+def get_item_saida_form():
+    return {
+        "item_pedido_saida_nome": request.form.get("produto", "").strip(),
+        "item_pedido_saida_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
+        "item_pedido_saida_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
+        "pedido_saida_pedido_saida_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
     }
 
@@ -833,7 +843,8 @@ def gerenciar_perfil_salvar():
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
 def excluir_usuario(usuario_id):
     try:
-        Usuario.deletar_usuario(usuario_id)
+        relacao = Usuario.has_related_records(usuario_id)
+        
         flash("Usuario excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
@@ -857,6 +868,7 @@ def pedido():
         return render_template("pedido.html")
     except Exception as e:
         flash(f"Erro ao excluir Usuario: {e}", "danger")
+        return render_template("pedido.html")
 
 
 # ===== salvar entrada de pedidos ===== #
@@ -875,8 +887,6 @@ def pedido_salvar():
         item = item_pedido_entrada(**item)
         erros_entrada = entrada.validar_pedido_entrada()
         erros_item_entrada = item.validar_item_pedido_entrada()
-
-
     else:
         saida = Pedido_saida(**dados_saida)
         erros_saida = saida.validar_pedido_saida ()
@@ -910,14 +920,19 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatorio():
+
+    try: 
+       sensores = Sensor.contar_sensores() 
+    except ValueError as e:
+        sensor= 0
     
     try:
-        sensores = Sensor.contar_sensores()
         lista_compra = Lista_compra.buscar_lista_compra()
-        return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
-    except ValueError as e :
-        flash(e, "danger")
-        return render_template("relatorio.html")
+    except ValueError as e:
+        lista_compra = []
+    
+
+    return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
     
 @app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
 def excluir_lista_compra_relatorio(lista_compra_id):

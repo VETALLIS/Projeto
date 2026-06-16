@@ -7,6 +7,7 @@ class Animal(Crud_base):
 
     # Define a tabela e os campos do banco
     tabela = "animal"
+    pk = "animal_id"
     fields = ["animal_especie","animal_sexo", "animal_raca", "animal_identificacao", "animal_idade"]
 
     # Define os atributos 
@@ -67,8 +68,10 @@ class Animal(Crud_base):
 
         return Animal(**animal)# retorna os dados encontrado
     
-    def buscar_animal(self):
-        animal = self.buscar_tudo() # chama o método para de buscar por id do Crud_base
+
+    @classmethod
+    def buscar_animal(cls, order_by=pk):
+        animal = cls.buscar_tudo(order_by) # chama o método para de buscar por id do Crud_base
 
         if not animal: # verifica se foi encontrado
             raise ValueError("Animal não encontrado.") # retorna se tiver erro
