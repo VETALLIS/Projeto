@@ -96,7 +96,7 @@ def get_item_entrada_form():
         "item_pedido_entrada_nome": request.form.get("produto", "").strip(),
         "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
         "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
-        "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_data", ""),
+        "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_validade", ""),
         "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
         "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
@@ -844,8 +844,18 @@ def gerenciar_perfil_salvar():
 def excluir_usuario(usuario_id):
     try:
         relacao = Usuario.has_related_records(usuario_id)
+        if relacao:
+            flash(relacao, "danger")
+            return render_template("gerenciar_perfil.html")
         
-        flash("Usuario excluído com sucesso.", "success")
+        deletar = Usuario.safe_delete(usuario_id)
+
+        if deletar:
+            flash(deletar, "danger")
+            return render_template("gerenciar_perfil.html")
+
+        return render_template("gerenciar_perfil.html")
+            
     except ValueError as e:
         flash(str(e), "erro")
     except Exception as e:
