@@ -69,6 +69,10 @@ class Sensor(Crud_base):
         del sensor["sensor_id"]        
         obj = Sensor(**sensor)         
         obj.sensor_id = sid
+        if obj.imagem_blob:
+            obj.imagem_base64 = base64.b64encode(obj.imagem_blob).decode("utf-8")
+        else:
+            obj.imagem_base64 = ""
         return obj
     
     @classmethod

@@ -896,11 +896,12 @@ def pedido_salvar():
         item = item_pedido_entrada(**item)
         erros_entrada = entrada.validar_pedido_entrada()
         erros_item_entrada = item.validar_item_pedido_entrada()
+        conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
+
     else:
         saida = Pedido_saida(**dados_saida)
         erros_saida = saida.validar_pedido_saida ()
 
-    conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
 
     if erros_entrada and erros_item_entrada:
         for erro in erros_entrada:

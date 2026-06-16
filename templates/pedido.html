@@ -186,7 +186,7 @@
                         <td>
                             <select name="item_pedido_saida_lote" class="form-select">
                                 <option value=""> Selecione um lote</option>
-                                {% for i in pedido%}
+                                {% for i in lote%}
                                     <option value="{{ i.item_pedido_entrada_id }}" style="color: black;">{{
                                         i.item_pedido_entrada_lote }}
                                     </option>
