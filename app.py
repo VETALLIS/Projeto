@@ -8,10 +8,10 @@ from models.lista_compra import Lista_compra
 from models.login import Login
 from models.fornecedor import Fornecedor
 from models.animal import Animal
-from models.pedido_entrada import Pedido_entrada, item_pedido_entrada
+from models.pedido_entrada import Pedido_entrada, Item_pedido_entrada
 from models.gerenciamento_perfil import GerenciamentoPerfil
 from models.informacao_produto import Informacao_Produto
-from models.pedido_saida import Pedido_saida
+from models.pedido_saida import Item_pedido_saida, Pedido_saida
 from models.pesquisa import Pesquisa
 from datetime import datetime
 import base64
@@ -79,7 +79,7 @@ def get_pedido_saida_form():
     return {
         "pedido_saida_nome": request.form.get("pedido_saida_nome", "").strip(),
         "pedido_saida_data": request.form.get("pedido_saida_data", ""),
-        "pedido_saida_status": request.form.get("pedido_saida_status", "").strip(),
+        "pedido_entrada_status": request.form.get("pedido_saida_status", "").strip(),
         "animal_animal_id": to_int(request.form.get("animal_animal_id", ""))
     }
 
@@ -93,20 +93,20 @@ def get_pedido_entrada_form():
 
 def get_item_entrada_form():
     return {
-        "item_pedido_entrada_nome": request.form.get("produto", "").strip(),
+        "item_pedido_entrada_nome": request.form.get("item_pedido_entrada_nome", "").strip(),
         "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
         "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
         "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_validade", ""),
-        "item_pedido_entrada_valor_unitario": request.form.get('item_pedido_entrada_valor_unitario'),
-        "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
+        "item_pedido_entrada_valor_unitario": request.form.get("item_pedido_entrada_valor_unitario"),
+        "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_id", ""),
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")    
     }
 
 def get_item_saida_form():
     return {
-        "item_pedido_saida_nome": request.form.get("produto", "").strip(),
-        "item_pedido_saida_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
-        "item_pedido_saida_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
+        "item_pedido_saida_nome": request.form.get("item_pedido_saida_nome", "").strip(),
+        "item_pedido_saida_lote": request.form.get("item_pedido_saida_lote", "").strip(),
+        "item_pedido_saida_quantidade": request.form.get("item_pedido_saida_quantidade", "").strip(),
         "pedido_saida_pedido_saida_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
         "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
     }
@@ -865,7 +865,7 @@ def gerenciar_perfil_salvar():
         else:
             dados_usuario["imagem_base64"] = None
             return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
-        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))  
+        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
          
 
 
@@ -897,63 +897,78 @@ def excluir_usuario(usuario_id):
 def pedido():
     try:
         fornecedor = Fornecedor.buscar_fornecedor()
-        produtos= Produto.buscar_todo_produto()
-        animal = Animal.buscar_animal()
-        lote = item_pedido_entrada.buscar_item_pedido_entrada()
+    except ValueError:
+        fornecedor = []
 
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal, lote=lote)
-    except ValueError as e:
-        flash(e, "danger")
-        return render_template("pedido.html")
-    except Exception as e:
-        flash(f"Erro ao excluir Usuario: {e}", "danger")
-        return render_template("pedido.html")
+    try:
+        produtos = Produto.buscar_todo_produto()
+    except ValueError:
+        produtos = []
+
+    try:
+        animal = Animal.buscar_animal()
+    except ValueError:
+        animal = []
+
+    try:
+        lote = Item_pedido_entrada.buscar_item_pedido_entrada()
+    except ValueError:
+        lote = []
+
+    return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal, lote=lote)
 
 
 # ===== salvar entrada de pedidos ===== #
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
     fornecedor = Fornecedor.buscar_fornecedor()
-    produtos= Produto.buscar_todo_produto()
+    produtos = Produto.buscar_todo_produto()
     animal = Animal.buscar_animal()
 
     dados_entrado = get_pedido_entrada_form()
     dados_saida = get_pedido_saida_form()
-    item = get_item_entrada_form()
+    item_dados = get_item_entrada_form()
+    item_dados_saida = get_item_saida_form()
 
     if "pedido_entrada_nome" in request.form:
         entrada = Pedido_entrada(**dados_entrado)
-        item = item_pedido_entrada(**item)
+        item = Item_pedido_entrada(**item_dados)
         erros_entrada = entrada.validar_pedido_entrada()
         erros_item_entrada = item.validar_item_pedido_entrada()
         conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
 
-    else:
-        saida = Pedido_saida(**dados_saida)
-        erros_saida = saida.validar_pedido_saida ()
-
-
-    if erros_entrada and erros_item_entrada:
-        for erro in erros_entrada:
-            flash(erro, "danger")
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-
-    try:
-
-        if erros_entrada:
-            flash(erros_entrada, "danger")
+        if erros_entrada or erros_item_entrada:
+            for erro in erros_entrada + erros_item_entrada:
+                flash(erro, "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
-        numero = entrada.gravar_pedido_entrada()
-        item.gravar_item_pedido_entrada(numero)
+        try:
+            numero = entrada.gravar_pedido_entrada()
+            item.gravar_item_pedido_entrada(numero)
+            flash("Entrada cadastrada.", "success")
+            return redirect(url_for("pedido"))
+        except Exception as e:
+            flash(f"Erro ao cadastrar entrada, {e}", "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
+    else:
+        saida = Pedido_saida(**dados_saida)
+        erros_saida = saida.validar_pedido_saida()
+        item = Item_pedido_saida(**item_dados_saida)
 
-        flash("Entrada cadastrada.", "success")
-        return redirect(url_for("pedido"))
+        if erros_saida:
+            for erro in erros_saida:
+                flash(erro, "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
-    except Exception as e:
-        flash(f"Erro ao cadastrar entrada, {e}", "danger")
-        return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+        try:
+            numero = saida.gravar_pedido_saida()
+            item.gravar_item_pedido_saida(numero)
+            flash("Saída cadastrada.", "success")
+            return redirect(url_for("pedido"))
+        except Exception as e:
+            flash(f"Erro ao cadastrar saída, {e}", "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
     
 # ======= Relatorio ======= #
@@ -962,15 +977,14 @@ def pedido_salvar():
 def relatorio():
 
     try: 
-       sensores = Sensor.contar_sensores() 
+        sensores = Sensor.contar_sensores() 
     except ValueError as e:
-        sensor= 0
+        sensores = 0
     
     try:
         lista_compra = Lista_compra.buscar_lista_compra()
     except ValueError as e:
         lista_compra = []
-    
 
     return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
     

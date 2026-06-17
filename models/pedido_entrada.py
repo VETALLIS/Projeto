@@ -91,7 +91,7 @@ class Pedido_entrada(Crud_base):
 
         return f"Pedidos de entrada:"
 
-class item_pedido_entrada(Crud_base): 
+class Item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada"
     pk = "item_pedido_entrada_id"
     fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "estoque_estoque_id"]
@@ -103,7 +103,7 @@ class item_pedido_entrada(Crud_base):
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
         self.item_pedido_entrada_nome = item_pedido_entrada_nome
         self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
-        self.estoque_estoque_id= 1
+        self.estoque_estoque_id= Item_pedido_entrada.buscar_estoque_por_produto(item_pedido_entrada_nome)
 
     def validar_item_pedido_entrada (self):
         erros = [
@@ -122,7 +122,7 @@ class item_pedido_entrada(Crud_base):
         self.pedido_entrada_pedido_entrada_id= numero
         itens= self.gravar()
 
-        if not item_pedido_entrada:
+        if not Item_pedido_entrada:
             raise ValueError("Erro ao cadastrar item de pedido de entrada.")
         
         conexao = Database.connect()
@@ -173,7 +173,7 @@ class item_pedido_entrada(Crud_base):
         return "Item de pedido de entrada atualizado com sucesso!"
 
     @classmethod
-    def buscar_item_pedido_entrada(cls, order_by=pk):
+    def buscar_item_pedido_entrada(cls, order_by="item_pedido_entrada_id"):
         item_pedido_entrada = cls.buscar_tudo(order_by)
 
         if not item_pedido_entrada:
@@ -181,4 +181,17 @@ class item_pedido_entrada(Crud_base):
 
         return item_pedido_entrada
 
+    @staticmethod
+    def buscar_estoque_por_produto(produto_id):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+        try:
+            cursor.execute("SELECT estoque_id FROM estoque WHERE produto_produto_id = %s", (produto_id,))
+            resultado = cursor.fetchone()
+            if not resultado:
+                raise ValueError("Estoque não encontrado para esse produto.")
+            return resultado["estoque_id"]
+        finally:
+            cursor.close()
+            conexao.close()
     

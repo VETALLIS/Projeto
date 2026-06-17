@@ -16,9 +16,9 @@
         style="max-width: 25%; background-color: rgba(255, 255, 255, 0.05); border-radius: 13px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); min-height: 120px; position: relative;">
 
         <div class="row" style="border-radius: 13px;">
-            <label class="upload-box" style="width: 120px; max-height: 120px;">
-                <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
-                    style="max-height:120px; width:120px; border-radius:10px; object-fit:cover;">
+            <label for="imagem_sensor" class="upload-box" style="max-height:120px !important; width: 120px; margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+                <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}" 
+         style="max-height:120px; width:120px; border-radius:10px; object-fit:cover;">
             </label>
             <div class="col-md-7">
                 <div class="card-body text-start d-flex gap-2">

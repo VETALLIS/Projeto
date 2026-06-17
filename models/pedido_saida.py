@@ -1,15 +1,20 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
 import datetime
+from core.conectar import Database
+
+
+
 class Pedido_saida(Crud_base):
     pk = "pedido_saida_id"
     tabela = "pedido_saida"
-    fields = ["pedido_saida_id", "pedido_saida_nome", "pedido_saida_data", "pedido_saida_status", "animal_animal_id"]
+    fields = ["pedido_saida_id", "pedido_saida_nome", "pedido_saida_data", "pedido_entrada_status", "animal_animal_id"]
 
-    def __init__(self, pedido_saida_nome, pedido_saida_data, animal_animal_id, pedido_saida_status = "PENDENTE" ):
+    def __init__(self, pedido_saida_nome, pedido_saida_data, animal_animal_id, pedido_entrada_status = "PENDENTE" ):
+        self.pedido_saida_id = None
         self.pedido_saida_nome = pedido_saida_nome
         self.pedido_saida_data = pedido_saida_data 
-        self.pedido_saida_status = pedido_saida_status
+        self.pedido_entrada_status = pedido_entrada_status
         self.animal_animal_id = animal_animal_id
 
     def validar_pedido_saida(self):
@@ -28,7 +33,7 @@ class Pedido_saida(Crud_base):
         if not pedido_saida:
             raise ValueError("Erro ao criar pedido!")
 
-        return "Pedido criado com sucesso"
+        return pedido_saida
 
     def deletar_pedido_saida(self, id):
         pedido_saida = self.buscar_por_id(id)
@@ -62,17 +67,15 @@ from core.manipular import Manipular
 class Item_pedido_saida(Crud_base):
     pk = "item_pedido_saida_id"
     tabela = "item_pedido_saida"
-    fields = ["item_pedido_saida_id", "item_pedido_saida_nome", "item_pedido_saida_data_validade", 
-    "item_pedido_saida_quantidade","item_pedido_saida_lote", "estoque_estoque_id", "pedido_saida_pedido_saida_id"]
+    fields = ["item_pedido_saida_id", "item_pedido_saida_nome", "item_pedido_saida_quantidade","item_pedido_saida_lote", "estoque_estoque_id", "pedido_saida_pedido_saida_id"]
 
-    def __init__(self, item_pedido_saida_nome, item_pedido_saida_data_validade, 
-    item_pedido_saida_quantidade, item_pedido_saida_lote, estoque_estoque_id, pedido_saida_pedido_saida_id ):
+    def __init__(self, item_pedido_saida_nome, item_pedido_saida_quantidade, item_pedido_saida_lote, estoque_estoque_id, pedido_saida_pedido_saida_id ):
+        self.item_pedido_saida_id = None
         self.item_pedido_saida_nome = item_pedido_saida_nome
-        self.item_pedido_saida_data_validade = item_pedido_saida_data_validade
         self.item_pedido_saida_lote = item_pedido_saida_lote
         self.item_pedido_saida_quantidade = item_pedido_saida_quantidade
-        self.estoque_estoque_id = 1
-        self.pedido_saida_pedido_saida_id= 1
+        self.estoque_estoque_id = Item_pedido_saida.buscar_estoque_por_produto(item_pedido_saida_nome)
+        self.pedido_saida_pedido_saida_id= pedido_saida_pedido_saida_id 
     
     def validar_item_pedido_saida(self):
         erros = [
@@ -86,14 +89,41 @@ class Item_pedido_saida(Crud_base):
     
         return [ erro for erro in erros if erro]
 
-    def gravar_item_pedido_saida(self):
+    def gravar_item_pedido_saida(self, numero):
+        self.pedido_saida_pedido_saida_id = numero
         pedido_saida = self.gravar()
         
 
         if not pedido_saida:
             raise ValueError("Erro ao criar pedido!")
 
-        return "Pedido criado com sucesso"
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+
+        try:
+            sql = """
+                UPDATE estoque 
+                SET estoque_quantidade = estoque_quantidade - %s
+                WHERE estoque_id = %s
+            """
+
+            valores = (
+                self.item_pedido_saida_quantidade,        
+                self.estoque_estoque_id  
+            )
+            
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            return "Produto e estoque cadastrados com sucesso!"
+            
+        except Exception as e:
+            conexao.rollback() 
+            raise ValueError(f"Erro ao cadastrar o estoque do produto: {e}")
+            
+        finally:
+            cursor.close()
+            conexao.close()
     
     def _validar_quantidade(self, cursor, id_produto, quantidade):
         sql = """
@@ -146,9 +176,9 @@ class Item_pedido_saida(Crud_base):
         return "Pedido atualizado com sucesso!"
 
     def buscar_item_pedido_saida(self):
-        pedido_saida  = self.buscar_por_id(id)
+        item_pedido_saida  = self.buscar_por_id(id)
 
-        if not pedido_saida:
+        if not item_pedido_saida:
             raise ValueError("Pedido não encontrado!")
 
 
@@ -162,3 +192,17 @@ class Item_pedido_saida(Crud_base):
             raise ValueError("Item de pedido de saida nao encontrado não encontrado.") 
 
         return item_pedido_saida
+
+    @staticmethod
+    def buscar_estoque_por_produto(produto_id):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+        try:
+            cursor.execute("SELECT estoque_id FROM estoque WHERE produto_produto_id = %s", (produto_id,))
+            resultado = cursor.fetchone()
+            if not resultado:
+                raise ValueError("Estoque não encontrado para esse produto.")
+            return resultado["estoque_id"]
+        finally:
+            cursor.close()
+            conexao.close()

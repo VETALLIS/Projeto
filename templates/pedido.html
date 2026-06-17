@@ -88,7 +88,7 @@
                             <select name="item_pedido_entrada_nome" class="form-select" name="produto">
                                 <option value=""> Selecione o produto</option>
                                 {% for p in produtos%}
-                                <option value="{{ p.produto_id }}" style="color: black;">{{ p.produto_nome }}
+                                <option value="{{ p.produto_id }}, {{p.produto_nome}}" style="color: black;">{{ p.produto_nome }}
                                 </option>
                                 {% endfor %}
                             </select>
@@ -144,7 +144,7 @@
                         </div>
                     </div>
                     <div class="mb-4" style="max-width: 635px;">
-                        <input type="text" name="pedido_entrada_data" class="form-control" placeholder="Data:">
+                        <input type="text" name="pedido_saida_data" class="form-control" placeholder="Data:">
                     </div>
                 </div>
 
