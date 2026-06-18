@@ -923,7 +923,7 @@ def pedido():
 def pedido_salvar():
     fornecedor = Fornecedor.buscar_fornecedor()
     produtos = Produto.buscar_todo_produto()
-    animal = Animal.buscar_animal()
+    
 
     dados_entrado = get_pedido_entrada_form()
     dados_saida = get_pedido_saida_form()
@@ -952,6 +952,7 @@ def pedido_salvar():
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
     else:
+        animal = Animal.buscar_animal()
         saida = Pedido_saida(**dados_saida)
         erros_saida = saida.validar_pedido_saida()
         item = Item_pedido_saida(**item_dados_saida)
