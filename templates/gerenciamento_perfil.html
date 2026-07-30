@@ -10,93 +10,103 @@
 
     <input type="hidden" name="usuario_id" value="{{ usuario.usuario_id }}">
 
-    <h4 class="mb-4 text-start" style="color: white; padding:5px;">Informações Pessoais</h4>
-    <div class="d-flex">
-        <div class="d-flex" style="padding: 20px; padding-left: 0;">
-            <div class="upload-imagem me-5">
-                <label for="imagem_usuario" class="upload-box"
-                    style="margin-left:0 !important; cursor:pointer; overflow:hidden; position:relative;
-                    width:250px; height:400px; display:flex; align-items:center; justify-content:center;">
+    <div class="d-flex" style="max-width: 1200px; width: 100%; gap: 40px;">
 
-                    <input type="file" id="imagem_usuario" name="imagem_usuario" accept="image/*" class="d-none">
+        
+        <div style="flex: 0 0 auto;">
+            <h4 class="mb-4 text-start" style="color: white; padding:5px;">Informações Pessoais</h4>
+            <div class="d-flex">
+                <div class="d-flex" style="padding: 15px 0;">
+                    <div class="upload-imagem me-4">
+                        <label for="imagem_usuario" class="upload-box"
+                            style="margin-left:0 !important; cursor:pointer; overflow:hidden; position:relative;
+                            width:200px; height:200px; display:flex; align-items:center; justify-content:center;">
 
-                    {% if usuario.imagem_base64 %}
-                    <img id="preview_imagem"
-                        src="data:{{ usuario.imagem_tipo }};base64,{{ usuario.imagem_base64 }}"
-                        style="width:250px; height:400px; object-fit:cover; border-radius:10px; position:absolute; top:0; left:0;">
-                    {% else %}
-                    <img id="preview_imagem" src="" alt=""
-                        style="display:none; width:250px; height:400px; object-fit:cover; border-radius:10px; position:absolute; top:0; left:0;">
-                    <span id="texto_upload" class="text-white" style="text-align:center; z-index:1;">
-                        Clique para adicionar imagem
-                    </span>
-                    {% endif %}
+                            <input type="file" id="imagem_usuario" name="imagem_usuario" accept="image/*" class="d-none">
 
-                    <div id="icone_trocar"
-                        style="display:none; position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.5);
-                        border-radius:50%; width:32px; height:32px; align-items:center; justify-content:center; z-index:2;">
-                        <i class="bi bi-pencil text-white" style="font-size:14px;"></i>
+                            {% if usuario.imagem_base64 %}
+                            <img id="preview_imagem"
+                                src="data:{{ usuario.imagem_tipo }};base64,{{ usuario.imagem_base64 }}"
+                                style="width:250px; height:400px; object-fit:cover; border-radius:10px; position:absolute; top:0; left:0;">
+                            {% else %}
+                            <img id="preview_imagem" src="" alt=""
+                                style="display:none; width:250px; height:400px; object-fit:cover; border-radius:10px; position:absolute; top:0; left:0;">
+                            <span id="texto_upload" class="text-white" style="text-align:center; z-index:1;">
+                                Clique para adicionar imagem
+                            </span>
+                            {% endif %}
+
+                            <div id="icone_trocar"
+                                style="display:none; position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.5);
+                                border-radius:50%; width:32px; height:32px; align-items:center; justify-content:center; z-index:2;">
+                                <i class="bi bi-pencil text-white" style="font-size:14px;"></i>
+                            </div>
+                        </label>
                     </div>
-                </label>
+                </div>
+
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="mb-3 d-flex gap-2">
+                        <label class="form-label" style="color: #fff">Nome:</label>
+                        <label class="d-nome" style="color: #fff;">{{usuario.usuario_nome}}</label>
+                    </div>
+                    <div class="mb-3 d-flex gap-2">
+                        <label class="form-label" style="color:#fff">Email:</label>
+                        <label class="d-nome" style="color: #fff;">{{usuario.usuario_email}}</label>
+                    </div>
+                    <div class="mb-3 d-flex gap-2">
+                        <label class="form-label" style="color:#fff">Cargo:</label>
+                        <label class="d-nome" style="color: #fff;">{{usuario.usuario_cargo}}</label>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="d-flex flex-column justify-content-center">
-            <div class="mb-3 d-flex gap-2">
-                <label class="form-label" style="color: #fff">Nome:</label>
-                <label class="d-nome" style="color: #fff;">{{usuario.usuario_nome}}</label>
-            </div>
-            <div class="mb-3 d-flex gap-2">
-                <label class="form-label" style="color:#fff">Email:</label>
-                <label class="d-nome" style="color: #fff;">{{usuario.usuario_email}}</label>
-            </div>
-            <div class="mb-3 d-flex gap-2">
-                <label class="form-label" style="color:#fff">Cargo:</label>
-                <label class="d-nome" style="color: #fff;">{{usuario.usuario_cargo}}</label>
-            </div>
-        </div>
-    </div>
+        
+        <div style="border-left: 1px solid #fff; opacity: 0.3;"></div>
 
-    <p style="border-bottom:solid 1px #fff; width: 1200px; padding: 5px;"></p>
-    <h4 class="mb-4 mt-2 text-start" style="color: white; padding:5px;">Editar</h4>
+       
+        <div style="flex: 1 1 auto;">
+            <h4 class="mb-4 text-start" style="color: white; padding:5px;">Editar</h4>
 
-    <div class="mt-4">
-        <div class="divisao-form me-4" style="max-width: 1200px; width: 100%;">
-            <div class="mb-5 text-start">
+            <div class="mb-3 text-start">
                 <div class="input-group">
                     <input type="text" name="usuario_nome" class="form-control" value="{{usuario.usuario_nome}}">
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="mb-5 me-2 text-start" style="max-width: 700px; width: 100%;">
+
+            <div class="d-flex gap-2">
+                <div class="mb-3 text-start" style="width: 50%;">
                     <div class="input-group">
                         <input type="text" name="usuario_email" class="form-control" value="{{usuario.usuario_email}}">
                     </div>
                 </div>
-                <div class="text-start" style="max-width: 700px; width: 100%;">
-                    <div class="mb-5 text-start">
-                        <div class="input-group">
-                            <input type="text" name="usuario_cargo" class="form-control" value="{{usuario.usuario_cargo}}">
-                        </div>
+                <div class="mb-3 text-start" style="width: 50%;">
+                    <div class="input-group">
+                        <input type="text" name="usuario_cargo" class="form-control" value="{{usuario.usuario_cargo}}">
                     </div>
                 </div>
             </div>
+
+            <div class="mt-3">
+                <button class="btn text-white" style="background-color:#03A64A; width: 100%; border-radius:15px;" type="submit">
+                    Salvar alterações
+                </button>
+                
+                {% if usuario %}
+                <form method="POST" action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}" style="max-width:1200px; width:100%;">
+                <button class="btn btn-danger text-white mt-3" style="width:100%; border-radius:15px;" type="submit">Excluir conta</button>
+                </form>
+                {% endif %}
+
+            </div>
         </div>
-    </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-3" style="max-width: 1200px; width: 100%;">
-        <button class="btn text-white" style="background-color:#03A64A; width: 49%; border-radius:15px;" type="submit">
-            Salvar alterações
-        </button>
     </div>
 
 </form>
 
-{% if usuario %}
-<form method="POST" action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}" style="max-width:1200px; width:100%;">
-    <button class="btn btn-danger text-white mt-2" style="width:49%;" type="submit">Excluir conta</button>
-</form>
-{% endif %}
+
 
 <script>
     localStorage.setItem("usuario", JSON.stringify({
