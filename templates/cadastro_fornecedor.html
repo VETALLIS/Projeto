@@ -7,16 +7,16 @@
 </div>
 <h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Fornecedor</h3>
 
-<form method="POST" action="{{ url_for('gravar_fornecedor') }}" class="form-sensor">
-    <div class=" mt-4">
-        <div class="divisao-form me-4 " style="max-width: 1200px; width: 100%;">
-            <div class="mb-5 text-start">
+<form method="POST" action="{{ url_for('gravar_fornecedor') }}" class="form-sensor" style="width: 100%;">
+    
+        <div class="divisao-form " style=" width: 100%;">
+            <div class="mb-4 text-start">
                 <div class="input-group">
                     <input type="name" name="fornecedor_nome" class="form-control" placeholder="Nome do fornecedor:" required>
                 </div>
             </div>
 
-            <div class="mb-5 text-start">
+            <div class="mb-4 text-start">
                 <div class="input-group">
                     <input type="text" name="fornecedor_endereço" class="form-control" placeholder="Endereço:" required>
                 </div>
@@ -24,8 +24,8 @@
 
         </div>
         <div class="d-flex">
-            <div class="me-4" style="max-width: 600px; width: 100%;">
-                <div class="mb-5 text-start">
+            <div class="me-4" style=" width: 100%;">
+                <div class="mb-4 text-start">
                     <div class="input-group">
                         <input type="text" name="fornecedor_tipo_produtos" class="form-control" placeholder="Tipo de Produto:"
                             required>
@@ -38,8 +38,8 @@
                     </div>
                 </div>
             </div>
-            <div style="max-width: 575px; width: 100%;">
-                <div class="mb-5 text-start">
+            <div style=" width: 100%;">
+                <div class="mb-4 text-start">
                     <div class="input-group">
                         <input type="text" name="fornecedor_cnpj" class="form-control" placeholder="CNPJ:" required>
                     </div>
@@ -52,7 +52,7 @@
             </div>
 
         </div>
-    </div>
+
 
 </form>
 
