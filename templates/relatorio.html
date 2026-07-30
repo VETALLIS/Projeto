@@ -124,5 +124,25 @@
 
     </div>
 </div>
+<div class="d-flex colum mt-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px;max-width:1350px !important; width: 100% !important;height: 450px;">
+    <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
 
+    <div class="table-responsive mt-3" style="width: 100%;;">
+        <table class="table">
+            <tr>
+                <th class="text-white text-start">Nome</th>
+                <th class="text-white fw-bold">Categoria</th>
+                <th class="text-white">Quantidade</th>
+            </tr>
+            {% for produto in produtos %}
+            <tr class="linha-produto" data-categoria="{{ produto.produto_categoria }}">
+                <th class="text-white fw-normal align-items-start text-start">{{ produto.produto_nome }}</th>
+                <th class="text-white fw-normal">{{ produto.produto_categoria }}</th>
+                <th class="text-white fw-normal">{{ produto.estoque_quantidade }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
 {% endblock%}
