@@ -4,10 +4,10 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-   
 }
 
-html, body {
+html,
+body {
     min-height: 100vh;
     background-color: hsla(0, 0%, 0%, 1) !important;
     background-image:
@@ -1136,10 +1136,9 @@ footer a:hover {
 
 
 .topbar {
-    position: fixed;
-    top: 15px;
-    left: 1%;
-    right: 1%;
+    position: relative;
+    width: 89%;
+    margin: 15px 25px 0 auto;
     padding: 10px 5px 10px 5px;
     border-radius: 15px;
     display: flex;
@@ -1202,6 +1201,7 @@ footer a:hover {
 .topbar-actions {
     display: flex;
     gap: 8px;
+    margin-right: 2%;
 }
 
 .topbar-btn {
@@ -1231,21 +1231,19 @@ footer a:hover {
 
 .sidebar {
     position: fixed;
-    top: 90px;
+    top: 45px;
     left: 25px;
     width: 80px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 16px 0;
 }
 
 .sidebar-nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 17px;
 }
 
 .sidebar-link {
@@ -1259,6 +1257,7 @@ footer a:hover {
     justify-content: center;
     font-size: 19px;
     margin-top: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 .sidebar-link:hover {
@@ -1357,49 +1356,50 @@ input::placeholder {
 
 
 /* Carosel */
-    .carousel-vertical .carousel-inner {
-      height: 400px; /* ajuste conforme necessário */
-    }
+.carousel-vertical .carousel-inner {
+    height: 400px;
+    /* ajuste conforme necessário */
+}
 
-    .carousel-vertical .carousel-item {
-      transition: transform 0.6s ease;
-      position: absolute;
-      width: 100%;
-      top: -100%;
-    }
+.carousel-vertical .carousel-item {
+    transition: transform 0.6s ease;
+    position: absolute;
+    width: 100%;
+    top: -100%;
+}
 
-    .carousel-vertical .carousel-item.active {
-      top: 0;
-    }
+.carousel-vertical .carousel-item.active {
+    top: 0;
+}
 
-    .carousel-vertical .carousel-item-next:not(.carousel-item-start),
-    .carousel-vertical .active.carousel-item-end {
-      transform: translateY(100%);
-      top: 0;
-    }
+.carousel-vertical .carousel-item-next:not(.carousel-item-start),
+.carousel-vertical .active.carousel-item-end {
+    transform: translateY(100%);
+    top: 0;
+}
 
-    .carousel-vertical .carousel-item-prev:not(.carousel-item-end),
-    .carousel-vertical .active.carousel-item-start {
-      transform: translateY(-100%);
-      top: 0;
-    }
+.carousel-vertical .carousel-item-prev:not(.carousel-item-end),
+.carousel-vertical .active.carousel-item-start {
+    transform: translateY(-100%);
+    top: 0;
+}
 
-    .carousel-vertical .carousel-item-next.carousel-item-start,
-    .carousel-vertical .carousel-item-prev.carousel-item-end,
-    .carousel-vertical .active {
-      transform: translateY(0);
-      top: 0;
-    }
+.carousel-vertical .carousel-item-next.carousel-item-start,
+.carousel-vertical .carousel-item-prev.carousel-item-end,
+.carousel-vertical .active {
+    transform: translateY(0);
+    top: 0;
+}
 
-    /* Botões reposicionados para cima/baixo */
-    .carousel-vertical .carousel-control-prev {
-      top: 0;
-      bottom: auto;
-      height: 60px;
-    }
+/* Botões reposicionados para cima/baixo */
+.carousel-vertical .carousel-control-prev {
+    top: 0;
+    bottom: auto;
+    height: 60px;
+}
 
-    .carousel-vertical .carousel-control-next {
-      top: auto;
-      bottom: 0;
-      height: 60px;
-    }
+.carousel-vertical .carousel-control-next {
+    top: auto;
+    bottom: 0;
+    height: 60px;
+}
