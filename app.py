@@ -230,7 +230,7 @@ def inicial():
     
 
     try:
-        produtos = Produto.buscar_todo_produto()
+        #produtos = Produto.buscar_todo_produto()
         categoria = Produto.filtro_categoria(dados)
 
         if usuario_id:

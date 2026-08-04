@@ -3,7 +3,7 @@ from core.manipular import Manipular
 from core.conectar import Database
 import base64
 import os
-app = Flask(__name__)
+#app = Flask(__name__)
 
 class Produto(Crud_base):
     tabela = "produto"
