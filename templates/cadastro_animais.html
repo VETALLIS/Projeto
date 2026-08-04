@@ -1,38 +1,41 @@
 {%extends 'base.html'%}
 {%block conteudo%}
-
+<div class="text-start">
+    <a href="{{url_for('animal')}}" class="bi bi-arrow-bar-left text-white"
+        style="text-decoration: none; height: 40px;">Voltar</a>
+</div>
 <h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Cadastro de
     Animais</h3>
 
 <form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor" style="padding: 10px;">
     <div class="cadastro-sensor d-flex mt-4">
         <div class="divisao-form me-4" style="max-width: 900px;width: 100%;">
-            <div class="mb-5 text-start">
+            <div class="mb-3 text-start">
                 <div class="input-group">
                     <input type="name" name="especie" class="form-control" placeholder="Espécie:" required>
                 </div>
             </div>
 
-            <div class="mb-5 text-start">
+            <div class="mb-3 text-start">
                 <div class="input-group">
                     <input type="text" name="sexo" class="form-control" placeholder="Sexo: " required>
                 </div>
             </div>
 
-            <div class="mb-5 text-start">
+            <div class="mb-3 text-start">
                 <div class="input-group">
                     <input type="text" name="faixa_etaria" class="form-control" placeholder="Idade:" required>
                 </div>
             </div>
         </div>
         <div style="max-width: 550px !important; width: 100%;">
-            <div class="mb-5 text-start">
+            <div class="mb-3 text-start">
                 <div class="input-group">
                     <input type="text" name="raca" class="form-control" placeholder="Raça:" required>
                 </div>
             </div>
 
-            <div class="mb-5 text-start">
+            <div class="mb-3 text-start">
                 <div class="input-group">
                     <input type="text" name="identificacao_animal" class="form-control"
                         placeholder="Identificação de animal:" required>
