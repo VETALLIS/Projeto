@@ -1,3 +1,22 @@
+.cor_botao_verde {
+    background-color: #03c356;
+}
+
+.cor-botao-vermelho{
+    background-color: #e31818;
+}
+
+.titulo-h3{
+    color: white; 
+    border-bottom:solid 1px #fff;
+}
+
+
+
+
+
+
+
 /*------------ Tudo ---------- */
 * {
     margin: 0;
