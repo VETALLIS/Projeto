@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% block conteudo %}
 
+
 <div class="d-flex justify-content-between"
     style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 100%;">
     <h3 class="mb-4 text-start">Sensores</h3>
@@ -13,7 +14,7 @@
     {% if sensores %}
     {% for sensor in sensores %}
     <div class="card mb-3 text-white m-3"
-        style="max-width: 25%; background-color: rgba(255, 255, 255, 0.05); border-radius: 13px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); min-height: 120px; position: relative;">
+        style="max-width: 25%; background-color: rgba(255, 255, 255, 0.05); border-radius: 13px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); min-height: 130px; position: relative;">
 
         <div class="row" style="border-radius: 13px;">
             <label for="imagem_sensor" class="upload-box" style="max-height:120px !important; width: 120px; margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
@@ -21,25 +22,27 @@
          style="max-height:120px; width:120px; border-radius:10px; object-fit:cover;">
             </label>
             <div class="col-md-7">
-                <div class="card-body text-start d-flex gap-2">
-                    <h3 class="fs-5">Nome:</h3>
+                <div class="card-body  d-flex ">
+                    <h5 class="fs-5 ">Nome:</h5>
                     <h5 class="card-title fs-6 mt-1">{{sensor.sensor_nome}}</h5>
                 </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-center w-100">
-            <a href="/informacao_sensor/{{sensor_id}}" class="bi bi-arrow-bar-right text-white"
+                 <div class=" text-start ">
+            <a href="/sensor/informacao/{{sensor.sensor_id}}" class="bi bi-arrow-bar-right text-white"
                 style="text-decoration: none;">
                 Ver Detalhes
             </a>
+        </div>
+            </div>
+        </div>
+       
 
         <div class="container d-flex flex-column justify-content-between">
             <a href="/sensor/editar/{{sensor.sensor_id}}" class="bi bi-pencil text-white"
                 style="text-decoration: none; position: absolute; bottom: 10px; right: 10px;"> Editar
             </a>
 
-            <a class="btn btn-sm btn-link text-danger"
-                style="text-decoration: none; position: absolute; bottom: 5px; right: 80px;"
+            <a class="btn btn-sm btn-link text-danger fs-5"
+                style="text-decoration: none; position: absolute; bottom: 4px; right: 80px ;"
                 href="{{ url_for('excluir_sensor', sensor_id= sensor.sensor_id) }}">
                 <i class="bi bi-trash"></i>
             </a>
