@@ -731,8 +731,14 @@ def logout():
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
-    animais = Animal.buscar_animal()
-    return render_template("animais_cadastrados.html", animais=animais)
+    try:
+        animais = Animal.buscar_animal()
+        return render_template("animais_cadastrados.html", animais=animais)
+    except ValueError as e:
+        flash(erro, "danger")
+        return redirect(url_for("animais_cadastrados.html", animais=animais))
+
+    
 
 # ======== Formulário cadastro de animal ======= #
 @app.route("/animal/novo", methods=['GET', 'POST'])
