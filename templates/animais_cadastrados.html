@@ -29,11 +29,7 @@
             <td  style="color: white;">{{ animal.animal_raca or animal['animal_raca'] }}</td>
             <td  style="color: white;">{{ animal.animal_identificacao or animal['animal_identificacao'] }}</td>
             <td  style="color: white;">{{ animal.animal_idade or animal['animal_idade'] }}</td>
-            <td>
-                <a class="btn btn-sm btn-link text-danger" href="{{url_for('excluir_animais_cadastrados', animais_cadastrados_id=animais.animais_cadastrados_id)}}">
-                    <i class="bi bi-trash"></i>
-                </a>
-            </td>
+           
 
         </tr>
         {% endfor %}
