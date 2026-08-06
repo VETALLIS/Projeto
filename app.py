@@ -730,8 +730,9 @@ def logout():
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
+    animais = Animal.buscar_animal()
     try:
-        animais = Animal.buscar_animal()
+        
         return render_template("animais_cadastrados.html", animais=animais)
     except ValueError as e:
         flash("danger")
