@@ -732,10 +732,9 @@ def logout():
 def animal():
     animais = Animal.buscar_animal()
     try:
-        
         return render_template("animais_cadastrados.html", animais=animais)
     except ValueError as e:
-        flash("danger")
+        flash(e,"danger")
         return redirect(url_for("animais_cadastrados.html", animais=animais))
 
     
