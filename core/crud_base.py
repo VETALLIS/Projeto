@@ -125,8 +125,8 @@ class Crud_base:
 
         try:
             sql = f"SELECT * FROM produto WHERE produto_nome LIKE %s"
-
-            cursor.execute(sql, (f"%dipirona%",))
+            pesq = "%" + nome + "%"
+            cursor.execute(sql, (pesq,))
 
             resultados = cursor.fetchall()
             

@@ -657,7 +657,7 @@ def atualizar_lista_compra(id):
 @app.route("/pesquisa_item/")
 def pesquisa():
     q = get_pesquisa_item_form()
-
+    print("pesquisa da vitoria: ",q)
     try:
         pesquisa_item = Pesquisa.buscar_tudo_pesquisa(q)
         
@@ -801,7 +801,7 @@ def fornecedor_novo():
 def gravar_fornecedor():
     dados = get_fornecedor_form()
     fornecedor = Fornecedor(**dados)
-    erros = fornecedor.validar_fornecedor()
+    erros = fornecedor.validar_fornecedor(app.secret_key)
 
     try:
 
