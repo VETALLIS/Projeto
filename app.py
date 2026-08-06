@@ -657,7 +657,7 @@ def atualizar_lista_compra(id):
 @app.route("/pesquisa_item/")
 def pesquisa():
     q = get_pesquisa_item_form()
-
+    print("pesquisa da vitoria: ",q)
     try:
         pesquisa_item = Pesquisa.buscar_tudo_pesquisa(q)
         
