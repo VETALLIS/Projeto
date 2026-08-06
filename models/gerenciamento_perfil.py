@@ -54,7 +54,7 @@ class GerenciamentoPerfil(Crud_base):
             raise ValueError("Usuario não encontrado.")
 
         usuario.pop("usuario_id", None)
-        return GerenciamentoPerfil(**usuario)
+        return usuario
 
     
 
