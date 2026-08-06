@@ -2,56 +2,46 @@
 {% block conteudo %}
 
 
-<div class="d-flex justify-content-between"
-    style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 100%;">
-    <h3 class="mb-4 text-start">Sensores</h3>
-    <a class="btn btn-login w-100 text-white d-flex justify-content-center"
-        style="background: #03c356; border-radius: 15px; max-width: 20%; height: 50px; align-items: center;"
+<div class="d-flex justify-content-between">
+    <h3 class="mb-4 text-start titulo-h3 w-100">Sensores</h3>
+    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         href="{{url_for('novo_sensor')}}">Adicionar Sensor</a>
 </div>
 
-<div class="container d-flex entrada-container row" style="border: none; padding-left: 0; width: 100%;">
+<div class="container d-flex entrada-container border-radius-menor row gap-3">
     {% if sensores %}
     {% for sensor in sensores %}
-    <div class="card mb-3 text-white m-3"
-        style="max-width: 25%; background-color: rgba(255, 255, 255, 0.05); border-radius: 13px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); min-height: 130px; position: relative;">
+    <div class="card card-sensor mb-3 text-white  backgroud-glass mt-4 border-radius-menor">
 
-        <div class="row" style="border-radius: 13px;">
-            <label for="imagem_sensor" class="upload-box" style="max-height:120px !important; width: 120px; margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+        <div class="row">
+            <label for="imagem_sensor" class="col-4  p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if sensor.imagem_base64 %}
-                    <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}" 
-                    style="max-height:50%px; width:50%; border-radius:10px; object-fit:cover;">
+                <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
+                    class="border-radius-menor img-sensor">
                 {%else%}
-                    <img src="/static/imagens/medicamento.jpg" 
-                    style="width: 120px; height: 120px; object-fit: contain; border-radius: 10px; display: block; margin: auto;">
+                <img src="/static/imagens/medicamento.jpg" class="border-radius-menor img-sensor">
                 {%endif%}
             </label>
-            <div class="col-md-7">
-                <div class="card-body  d-flex ">
-                    <h5 class="fs-5 me-2">Nome:</h5>
-    
+            <div class="col-8 p-0 ">
+                <div class="card-body d-flex gap-1 text-start pb-0">
+                    <h5 class="fs-5 titulo-h3">Nome:</h5>
                     <h5 class="card-title fs-6 mt-1">{{sensor.sensor_nome}}</h5>
                 </div>
-                 <div class=" text-start ">
-            <a href="/sensor/informacao/{{sensor.sensor_id}}" class="bi bi-arrow-bar-right text-white"
-                style="text-decoration: none;">
-                Ver Detalhes
-            </a>
-        </div>
+                <div class="card-body text-start pb-0 pt-0">
+                    <a href="/sensor/informacao/{{sensor.sensor_id}}" class="bi bi-arrow-bar-right text-white texto-a">
+                        Ver Detalhes
+                    </a>
+                </div>
+                <div class="card-body d-flex  align-items-center gap-3 pt-0">
+                    <a class="btn btn-sm btn-link text-danger fs-5 p-0"
+                        href="{{ url_for('excluir_sensor', sensor_id= sensor.sensor_id) }}">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    <a href="/sensor/editar/{{sensor.sensor_id}}" class="bi bi-pencil text-white texto-a">
+                        Editar
+                    </a>
+                </div>
             </div>
-        </div>
-       
-
-        <div class="container d-flex flex-column justify-content-between">
-            <a href="/sensor/editar/{{sensor.sensor_id}}" class="bi bi-pencil text-white"
-                style="text-decoration: none; position: absolute; bottom: 10px; right: 10px;"> Editar
-            </a>
-
-            <a class="btn btn-sm btn-link text-danger fs-5"
-                style="text-decoration: none; position: absolute; bottom: 4px; right: 80px ;"
-                href="{{ url_for('excluir_sensor', sensor_id= sensor.sensor_id) }}">
-                <i class="bi bi-trash"></i>
-            </a>
         </div>
 
     </div>
