@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: "Poppins", sans-serif !important;
 
 }
 
@@ -27,8 +27,8 @@ body {
     background-color: #fff0ff;
 }
 
-.background-verde-medio {
-    background-color: #03c356;
+.background-verde-medio{
+    background-color: #03c356 !important;
 }
 
 .background-vermelho{
@@ -42,7 +42,7 @@ body {
 
 .titulo-h3{
     color: #fff0ff; 
-    font-size: larger;
+    font-size: 25px;
     font-weight: bolder;
 }
 
@@ -53,16 +53,16 @@ body {
 }
 
 .texto-p{
-    color: #fff0ff;
-    font-weight: normal;
-    font-size: medium;
+    color: #fff0ff !important;
+    font-weight: normal !important;
+    font-size: medium !important;
 }
 
-.texto-a{
-    text-decoration: none;
-    color: #fff0ff;
-    font-size: smaller;
-    font-weight: 500;
+.texto-a {
+    text-decoration: none !important;
+    color: #fff0ff !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
 }
 
 .height-maior{
@@ -70,9 +70,9 @@ body {
 }
 
 .backgroud-glass{
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174);
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174) !important;
 }
 
 
@@ -92,7 +92,7 @@ body {
 /* Bordas*/
 
 .border-radius-maior{
-    border-radius: 60px;
+    border-radius: 60px !important;
 }
 
 .border-radius-medio{
@@ -100,7 +100,7 @@ body {
 }
 
 .border-radius-menor{
-    border-radius: 15px;
+    border-radius: 15px !important;
 }
 
 .borda-none{
@@ -182,4 +182,32 @@ body {
     gap: 8px;
     padding: 6px 12px;
     max-width: 400px;
+}
+
+/* Tela animais cadastrados */
+
+.titulo-animal{
+    max-width: 20%; 
+    height: 50px; 
+    align-items: center;
+}
+
+.table> :not(caption)>*>* {
+    background-color: transparent !important;
+}
+
+/* Login */
+
+.logo-login {
+    width: 75%;
+    margin-bottom: 20px;
+    opacity: 30%;
+    margin-top: 117px;
+}
+
+.login-card {
+    padding: 40px;
+    width: 100%;
+    max-width: 380px;
+
 }
