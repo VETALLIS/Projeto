@@ -12,10 +12,11 @@ class Fornecedor(Crud_base):
         self.fornecedor_pedido_minimo = pedido_minimo
         self.fornecedor_tipo_produtos = tipo_produtos
 
-    def validar_fornecedor(self):
+    def validar_fornecedor(self, secret_key):
         erros = [
             Manipular.validar_vazio(self.fornecedor_nome, "nome"),
             Manipular.validar_vazio(self.fornecedor_cnpj, "cnpj"),
+            Manipular.validar_cpf(self.fornecedor_cnpj, "cnpj", secret_key),
             Manipular.validar_vazio(self.fornecedor_endereço, "endereço"),
             Manipular.validar_vazio(self.fornecedor_pedido_minimo, "pedido_minimo")
             

@@ -801,7 +801,7 @@ def fornecedor_novo():
 def gravar_fornecedor():
     dados = get_fornecedor_form()
     fornecedor = Fornecedor(**dados)
-    erros = fornecedor.validar_fornecedor()
+    erros = fornecedor.validar_fornecedor(app.secret_key)
 
     try:
 
