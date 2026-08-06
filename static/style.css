@@ -1,3 +1,22 @@
+.cor_botao_verde {
+    background-color: #03c356;
+}
+
+.cor-botao-vermelho{
+    background-color: #e31818;
+}
+
+.titulo-h3{
+    color: white; 
+    border-bottom:solid 1px #fff;
+}
+
+
+
+
+
+
+
 /*------------ Tudo ---------- */
 * {
     margin: 0;
@@ -1166,11 +1185,12 @@ footer a:hover {
 }
 
 .topbar-search {
+    background: rgba(255, 255, 255, 0.15);
     flex: 4;
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 10px;
     padding: 6px 12px;
     max-width: 400px;
@@ -1205,6 +1225,7 @@ footer a:hover {
     background: rgba(255, 255, 255, 0.15);
     border: none;
     border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
     color: #fff;
     font-size: 16px;
     font-family: 'Inter', sans-serif;

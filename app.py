@@ -230,7 +230,7 @@ def inicial():
     
 
     try:
-        produtos = Produto.buscar_todo_produto()
+        #produtos = Produto.buscar_todo_produto()
         categoria = Produto.filtro_categoria(dados)
 
         if usuario_id:
@@ -731,8 +731,14 @@ def logout():
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
+    try:
+        animais = Animal.buscar_animal()
+        return render_template("animais_cadastrados.html", animais=animais)
+    except ValueError as e:
+        flash(erro, "danger")
+        return redirect(url_for("animais_cadastrados.html", animais=animais))
 
-    return render_template("cadastro_animais.html")
+    
 
 # ======== Formulário cadastro de animal ======= #
 @app.route("/animal/novo", methods=['GET', 'POST'])
