@@ -8,6 +8,7 @@
     {%if produtos %}
     {% for produto in produtos %}
     <div class="me-2" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); padding: 10px;">
+        
         <label for="imagem_produto" class="upload-box" style="max-height:200px !important; width: 250px; margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
             {% if produto.imagem_base64 %}
                     <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}" 

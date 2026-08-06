@@ -362,7 +362,7 @@ def informacao_produto_ver(produto_id):
 
     try :
         produto = Informacao_Produto.buscar_produto_com_estoque(produto_id)
-
+        print("produto estoque",produto)
         if not produto:
             flash("Produto não encontrado", "danger")
             return redirect(url_for("produtos"))
