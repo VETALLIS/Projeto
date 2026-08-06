@@ -734,7 +734,7 @@ def animal():
         animais = Animal.buscar_animal()
         return render_template("animais_cadastrados.html", animais=animais)
     except ValueError as e:
-        flash(erro, "danger")
+        flash("danger")
         return redirect(url_for("animais_cadastrados.html", animais=animais))
 
     
