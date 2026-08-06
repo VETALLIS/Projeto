@@ -3,7 +3,6 @@ from core.manipular import Manipular
 from core.conectar import Database
 import base64
 import os
-#app = Flask(__name__)
 
 class Produto(Crud_base):
     tabela = "produto"
@@ -159,7 +158,7 @@ class Produto(Crud_base):
             if produto.get("imagem_blob"):
                 produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
             else:
-                produto["imagem_base64"] = os.path.join(app.root_path, 'static', 'medicamento.png')
+                produto["imagem_base64"] = None
         return produtos
 
     @classmethod

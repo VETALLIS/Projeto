@@ -230,7 +230,7 @@ def inicial():
     
 
     try:
-        #produtos = Produto.buscar_todo_produto()
+        produtos = Produto.buscar_todo_produto()
         categoria = Produto.filtro_categoria(dados)
 
         if usuario_id:
@@ -253,7 +253,6 @@ def produtos():
 
     try:
         produtos = Produto.buscar_todo_produto()
-
         if not produtos:
             flash("Nenhum produto encontrado", "danger")
             return render_template("produto_cadastrados.html")
