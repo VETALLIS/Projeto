@@ -144,6 +144,12 @@ class Produto(Crud_base):
         if not produto:
             raise ValueError("Produto não encontrado")
         
+        produto["imagem_base64"] = None
+        if produto.get("imagem_blob"):
+            produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
+        else:
+            produto["imagem_base64"] = None
+
         return produto
 
     @classmethod
