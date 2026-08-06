@@ -12,20 +12,29 @@
 <div class="table-responsive mt-5">
     <table class="table">
         <tr>
+            <th class="text-white text-start">N° Identificação</th>
             <th class="text-white text-start">Espécie</th>
             <th class="text-white fw-bold">Sexo</th>
             <th class="text-white">Raça</th>
             <th class="text-white">Identificação</th>
             <th class="text-white">Idade</th>
+            <th class="text-white">status</th>
 
         </tr>
         {% for animal in animais %}
         <tr>
+            <td class="text-start"  style="color: white;">{{ animal.animal_id or animal['animal_id'] }}</td>
             <td class="text-start"  style="color: white;">{{ animal.animal_especie or animal['animal_especie'] }}</td>
             <td  style="color: white;">{{ animal.animal_sexo or animal['animal_sexo'] }}</td>
             <td  style="color: white;">{{ animal.animal_raca or animal['animal_raca'] }}</td>
             <td  style="color: white;">{{ animal.animal_identificacao or animal['animal_identificacao'] }}</td>
             <td  style="color: white;">{{ animal.animal_idade or animal['animal_idade'] }}</td>
+            <td>
+                <a class="btn btn-sm btn-link text-danger" href="{{url_for('excluir_animais_cadastrados', animais_cadastrados_id=animais.animais_cadastrados_id)}}">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </td>
+
         </tr>
         {% endfor %}
     </table>
