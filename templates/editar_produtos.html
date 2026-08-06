@@ -15,9 +15,17 @@
         <div class="cadastro-sensor mt-4">
             <div class="d-flex justify-content-start mb-3 ms-3">
                 <div class="upload-imagem me-5 ">
-                    <label for="imagem_produto"
-                        style="width: 250px; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; 
+                    <label for="imagem_produto" style="width: 250px; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; 
                         display: flex; align-items: center; justify-content: center; cursor: pointer;">
+
+                        {% if produto.imagem_base64 %}
+                        <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
+                            style="max-height:100%; width:100%; border-radius:10px; object-fit:cover;">
+                        {%else%}
+                        <img src="/static/imagens/medicamento.jpg"
+                            style="max-height:100%; width:100%; border-radius:10px; object-fit:cover;">
+                        {%endif%}
+                        
                         <img id="preview" src="" alt=""
                             style="display:none;height:100%; object-fit:cover; border-radius:10px;">
                         <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"

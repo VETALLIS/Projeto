@@ -18,12 +18,18 @@
 
         <div class="row" style="border-radius: 13px;">
             <label for="imagem_sensor" class="upload-box" style="max-height:120px !important; width: 120px; margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
-                <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}" 
-         style="max-height:120px; width:120px; border-radius:10px; object-fit:cover;">
+                {% if sensor.imagem_base64 %}
+                    <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}" 
+                    style="max-height:50%px; width:50%; border-radius:10px; object-fit:cover;">
+                {%else%}
+                    <img src="/static/imagens/medicamento.jpg" 
+                    style="width: 120px; height: 120px; object-fit: contain; border-radius: 10px; display: block; margin: auto;">
+                {%endif%}
             </label>
             <div class="col-md-7">
                 <div class="card-body  d-flex ">
-                    <h5 class="fs-5 ">Nome:</h5>
+                    <h5 class="fs-5 me-2">Nome:</h5>
+    
                     <h5 class="card-title fs-6 mt-1">{{sensor.sensor_nome}}</h5>
                 </div>
                  <div class=" text-start ">

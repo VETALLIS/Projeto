@@ -1,20 +1,3 @@
-.cor_botao_verde {
-    background-color: #03c356;
-}
-
-.cor-botao-vermelho{
-    background-color: #e31818;
-}
-
-.titulo-h3{
-    color: white; 
-    border-bottom:solid 1px #fff;
-}
-
-
-
-
-
 
 
 /*------------ Tudo ---------- */
@@ -171,7 +154,6 @@ header {
     top: 2%;
     left: 1%;
     z-index: 0;
-
     border: none;
 }
 
@@ -961,21 +943,6 @@ footer a:hover {
 
 
 /* ================== Tela de login ================== */
-
-
-
-
-
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-}
-
-
-
 
 
 .login-container {
