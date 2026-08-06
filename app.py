@@ -362,7 +362,6 @@ def informacao_produto_ver(produto_id):
 
     try :
         produto = Informacao_Produto.buscar_produto_com_estoque(produto_id)
-
         if not produto:
             flash("Produto não encontrado", "danger")
             return redirect(url_for("produtos"))
@@ -730,11 +729,11 @@ def logout():
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
+    animais = Animal.buscar_animal()
     try:
-        animais = Animal.buscar_animal()
         return render_template("animais_cadastrados.html", animais=animais)
     except ValueError as e:
-        flash("danger")
+        flash(e,"danger")
         return redirect(url_for("animais_cadastrados.html", animais=animais))
 
     

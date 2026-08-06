@@ -1,13 +1,12 @@
 {%extends 'base.html'%}
 {%block conteudo%}
 <div class="text-start">
-    <a href="{{url_for('animal')}}" class="bi bi-arrow-bar-left text-white"
-        style="text-decoration: none; height: 40px;">Voltar</a>
+    <a href="{{url_for('animal')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
-<h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Cadastro de
+<h3 class="mb-4 text-start titulo-h3 mt-4">Cadastro de
     Animais</h3>
 
-<form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor" style="padding: 10px;">
+<form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor">
     <div class="cadastro-sensor d-flex mt-4">
         <div class="divisao-form me-4" style="max-width: 700px;width: 100%;">
             <div class="mb-3 text-start">
@@ -28,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div style="max-width: 700px !important; width: 100%;">
+        <div class="w-100">
             <div class="mb-3 text-start">
                 <div class="input-group">
                     <input type="text" name="raca" class="form-control" placeholder="Raça:" required>
@@ -42,8 +41,7 @@
                 </div>
             </div>
             <div class="text-center">
-                <button class="btn btn-login w-100 text-white "
-                    style="background: #03c356; border-radius: 25px; max-width: 900px;" type="submit">Cadastrar</button>
+                <button class="btn w-100 texto-a background-verde-medio border-radius-maior" type="submit">Cadastrar</button>
             </div>
 
         </div>

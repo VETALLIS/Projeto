@@ -1,5 +1,7 @@
 from core.crud_base import Crud_base
 from core.conectar import Database
+import base64
+import os
 
 class Informacao_Produto(Crud_base):
 
@@ -36,8 +38,16 @@ class Informacao_Produto(Crud_base):
                 "WHERE p.produto_id = %s"
             )
             cursor.execute(sql, (produto_id,))
+
+            produto = cursor.fetchone()
+
+            produto["imagem_base64"] = None
+            if produto.get("imagem_blob"):
+                produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
+            else:
+                produto["imagem_base64"] = None
             
-            return cursor.fetchone()
+            return produto
         finally:
             cursor.close()
             conexao.close()
