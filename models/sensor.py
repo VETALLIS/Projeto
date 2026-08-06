@@ -86,7 +86,8 @@ class Sensor(Crud_base):
             sensor["imagem_base64"] = None
             if sensor.get("imagem_blob"):
                 sensor["imagem_base64"] = base64.b64encode(sensor["imagem_blob"]).decode("utf-8")
-        
+            else:
+                sensor["imagem_base64"] = None
         return sensores
     
     @classmethod
