@@ -362,7 +362,6 @@ def informacao_produto_ver(produto_id):
 
     try :
         produto = Informacao_Produto.buscar_produto_com_estoque(produto_id)
-
         if not produto:
             flash("Produto não encontrado", "danger")
             return redirect(url_for("produtos"))
@@ -658,7 +657,7 @@ def atualizar_lista_compra(id):
 @app.route("/pesquisa_item/")
 def pesquisa():
     q = get_pesquisa_item_form()
-
+    print("pesquisa da vitoria: ",q)
     try:
         pesquisa_item = Pesquisa.buscar_tudo_pesquisa(q)
         

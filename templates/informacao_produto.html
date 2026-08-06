@@ -12,8 +12,13 @@
         <label for="imagem_produto" class="upload-box" style="max-height: 200px !important; width: 200px;"
             style=" margin-left: 0 !important; align-self: flex-start;">
 
+            {% if produto.imagem_base64 %}
             <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                style="max-height:200px; width:200px; border-radius:10px; object-fit:cover;">
+                style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
+            {%else%}
+            <img src="/static/imagens/medicamento.jpg"
+                style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
+            {%endif%}
         </label>
 
     </div>
