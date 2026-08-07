@@ -32,7 +32,7 @@ body {
 }
 
 .background-vermelho{
-    background-color: #e31818;
+    background-color: #e31818 !important;
 }
 
 .verde-primario-texto{
@@ -109,7 +109,6 @@ body {
 .borda-none{
     border: none;
 }
-
 
 /* Base.html */
 .topbar {

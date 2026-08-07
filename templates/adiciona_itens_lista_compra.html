@@ -1,54 +1,37 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 
-
-<div class="d-flex justify-content-start">
-    <a href="{{url_for('lista_compra')}}" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
+<div class="d-flex justify-content-start mt-0">
+    <a href="{{url_for('lista_compra')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
-<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Adicionar item à
+<h3 class="mb-4 mt-3 text-start titulo-h3">Adicionar item à
     lista de compras</h3>
 
 
-<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-    {{ mensagem }}
-</div>
-
-
 <form method="POST" action="{{ url_for('salvar_lista_compra') }}">
-    <div class="mt-4">
+    <div class="mt-4 h-100">
 
-        <div class="d-flex gap-3 mb-4" style="max-width: 1400px;">
-            <input type="text" name="nome_produto" placeholder="Nome do item:"
-                style=" border:1.5px solid rgba(0, 0, 0, 0.6); border-radius:10px; color:rgb(30, 2, 2); padding:12px 16px;width: 100%; max-width: 466px;"
+        <div class="d-flex gap-3 mb-4">
+            <input type="text" name="nome_produto" placeholder="Nome do item:" class=" form-control borda-none"
                 required>
-            <input type="text" name="custo_compra"  placeholder="preço unitário:"
-                style=" border:1.5px solid rgba(255,255,255,0.6); border-radius:10px; color:rgb(0, 0, 0); padding:12px 16px;width: 100%; max-width: 466px; "
+            <input type="text" name="custo_compra" placeholder="preço unitário:" class=" form-control borda-none"
                 required>
-            <input type="text" name="quantidade"  placeholder="Quantidade:"
-                style=" border:1.5px solid rgba(255,255,255,0.6); border-radius:10px; color:rgb(11, 11, 11); padding:12px 16px; width: 100%; max-width: 466px;"
-                required>
+            <input type="text" name="quantidade" placeholder="Quantidade:" class=" form-control borda-none" required>
 
-    
         </div>
 
-    
+
 
         <!-- Botões lado a lado -->
-        <div class="d-flex gap-3" style="max-width: 1400px;">
-            <button class="btn w-100 text-white"
-                style="background:#e31818; border-radius:15px; padding:7px;"
-                type="button">cancelar</button>
-            <button class="btn w-100 text-white"
-                style="background:#03c356; border-radius:15px; padding:7px;"
+        <div class="d-flex gap-3">
+            <button class="btn w-100 text-white background-vermelho border-radius-menor"
+                type="button">Cancelar</button>
+            <button class="btn w-100 text-white background-verde-medio border-radius-menor"
                 type="submit">Salvar</button>
         </div>
 
     </div>
 </form>
 
-<style>
-    .form-control::placeholder { color: rgba(255,255,255,0.7); }
-    .form-control:focus { background:transparent !important; border-color:white !important; color:white !important; box-shadow:none; }
-</style>
 
 {% endblock %}
