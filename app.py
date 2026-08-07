@@ -729,12 +729,13 @@ def logout():
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
-    animais = Animal.buscar_animal()
+    
     try:
+        animais = Animal.buscar_animal()
         return render_template("animais_cadastrados.html", animais=animais)
     except ValueError as e:
-        flash(e,"danger")
-        return redirect(url_for("animais_cadastrados.html", animais=animais))
+        flash(str(e),"danger")
+        return redirect(url_for("novo_animal"))
 
     
 
@@ -758,7 +759,7 @@ def salvar_animal():
 
         animal.gravar_animal()
         flash("Animal cadastrado com sucesso.", "success")
-        return redirect(url_for("novo_animal"))
+        return redirect(url_for("animal"))
         
     except Exception as e:
         flash(f"Erro ao cadastrar animal {e}", "danger")

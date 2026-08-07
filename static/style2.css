@@ -39,6 +39,14 @@ body {
     color: #074040 !important;
 }
 
+.backgroud-glass{
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174) !important;
+}
+
+
+/* Textos */
 
 .titulo-h3{
     color: #fff0ff; 
@@ -69,12 +77,6 @@ body {
     height: 100vh;
 }
 
-.backgroud-glass{
-    background: rgba(255, 255, 255, 0.08) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174) !important;
-}
-
 
 /* Position */
 .position-fixed{
@@ -88,6 +90,7 @@ body {
 .position-absolut{
     position: absolute;
 }
+
 
 /* Bordas*/
 
@@ -184,6 +187,7 @@ body {
     max-width: 400px;
 }
 
+
 /* Tela animais cadastrados */
 
 .titulo-animal{
@@ -195,6 +199,7 @@ body {
 .table> :not(caption)>*>* {
     background-color: transparent !important;
 }
+
 
 /* Login */
 

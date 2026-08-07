@@ -74,6 +74,6 @@ class Animal(Crud_base):
         animal = cls.buscar_tudo(order_by) # chama o método para de buscar por id do Crud_base
 
         if not animal: # verifica se foi encontrado
-            raise ValueError("Animal não encontrado.") # retorna se tiver erro
+            raise ValueError("Animal não encontrado.  Casdastre um animal!") # retorna se tiver erro
 
         return animal# retorna os dados encontrado
