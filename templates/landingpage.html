@@ -5,43 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vetallis</title>
-    <link rel="stylesheet" href="./static/style.css">
+    <link rel="stylesheet" href="./static/style2.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
-<body>
-    <header id="header-landingpage">
+<body class="height-maior">
+    <header id="height-maior">
         <div id="home">
-            <nav id="menu-nav">
-                <ul>
-                    <li id="logo-menu">
-                        <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="logo">
+            <nav id="menu-nav" style="z-index: 10; height: 100px; ">
+
+                <ul class="list-style-none d-flex align-items-center justify-content-start gap-4 backgroud-glass border-radius-maior mt-4 h-50 gap-3"
+                    style="padding-left: 2px; width: 400px;">
+                    <li>
+                        <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="logo" id="logo-menu-lp">
                     </li>
-                    <li  class="menu-link">
-                        <a href="#home" class="menu-a-link">Home</a>
+                    <li>
+                        <a href="#home" class="texto-a position-relative mt-5 " style="margin-left: -20px;">Home</a>
                     </li>
-                    <li  class="menu-link">
-                        <a href="#produtos-container" class="menu-a-link">Produto</a>
+                    <li>
+                        <a href="#produtos-container" class="texto-a position-relative mt-5">Produto</a>
                     </li>
-                    <li  class="menu-link">
-                        <a href="#sobre-nos-section" class="menu-a-link">Sobre nós</a>
+                    <li>
+                        <a href="#sobre-nos-section" class="texto-a position-relative mt-5">Sobre nós</a>
                     </li>
-                    <li class="menu-link">
-                        <a href="#contato-section" class="menu-a-link">Contato</a>
+                    <li>
+                        <a href="#contato-section" class="texto-a position-relative mt-5">Contato</a>
                     </li>
-                    
+
                 </ul>
-                <a id="botao-login-menu"  href="{{ url_for('novo_login') }}">Login</a>
+                <a id="botao-login-menu"
+                    class="verde-primario-texto position-relative borda-none border-radius-maior text-aling-center d-flex justify-content-center"
+                    href="{{ url_for('novo_login') }}">Login</a>
             </nav>
-        </div >
+        </div>
         <video id="video-menu" src="/static/imagens/videomain.mp4" autoplay loop muted>
         </video>
-        <aside id="slogan-content">
+        <aside id="slogan-content" class="position-absolute">
             <h2 id="slogan">INOVAÇÃO <br> QUE CUIDA DA PECUÁRIA </h2>
         </aside>
     </header>
     <main>
         <section id="produtos-container">
-            <div id="cards-produto">
+            <div id="cards-produto" class="mt-5">
                 <div id="card-oferecemos" class="cards-medianos">
                     <img src="/static/imagens/box-iso.svg" alt="oq_oferecemos" id="icone-oferecemos" class="imagens">
                     <h1 id="titulo-oferecemos">O que <br> oferecemos</h1>
@@ -206,10 +212,14 @@
             </div>
             <div>
                 <ul id="redes_sociais">
-                    <li><a href="https://www.facebook.com/?locale=pt_BR"><img src="/static/imagens/facebook2021.png" alt="" class="social_icon"></a></li>
-                    <li><a href="https://www.instagram.com/"><img src="/static/imagens/instagram.png" alt="" class="social_icon"></a></li>
-                    <li><a href="https://www.tiktok.com/pt-BR/"><img src="/static/imagens/tik-tok2021.png" alt="" class="social_icon"></a></li>
-                    <li><a href="https://x.com/?lang=pt"><img src="/static/imagens/twitter.png" alt="" class="social_icon"></a></li>
+                    <li><a href="https://www.facebook.com/?locale=pt_BR"><img src="/static/imagens/facebook2021.png"
+                                alt="" class="social_icon"></a></li>
+                    <li><a href="https://www.instagram.com/"><img src="/static/imagens/instagram.png" alt=""
+                                class="social_icon"></a></li>
+                    <li><a href="https://www.tiktok.com/pt-BR/"><img src="/static/imagens/tik-tok2021.png" alt=""
+                                class="social_icon"></a></li>
+                    <li><a href="https://x.com/?lang=pt"><img src="/static/imagens/twitter.png" alt=""
+                                class="social_icon"></a></li>
                 </ul>
             </div>
         </section>
