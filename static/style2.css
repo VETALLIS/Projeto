@@ -391,3 +391,408 @@ body {
     gap: 16px;
     height: 100vh;
 }
+
+#card-oferecemos {
+    grid-area: a;
+    transition: 0.5s;
+    color: #FFFFF0;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+}
+
+#card-oferecemos:hover>#texto-oferecemos {
+    opacity: 1;
+}
+
+#card-oferecemos:hover>#titulo-oferecemos {
+    height: 65%;
+    opacity: 0.2;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-oferecemos:hover>#icone-oferecemos {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-oferecemos:hover {
+    background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(1.03);
+}
+
+.icone-cards-lp {
+    display: block;
+    width: 100%;
+    padding-left: 10px;
+    padding-top: 10px;
+    filter: brightness(0) invert(1);
+    width: 50px;
+}
+
+.titulo-cards-lp{
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-oferecemos {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    top: 10%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-tecnologia-utilizada {
+    grid-area: d;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#icone-tecnologia {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#card-tecnologia-utilizada:hover>#icone-tecnologia {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#titulo-tecnologia {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#card-tecnologia-utilizada:hover>#titulo-tecnologia {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+
+#texto-tecnologia {
+    padding-top: 40px;
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: -5%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-tecnologia-utilizada:hover>#texto-tecnologia {
+    opacity: 1;
+}
+
+#card-inovacao {
+    grid-area: f;
+    flex-direction: column;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    min-height: 200px;
+}
+
+#texto-inovacao {
+    opacity: 0;
+    flex-direction: column;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#card-inovacao:hover>#texto-inovacao {
+    opacity: 1;
+}
+
+#titulo-inovacao {
+    width: 100%;
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#card-inovacao:hover>#titulo-inovacao {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#card-inovacao:hover>#icone-inovacao {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-inovacao:hover {
+    background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(1.03);
+}
+
+#icone-inovacao {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#card-solucao {
+    overflow: hidden;
+    grid-area: b;
+    transition: 0.2 ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+
+#card-solucao:hover>#titulo-solucao {
+    opacity: 0.5;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#titulo-solucao {
+    width: 100%;
+    position: absolute;
+    transition: 1s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#texto-solucao {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 10%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-solucao:hover>#texto-solucao {
+    opacity: 1;
+}
+
+#card-solucao:hover>#icone-solucao {
+    opacity: 0.3;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#card-solucao:hover>#img-solucao {
+    opacity: 0.2;
+    animation: anim 10s infinite;
+    filter: blur(9px);
+}
+
+#card-solucao:hover {
+    background-color: #93d94327;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: scale(1.02);
+}
+
+#icone-solucao {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#img-solucao {
+    width: 53%;
+    position: absolute;
+    bottom: -30px;
+    left: 40%;
+}
+
+#card-planos-futuros {
+    grid-area: e;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+
+#card-planos-futuros:hover>#icone-planos-futuros {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#icone-planos-futuros {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#titulo-planos-futuros {
+    width: 100%;
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#card-planos-futuros:hover>#titulo-planos-futuros {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#texto-planos-futuros {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 6%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-planos-futuros:hover>#texto-planos-futuros {
+    opacity: 1;
+}
+
+#card-dados-mercado {
+    grid-area: c;
+    flex-direction: column;
+    transition: 0.2 ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+
+#card-dados-mercado:hover>#icone-mercado {
+    opacity: 0.2;
+    animation: anim 3s infinite;
+    filter: blur(9px) brightness(0) invert(1);
+}
+
+#icone-mercado {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+#titulo-mercado {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#card-dados-mercado:hover>#titulo-mercado {
+    opacity: 0.2;
+    height: 65%;
+    filter: blur(9px);
+    animation: anim 3s infinite;
+}
+
+#texto-dados {
+    opacity: 0;
+    gap: 15px;
+    transition: 1s ease-in-out;
+    z-index: 2;
+    position: absolute;
+    top: 5%;
+    left: 20px;
+    right: 20px;
+}
+
+#card-dados-mercado:hover>#texto-dados {
+    opacity: 1;
+}
+
+#canvas-ondas-back {
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.sobre-nos-container {
+    flex-wrap: wrap;
+    margin: 50px; /* Reduzido de 100px para ocupar menos espaço na tela */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    min-height: auto; /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
+}
+
+#img-sobre img {
+    max-width: 465px;
+    height: 350px;
+    object-fit: cover;
+    margin: 15px;
+}
+
+#texto-sobre {
+    flex: 1;
+    max-width: 100%;
+    margin: 30px;
+    font-size: 20px;
+    color: #FFFFF0;
+    box-sizing: border-box;
+}
+
+#titulo-sobre {
+    color: #FFFFF0;
+    font-size: 2.5rem;
+    padding-bottom: 10px;
+}
+
+#canvas-ondas-front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+#img-contato {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+}
+
+.dados-contato {
+    height: 40px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFF0;
+    border: 1px solid rgba(255, 255, 255, 0.074);
+    padding-left: 15px;
+}
+
+.dados-contato::placeholder {
+    color: #FFFFF0;
+}

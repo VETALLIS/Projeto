@@ -10,8 +10,8 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
-<body class="height-maior">
-    <header id="height-maior">
+<body class="height-maior overflow-auto">
+    <header class="height-maior position-relative">
         <div id="home">
             <nav id="menu-nav" style="z-index: 10; height: 100px; ">
 
@@ -45,22 +45,23 @@
             <h2 id="slogan">INOVAÇÃO <br> QUE CUIDA DA PECUÁRIA </h2>
         </aside>
     </header>
-    <main>
+    <main class="height-maior">
         <section id="produtos-container">
             <div id="cards-produto" class="mt-5">
-                <div id="card-oferecemos" class="cards-medianos">
-                    <img src="/static/imagens/box-iso.svg" alt="oq_oferecemos" id="icone-oferecemos" class="imagens">
-                    <h1 id="titulo-oferecemos">O que <br> oferecemos</h1>
-                    <div id="texto-oferecemos">
+                <div id="card-oferecemos" class="backgroud-glass border-radius-menor">
+                    <img src="/static/imagens/box-iso.svg" alt="oq_oferecemos" id="icone-oferecemos"
+                        class="icone-cards-lp titulo-cards-lp">
+                    <h1 id="titulo-oferecemos" class="position-absolute titulo-h3 titulo-cards-lp">O que <br> oferecemos</h1>
+                    <div id="texto-oferecemos" class="d-flex flex-column position-absolute gap-2">
                         <h2 id="prod">Solução Inteligente</h2>
                         <p>Sistema completo de monitoramento e gerenciamento de medicamentos veterinários, garantindo
                             controle
                             preciso, organização eficiente e maior segurança no armazenamento.</p>
                     </div>
                 </div>
-                <div id="card-tecnologia-utilizada" class="cards-pequenos">
+                <div id="card-tecnologia-utilizada" class="position-relative border-radius-menor backgroud-glass">
                     <img src="/static/imagens/computer.svg" alt="tecnologia_utilizada" id="icone-tecnologia"
-                        class="imagens">
+                        class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-tecnologia">Tecnologia <br> Utilizada</h1>
                     <div id="texto-tecnologia">
                         <h2>Controle Total</h2>
@@ -69,8 +70,8 @@
                             irregularidades.</p>
                     </div>
                 </div>
-                <div id="card-inovacao" class="cards-medianos">
-                    <img src="/static/imagens/light-bulb-on.svg" alt="inovacao" id="icone-inovacao" class="imagens">
+                <div id="card-inovacao" class="position-relative border-radius-menor backgroud-glass">
+                    <img src="/static/imagens/light-bulb-on.svg" alt="inovacao" id="icone-inovacao" class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-inovacao">Inovação</h1>
                     <div id="texto-inovacao">
                         <h2>Tecnologia Que Une <br> Sustentabilidade e Eficiência</h2>
@@ -79,8 +80,8 @@
                             inteligente e sustentável.</p>
                     </div>
                 </div>
-                <div id="card-solucao">
-                    <img src="/static/imagens/warning-triangle.svg" alt="solucao" id="icone-solucao" class="imagens">
+                <div id="card-solucao"  class="position-relative border-radius-menor backgroud-glass">
+                    <img src="/static/imagens/warning-triangle.svg" alt="solucao" id="icone-solucao" class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-solucao">Problema <br>Solucionado</h1>
                     <div id="texto-solucao">
                         <h2 id="subtitulo-solucao">Fim das Perdas por Falhas <br>na Gestão de Estoque</h2>
@@ -89,9 +90,9 @@
                     </div>
                     <img src="/static/imagens/Spreadsheets-pana.svg" alt="img_animais_solucao" id="img-solucao">
                 </div>
-                <div id="card-planos-futuros" class="cards-medianos">
+                <div id="card-planos-futuros" class="position-relative border-radius-menor backgroud-glass">
                     <img src="/static/imagens/calendar.svg" alt="planos_futuros" id="icone-planos-futuros"
-                        class="imagens">
+                        class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-planos-futuros">Planos <br> Futuros</h1>
                     <div id="texto-planos-futuros">
                         <h2>O Futuro do Seu Estoque</h2>
@@ -100,8 +101,8 @@
                             onde cada medicamento está armazenado, tornando a gestão ágil e precisa.</p>
                     </div>
                 </div>
-                <div id="card-dados-mercado" class="cards-pequenos">
-                    <img src="static/imagens/graph-up.svg" alt="dados_mercado" id="icone-mercado" class="imagens">
+                <div id="card-dados-mercado" class="position-relative border-radius-menor backgroud-glass">
+                    <img src="/static/imagens/graph-up.svg" alt="dados_mercado" id="icone-mercado" class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-mercado">Dados do <br>Mercado</h1>
                     <div id="texto-dados">
                         <h2>Mercado em Alerta</h2>
@@ -112,11 +113,11 @@
                 </div>
             </div>
         </section>
-        <section id="sobre-nos-section" style="margin-top: 150px;">
-            <canvas id="canvas-ondas-back"></canvas>
-            <div class="sobre-nos-container">
-                <div id="img-sobre">
-                    <img src="/static/imagens/Imagem_correta.jpg" alt="">
+        <section id="sobre-nos-section" class="height-maior p-50 position-relative overflow-hidden d-flex justify-content-center align-items-center">
+            <canvas id="canvas-ondas-back" class="position-absolute w-100 h-100"></canvas>
+            <div class="sobre-nos-container d-flex justify-content-between align-items-center border-radius-maior backgroud-glass ">
+                <div id="img-sobre" >
+                    <img src="/static/imagens/Imagem_correta.jpg" alt="" class="border-radius-menor ">
                 </div>
                 <div id="texto-sobre">
                     <h1 id="titulo-sobre">Sobre Nós</h1>
@@ -139,17 +140,17 @@
             <canvas id="canvas-ondas-front"></canvas>
         </section>
 
-        <section id="contato-section">
-            <div id="contato-container">
+        <section id="contato-section" class="height-maior d-flex justify-content-center align-items-center">
+            <div id="contato-container" class="d-flex aling-items-center justify-content-center w-100 gap-4">
                 <div id="img-contato">
                     <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="contato">
                 </div>
-                <div id="campos-contato">
-                    <h1 id="titulo-contato">Contato</h1>
-                    <input type="text" placeholder="Nome Completo" class="dados-contato">
-                    <input type="email" placeholder="Email" class="dados-contato">
-                    <textarea name="text" id="mensagem-contato" placeholder="Escreva sua mensagem"></textarea>
-                    <button id="botao-enviar-contato">Enviar</button>
+                <div id="campos-contato" class="w-100 p-4 backgroud-glass border-radius-menor d-flex flex-column gap-3 align-items-center justify-content-center">
+                    <h1 id="titulo-contato" class="titulo-h3 mb-2">Contato</h1>
+                    <input type="text" placeholder="Nome Completo" class="dados-contato mb-3 w-100 border-radius-menor">
+                    <input type="email" placeholder="Email" class="dados-contato mb-3 w-100 border-radius-menor">
+                    <textarea name="text" id="mensagem-contato" placeholder="Escreva sua mensagem" class="border-radius-menor"></textarea>
+                    <button id="botao-enviar-contato" class="border-radius-menorg">Enviar</button>
                 </div>
             </div>
         </section>
