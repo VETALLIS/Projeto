@@ -2,48 +2,59 @@
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('sensor')}}" class="bi bi-arrow-bar-left text-white"
-        style="text-decoration: none; height: 40px;">Voltar</a>
+    <a href="{{url_for('sensor')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
-
-<h3 class="text-start mt-4" style="color: white; padding:5px; border-bottom: solid 1px #fff;">
+<h3 class="text-start mt-4 mb-4 titulo-h3">
     Cadastro de Sensor
 </h3>
 
 <form method="POST" action="{{ url_for('salvar_sensor') }}" enctype="multipart/form-data" class="mt-4">
-    <div class="d-flex" style="gap: 24px;">
+    <div class="d-flex gap-4">
 
         <!-- IMAGEM -->
-        <div style="width: 250px; min-width: 250px;">
-            <label for="imagem_produto" style="width: 100%; height: 250px; border: 2px dashed rgba(255,255,255,0.4); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                <img id="preview" src="" alt="" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:10px;">
-                <span class="text-white" id="label_texto">Clique para adicionar imagem</span>
+        <div class="borda-dashed  border-radius-menor position-relative d-flex w-25">
+            <label for="imagem_produto" ms-0 uploaded-image border-radius-menor align-items-center
+                justify-content-center d-flex position-relative>
+                <img id="preview" src="" alt="" class="upload-imagem position-absolute t-0 l-0"">
+                <span class=" text-white aling-itens-center" style="z-index:1;" id="label_texto">Clique para adicionar
+                imagem</span>
             </label>
             <input type="file" id="imagem_produto" name="imagem_produto" accept="image/*" class="d-none">
             <input type="hidden" name="usuario_usuario_id" value="">
         </div>
 
         <!-- FORMULÁRIO -->
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;" >
-            <div class="d-flex mb-3" style="gap: 16px;">
-                <input type="text" name="sensor_nome" class="form-control" placeholder="Nome:" required style="border-radius: 8px;" style="max-width: 50%;">
-                <input type="text" name="sensor_tipo_conexao" class="form-control" placeholder="Tipo de conexão:" required style="border-radius: 8px;" >
+        <div class="d-flex flex-column justify-content-center w-100">
+            <div class="d-flex mb-3 gap-3">
+                <input type="text" name="sensor_nome" class="form-control w-50" placeholder="Nome:" required>
+                <input type="text" name="sensor_tipo_conexao" class="form-control w-50" placeholder="Tipo de conexão:"
+                    required>
             </div>
 
-            <div class="d-flex mb-3" style="gap: 16px;">
-                <textarea name="sensor_descricao" class="form-control" placeholder="Descrição:" style="height: 97px; resize: vertical; border-radius: 8px; max-width: 50%;"></textarea>
-                <div style="flex: 1; display: flex; flex-direction: column; gap: 16px;">
-                    <div class="d-flex" style="gap: 16px;">
-                        <input type="text" name="sensor_n_serie" class="form-control" placeholder="N série:" required style="border-radius: 8px;">
-                        <input type="number" name="sensor_voltagem" class="form-control" placeholder="Voltagem:" required style="border-radius: 8px;">
+            <div class="d-flex mb-3 gap-3 w-100">
+                <div class="d-flex flex-column gap-3 w-50">
+                    <textarea name="sensor_descricao" class="form-control w-100" placeholder="Descrição:"
+                        style="height: 97px; resize: vertical;"></textarea>
+                </div>
+                <div class="d-flex flex-column gap-3 w-50">
+                    <div class="d-flex gap-4">
+                        <input type="text" name="sensor_n_serie" class="form-control" placeholder="N série:" required>
+                        <input type="number" name="sensor_voltagem" class="form-control" placeholder="Voltagem:"
+                            required>
                     </div>
-                    <input type="text" name="sensor_modelo" class="form-control" placeholder="Modelo:" required style="border-radius: 8px;">
+                    <input type="text" name="sensor_modelo" class="form-control" placeholder="Modelo:" required>
                 </div>
             </div>
 
-            <div class="d-flex" style="gap: 16px;">
-                <input type="text" name="sensor_localizacao" class="form-control" placeholder="Localização:" required style="border-radius: 8px;">
-                <button type="submit" class="btn w-100 text-white" style="background: #03c356; border-radius: 25px;">Cadastrar</button>
+            <div class="d-flex gap-4 w-100">
+                <div class="w-50">
+                    <input type="text" name="sensor_localizacao" class="form-control W-100" placeholder="Localização:"
+                        required>
+                </div>
+                <div class="w-50">
+                    <button type="submit" class="btn w-100 text-white background-verde-medio border-radius-menor"
+                        ">Cadastrar</button>
+                </div>
             </div>
         </div>
 

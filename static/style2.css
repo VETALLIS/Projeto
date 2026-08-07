@@ -19,27 +19,27 @@ body {
     overflow: hidden;
 }
 
-.backgroud-transparente{
+.backgroud-transparente {
     background: transparent !important;
 }
 
-.backgroud-branco{
+.backgroud-branco {
     background-color: #fff0ff;
 }
 
-.background-verde-medio{
+.background-verde-medio {
     background-color: #03c356 !important;
 }
 
-.background-vermelho{
+.background-vermelho {
     background-color: #e31818 !important;
 }
 
-.verde-primario-texto{
+.verde-primario-texto {
     color: #074040 !important;
 }
 
-.backgroud-glass{
+.backgroud-glass {
     background: rgba(255, 255, 255, 0.08) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     box-shadow: 5px 5px 5px rgba(110, 109, 109, 0.174) !important;
@@ -48,19 +48,19 @@ body {
 
 /* Textos */
 
-.titulo-h3{
-    color: #fff0ff; 
+.titulo-h3 {
+    color: #fff0ff;
     font-size: 25px;
     font-weight: bolder;
 }
 
-.titulo-h2{
+.titulo-h2 {
     color: #fff0ff;
     font-weight: bold;
     font-size: large;
 }
 
-.texto-p{
+.texto-p {
     color: #fff0ff !important;
     font-weight: normal !important;
     font-size: medium !important;
@@ -73,41 +73,60 @@ body {
     font-weight: 500 !important;
 }
 
-.height-maior{
+.height-maior {
     height: 100vh;
 }
 
 
 /* Position */
-.position-fixed{
+.position-fixed {
     position: fixed;
 }
 
-.position-relative{
+.position-relative {
     position: relative;
 }
 
-.position-absolut{
-    position: absolute;
+.position-absolute {
+    position: absolute !important;
 }
 
 
 /* Bordas*/
 
-.border-radius-maior{
+.border-radius-maior {
     border-radius: 60px !important;
 }
 
-.border-radius-medio{
+.border-radius-medio {
     border-radius: 20px;
 }
 
-.border-radius-menor{
+.border-radius-menor {
     border-radius: 15px !important;
 }
 
-.borda-none{
+.borda-none {
     border: none;
+}
+
+.borda-dashed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 253px;
+    height: 315px;
+    border: 2px dashed rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Textarea tamanho */
+.textarea-tamanho {
+    height: 200px !important;
+    resize: vertical !important;
 }
 
 /* Base.html */
@@ -166,8 +185,8 @@ body {
     margin-top: -10px;
 }
 
-.logo-menu{
-    width: 100px; 
+.logo-menu {
+    width: 100px;
     height: 70px;
 }
 
@@ -189,9 +208,9 @@ body {
 
 /* Tela animais cadastrados */
 
-.titulo-animal{
-    max-width: 20%; 
-    height: 50px; 
+.titulo-animal {
+    max-width: 20%;
+    height: 50px;
     align-items: center;
 }
 
@@ -220,30 +239,60 @@ body {
 
 .entrada-container {
     max-width: 900px;
-    margin: 0 auto;  
+    margin: 0 auto;
 }
 
-.sensor-cont-img{
-    width: 170px;      
-    height: 120px;     
+.sensor-cont-img {
+    width: 170px;
+    height: 120px;
     max-width: 100%;
-    overflow: hidden;   
+    overflow: hidden;
 }
 
-.img-sensor{
+.img-sensor {
     width: 100%;
-    height: 100%;       
-    object-fit: cover; 
+    height: 100%;
+    object-fit: cover;
 }
 
 .upload-box {
     flex-direction: column;
     cursor: pointer;
     transition: 0.3s;
-    align-self: flex-start; 
+    align-self: flex-start;
     z-index: 1000;
 }
 
-.card-sensor{
+.card-sensor {
     max-width: 24% !important;
+}
+
+/* Adicionar Imagem Campo */
+
+.uploaded-image {
+    cursor: pointer !important;
+    overflow: hidden !important;
+    width: 250px !important;
+    height: 400px !important;
+}
+
+.mudar-imagem-btn{ 
+    bottom:8px; 
+    right:8px;  
+    border-radius:50%; width:32px; 
+    height:32px; 
+    display:none; 
+    align-items:center; 
+    justify-content:center; 
+    z-index:2;
+}
+
+/* Imagem paginas de informações */
+
+.image-box{
+    max-width: 250px !important;
+    max-height: 400px !important;
+    cursor: pointer;
+    transition: 0.3s;
+    object-fit:cover;
 }

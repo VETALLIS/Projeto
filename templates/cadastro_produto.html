@@ -1,21 +1,19 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 
-<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Produto</h3>
+<h3 class="mb-4 text-start titulo-h3">Cadastro de Produto</h3>
 
-<form method="POST" action="{{url_for('salvar_produto')}}" enctype="multipart/form-data" class="form-sensor">
-    <div class="cadastro-sensor mt-4">
-        <div class="d-flex justify-content-start mb-3 ms-3">
-            <div class="upload-imagem me-5 ">
-                <label for="imagem_produto" class="upload-box"
-                    style="margin-left: 0 !important; cursor: pointer; overflow: hidden; position: relative; width: 250px; height: 400px; display: flex; align-items: center; justify-content: center;">
-                    <img id="preview_imagem" src="" alt=""
-                        style="display:none; width:250px; height:400px; object-fit:cover; border-radius:10px; position:absolute; top:0; left:0;">
-                    <span id="texto_upload" class="text-white" style="text-align:center; z-index:1;">Clique para
+<form method="POST" action="{{url_for('salvar_produto')}}" enctype="multipart/form-data" class="form-sensor gap-4">
+    <div class="mt-4 ">
+        <div class="d-flex justify-content-start ">
+            <div class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4">
+                <label for="imagem_produto"
+                    class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
+                    <img id="preview_imagem" src="" alt="" class="upload-imagem position-absolute t-0 l-0">
+                    <span id="texto_upload" class="text-white aling-itens-center" style="z-index:1;">Clique para
                         adicionar imagem</span>
-                    <div id="icone_trocar"
-                        style="display:none; position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.5); border-radius:50%; width:32px; height:32px; display:none; align-items:center; justify-content:center; z-index:2;">
-                        <i class="bi bi-pencil text-white  " style="font-size:14px;"></i>
+                    <div id="icone_trocar" class="position-absolute mudar-imagem-btn backgroud-glass">
+                        <i class="bi bi-pencil text-white"></i>
                     </div>
                 </label>
 
@@ -23,34 +21,46 @@
                 <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
             </div>
 
-            <div class="divisao-form" style="width: 100%;">
-                <div class="mb-5 text-start">
+            <div class="divisao-form w-100">
+                <div class="mb-3 text-start">
                     <div class="input-group">
                         <input type="name" name="nome" class="form-control" placeholder="Nome:" required>
                     </div>
                 </div>
-                <div class="mb-5 text-start">
+                <div class="mb-3 text-start">
                     <div>
-                        <textarea name="descricao" placeholder="Descrição" class="form-control"
-                            style="height: 230px; resize: vertical; "></textarea>
+                        <textarea name="descricao" placeholder="Descrição"
+                            class="form-control textarea-tamanho"></textarea>
                     </div>
                 </div>
-                <div class="d-flex">
-                    <div class="mb-2  me-4 text-start" style="max-width: 500px; width: 100%;">
-                         <select name="categoria" class="form-select" name="categoria">
-                                <option value=""> Selecione uma categoria</option>
-                                <option value="Vacina" style="color: black;"><p>Vacina</p></option>
-                                <option value="Antiparasitários" style="color: black;"><p>Antiparasitários</p></option>
-                                <option value="Antibioticos" style="color: black;"><p>Antibioticos</p></option>
-                                <option value="Anti-inflamatórios" style="color: black;"><p>Anti-inflamatórios</p></option>
-                                <option value="Analgésicos" style="color: black;"><p>Analgésicos</p></option>
-                                <option value="Anestésicos" style="color: black;"><p>Anestésicos</p></option>
-                        
-                            </select>
+                <div class="d-flex gap-3">
+                    <div class="text-start w-100">
+                        <select class="form-select" name="categoria">
+                            <option value=""> Selecione uma categoria</option>
+                            <option value="Vacina">
+                                Vacina
+                            </option>
+                            <option value="Antiparasitários">
+                                Antiparasitários
+                            </option>
+                            <option value="Antibioticos">
+                                Antibioticos
+                            </option>
+                            <option value="Anti-inflamatórios">
+                                Anti-inflamatórios
+                            </option>
+                            <option value="Analgésicos">
+                                Analgésicos
+                            </option>
+                            <option value="Anestésicos">
+                                Anestésicos
+                            </option>
+
+                        </select>
                     </div>
-                    <div class="justify-content-center" style="max-width: 500px !important; width: 100%;">
-                        <button class="btn btn-login w-100 text-white  "
-                            style="background: #03c356; border-radius: 25px;" type="submit">Cadastrar</button>
+                    <div class="justify-content-center w-100">
+                        <button class="btn w-100 text-white background-verde-medio border-radius-menor"
+                            type="submit">Cadastrar</button>
                     </div>
                 </div>
             </div>

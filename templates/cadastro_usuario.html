@@ -1,7 +1,7 @@
 {%extends 'base.html'%}
 {%block conteudo%}
 
-<h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Cadastro de funcionarios
+<h3 class="mb-4 text-start titulo-h3">Cadastro de funcionarios
 </h3>
 
 
@@ -16,16 +16,14 @@
 {% endwith %}
 
 <form method="POST" class="d-flex" action="/usuario/salvar">
-    <div class="upload-imagem me-5 ">
-        <label for="imagem_produto" class="upload-box"
-            style="margin-left: 0 !important; cursor: pointer; overflow: hidden; position: relative; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center;">
-            <img id="preview_imagem" src="" alt=""
-                style="display:none; width:250px; height:400px; object-fit:cover; border-radius:10px; position:absolute; top:0; left:0;">
-            <span id="texto_upload" class="text-white" style="text-align:center; z-index:1;">Clique para
+    <div class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4 ">
+        <label for="imagem_produto"
+            class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
+            <img id="preview_imagem" src="" alt="" class="upload-imagem position-absolute t-0 l-0">
+            <span id="texto_upload" class="text-white aling-itens-center" style="z-index:1;">Clique para
                 adicionar imagem</span>
-            <div id="icone_trocar"
-                style="display:none; position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.5); border-radius:50%; width:32px; height:32px; display:none; align-items:center; justify-content:center; z-index:2;">
-                <i class="bi bi-pencil text-white  " style="font-size:14px;"></i>
+            <div id="icone_trocar" class="position-absolute mudar-imagem-btn backgroud-glass">
+                <i class="bi bi-pencil text-white"></i>
             </div>
         </label>
 
@@ -33,11 +31,11 @@
         <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
     </div>
 
-    <div class="w-100 mt-2">
-        <div class="d-flex gap-2">
+    <div class="w-100 mt-4">
+        <div class="d-flex gap-3 mb-3">
             <div class="mb-2 text-start w-100 ">
                 <div class="input-group ">
-                    <input type="text" name="nome"  class="dados_formulario form-control" placeholder="Digite seu nome"
+                    <input type="text" name="nome" class="dados_formulario form-control" placeholder="Digite seu nome"
                         required>
                 </div>
             </div>
@@ -54,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex gap-2 w-100">
+        <div class="d-flex gap-3 w-100 mb-3">
             <div class="mb-2 text-start w-100">
                 <div class="input-group">
                     <input type="password" name="senha" class="dados_formulario form-control"
@@ -68,16 +66,37 @@
                 </div>
             </div>
         </div>
-        <div class="mb-2 text-start">
+        <div class="mb-3 text-start">
             <div class="input-group">
                 <input type="text" name="cargo" class="dados_formulario form-control" placeholder="Insira seu cargo."
                     required>
             </div>
         </div>
 
-        <button class="btn btn-cadastro w-100 text-white mt-2" style=" background: #03c356; border-radius: 25px;"
+        <button class="btn w-100 text-white background-verde-medio border-radius-menor"
             type="submit" id="botao-cadastro">Cadastrar</button>
     </div>
 </form>
+<script>
+    document.getElementById("imagem_produto").addEventListener("change", function () {
+        const arquivo = this.files[0];
 
+        if (arquivo) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById("preview_imagem");
+                const texto = document.getElementById("texto_upload");
+                const icone = document.getElementById("icone_trocar");
+
+                preview.src = e.target.result;
+                preview.style.display = "block";
+                texto.style.display = "none";
+                icone.style.display = "flex";
+            };
+
+            reader.readAsDataURL(arquivo);
+        }
+    });
+</script>
 {%endblock%}

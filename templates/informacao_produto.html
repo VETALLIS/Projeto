@@ -2,53 +2,57 @@
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left text-white"
-        style="text-decoration: none;height: 40px;">Voltar</a>
+    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
-<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 100%;">
-    Informações do Produto</h3>
-<div class="d-flex" style="padding: 20px; padding-left: 0;">
-    <div class="upload-imagem me-5 ">
-        <label for="imagem_produto" class="upload-box" style="max-height: 200px !important; width: 200px;"
-            style=" margin-left: 0 !important; align-self: flex-start;">
+<h3 class="mb-4 text-start titulo-h3 mt-4">
+    Informações do Produto
+</h3>
+
+<div class="d-flex">
+    <div class="me-5 ">
+        <label for="imagem_produto"
+            class="image-box d-flex align-items-center justify-content-center flex-column border-radius-menor">
 
             {% if produto.imagem_base64 %}
             <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
+                class="image-box border-radius-menor">
             {%else%}
-            <img src="/static/imagens/medicamento.jpg"
-                style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
+            <img src="/static/imagens/medicamento.jpg" class="image-box border-radius-menor">
             {%endif%}
         </label>
 
     </div>
-    <div class="d-flex align-items-center" style="padding: 20px;">
-        <form class="mb-4 ">
-            <div class="mb-3 d-flex gap-2">
-                <label class="text-white text-start" style="color: #fff; font-weight: bold ">Nome do Produto:</label>
-                <label for="" class="d-nome" style="color: #fff;">{{produto.produto_nome}}</label>
+    <div class="d-flex align-items-center w-100">
+        <form class="mb-4 w-100">
+            <div class="mb-4 w-50">
+                <div class="mb-3 d-flex gap-3">
+                    <label class="titulo-h2 text-start">Nome do Produto:</label>
+                    <label for="" class="d-nome texto-p">{{produto.produto_nome}}</label>
+                </div>
+                <div class="mb-3 d-flex gap-3 ">
+                    <label class="titulo-h2 texto-start">Quantidade:</label>
+                    <label for="" class="d-nome texto-p">{{produto.estoque_quantidade}}</label>
+                </div>
+                <div class="mb-3 d-flex gap-3">
+                    <label class="titulo-h2 texto-start">Descrição:</label>
+                    <label for="" class="d-nome texto-p">{{produto.produto_descricao}}</label>
+                </div>
+                <div class="mb-3 d-flex gap-3">
+                    <label class="titulo-h2 texto-start">Categoria:</label>
+                    <label for="" class="d-nome texto-p">{{produto.produto_categoria}}</label>
+                </div>
             </div>
-            <div class="mb-3 d-flex gap-2">
-                <label style="color:#fff; font-weight: bold">Quantidade:</label>
-                <label for="" class="d-nome" style="color: #fff;">{{produto.estoque_quantidade}}</label>
-            </div>
-            <div class="mb-3 d-flex gap-2">
-                <label class="form-label " style="color:#fff; font-weight: bold">Descrição:</label>
-                <label for="" class="d-nome" style="color: #fff;">{{produto.produto_descricao}}</label>
-            </div>
-            <div class="mb-3 d-flex text-start gap-2">
-                <label class="form-label " style="color:#fff; font-weight: bold">Categoria:</label>
-                <label for="" class="d-nome" style="color: #fff;">{{produto.produto_categoria}}</label>
+            <div class="d-flex w-100">
+                <a href="{{url_for('pedido')}}"
+                    class="btn background-vermelho border-radius-menor w-100 text-white me-3">Retirar</a>
+                <a href="{{url_for('pedido')}}"
+                    class="btn w-100 text-white background-verde-medio border-radius-menor">Adicionar</a>
             </div>
         </form>
 
 
 
     </div>
-</div>
-<div class="d-flex">
-    <a href="{{url_for('pedido')}}" class="btn btn-danger w-100 text-white me-3">Retirar</a>
-    <a href="{{url_for('pedido')}}" class="btn w-100 text-white" style="background-color:#03A64A;">Adicionar</a>
 </div>
 
 
