@@ -21,7 +21,7 @@ import base64
 app = Flask(__name__)
 
 # Chave secreta usada na validação
-app.secret_key = "25713|TFZjE1B6p5Q21TSHCOs9Xre7GB9Vwc0P"
+app.secret_key = "27718|LE7dR7xbHO2ygaaOzq2Hh8W07kOle1Mt"
 
 
 # ====== converter inteiro ====== #
@@ -173,7 +173,7 @@ def get_sensor_form():
 def get_fornecedor_form():
     return {
         "nome": request.form.get("fornecedor_nome", "").strip(),
-        "cnpj": (request.form.get("fornecedor_cnpj", "")),
+        "cnpj": (request.form.get("fornecedor_cnpj", "")).replace(".","").replace("-","").replace("/",""),
         "endereço":(request.form.get("fornecedor_endereço")),
         "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
