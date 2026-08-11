@@ -817,6 +817,7 @@ def gravar_fornecedor():
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
+        print(e)
         return render_template("cadastro_fornecedor.html", login=dados)
     
 
