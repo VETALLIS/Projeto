@@ -1,6 +1,8 @@
 {%extends 'base.html'%}
 {%block conteudo%}
-
+<div class="text-start">
+    <a href="{{url_for('funcionarios')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+</div>
 <h3 class="mb-4 text-start titulo-h3">Cadastro de funcionarios
 </h3>
 
@@ -27,7 +29,7 @@
             </div>
         </label>
 
-        <input type="file" id="imagem_produto" name="imagem_usuario" accept="image/*" class="d-none">
+        <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
         <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="" >
     </div>
 

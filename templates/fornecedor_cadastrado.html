@@ -1,0 +1,32 @@
+{%extends 'base.html'%}
+{%block conteudo%}
+
+<div class="d-flex justify-content-between ">
+    <h3 class="text-start titulo-h3">Fornecedores</h3>
+    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+        type="submit" href="{{url_for('novo_fornecedor')}}">Adicionar
+        Fornecedor</a>
+</div>
+<div class="table-responsive mt-5">
+    <table class="table">
+        <tr>
+            <th class="texto-p text-start">Nome</th>
+            <th class="texto-p">Tipo de produto</th>
+            <th class="texto-p">Pedido mínimo</th>
+            
+
+        </tr>
+        {% for fornecedor in fornecedores %}
+        <tr>
+            <td class="texto-p text-start">{{ fornecedor.fornecedor_nome or fornecedor['fornecedor_nome'] }}</td>
+            <td class="texto-p">{{ fornecedor.fornecedor_tipo_produto or fornecedor['fornecedor_tipo_produto'] }}</td>
+            <td class="texto-p">{{ fornecedor.fornecedor_pedido_minimo or fornecedor['fornecedor_pedido_minimo'] }}</td>
+        </tr>
+            
+
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{%endblock%}
