@@ -36,9 +36,6 @@
             </div>
 
             <div class="topbar-actions  me-2" style="text-decoration: none;">
-                <a class="topbar-btn texto-a backgroud-glass border-radius-menor" href="{{ url_for('novo_produto') }}">
-                    <i class="bi bi-plus-circle"></i> ADD Produtos
-                </a>
                 {% if session.get('usuario_cargo') == 'adm' %}
                 <a title="Funcionarios" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
                     href="{{ url_for('novo_usuario')}}">
