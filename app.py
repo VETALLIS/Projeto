@@ -834,9 +834,9 @@ def excluir_animal(id):
 # ======= Endpoints fornecedor ====== #
 
 # ======= Formulário de cadastro de fornecedor ===== #
-@app.route("/fornecedor/novo")
+@app.route("/fornecedor")
 def fornecedor_novo():
-    return render_template("cadastro_fornecedor.html")
+    return render_template("fornecedor_cadastrado.html")
 
 # ======= Salvar dados fornecedor ===== #
 @app.route("/fornecedor/salvar", methods=["POST"])
