@@ -3,10 +3,9 @@
 <div class="d-flex">
     <div>
         <div class="container row">
-            <div class="d-flex gap-3  me-5 ms-2"
-                style="align-items: flex-start; width: 100% !important;">
+            <div class="d-flex gap-3  me-5 ms-2" style="align-items: flex-start; width: 100% !important;">
                 <div class="position-relative overflow-hidden"
-                    style="border-radius: 15px; background: #089068; padding: 5px; max-width:400px !important; width: 100% !important; height: 100%; ">
+                    style="border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 15px;; padding: 5px; max-width:400px !important; width: 100% !important; height: 100%; ">
 
                     {% if categoria %}
                     {% for categorias in categoria %}
@@ -37,36 +36,35 @@
                     </button>
                 </div>
 
-                <div class="position-relative overflow-hidden" style="border-radius: 15px;background: #15B3BD; opacity: 50%; 
+                <div class="position-relative overflow-hidden" style="border-radius: 15px;border: 2px solid rgba(255, 255, 255, 0.15);  
     padding: 5px;; width: 100% !important; height: 190px;">
                     <label style="margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
                     <h5 class="text-start fw-bold mb-0 ps-2 display-5 "
-                        style="position: relative; z-index: 1; color:#006040;">Estoque</h5>
+                        style="position: relative; z-index: 1; color:#fff;">Estoque</h5>
                 </div>
             </div>
-
-            <div class="mt-4  ms-3" style="border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+            
+            <div class="mt-4  ms-3" style="border-radius: 15px; background :  rgba(255, 255, 255, 0.15); 
     padding: 5px;width:98%;height: 350px;">
                 <label style="align-self: flex-start; z-index: 1000;"></label>
 
-                <div class="d-flex gap-3 ms-3">
+                <div class="d-flex gap-3 ms-4">
                     <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
-                        style="border-radius: 15px;background: #92D8CB;
+                        style="border-radius: 15px;background:  #03c35677;
     padding: 5px;max-width:360px !important; width: 100% !important;">
                         <p class="ms-2 mb-1 fs-2 text-white" style="position: relative;">Luminosidade</p>
                         <h4 class="ms-2 fw-bold display-3" style="color: white;">300lux</h4>
                     </div>
 
-                    <div class="position-relative overflow-hidden d-flex flex-column align-items-start"
-                        style="border-radius: 15px;background: #85D264;
-    padding: 5px; width: 100% !important;max-width:425px !important;height: 90%">
+                    <div class="position-relative overflow-hidden d-flex flex-column align-items-start" style="border-radius: 15px;background: #85d26475;
+    padding: 5px; width: 51% !important;height: 90%">
                         <p class="ms-2 mb-1 fs-2 mt-3 text-white" style="position: relative;">Umidade</p>
                         <h4 class="fw-bold display-3 w-100 text-center mb-2" style="color: white;">20%</h4>
                     </div>
                 </div>
 
-                <div class="position-relative overflow-hidden ms-3 mt-3 me-3" style="border-radius: 15px;background: #1C9E86;
-    padding: 5px;max-width:800px !important; width: 100% !important;height: 30%;">
+                <div class="position-relative overflow-hidden ms-4 mt-4 " style="border-radius: 15px;background: #1c9e8677;
+    padding: 5px; width: 95% !important;height: 30%;">
                     <p class="mb-1 ms-2 fs-2 mt-3 text-white" style="position: absolute; top: 15px; left: 15px;">
                         Temperatura</p>
                     <div style="position: absolute; bottom: 10px; right: 15px;">
