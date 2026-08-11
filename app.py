@@ -462,6 +462,21 @@ def atualizar_usuario(id):
         flash(f"Erro ao atualizar usuario: {e}", "erro")
         return render_template("cadastro_usuario.html", usuario=dados)
 
+@app.route("/funcionarios/excluir/<int:usuario_id>", methods=["GET"])
+def excluir_usuario_funcionario(usuario_id):
+    try:
+        Usuario.safe_delete(usuario_id)
+        flash("Usuário excluído com sucesso!", "success")
+        return redirect(url_for("inicial")) 
+            
+    except ValueError as e:
+        flash(str(e), "danger") 
+        return redirect(url_for("funcionarios", usuario_id=usuario_id))
+        
+    except Exception as e:
+        flash(f"Erro ao excluir Usuario: {e}", "danger")
+        return redirect(url_for("funcionarios", usuario_id=usuario_id))
+
 #======= Tela de Funcionários ====== #
 @app.route("/funcionarios")
 def funcionarios():
@@ -843,6 +858,7 @@ def gravar_fornecedor():
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
+        print(e)
         return render_template("cadastro_fornecedor.html", login=dados)
     
 
