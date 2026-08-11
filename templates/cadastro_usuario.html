@@ -1,6 +1,8 @@
 {%extends 'base.html'%}
 {%block conteudo%}
-
+<div class="text-start">
+    <a href="{{url_for('funcionarios')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+</div>
 <h3 class="mb-4 text-start titulo-h3">Cadastro de funcionarios
 </h3>
 
@@ -15,7 +17,7 @@
 {% endif %}
 {% endwith %}
 
-<form method="POST" class="d-flex" action="/usuario/salvar">
+<form method="POST" class="d-flex" action="/usuario/salvar" enctype="multipart/form-data">
     <div class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4 ">
         <label for="imagem_produto"
             class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
@@ -28,7 +30,7 @@
         </label>
 
         <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
-        <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
+        <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="" >
     </div>
 
     <div class="w-100 mt-4">

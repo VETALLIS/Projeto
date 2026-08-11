@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+{% block conteudo %}
+
+
+<div class="d-flex justify-content-between">
+    <h3 class="mb-4 text-start titulo-h3 w-100">Funcionários</h3>
+    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+        href="{{url_for('novo_usuario')}}">Adicionar Funcionário</a>
+</div>
+
+<div class="container d-flex entrada-container border-radius-menor row gap-3">
+    {% if funcionario %}
+    {% for usuario in funcionario %}
+    <div class="card card-sensor mb-3 text-white  backgroud-glass mt-4 border-radius-menor">
+
+        <div class="row">
+            <label for="imagem_usuario" class="col-4  p-0 upload-box border-radius-menor sensor-cont-img">
+                {% if usuario.imagem_base64 %}
+                <img src="data:{{usuario.imagem_tipo}};base64,{{usuario.imagem_base64}}"
+                    class="border-radius-menor img-sensor">
+                {%else%}
+                <img src="/static/imagens/medicamento.jpg" class="border-radius-menor img-sensor">
+                {%endif%}
+            </label>
+            <div class="col-8 p-0 ">
+                <div class="card-body d-flex gap-1 text-start pb-0">
+                    <h5 class="fs-5 titulo-h3">Nome:</h5>
+                    <h5 class="card-title fs-6 mt-1">{{usuario.usuario_nome}}</h5>
+                </div>
+                <div class="card-body text-start pb-0 pt-0">
+                    <a href="/usuario/informacao/{{usuario.usuario_id}}"
+                        class="bi bi-arrow-bar-right text-white texto-a">
+                        Ver Detalhes
+                    </a>
+                </div>
+                <div class="card-body d-flex  align-items-center gap-3 pt-0">
+
+                    <a class="btn btn-sm btn-link text-danger fs-5 p-0"
+                        href="{{ url_for('excluir_usuario_funcionario', usuario_id= usuario.usuario_id) }}">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    <a href="/usuario/editar/{{usuario.usuario_id}}" class="bi bi-pencil text-white texto-a">
+                        Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="text-white text-center mt-4">Nenhum funcionário cadastrado</p>
+    {% endif %}
+</div>
+
+{% endblock %}

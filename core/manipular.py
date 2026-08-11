@@ -45,7 +45,34 @@ class Manipular:
             response.raise_for_status()
             data= response.json()
             if data["valid"] != True:
-                return f'Cpf invalido'
+                return f'CPF invalido'
+            return None
+
+        except requests.exceptions.HTTPError as errh:
+            print("Erro HTTP:", errh)
+        except requests.exceptions.ConnectionError as errc:
+            print("Erro de conexão:", errc)
+        except requests.exceptions.Timeout as errt:
+            print("Timeout:",errt)
+        except requests.exceptions.RequestException as err:
+            print ("Erro:", err)
+
+        return False
+        
+    def validar_cnpj(dados, field_name, token):
+        url = "https://api.invertexto.com/v1/validator"
+
+
+        params={
+            "token":token,
+            "value":dados
+        }
+        try:
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            data= response.json()
+            if data["valid"] != True:
+                return f'CNPJ invalido'
             return None
 
         except requests.exceptions.HTTPError as errh:
