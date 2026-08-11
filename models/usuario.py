@@ -1,20 +1,23 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
-
+import base64
 class Usuario(Crud_base):
     tabela = "usuario"
     pk = "usuario_id"
 
-    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo" ]
+    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo", "usuario_imagem", "imagem_blob",  "imagem_tipo" ]
 
-    def __init__(self, usuario_senha, usuario_nome, usuario_email, usuario_cpf, usuario_cargo, usuario_confirmar_senha):
+    def __init__(self, usuario_senha, usuario_nome, usuario_email, usuario_cpf, usuario_cargo, usuario_confirmar_senha, usuario_imagem, imagem_tipo, imagem_blob):
         self.usuario_senha = usuario_senha
         self.usuario_nome = usuario_nome
         self.usuario_email = usuario_email
         self.usuario_cpf = usuario_cpf
         self.usuario_cargo = usuario_cargo
         self.usuario_confirmar_senha = usuario_confirmar_senha
+        self.usuario_imagem = usuario_imagem
+        self.imagem_tipo = imagem_tipo
+        self.imagem_blob = imagem_blob
 
     def validar_usuario(self, secret_key):
         erros = [
@@ -79,12 +82,19 @@ class Usuario(Crud_base):
     
     @classmethod
     def buscar_usuario(cls):
-        usuario = cls.buscar_tudo()
+        usuarios = cls.buscar_tudo(cls.pk)
 
-        if not usuario:
+        if not usuarios:
             raise ValueError("Usuario não encontrato")
-        
-        return usuario
+
+        for usuario in usuarios:
+            if usuario.get("imagem_blob"):
+                usuario["imagem_base64"] = base64.b64encode(usuario["imagem_blob"]).decode("utf-8")
+            else:
+                usuario["imagem_base64"] = None
+
+        return usuarios
+    
 
     @classmethod
     def inserir_usuario_adm(cls, dados):

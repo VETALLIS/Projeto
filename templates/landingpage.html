@@ -45,7 +45,7 @@
             <h2 id="slogan">INOVAÇÃO <br> QUE CUIDA DA PECUÁRIA </h2>
         </aside>
     </header>
-    <main class="height-maior">
+    <main >
         <section id="produtos-container">
             <div id="cards-produto" class="mt-5">
                 <div id="card-oferecemos" class="backgroud-glass border-radius-menor">
@@ -117,7 +117,7 @@
             <canvas id="canvas-ondas-back" class="position-absolute w-100 h-100"></canvas>
             <div class="sobre-nos-container d-flex justify-content-between align-items-center border-radius-maior backgroud-glass ">
                 <div id="img-sobre" >
-                    <img src="/static/imagens/Imagem_correta.jpg" alt="" class="border-radius-menor ">
+                    <img src="/static/imagens/Imagem_correta.jpg" alt="" class="border-radius-maior ">
                 </div>
                 <div id="texto-sobre">
                     <h1 id="titulo-sobre">Sobre Nós</h1>
@@ -140,86 +140,86 @@
             <canvas id="canvas-ondas-front"></canvas>
         </section>
 
-        <section id="contato-section" class="height-maior d-flex justify-content-center align-items-center">
-            <div id="contato-container" class="d-flex aling-items-center justify-content-center w-100 gap-4">
-                <div id="img-contato">
+        <section id="contato-section" class="height-maior d-flex justify-content-center align-items-center ">
+            <div id="contato-container" class="d-flex aling-items-center justify-content-center w-100 gap-5" >
+                <div id="img-contato" class="w-100">
                     <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="contato">
                 </div>
-                <div id="campos-contato" class="w-100 p-4 backgroud-glass border-radius-menor d-flex flex-column gap-3 align-items-center justify-content-center">
+                <div id="campos-contato" class="w-25 p-4 backgroud-glass border-radius-menor d-flex flex-column gap-3 align-items-center justify-content-center" >
                     <h1 id="titulo-contato" class="titulo-h3 mb-2">Contato</h1>
-                    <input type="text" placeholder="Nome Completo" class="dados-contato mb-3 w-100 border-radius-menor">
-                    <input type="email" placeholder="Email" class="dados-contato mb-3 w-100 border-radius-menor">
-                    <textarea name="text" id="mensagem-contato" placeholder="Escreva sua mensagem" class="border-radius-menor"></textarea>
-                    <button id="botao-enviar-contato" class="border-radius-menorg">Enviar</button>
+                    <input type="text" placeholder="Nome Completo" class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
+                    <input type="email" placeholder="Email" class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
+                    <textarea name="text" id="mensagem-contato" placeholder="Escreva sua mensagem" class="border-radius-menor backgroud-glass texto-p"></textarea>
+                    <button id="botao-enviar-contato" class="border-radius-menor mt-3 background-verde-medio w-100 border-radius-menor borda-none p-1">Enviar</button>
                 </div>
             </div>
         </section>
     </main>
     <footer>
         <section id="rodape-container">
-            <div class="footer-container" id="footer-menu">
-                <nav class="links-rodape">
+            <div class="footer-container d-flex flex-column" id="footer-menu">
+                <nav class="links-rodape ml-2">
                     <h6 class="rodape-titulo">Menu</h6>
-                    <ul class="escrito_footer">
-                        <li>
+                    <ul class="escrito_footer ">
+                        <li class="list-style-none">
                             <a href="#home">Home</a>
                         </li>
-                        <li>
+                        <li class="list-style-none">
                             <a href="#produtos-container">Produto</a>
                         </li>
                         <li>
                             <a href="#sobre-nos-section">Sobre nós</a>
                         </li>
-                        <li>
+                        <li class="list-style-none">
                             <a href="#contato-section">Contato</a>
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="footer-container">
-                <nav id="informacao-rodape" class="links_rodape">
+                <nav id="informacao-rodape" class="links_rodape ml-4">
                     <h6 class="rodape-titulo">Informações</h6>
                     <ul class="escrito_footer">
-                        <li>
+                        <li class="list-style-none">
                             <a href="">vetalisge@gmail.com</a>
                         </li>
-                        <li>
+                        <li class="list-style-none">
                             <a href="">Telefone</a>
                         </li>
-                        <li>
+                        <li class="list-style-none">
                             <a href="">Itapira, SP</a>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <div class="footer-container" id="aplicacao_footer">
+            <div class="footer-container ml-2" id="aplicacao_footer">
                 <nav class="links_rodape">
                     <h6 class="rodape-titulo">Aplicações</h6>
                     <ul class="escrito_footer">
-                        <li>
+                        <li class="list-style-none">
                             <a href="">Fazendas</a>
                         </li>
-                        <li>
+                        <li class="list-style-none">
                             <a href="">Zoológicos</a>
                         </li>
-                        <li>
+                        <li class="list-style-none">
                             <a href="">Navios cargueiros de animais</a>
                         </li>
-                        <li>
+                        <li class="list-style-none">
                             <a href="">Hospitais veterinários</a>
                         </li>
                     </ul>
                 </nav>
             </div>
             <div>
-                <ul id="redes_sociais">
-                    <li><a href="https://www.facebook.com/?locale=pt_BR"><img src="/static/imagens/facebook2021.png"
+                <ul id="redes_sociais" class="d-flex">
+                    <li class="list-style-none"><a href="https://www.facebook.com/?locale=pt_BR"><img src="/static/imagens/facebook2021.png"
                                 alt="" class="social_icon"></a></li>
-                    <li><a href="https://www.instagram.com/"><img src="/static/imagens/instagram.png" alt=""
+                    <li class="list-style-none"><a href="https://www.instagram.com/"><img src="/static/imagens/instagram.png" alt=""
                                 class="social_icon"></a></li>
-                    <li><a href="https://www.tiktok.com/pt-BR/"><img src="/static/imagens/tik-tok2021.png" alt=""
+                    <li class="list-style-none"><a href="https://www.tiktok.com/pt-BR/"><img src="/static/imagens/tik-tok2021.png" alt=""
                                 class="social_icon"></a></li>
-                    <li><a href="https://x.com/?lang=pt"><img src="/static/imagens/twitter.png" alt=""
+                    <li class="list-style-none"><a href="https://x.com/?lang=pt"><img src="/static/imagens/twitter.png" alt=""
                                 class="social_icon"></a></li>
                 </ul>
             </div>

@@ -113,13 +113,26 @@ def get_item_saida_form():
 
 # ====== Pegando os dados do usuario ====== #
 def get_usuario_form():
+    arquivo = request.files.get("imagem")
+
+    if arquivo and arquivo.filename != '':
+        usuario_imagem = arquivo.filename
+        imagem_tipo = arquivo.content_type
+        imagem_blob = arquivo.read()
+    else:
+        usuario_imagem = None
+        imagem_tipo = None
+        imagem_blob = None
     return{
         "usuario_nome": request.form.get("nome", "").strip(),
         "usuario_email": request.form.get("email", "").strip(),
         "usuario_cpf":request.form.get("cpf", "").strip(),
         "usuario_senha":request.form.get("senha", "").strip(),
         "usuario_cargo": request.form.get("cargo", "").strip(),
-        "usuario_confirmar_senha": request.form.get("confirmar_senha", "").strip()
+        "usuario_confirmar_senha": request.form.get("confirmar_senha", "").strip(),
+        "usuario_imagem": usuario_imagem,
+        "imagem_tipo": imagem_tipo,
+        "imagem_blob": imagem_blob
     }
 
 # ====== Pegando os dados para o login ====== #
@@ -449,7 +462,20 @@ def atualizar_usuario(id):
         flash(f"Erro ao atualizar usuario: {e}", "erro")
         return render_template("cadastro_usuario.html", usuario=dados)
 
+#======= Tela de Funcionários ====== #
+@app.route("/funcionarios")
+def funcionarios():
 
+    try:
+        funcionarios = Usuario.buscar_usuario()
+        if not funcionarios:
+            flash("Nenhum funcionario encontrado", "danger")
+            return render_template("funcionarios_cadastrados.html")
+
+        return render_template("funcionarios_cadastrados.html", funcionario=funcionarios)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("funcionarios_cadastrados.html", funcionario=[])
 
 
 # ====== Endpoints de sensor ====== #
