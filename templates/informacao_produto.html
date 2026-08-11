@@ -2,61 +2,47 @@
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left text-white"
+        style="text-decoration: none;height: 40px;">Voltar</a>
 </div>
-<h3 class="mb-4 text-start titulo-h3 mt-4">
-    Informações do Produto
+
+
+<h3 class="text-start mt-4" style="color: white; padding:5px; border-bottom: solid 1px rgba(255,255,255,0.3);">
+    Informação de Produto
 </h3>
 
-<div class="d-flex">
-    <div class="me-5 ">
-        <label for="imagem_produto"
-            class="image-box d-flex align-items-center justify-content-center flex-column border-radius-menor">
 
-            {% if produto.imagem_base64 %}
-            <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                class="image-box border-radius-menor">
-            {%else%}
-            <img src="/static/imagens/medicamento.jpg" class="image-box border-radius-menor">
-            {%endif%}
-        </label>
+<div class="mt-4">
 
+    <!-- Nome -->
+    <div class="p-3 mb-3" style="border-radius: 15px; background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2);">
+        <label style="color: rgba(255,255,255,0.6); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">Nome do sensor</label>
+        <label style="color: #fff; font-size: 1.2rem; display: block;">{{produto.produto_nome}}</label>
     </div>
-    <div class="d-flex align-items-center w-100">
-        <form class="mb-4 w-100">
-            <div class="mb-4 w-50">
-                <div class="mb-3 d-flex gap-3">
-                    <label class="titulo-h2 text-start">Nome do Produto:</label>
-                    <label for="" class="d-nome texto-p">{{produto.produto_nome}}</label>
-                </div>
-                <div class="mb-3 d-flex gap-3 ">
-                    <label class="titulo-h2 texto-start">Quantidade:</label>
-                    <label for="" class="d-nome texto-p">{{produto.estoque_quantidade}}</label>
-                </div>
-                <div class="mb-3 d-flex gap-3">
-                    <label class="titulo-h2 texto-start">Descrição:</label>
-                    <label for="" class="d-nome texto-p">{{produto.produto_descricao}}</label>
-                </div>
-                <div class="mb-3 d-flex gap-3">
-                    <label class="titulo-h2 texto-start">Categoria:</label>
-                    <label for="" class="d-nome texto-p">{{produto.produto_categoria}}</label>
-                </div>
-            </div>
-            <div class="d-flex w-100">
-                <a href="{{url_for('pedido')}}"
-                    class="btn background-vermelho border-radius-menor w-100 text-white me-3">Retirar</a>
-                <a href="{{url_for('pedido')}}"
-                    class="btn w-100 text-white background-verde-medio border-radius-menor">Adicionar</a>
-            </div>
-        </form>
 
-
-
+    <!-- Descrição -->
+    <div class="p-3 mb-3" style="border-radius: 15px; background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2);">
+        <label style="color: rgba(255,255,255,0.6); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">Descrição</label>
+        <label style="color: #fff; font-size: 1.2rem; display: block;">{{produto.produto_descricao}}</label>
     </div>
+
+    <!-- Localização + Modelo -->
+    <div class="row g-3 mb-3">
+        <div class="col-6">
+            <div class="p-3 h-100" style="border-radius: 15px; background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2);">
+                <label style="color: rgba(255,255,255,0.6); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">Localização</label>
+                <label style="color: #fff; font-size: 1.2rem; display: block;">{{produto.estoque_quantidade}}</label>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="p-3 h-100" style="border-radius: 15px; background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2);">
+                <label style="color: rgba(255,255,255,0.6); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 6px;">Modelo</label>
+                <label style="color: #fff; font-size: 1.2rem; display: block;">{{produto.produto_categoria}}</label>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
-
-
-
-
-{% endblock%}
+{% endblock %}

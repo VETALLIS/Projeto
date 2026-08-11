@@ -9,7 +9,7 @@
 
 <form method="POST" action="{{url_for('atualizar_produto', produto_id = produto['produto_id'])}}" class="form-sensor"
     enctype="multipart/form-data">
-    <div class="cadastro-sensor mt-4">
+    <div class="cadastro-sensor ">
         <div class="d-flex justify-content-start mb-3 ms-3">
             <div class="upload-imagem me-5 mt-3 ">
 
@@ -24,31 +24,31 @@
                     {%endif%}
                 </label>
                 <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
-                <p class="mt-3" style="color: white;">Clique na imagem para alterá-la</p>
+                <p class="mt-3 texto-p">Clique na imagem para alterá-la</p>
             </div>
 
-            <div class="divisao-form" style="width: 100%;">
-                <div class="mb-5 text-start">
+            <div class="divisao-form w-100 mt-5">
+                <div class="mb-3 text-start">
                     <div class="input-group">
-                        <input type="name" name="nome" class="form-control" value="{{produto.produto_nome}}" required>
+                        <input type="name" name="nome" class="form-control  border-radius-menor" value="{{produto.produto_nome}}" required>
                     </div>
                 </div>
-                <div class="mb-5 text-start">
+                <div class="mb-3 text-start">
                     <div>
-                        <textarea name="descricao" placeholder="Descrição" class="form-control"
+                        <textarea name="descricao" placeholder="Descrição" class="form-control "
                             style="height: 230px; resize: vertical; ">{{produto.produto_descricao}}</textarea>
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div class="mb-2  me-4 text-start" style="max-width: 500px; width: 100%;">
+                    <div class="mb-2  me-4 text-start w-100">
                         <div class="input-group">
-                            <input type="text" name="categoria" class="form-control"
+                            <input type="text" name="categoria" class="form-control "
                                 value="{{produto.produto_categoria}}" required>
                         </div>
                     </div>
-                    <div class="justify-content-center" style="max-width: 500px !important; width: 100%;">
-                        <button class="btn btn-login w-100 text-white  "
-                            style="background: #03c356; border-radius: 25px;" type="submit">Alterar</button>
+                    <div class="justify-content-center w-100" >
+                        <button class="btn w-100 text-white background-verde-medio border-radius-menor"
+                             type="submit">Alterar</button>
                     </div>
                 </div>
             </div>
