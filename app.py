@@ -126,7 +126,7 @@ def get_usuario_form():
     return{
         "usuario_nome": request.form.get("nome", "").strip(),
         "usuario_email": request.form.get("email", "").strip(),
-        "usuario_cpf":request.form.get("cpf", "").strip(),
+        "usuario_cpf":request.form.get("cpf", "").replace(".","").replace("-","").replace("/","").replace(" ",""),
         "usuario_senha":request.form.get("senha", "").strip(),
         "usuario_cargo": request.form.get("cargo", "").strip(),
         "usuario_confirmar_senha": request.form.get("confirmar_senha", "").strip(),
@@ -173,7 +173,7 @@ def get_sensor_form():
 def get_fornecedor_form():
     return {
         "nome": request.form.get("fornecedor_nome", "").strip(),
-        "cnpj": (request.form.get("fornecedor_cnpj", "")).replace(".","").replace("-","").replace("/",""),
+        "cnpj": (request.form.get("fornecedor_cnpj", "")).replace(".","").replace("-","").replace("/","").replace(" ",""),
         "endereço":(request.form.get("fornecedor_endereço")),
         "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
