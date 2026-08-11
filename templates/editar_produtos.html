@@ -1,70 +1,65 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left text-white"
-        style="text-decoration: none; height: 40px;">Voltar</a>
+    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
-<h3 class="mb-4 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Editar dados
+<h3 class="mb-4 text-start titulo-h3 mt-4">Editar dados
 </h3>
+
 
 <form method="POST" action="{{url_for('atualizar_produto', produto_id = produto['produto_id'])}}" class="form-sensor"
     enctype="multipart/form-data">
+    <div class="cadastro-sensor mt-4">
+        <div class="d-flex justify-content-start mb-3 ms-3">
+            <div class="upload-imagem me-5 mt-3 ">
 
-    <form method="POST" action="{{url_for('atualizar_produto', produto_id = produto['produto_id'])}}"
-        class="form-sensor" enctype="multipart/form-data">
-        <div class="cadastro-sensor mt-4">
-            <div class="d-flex justify-content-start mb-3 ms-3">
-                <div class="upload-imagem me-5 mt-3 ">
+                <label for="imagem_produto"
+                    class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
 
-                    <label for="imagem_produto" class="upload-box"
-                        style="max-height:200px !important; width: 250px; margin-left: 0 !important; align-self: flex-start; z-index: 1000;">
+                    {% if produto.imagem_base64 %}
+                    <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
+                        class="upload-imagem position-absolute t-0 l-0">
+                    {%else%}
+                    <img src="/static/imagens/medicamento.jpg" class="text-white aling-itens-center" style="z-index:1;">
+                    {%endif%}
+                </label>
+                <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
+                <p class="mt-3" style="color: white;">Clique na imagem para alterá-la</p>
+            </div>
 
-                        {% if produto.imagem_base64 %}
-                        <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                            style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
-                        {%else%}
-                        <img src="/static/imagens/medicamento.jpg"
-                            style="max-height:200px; width:250px; border-radius:10px; object-fit:cover;">
-                        {%endif%}
-                    </label>
-                    <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
-                    <p class="mt-3" style="color: white;">Clique na iamgem para alterá-la</p>
+            <div class="divisao-form" style="width: 100%;">
+                <div class="mb-5 text-start">
+                    <div class="input-group">
+                        <input type="name" name="nome" class="form-control" value="{{produto.produto_nome}}" required>
+                    </div>
                 </div>
-
-                <div class="divisao-form" style="width: 100%;">
-                    <div class="mb-5 text-start">
+                <div class="mb-5 text-start">
+                    <div>
+                        <textarea name="descricao" placeholder="Descrição" class="form-control"
+                            style="height: 230px; resize: vertical; ">{{produto.produto_descricao}}</textarea>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="mb-2  me-4 text-start" style="max-width: 500px; width: 100%;">
                         <div class="input-group">
-                            <input type="name" name="nome" class="form-control" value="{{produto.produto_nome}}"
-                                required>
+                            <input type="text" name="categoria" class="form-control"
+                                value="{{produto.produto_categoria}}" required>
                         </div>
                     </div>
-                    <div class="mb-5 text-start">
-                        <div>
-                            <textarea name="descricao" placeholder="Descrição" class="form-control"
-                                style="height: 230px; resize: vertical; ">{{produto.produto_descricao}}</textarea>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="mb-2  me-4 text-start" style="max-width: 500px; width: 100%;">
-                            <div class="input-group">
-                                <input type="text" name="categoria" class="form-control"
-                                    value="{{produto.produto_categoria}}" required>
-                            </div>
-                        </div>
-                        <div class="justify-content-center" style="max-width: 500px !important; width: 100%;">
-                            <button class="btn btn-login w-100 text-white  "
-                                style="background: #03c356; border-radius: 25px;" type="submit">Alterar</button>
-                        </div>
+                    <div class="justify-content-center" style="max-width: 500px !important; width: 100%;">
+                        <button class="btn btn-login w-100 text-white  "
+                            style="background: #03c356; border-radius: 25px;" type="submit">Alterar</button>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 
-    <script>
-        localStorage.setItem('usuario_nome', "{{ session.get('usuario_nome')}}")
-        localStorage.setItem('usuario_id', "{{ session.get('usuario_id')}}")
-        localStorage.setItem('usuario_cargo', "{{ session.get('usuario_cargo')}}")
+<script>
+    localStorage.setItem('usuario_nome', "{{ session.get('usuario_nome')}}")
+    localStorage.setItem('usuario_id', "{{ session.get('usuario_id')}}")
+    localStorage.setItem('usuario_cargo', "{{ session.get('usuario_cargo')}}")
 
-    </script>
-    {% endblock%}
+</script>
+{% endblock%}
