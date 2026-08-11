@@ -16,7 +16,7 @@ class Fornecedor(Crud_base):
         erros = [
             Manipular.validar_vazio(self.fornecedor_nome, "nome"),
             Manipular.validar_vazio(self.fornecedor_cnpj, "cnpj"),
-            Manipular.validar_cpf(self.fornecedor_cnpj, "cnpj", secret_key),
+            Manipular.validar_cnpj(self.fornecedor_cnpj, "cnpj", secret_key),
             Manipular.validar_vazio(self.fornecedor_endereço, "endereço"),
             Manipular.validar_vazio(self.fornecedor_pedido_minimo, "pedido_minimo")
             
