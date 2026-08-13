@@ -6,15 +6,18 @@ class Contato(Crud_base):
 
     def __init__(self, contato_nome, contato_email, contato_mensagem):
         self.contato_nome = contato_nome
+        self.contato_email = contato_email
+        self.contato_mensagem = contato_mensagem
 
     @classmethod
     def enviar_email(cls, dados):
         
         # Criar a mensagem
-        corpo = "Olá, este é um teste enviado pelo Python!"
+
+        corpo = (f" Nome: {dados['contato_nome']} \n Contato: {dados['contato_email']} \n Mensagem: {dados['contato_mensagem']}")
         msg = EmailMessage()
         msg.set_content(corpo)
-        msg["Subject"] = "A vitoria esta maulca"
+        msg["Subject"] = "Contato do formulario"
         msg["From"] = "vetalisge@gmail.com"
         msg["To"] = "vitoria.h.silva9@aluno.senai.br"
 

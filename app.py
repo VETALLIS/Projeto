@@ -271,23 +271,15 @@ def inicial():
 def contato_enviar():
     dados = get_contato_form()
     novo_contato = Contato(**dados)
-    erros = contato.validar_contato()
-
-    if erros:
-        for erro in erros:
-            flash(erro, "danger")
-        return render_template("cadastro_produto.html", produto=dados)
 
     try:
-        produto.gravar_produto()
-        flash("Produto cadastrado com sucesso.", "success")
-        return redirect(url_for("produtos"))
+        novo_contato.enviar_email(dados)
+        flash("Mensagem enviada com sucesso", "success")
+        return redirect(url_for("home"))
     except Exception as e:
-        flash(f"Erro ao cadastrar produto: {e}", "danger")
-        return redirect(url_for('produtos'))
+        flash(f"Erro ao enviar mensagem: {e}", "danger")
+        return redirect(url_for('home'))
         
-
-
 # ====== Endpoints para o cadastro de produtos ====== #
 
 # ===== Rotas tela de produto ====== #
