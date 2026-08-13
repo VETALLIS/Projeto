@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between ">
     <h3 class="text-start titulo-h3">Fornecedores</h3>
     <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
-        type="submit" href="{{url_for('novo_fornecedor')}}">Adicionar
+        type="submit" href="{{url_for('fornecedor_criar')}}">Adicionar
         Fornecedor</a>
 </div>
 <div class="table-responsive mt-5">
@@ -19,7 +19,7 @@
         {% for fornecedor in fornecedores %}
         <tr>
             <td class="texto-p text-start">{{ fornecedor.fornecedor_nome or fornecedor['fornecedor_nome'] }}</td>
-            <td class="texto-p">{{ fornecedor.fornecedor_tipo_produto or fornecedor['fornecedor_tipo_produto'] }}</td>
+            <td class="texto-p">{{ fornecedor.fornecedor_tipo_produtos or fornecedor['fornecedor_tipo_produtos'] }}</td>
             <td class="texto-p">{{ fornecedor.fornecedor_pedido_minimo or fornecedor['fornecedor_pedido_minimo'] }}</td>
         </tr>
             

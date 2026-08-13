@@ -838,12 +838,20 @@ def excluir_animal(id):
 def fornecedor_novo():
     try:
         fornecedores = Fornecedor.buscar_fornecedor()
-        return render_template("fornecedor_cadastrado.html", fornecedore=fornecedores)
+        for i in fornecedores:
+            print(i)
+        return render_template("fornecedor_cadastrado.html", fornecedores=fornecedores)
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("gravar_fornecedor"))
 
-
+@app.route("/fornecedor/novo")
+def fornecedor_criar():
+    try:
+        return render_template("cadastro_fornecedor.html")
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("gravar_fornecedor"))
 
 # ======= Salvar dados fornecedor ===== #
 @app.route("/fornecedor/salvar", methods=["POST"])
@@ -946,6 +954,23 @@ def excluir_usuario(usuario_id):
 
 
 # ======== Endpoint entrada produto ====== #
+@app.route("/pedidos_cadastrados")
+def pedidos_cadastrados():
+
+    try:
+        pedido_entrada = Pedido_entrada.buscar_todo_pedido_entrada(order_by="pedido_entrada_nome")
+        if not pedido_entrada:
+            flash("Nenhum pedido encontrado", "danger")
+            return render_template("pedidos_cadastrados.html")
+        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome")
+        if not pedido_saida:
+            flash("Nenhum pedido encontrado", "danger")
+            return render_template("pedidos_cadastrados.html")
+
+        return render_template("pedidos_cadastrados.html", Pedidos_ent=pedido_entrada, Pedidos_saida=pedido_saida)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("funcionarios_cadastrados.html", funcionario=[])
 
 @app.route("/pedido")
 def pedido():
