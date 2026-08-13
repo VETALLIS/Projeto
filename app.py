@@ -269,7 +269,7 @@ def inicial():
 @app.route("/contato/enviar", methods=["POST"])
 def contato_enviar():
     dados = get_contato_form()
-    novo_contato = Contato(**dados)
+    novo_contato = contato(**dados)
     erros = contato.validar_contato()
 
     if erros:
@@ -1027,7 +1027,7 @@ def pedido():
         produtos = []
 
     try:
-        animal = Animal.buscar_animal()
+        animal = Animal.contar_animal()
     except ValueError:
         animal = []
 
