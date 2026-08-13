@@ -104,12 +104,15 @@ class Animal(Crud_base):
         return animal# retorna os dados encontrado
 
     @classmethod
+
     def contar_animais(cls, order_by="animal_id"):
+
         animal = cls.buscar_tudo(order_by)
         if not animal:
             raise ValueError("Animal não encontrato")
-        
+
         animais = 0
         for i in animal:
             animais = animais + 1
         return animais
+
