@@ -123,7 +123,7 @@ class Manipular:
                 else:
                     data_correta = True
             if data_correta == True:
-                if int(dados[6:]) >= 2025:
+                if int(dados[0:5]) >= 2025:
                     if dados[3:5] in meses:
                         if dados[3:5] in ['01', '03', '05', '07', '08', '10', '12']:
                             if 0 < int(dados[0:2]) <= 31:

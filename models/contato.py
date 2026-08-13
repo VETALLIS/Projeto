@@ -2,10 +2,10 @@ import smtplib
 from email.message import EmailMessage
 
 
-class Pesquisa(Crud_base):
+class Contato(Crud_base):
 
-    def __init__(self, produto_nome):
-        self.produto_nome = produto_nome
+    def __init__(self, contato_nome):
+        self.contato_nome = contato_nome
 
     @classmethod
     def enviar_email(cls, dados):
