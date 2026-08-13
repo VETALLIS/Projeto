@@ -941,8 +941,9 @@ def gerenciar_perfil_salvar():
 def excluir_usuario(usuario_id):
     try:
         Usuario.safe_delete(usuario_id)
+        session.clear()  
         flash("Usuário excluído com sucesso!", "success")
-        return redirect(url_for("inicial")) 
+        return redirect(url_for("novo_login"))  
             
     except ValueError as e:
         flash(str(e), "danger") 
