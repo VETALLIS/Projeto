@@ -99,13 +99,16 @@ class Usuario(Crud_base):
     @classmethod
     def inserir_usuario_adm(cls, dados):
         usuario = cls(
-                usuario_senha=dados.get("usuario_senha"),
-                usuario_nome=dados.get("usuario_nome"),
-                usuario_email=dados.get("usuario_email"),
-                usuario_cpf=dados.get("usuario_cpf", "00000000000"), 
-                usuario_cargo=dados.get("usuario_cargo", "admin"),   
-                usuario_confirmar_senha=dados.get("usuario_confirmar_senha")
-            )
+            usuario_senha=dados.get("usuario_senha"),
+            usuario_nome=dados.get("usuario_nome"),
+            usuario_email=dados.get("usuario_email"),
+            usuario_confirmar_senha=dados.get("usuario_confirmar_senha"),
+            usuario_imagem=dados.get("usuario_imagem"),
+            imagem_tipo=dados.get("imagem_tipo"),
+            imagem_blob=dados.get("imagem_blob"),
+            usuario_cpf=dados.get("usuario_cpf"),
+            usuario_cargo=dados.get("usuario_cargo"),
+        )
 
         inserir = cls.gravar(usuario)
 

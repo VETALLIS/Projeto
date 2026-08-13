@@ -52,14 +52,15 @@ class Pedido_saida(Crud_base):
 
         self.atualizar()
         return "Pedido atualizado com sucesso!"
-
+    
+    @classmethod
     def buscar_todos_pedidos_saida(cls, order_by="pedido_saida_nome"):
         pedido_saida  = cls.buscar_tudo(order_by)
 
         if not pedido_saida:
             raise ValueError("Pedido não encontrado!")
 
-        return Pedido_saida(**pedido_saida)
+        return pedido_saida
     
 from core.crud_base import Crud_base
 from core.manipular import Manipular 

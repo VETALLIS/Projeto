@@ -82,14 +82,15 @@ class Pedido_entrada(Crud_base):
         self.atualizar(id)
 
         return "Pedido de entrada atualizado com sucesso!"
-
+    
+    @classmethod
     def buscar_todo_pedido_entrada(cls, order_by="pedido_entrada_nome"):
         pedido_entrada = cls.buscar_tudo(order_by)
 
         if not pedido_entrada:
             raise ValueError("Pedidos de entrada não encontrados")
 
-        return f"Pedidos de entrada:"
+        return pedido_entrada
 
 class Item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada"

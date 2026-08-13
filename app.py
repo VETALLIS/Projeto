@@ -817,10 +817,10 @@ def buscar_animal(id):
     return render_template("cadastro_usuario.html", animal=animal)
 
 # ====== Excluindo animal compra ======#
-@app.route("/animal/excluir/<int:animal_id>", methods=["DELETE"])
-def excluir_animal(id):
+@app.route("/animal/excluir/<int:animal_id>", methods=["GET", "POST"])
+def excluir_animal(animal_id):
     try:
-        Animal.deletar_animal(id)
+        Animal.deletar_animal(animal_id)
         flash("Animal excluído com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
@@ -941,8 +941,9 @@ def gerenciar_perfil_salvar():
 def excluir_usuario(usuario_id):
     try:
         Usuario.safe_delete(usuario_id)
+        session.clear()  
         flash("Usuário excluído com sucesso!", "success")
-        return redirect(url_for("inicial")) 
+        return redirect(url_for("novo_login"))  
             
     except ValueError as e:
         flash(str(e), "danger") 
@@ -954,6 +955,23 @@ def excluir_usuario(usuario_id):
 
 
 # ======== Endpoint entrada produto ====== #
+@app.route("/pedidos_cadastrados")
+def pedidos_cadastrados():
+
+    try:
+        pedido_entrada = Pedido_entrada.buscar_todo_pedido_entrada(order_by="pedido_entrada_nome")
+        if not pedido_entrada:
+            flash("Nenhum pedido encontrado", "danger")
+            return render_template("pedidos_cadastrados.html")
+        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome")
+        if not pedido_saida:
+            flash("Nenhum pedido encontrado", "danger")
+            return render_template("pedidos_cadastrados.html")
+
+        return render_template("pedidos_cadastrados.html", Pedidos_ent=pedido_entrada, Pedidos_saida=pedido_saida)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("pedidos_cadastrados.html", funcionario=[])
 
 @app.route("/pedido")
 def pedido():

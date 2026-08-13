@@ -1,0 +1,64 @@
+{%extends 'base.html'%}
+{%block conteudo%}
+
+<div class="d-flex justify-content-between ">
+    <h3 class="text-start titulo-h3">Pedidos</h3>
+    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+        type="submit" href="{{url_for('pedido')}}">Adicionar
+        Pedido</a>
+</div>
+<div class="d-flex justify-content-between" >
+    <div class="table-responsive mt-5 ps-5 ">
+        <h3 class="text-start titulo-h2 pb-3">Pedidos de Entrada</h3>
+        <table class="table">
+            <tr>
+                <th class="texto-p text-start pe-5">Nome</th>
+                <th class="texto-p text-start pe-5">Data</th>
+                <th class="texto-p pe-5">Fornecedor</th>
+                <th class="texto-p pe-5">status</th>
+                <th class="texto-p pe-5"> Ver Detalhes</th>
+
+            </tr>
+            {% for pedido_entrada in Pedidos_ent %}
+            <tr>
+                <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_nome }}</td>
+                <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td>
+                <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td>
+                <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td>
+                <td class="texto-p"><a href=""
+                    class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="table-responsive mt-5 pe-5" >
+        <h3 class="text-start titulo-h2 pb-3">Pedidos de Saída</h3>
+        <table class="table">
+            <tr>
+                <th class="texto-p text-start pe-5">Nome</th>
+                <th class="texto-p text-start pe-5">Data</th>
+                <th class="texto-p pe-5">Animal</th>
+                <th class="texto-p pe-5">status</th>
+                <th class="texto-p pe-5"> Ver Detalhes</th>
+
+            </tr>
+            {% for pedido_saida in Pedidos_saida %}
+            <tr>
+                <td class="texto-p text-start">{{ pedido_saida.pedido_saida_nome }}</td>
+                <td class="texto-p text-start">{{ pedido_saida.pedido_saida_data }}</td>
+                <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
+                <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
+                <td class="texto-p"><a href=""
+                    class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
+{%endblock%}
