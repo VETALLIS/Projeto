@@ -3,6 +3,7 @@ from core.manipular import Manipular
 
 class Fornecedor(Crud_base):
     tabela = "fornecedor"
+    pk = "fornecedor_id"
     fields = ["fornecedor_nome", "fornecedor_cnpj", "fornecedor_endereço", "fornecedor_pedido_minimo", "fornecedor_tipo_produtos"]
 
     def __init__(self, nome, cnpj, endereço, pedido_minimo, tipo_produtos):
@@ -38,7 +39,7 @@ class Fornecedor(Crud_base):
         if not fornecedor:
             raise ValueError("Fornecedor não encontrado")
 
-        self.deletar()
+        self.deletar(id)
         return "Fornecedor deletado com sucesso!"
 
     def atualizar_fornecedor(self, id):
