@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-between ">
     <h3 class="text-start titulo-h3">Pedidos</h3>
     <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
-        type="submit" href="{{url_for('pedido_salvar')}}">Adicionar
+        type="submit" href="{{url_for('pedido')}}">Adicionar
         Pedido</a>
 </div>
 <div class="d-flex justify-content-between" >
@@ -19,13 +19,13 @@
                 <th class="texto-p pe-5"> Ver Detalhes</th>
 
             </tr>
-            {% for pedido_entrada in pedidos %}
+            {% for pedido_entrada in Pedidos_ent %}
             <tr>
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_nome }}</td>
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td>
-                <td class="texto-p">{{ pedido_entrada.fornecedor_id}}</td>
+                <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td>
                 <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td>
-                <td class="texto-p"><a href="/informacao_produto/{{produto.produto_id}}"
+                <td class="texto-p"><a href=""
                     class="bi bi-arrow-bar-right text-white texto-a"></a></td>
 
 
@@ -44,13 +44,13 @@
                 <th class="texto-p pe-5"> Ver Detalhes</th>
 
             </tr>
-            {% for pedido_saida in pedidos %}
+            {% for pedido_saida in Pedidos_saida %}
             <tr>
                 <td class="texto-p text-start">{{ pedido_saida.pedido_saida_nome }}</td>
                 <td class="texto-p text-start">{{ pedido_saida.pedido_saida_data }}</td>
-                <td class="texto-p">{{ pedido_saida.animal_id}}</td>
+                <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
                 <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
-                <td class="texto-p"><a href="/informacao_produto/{{produto.produto_id}}"
+                <td class="texto-p"><a href=""
                     class="bi bi-arrow-bar-right text-white texto-a"></a></td>
 
 
