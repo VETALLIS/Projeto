@@ -1,8 +1,10 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
+from core.manipular import validar_data
 import base64
 import os
+from datetime import datetime
 
 class Produto(Crud_base):
     tabela = "produto"
@@ -167,6 +169,8 @@ class Produto(Crud_base):
                 produto["imagem_base64"] = None
         return produtos
 
+        
+
     @classmethod
     def filtro_categoria(cls, categoria):
         if not categoria:
@@ -211,3 +215,17 @@ class Produto(Crud_base):
         for i in produto:
             produtos = produtos + 1
         return produtos
+
+    @classmethod
+    def contar_vencidos(cls, order_by="produto_id"):
+        produtos = cls.buscar_tudo(order_by)
+        if not produtos:
+        return 0
+    
+        hoje = date.today()
+        vencidos = 0
+        for produto in produtos:
+        validade = validar_data(produto["validade"])  
+        if validade < hoje:
+            vencidos = vencidos + 1
+    return vencidos
