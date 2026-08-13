@@ -3,111 +3,92 @@
 <div class="d-flex">
     <div>
         <div class="container row">
-            <div class="d-flex gap-3  me-5 ms-2" style="align-items: flex-start; width: 100% !important;">
-                <div class="position-relative overflow-hidden"
-                    style="border: 2px solid rgba(255, 255, 255, 0.15); border-radius: 15px;; padding: 5px; max-width:400px !important; width: 100% !important; height: 100%; ">
+            <div class="d-flex gap-3 align-items-start w-100">
+                <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-100 h-100">
 
                     {% if categoria %}
                     {% for categorias in categoria %}
-                    <span
-                        style="position: absolute; font-size: 5rem; font-weight: bold; color:#18C890; opacity: 0.3; z-index: 0; top: 40%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%;">
+                    <span class="position-absolute card-categoria">
                         {{ categorias.produto_categoria }}
                     </span>
 
-                    <h5 class="fw-bold mb-0 ps-2 display-5 text-center"
-                        style="position: relative; z-index: 1; margin-top: 65px; color:#ffffff;">
+                    <h5 class="fw-bold mb-0 ps-2 display-5 text-center position-relative titulo-h2 z-index-1 card-estoque-valor">
                         {{ categorias.estoque_quantidade }}
                     </h5>
-                    <p class="text-center text-white-50" style="position: relative; z-index: 1; font-size: 0.9rem;">
+                    <p class="text-center text-white-50 z-index-1 texto-unidade-estoque">
                         Unidades em Estoque</p>
                     {% endfor %}
                     {% else %}
-                    <h5 class="fw-bold mb-0 ps-2 fs-4 text-center"
-                        style="position: relative; z-index: 1; margin-top: 75px; color:#ffffff; opacity: 0.7;">
+                    <h5 class="fw-bold mb-0 ps-2 fs-4 text-center texto z-index-1 position-relative titulo-h2 card-estoque-vazio">
                         Nenhum filtro aplicado
                     </h5>
                     {% endif %}
 
                     <button type="button"
-                        class="rounded-circle border-0 d-flex align-items-center justify-content-center position-absolute top-0 end-0 m-2"
-                        style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341); z-index: 2;"
-                        data-bs-toggle="modal" data-bs-target="#modalFiltro">
+                        class="rounded-circle border-0 d-flex backgroud-glass align-items-center justify-content-center position-absolute top-0 end-0 m-2 z-index-1 back4 botao-filtro-icone">
                         <i class="bi bi-sliders text-white"></i>
                     </button>
                 </div>
 
-                <div class="position-relative overflow-hidden" style="border-radius: 15px;border: 2px solid rgba(255, 255, 255, 0.15);  
-    padding: 5px;; width: 100% !important; height: 190px;">
-                    <label style="margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
-                    <h5 class="text-start fw-bold mb-0 ps-2 display-5 "
-                        style="position: relative; z-index: 1; color:#fff;">Estoque</h5>
+                <div class="position-relative overflow-hidden card-estoque-header">
+                    <label class="label-estoque"></label>
+                    <h5 class="text-start fw-bold mb-0 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque</h5>
                 </div>
             </div>
-            
-            <div class="mt-4  ms-3" style="border-radius: 15px; background :  rgba(255, 255, 255, 0.15); 
-    padding: 5px;width:98%;height: 350px;">
-                <label style="align-self: flex-start; z-index: 1000;"></label>
+
+            <div class="mt-4 ms-3 card-sensores-container">
+                <label class="label-sensores"></label>
 
                 <div class="d-flex gap-3 ms-4">
-                    <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start"
-                        style="border-radius: 15px;background:  #03c35677;
-    padding: 5px;max-width:360px !important; width: 100% !important;">
-                        <p class="ms-2 mb-1 fs-2 text-white" style="position: relative;">Luminosidade</p>
-                        <h4 class="ms-2 fw-bold display-3" style="color: white;">300lux</h4>
+                    <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start card-luminosidade">
+                        <p class="ms-2 mb-1 fs-2 texto-branco position-relative">Luminosidade</p>
+                        <h4 class="ms-2 fw-bold display-3 texto-branco">300lux</h4>
                     </div>
 
-                    <div class="position-relative overflow-hidden d-flex flex-column align-items-start" style="border-radius: 15px;background: #85d26475;
-    padding: 5px; width: 52% !important;height: 90%">
-                        <p class="ms-2 mb-1 fs-2 mt-3 text-white" style="position: relative;">Umidade</p>
-                        <h4 class="fw-bold display-3 w-100 text-center mb-2" style="color: white;">20%</h4>
+                    <div class="position-relative overflow-hidden d-flex flex-column align-items-start card-umidade">
+                        <p class="ms-2 mb-1 fs-2 mt-3 texto-branco position-relative">Umidade</p>
+                        <h4 class="fw-bold display-3 w-100 text-center mb-2 texto-branco">20%</h4>
                     </div>
                 </div>
 
-                <div class="position-relative overflow-hidden ms-4 mt-4 " style="border-radius: 15px;background: #1c9e8677;
-    padding: 5px; width: 95% !important;height: 30%;">
-                    <p class="mb-1 ms-2 fs-2 mt-3 text-white" style="position: absolute; top: 15px; left: 15px;">
+                <div class="position-relative overflow-hidden ms-4 mt-4 card-temperatura">
+                    <p class="mb-1 ms-2 fs-2 mt-3 texto-branco position-absolute temperatura-label">
                         Temperatura</p>
-                    <div style="position: absolute; bottom: 10px; right: 15px;">
-                        <h4 class="fw-bold display-3 mb-0" style="color: white;">15°C</h4>
+                    <div class="position-absolute temperatura-valor">
+                        <h4 class="fw-bold display-3 mb-0 texto-branco">15°C</h4>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div
-        style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); width: 500px; padding: 15px; position: relative;">
+    <div class="card-destaque position-relative">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <p class="mb-0 ms-2 fs-2 text-white">Destaque</p>
-            <button class="rounded-circle border-0 d-flex align-items-center justify-content-center"
-                style="width: 45px; height: 45px; background: rgba(255, 255, 255, 0.341);">
+            <p class="mb-0 ms-2 fs-2 texto-branco">Destaque</p>
+            <button class="rounded-circle border-0 d-flex align-items-center justify-content-center botao-destaque-icone">
                 <i class="bi bi-sliders text-white"></i>
             </button>
         </div>
 
-        <div id="carouselVertical" class="carousel slide" data-bs-ride="carousel"
-            style="width: 100%; border-radius: 15px; overflow: hidden;">
+        <div id="carouselVertical" class="carousel slide carousel-vertical" data-bs-ride="carousel">
             <div class="carousel-inner">
 
                 <!-- Slide 1 -->
                 <div class="carousel-item active" data-bs-interval="2000">
-                    <div style="background: #1a2a2a; border-radius: 15px; padding: 20px; ">
-                        <span class="badge mb-3"
-                            style="background:#2abfb0; font-size:1rem; padding: 8px 16px; border-radius: 8px;">NOVO</span>
+                    <div class="slide-destaque">
+                        <span class="badge mb-3 badge-novo">NOVO</span>
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <h3 class="text-white fw-bold">Mastizone</h3>
                                 <p class="text-secondary">Em estoque</p>
                             </div>
-                            <div
-                                style="background: white; border-radius: 15px; padding: 10px; width: 140px; height: 140px; display:flex; align-items:center; justify-content:center;">
+                            <div class="produto-imagem-container">
                                 <img src="https://picsum.photos/120/120?random=10"
-                                    style="border-radius:10px; object-fit:cover; width:100%; height:100%;"
+                                    class="produto-imagem"
                                     alt="produto">
                             </div>
                         </div>
-                        <div
-                            style="background: rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-top: 20px;">
+                        <div class="produto-info-box">
                             <p class="text-secondary mb-1">Quantidade</p>
                             <p class="text-white mb-3">15.</p>
                             <p class="text-secondary mb-1">Tipo</p>
@@ -120,23 +101,20 @@
 
                 <!-- Slide 2 -->
                 <div class="carousel-item" data-bs-interval="2000">
-                    <div style="background: #1a2a2a; border-radius: 15px; padding: 20px;">
-                        <span class="badge mb-3"
-                            style="background:#089068; font-size:1rem; padding: 8px 16px; border-radius: 8px;">DESTAQUE</span>
+                    <div class="slide-destaque">
+                        <span class="badge mb-3 badge-destaque">DESTAQUE</span>
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <h3 class="text-white fw-bold">Topvac</h3>
                                 <p class="text-secondary">Em estoque</p>
                             </div>
-                            <div
-                                style="background: white; border-radius: 15px; padding: 10px; width: 140px; height: 140px; display:flex; align-items:center; justify-content:center;">
+                            <div class="produto-imagem-container">
                                 <img src="https://picsum.photos/120/120?random=20"
-                                    style="border-radius:10px; object-fit:cover; width:100%; height:100%;"
+                                    class="produto-imagem"
                                     alt="produto">
                             </div>
                         </div>
-                        <div
-                            style="background: rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-top: 20px;">
+                        <div class="produto-info-box">
                             <p class="text-secondary mb-1">Quantidade</p>
                             <p class="text-white mb-3">10.</p>
                             <p class="text-secondary mb-1">Tipo</p>
@@ -149,23 +127,20 @@
 
                 <!-- Slide 3 -->
                 <div class="carousel-item" data-bs-interval="2000">
-                    <div style="background: #1a2a2a; border-radius: 15px; padding: 20px;">
-                        <span class="badge mb-3"
-                            style="background:#15B3BD; font-size:1rem; padding: 8px 16px; border-radius: 8px;"></span>
+                    <div class="slide-destaque">
+                        <span class="badge mb-3 badge-cattle"></span>
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <h3 class="text-white fw-bold">CattleMast</h3>
                                 <p class="text-secondary">Em estoque</p>
                             </div>
-                            <div
-                                style="background: white; border-radius: 15px; padding: 10px; width: 140px; height: 140px; display:flex; align-items:center; justify-content:center;">
+                            <div class="produto-imagem-container">
                                 <img src="https://picsum.photos/120/120?random=30"
-                                    style="border-radius:10px; object-fit:cover; width:100%; height:100%;"
+                                    class="produto-imagem"
                                     alt="produto">
                             </div>
                         </div>
-                        <div
-                            style="background: rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-top: 20px;">
+                        <div class="produto-info-box">
                             <p class="text-secondary mb-1">Quantidade</p>
                             <p class="text-white mb-3">40.</p>
                             <p class="text-secondary mb-1">Tipo</p>
@@ -195,37 +170,35 @@
 
 <form method="POST" action="{{ url_for('inicial') }}">
     <div class="modal fade" id="modalFiltro" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width:360px;">
-            <div class="modal-content border-0" style="border-radius:16px; background:#089068; padding:8px;">
+        <div class="modal-dialog modal-dialog-centered modal-filtro-dialog">
+            <div class="modal-content border-0 modal-filtro-content">
                 <div class="modal-body p-3">
-                    <div class="d-flex align-items-center mb-3"
-                        style="flex-direction: row-reverse; justify-content: space-between;">
-                        <button type="button" data-bs-dismiss="modal"
-                            style="background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:32px; height:32px; color:white; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;">&times;</button>
-                        <h5 class="text-white fw-semibold mb-0" style="font-size:22px;">Categorias</h5>
+                    <div class="d-flex align-items-center mb-3 modal-filtro-header">
+                        <button type="button" data-bs-dismiss="modal" class="botao-fechar-modal">&times;</button>
+                        <h5 class="text-white fw-semibold mb-0 titulo-modal-filtro">Categorias</h5>
                     </div>
-                    <li style="list-style: none; border-bottom:1px solid rgba(255,255,255,0.15);">
+                    <li class="list-style-none item-filtro-categoria">
                         <label for="c3"
                             class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                             <span>Vacina</span>
                             <input type="radio" name="categoria" id="c3" value="Vacina" class="filtro-check">
                         </label>
                     </li>
-                    <li style="list-style: none; border-bottom:1px solid rgba(255,255,255,0.15);">
+                    <li class="list-style-none item-filtro-categoria">
                         <label for="c4"
                             class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                             <span>Antiparasitários</span>
                             <input type="radio" name="categoria" id="c4" value="Vacina" class="filtro-check">
                         </label>
                     </li>
-                    <li style="list-style: none; border-bottom:1px solid rgba(255,255,255,0.15);">
+                    <li class="list-style-none item-filtro-categoria">
                         <label for="c5"
                             class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                             <span>Antibióticos</span>
                             <input type="radio" name="categoria" id="c5" value="Antibióticos" class="filtro-check">
                         </label>
                     </li>
-                    <li style="list-style: none; border-bottom:1px solid rgba(255,255,255,0.15);">
+                    <li class="list-style-none item-filtro-categoria">
                         <label for="c6"
                             class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                             <span>Anti-inflamatórios</span>
@@ -233,25 +206,23 @@
                                 class="filtro-check">
                         </label>
                     </li>
-                    <li style="list-style: none; border-bottom:1px solid rgba(255,255,255,0.15);">
+                    <li class="list-style-none item-filtro-categoria">
                         <label for="c7"
                             class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                             <span>Analgésicos</span>
                             <input type="radio" name="categoria" id="c7" value="Analgésicos" class="filtro-check">
                         </label>
                     </li>
-                    <li style="list-style: none; border-bottom:1px solid rgba(255,255,255,0.15);">
+                    <li class="list-style-none item-filtro-categoria">
                         <label for="c8"
                             class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                             <span>Anestésicos</span>
                             <input type="radio" name="categoria" id="c8" value="Anestésicos" class="filtro-check">
                         </label>
                     </li>
-                    </ul>
                 </div>
                 <div class="modal-footer border-0 pt-0 px-3 pb-3">
-                    <button type="submit" class="btn w-100 fw-semibold"
-                        style="background:#fff; color:#089068; border-radius:10px; padding:12px;">
+                    <button type="submit" class="btn w-100 fw-semibold botao-aplicar-filtro">
                         Aplicar
                     </button>
                 </div>
