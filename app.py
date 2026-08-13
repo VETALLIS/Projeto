@@ -15,6 +15,7 @@ from models.pedido_saida import Item_pedido_saida, Pedido_saida
 from models.pesquisa import Pesquisa
 from datetime import datetime
 import base64
+from models.contato import Contato
 
 
 # definição da variavel app
@@ -56,7 +57,7 @@ def get_contato_form():
     return{
         "contato_nome": request.form.get("nome", "").strip(),
         "contato_email": request.form.get("email", "").strip(),
-        "contato_mensagem": request.form.get("text", "").strip(), 
+        "contato_mensagem": request.form.get("texto", "").strip(), 
     }
 
 # ====== Pegando os dados de produto ====== #
@@ -102,22 +103,22 @@ def get_pedido_entrada_form():
 
 def get_item_entrada_form():
     return {
-        "item_pedido_entrada_nome": request.form.get("item_pedido_entrada_nome", "").strip(),
-        "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
-        "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
-        "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_validade", ""),
-        "item_pedido_entrada_valor_unitario": request.form.get("item_pedido_entrada_valor_unitario"),
-        "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_id", ""),
-        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")    
+        "item_pedido_entrada_nome": request.form.getlist("item_pedido_entrada_nome", "").strip(),
+        "item_pedido_entrada_lote": request.form.getlist("item_pedido_entrada_lote", "").strip(),
+        "item_pedido_entrada_quantidade": request.form.getlist("item_pedido_entrada_quantidade", "").strip(),
+        "item_pedido_entrada_validade": request.form.getlist("item_pedido_entrada_validade", ""),
+        "item_pedido_entrada_valor_unitario": request.form.getlist("item_pedido_entrada_valor_unitario"),
+        "pedido_entrada_pedido_entrada_id": request.form.getlist("pedido_entrada_pedido_entrada_id", ""),
+        "estoque_estoque_id": request.form.getlist("estoque_estoque_id", "")    
     }
 
 def get_item_saida_form():
     return {
-        "item_pedido_saida_nome": request.form.get("item_pedido_saida_nome", "").strip(),
-        "item_pedido_saida_lote": request.form.get("item_pedido_saida_lote", "").strip(),
-        "item_pedido_saida_quantidade": request.form.get("item_pedido_saida_quantidade", "").strip(),
-        "pedido_saida_pedido_saida_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
-        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
+        "item_pedido_saida_nome": request.form.getlist("item_pedido_saida_nome", "").strip(),
+        "item_pedido_saida_lote": request.form.getlist("item_pedido_saida_lote", "").strip(),
+        "item_pedido_saida_quantidade": request.form.getlist("item_pedido_saida_quantidade", "").strip(),
+        "pedido_saida_pedido_saida_id": request.form.getlist("pedido_entrada_pedido_entrada_ide", ""),  
+        "estoque_estoque_id": request.form.getlist("estoque_estoque_id", "")
     }
 
 # ====== Pegando os dados do usuario ====== #
@@ -269,8 +270,8 @@ def inicial():
 @app.route("/contato/enviar", methods=["POST"])
 def contato_enviar():
     dados = get_contato_form()
-    produto = Produto(**dados)
-    erros = produto.validar_produto()
+    novo_contato = Contato(**dados)
+    erros = contato.validar_contato()
 
     if erros:
         for erro in erros:
@@ -1026,7 +1027,7 @@ def pedido():
         produtos = []
 
     try:
-        animal = Animal.buscar_animal()
+        animal = Animal.contar_animal()
     except ValueError:
         animal = []
 
@@ -1049,18 +1050,19 @@ def pedido_salvar():
     dados_saida = get_pedido_saida_form()
     item_dados = get_item_entrada_form()
     item_dados_saida = get_item_saida_form()
+    print (dados_entrado)
 
     if "pedido_entrada_nome" in request.form:
         entrada = Pedido_entrada(**dados_entrado)
         item = Item_pedido_entrada(**item_dados)
         erros_entrada = entrada.validar_pedido_entrada()
         erros_item_entrada = item.validar_item_pedido_entrada()
-        conveter_data = entrada.converter_data(entrada.pedido_entrada_data)
+        converter_data = entrada.converter_data(entrada.pedido_entrada_data)
 
         if erros_entrada or erros_item_entrada:
             for erro in erros_entrada + erros_item_entrada:
                 flash(erro, "danger")
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
 
         try:
             numero = entrada.gravar_pedido_entrada()
@@ -1072,7 +1074,7 @@ def pedido_salvar():
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
     else:
-        animal = Animal.buscar_animal()
+        animal = Animal.contar_animal()
         saida = Pedido_saida(**dados_saida)
         erros_saida = saida.validar_pedido_saida()
         item = Item_pedido_saida(**item_dados_saida)
@@ -1102,11 +1104,15 @@ def relatorio():
         sensores = 0
     
     try:
-        lista_compra = Lista_compra.buscar_lista_compra()
+        animais = Animal.contar_animais()
     except ValueError as e:
-        lista_compra = []
+        animais = 0
+    try:
+        produtos = Produto.contar_produtos()
+    except ValueError as e:
+        produtos= 0
+    return render_template("relatorio.html", animal=animais, sensor=sensores, produto=produtos)
 
-    return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
     
 @app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
 def excluir_lista_compra_relatorio(lista_compra_id):

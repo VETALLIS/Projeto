@@ -1,11 +1,11 @@
 import smtplib
 from email.message import EmailMessage
+from core.crud_base import Crud_base
 
+class Contato(Crud_base):
 
-class Pesquisa(Crud_base):
-
-    def __init__(self, produto_nome):
-        self.produto_nome = produto_nome
+    def __init__(self, contato_nome, contato_email, contato_mensagem):
+        self.contato_nome = contato_nome
 
     @classmethod
     def enviar_email(cls, dados):
@@ -24,13 +24,13 @@ class Pesquisa(Crud_base):
         senha_app = "sxoh ahjn ghxz bxxm"
 
         try:
-        with smtplib.SMTP(smtp_server, smtp_port) as servidor:
-            servidor.starttls()  # Segurança TLS
-            servidor.login(msg["From"], senha_app)
-            servidor.send_message(msg)
-        print("E-mail enviado com sucesso!")
+            with smtplib.SMTP(smtp_server, smtp_port) as servidor:
+                servidor.starttls()  # Segurança TLS
+                servidor.login(msg["From"], senha_app)
+                servidor.send_message(msg)
+            print("E-mail enviado com sucesso!")
         except Exception as e:
-        print(f"Erro ao enviar: {e}")
+            print(f"Erro ao enviar: {e}")
 
-        return produto
+            return produto
 

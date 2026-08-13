@@ -6,7 +6,8 @@
 
 }
 
-html, body {
+html,
+body {
     min-height: 100vh;
     background-color: hsla(0, 0%, 0%, 1) !important;
     background-image:
@@ -15,7 +16,7 @@ html, body {
         radial-gradient(at 80% 35%, hsla(174, 100%, 22%, 1) 0px, transparent 50%) !important;
     background-attachment: fixed !important;
     width: 100%;
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
 
 .backgroud-transparente {
@@ -38,12 +39,12 @@ html, body {
     color: #074040 !important;
 }
 
-.cinza-texto{
-    color: rgba(255,255,255,0.6);
+.cinza-texto {
+    color: rgba(255, 255, 255, 0.6);
     font-size: 12px;
 }
 
-.texto-maiusculo{
+.texto-maiusculo {
     text-transform: uppercase;
 }
 
@@ -56,7 +57,7 @@ html, body {
 
 /* z-index */
 
-.z-index-1{
+.z-index-1 {
     z-index: 1;
 }
 
@@ -130,7 +131,12 @@ html, body {
     border: none;
 }
 
-.outline-none{
+.boder-bottom {
+    border-bottom: solid 1px #fff;
+    width: 100%;
+}
+
+.outline-none {
     outline: none;
 }
 
@@ -300,30 +306,31 @@ html, body {
     height: 400px !important;
 }
 
-.mudar-imagem-btn{ 
-    bottom:8px; 
-    right:8px;  
-    border-radius:50%; width:32px; 
-    height:32px; 
-    display:none; 
-    align-items:center; 
-    justify-content:center; 
-    z-index:2;
+.mudar-imagem-btn {
+    bottom: 8px;
+    right: 8px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }
 
 /* Imagem paginas de informações */
 
-.image-box{
+.image-box {
     max-width: 250px !important;
     max-height: 400px !important;
     cursor: pointer;
     transition: 0.3s;
-    object-fit:cover;
+    object-fit: cover;
 }
 
 /* Landing Page */
 
-#logo-menu-lp{
+#logo-menu-lp {
     max-width: 70px;
     max-height: 70;
     margin-top: 0.3rem;
@@ -359,7 +366,7 @@ html, body {
 
 }
 
-#slogan-content{
+#slogan-content {
     z-index: 3;
     top: 40%;
     left: 50%;
@@ -455,7 +462,7 @@ html, body {
     width: 50px;
 }
 
-.titulo-cards-lp{
+.titulo-cards-lp {
     margin-top: 0.5rem;
     margin-left: 1.5rem;
 }
@@ -758,11 +765,13 @@ html, body {
 
 .sobre-nos-container {
     flex-wrap: wrap;
-    margin: 50px; /* Reduzido de 100px para ocupar menos espaço na tela */
+    margin: 50px;
+    /* Reduzido de 100px para ocupar menos espaço na tela */
     position: relative;
     overflow: hidden;
     z-index: 1;
-    min-height: auto; /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
+    min-height: auto;
+    /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
 }
 
 #img-sobre img {
@@ -844,7 +853,7 @@ html, body {
     gap: 80px;
 }
 
-#rodape-container a{
+#rodape-container a {
     text-decoration: none;
     color: #fff;
     list-style: none !important;
@@ -1156,4 +1165,8 @@ html, body {
     align-items: center;
     justify-content: center;
     z-index: 2;
+}
+
+.form::placeholder {
+    color: #fff;
 }

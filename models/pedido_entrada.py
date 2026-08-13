@@ -65,7 +65,7 @@ class Pedido_entrada(Crud_base):
         pedido_entrada = cls.buscar_por_id(id)
 
         if not pedido_entrada:
-            raise ValueError("Pedidode entrada não encontrado.")
+            raise ValueError("Pedido de entrada não encontrado.")
         if cls.relacao_entre_tabelas(id):
             raise ValueError("Não é possível excluir o pedido de entrada porque ele possui pedidos ou movimentações vinculadas.")
         cls.deletar(id)
