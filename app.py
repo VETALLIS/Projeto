@@ -875,6 +875,18 @@ def gravar_fornecedor():
         flash(f"Erro ao cadastrar fornecedor", "danger")
         print(e)
         return render_template("cadastro_fornecedor.html", login=dados)
+
+@app.route("/fornecedor/excluir/<int:fornecedor_id>", methods=["GET", "POST"])
+def excluir_fornecedor(fornecedor_id):
+    try:
+        f = Fornecedor(None, None, None, None, None)
+        f.deletar_fornecedor(fornecedor_id)
+        flash("Fornecedor excluído com sucesso.", "success")
+    except ValueError as e:
+        flash(str(e), "erro")
+    except Exception as e:
+        flash(f"Erro ao excluir fornecedor: {e}", "danger")
+    return redirect(url_for("fornecedor_novo"))
     
 
 

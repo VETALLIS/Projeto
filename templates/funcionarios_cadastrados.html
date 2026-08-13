@@ -28,7 +28,7 @@
                     <h5 class="card-title fs-6 mt-1">{{usuario.usuario_nome}}</h5>
                 </div>
                 <div class="card-body text-start pb-0 pt-0">
-                    <a href="/usuario/informacao/{{usuario.usuario_id}}"
+                    <a href="{{ url_for('gerenciar_perfil_atualizar', usuario_id=usuario.usuario_id) }}"
                         class="bi bi-arrow-bar-right text-white texto-a">
                         Ver Detalhes
                     </a>
@@ -38,9 +38,6 @@
                     <a class="btn btn-sm btn-link text-danger fs-5 p-0"
                         href="{{ url_for('excluir_usuario_funcionario', usuario_id= usuario.usuario_id) }}">
                         <i class="bi bi-trash"></i>
-                    </a>
-                    <a href="/usuario/editar/{{usuario.usuario_id}}" class="bi bi-pencil text-white texto-a">
-                        Editar
                     </a>
                 </div>
             </div>
