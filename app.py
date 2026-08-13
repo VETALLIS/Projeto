@@ -304,25 +304,6 @@ def produtos():
         flash(e, "danger")
         return render_template("produtos_cadastrados.html", produtos=[])
 
-# ====== Cadastrando novos produtos ====== #
-@app.route("/produto/salvar", methods=["POST"])
-def salvar_produto():
-    dados = get_produto_form()
-    produto = Produto(**dados)
-    erros = produto.validar_produto()
-
-    if erros:
-        for erro in erros:
-            flash(erro, "danger")
-        return render_template("cadastro_produto.html", produto=dados)
-
-    try:
-        produto.gravar_produto()
-        flash("Produto cadastrado com sucesso.", "success")
-        return redirect(url_for("produtos"))
-    except Exception as e:
-        flash(f"Erro ao cadastrar produto: {e}", "danger")
-        return redirect(url_for('produtos'))
 
 
 # ======= Formulário cadastro de produtos =======#
