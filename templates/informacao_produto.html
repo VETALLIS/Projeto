@@ -4,59 +4,59 @@
 <div class="d-flex justify-content-start">
     <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
+
+
 <h3 class="mb-4 text-start titulo-h3 mt-4">
-    Informações do Produto
+    Informação de Produto
 </h3>
 
-<div class="d-flex">
-    <div class="me-5 ">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
+    <div class="mt-4 w-25">
         <label for="imagem_produto"
-            class="image-box d-flex align-items-center justify-content-center flex-column border-radius-menor">
+            class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
 
             {% if produto.imagem_base64 %}
             <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                class="image-box border-radius-menor">
+                class="upload-imagem position-absolute t-0 l-0">
             {%else%}
-            <img src="/static/imagens/medicamento.jpg" class="image-box border-radius-menor">
+            <img src="/static/imagens/medicamento.jpg" class="text-white aling-itens-center" style="z-index:1;">
             {%endif%}
         </label>
-
     </div>
-    <div class="d-flex align-items-center w-100">
-        <form class="mb-4 w-100">
-            <div class="mb-4 w-50">
-                <div class="mb-3 d-flex gap-3">
-                    <label class="titulo-h2 text-start">Nome do Produto:</label>
-                    <label for="" class="d-nome texto-p">{{produto.produto_nome}}</label>
-                </div>
-                <div class="mb-3 d-flex gap-3 ">
-                    <label class="titulo-h2 texto-start">Quantidade:</label>
-                    <label for="" class="d-nome texto-p">{{produto.estoque_quantidade}}</label>
-                </div>
-                <div class="mb-3 d-flex gap-3">
-                    <label class="titulo-h2 texto-start">Descrição:</label>
-                    <label for="" class="d-nome texto-p">{{produto.produto_descricao}}</label>
-                </div>
-                <div class="mb-3 d-flex gap-3">
-                    <label class="titulo-h2 texto-start">Categoria:</label>
-                    <label for="" class="d-nome texto-p">{{produto.produto_categoria}}</label>
+
+    <div class="mt-4 w-100">
+
+        <!-- Nome -->
+        <div class="p-3 mb-3 border-radius-menor backgroud-glass">
+            <label class="cinza-texto texto-maiusculo">Nome do produto</label>
+            <label class="texto-p d-flex justify-content-center">{{produto.produto_nome}}</label>
+        </div>
+
+        <!-- Descrição -->
+        <div class="p-3 mb-3 border-radius-menor backgroud-glass">
+            <label class="cinza-texto texto-maiusculo">Descrição</label>
+            <label class="texto-p d-flex justify-content-center">{{produto.produto_descricao}}</label>
+        </div>
+
+        <!-- Localização + Modelo -->
+        <div class="row g-3 mb-3">
+            <div class="col-6">
+                <div class="p-3 mb-3 border-radius-menor backgroud-glass">
+                    <label class="cinza-texto texto-maiusculo">Quantidade</label>
+                    <label class="texto-p d-flex justify-content-center">{{produto.estoque_quantidade}}</label>
                 </div>
             </div>
-            <div class="d-flex w-100">
-                <a href="{{url_for('pedido')}}"
-                    class="btn background-vermelho border-radius-menor w-100 text-white me-3">Retirar</a>
-                <a href="{{url_for('pedido')}}"
-                    class="btn w-100 text-white background-verde-medio border-radius-menor">Adicionar</a>
+            <div class="col-6">
+                <div class="p-3 mb-3 border-radius-menor backgroud-glass">
+                    <label class="cinza-texto texto-maiusculo">Categoria</label>
+                    <label class="texto-p d-flex justify-content-center">{{produto.produto_categoria}}</label>
+                </div>
             </div>
-        </form>
-
+        </div>
 
 
     </div>
+
 </div>
 
-
-
-
-
-{% endblock%}
+{% endblock %}
