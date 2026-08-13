@@ -54,6 +54,13 @@ html, body {
 }
 
 
+/* z-index */
+
+.z-index-1{
+    z-index: 1;
+}
+
+
 /* Textos */
 
 .titulo-h3 {
@@ -121,6 +128,10 @@ html, body {
 
 .borda-none {
     border: none;
+}
+
+.outline-none{
+    outline: none;
 }
 
 .borda-dashed {
@@ -863,4 +874,210 @@ html, body {
     color: rgba(255, 255, 255, 0.3);
     text-align: center;
     margin-top: 0.3%;
+}
+
+/* Tela Inicial */
+
+
+/* Utilitário genérico reutilizado em vários cards da tela inicial */
+.texto-branco {
+    color: #fff !important;
+}
+
+/* Card de estoque (número + rótulo) */
+.card-estoque-valor {
+    margin-top: 65px;
+}
+
+.texto-unidade-estoque {
+    font-size: 0.9rem;
+}
+
+.card-estoque-vazio {
+    margin-top: 75px;
+}
+
+.botao-filtro-icone {
+    width: 45px;
+    height: 45px;
+}
+
+/* Card "Estoque" (cabeçalho ao lado do card de categoria) */
+.card-estoque-header {
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    width: 100% !important;
+    height: 190px;
+}
+
+.label-estoque {
+    margin-left: 0 !important;
+    align-self: flex-start;
+    z-index: 1000;
+}
+
+/* Container dos sensores (Luminosidade / Umidade / Temperatura) */
+.card-sensores-container {
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    width: 98%;
+    height: 350px;
+}
+
+.label-sensores {
+    align-self: flex-start;
+    z-index: 1000;
+}
+
+.card-luminosidade {
+    border-radius: 15px;
+    background: #03c35677;
+    padding: 5px;
+    max-width: 360px !important;
+    width: 100% !important;
+}
+
+.card-umidade {
+    border-radius: 15px;
+    background: #85d26475;
+    padding: 5px;
+    width: 52% !important;
+    height: 90%;
+}
+
+.card-temperatura {
+    border-radius: 15px;
+    background: #1c9e8677;
+    padding: 5px;
+    width: 95% !important;
+    height: 30%;
+}
+
+.temperatura-label {
+    top: 15px;
+    left: 15px;
+}
+
+.temperatura-valor {
+    bottom: 10px;
+    right: 15px;
+}
+
+/* Card "Destaque" (carrossel de produtos) */
+.card-destaque {
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    width: 500px;
+    padding: 15px;
+}
+
+.botao-destaque-icone {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.341);
+}
+
+.carousel-vertical {
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.slide-destaque {
+    background: #1a2a2a;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.badge-novo {
+    background: #2abfb0;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.badge-destaque {
+    background: #089068;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.badge-cattle {
+    background: #15B3BD;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.produto-imagem-container {
+    background: white;
+    border-radius: 15px;
+    padding: 10px;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.produto-imagem {
+    border-radius: 10px;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.produto-info-box {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* Modal de filtro por categoria */
+.modal-filtro-dialog {
+    max-width: 360px;
+}
+
+.modal-filtro-content {
+    border-radius: 16px;
+    background: #089068;
+    padding: 8px;
+}
+
+.modal-filtro-header {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.botao-fechar-modal {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo-modal-filtro {
+    font-size: 22px;
+}
+
+.item-filtro-categoria {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.botao-aplicar-filtro {
+    background: #fff;
+    color: #089068;
+    border-radius: 10px;
+    padding: 12px;
 }
