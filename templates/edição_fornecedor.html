@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+{% block conteudo%}
+
+
+<div class="d-flex justify-content-start">
+    <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left text-white"
+        style="text-decoration: none;">Voltar</a>
+</div>
+<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Fornecedor
+</h3>
+
+<form method="POST" action="{{ url_for('gravar_fornecedor') }}" class="form-sensor " style="width: 100%;">
+
+    <div class="divisao-form" style="width: 100%;">
+
+        <div class="row mb-4">
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_nome" class="form-control" value="{{fornecedor.fornecedor_nome}}"
+                        required>
+                </div>
+            </div>
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_endereço" class="form-control" value="{{fornecedor.fornecedor_endereço}}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_cnpj" class="form-control" value="{{fornecedor.fornecedor_cnpj}}"  required>
+                </div>
+            </div>
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_tipo_produtos" value="{{fornecedor.fornecedor_tipos_produtos}}" class="form-control"  required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="number" name="fornecedor_pedido_minimo"  value="{{fornecedor.fornecedor_pedido_minimo}}"class="form-control" required>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <button class="btn btn-login text-white" style="background: #03c356; border-radius: 15px; width: 100%;"
+                    type="submit">Salvar alterações</button>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+
+
+{% endblock %}
