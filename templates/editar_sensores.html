@@ -84,3 +84,47 @@
 </form>
 
 {% endblock %}
+
+
+
+
+
+        <!-- FORMULÁRIO -->
+        <div class="d-flex flex-column justify-content-center w-100">
+            <div class="d-flex mb-3 gap-3">
+                <input type="text" name="sensor_nome" class="form-control" value="{{sensor.sensor_nome}}" required>
+                <input type="text" name="sensor_tipo_conexao" class="form-control"
+                        value="{{sensor.sensor_tipo_conexao}}" required>
+            </div>
+
+            <div class="d-flex mb-3 gap-3 w-100">
+                <div class="d-flex flex-column gap-3 w-50">
+                    <textarea name="sensor_descricao" placeholder="Descrição" class="form-control"
+                        style="height: 100px; resize: vertical; ">{{sensor.sensor_descricao}}</textarea>
+                </div>
+                <div class="d-flex flex-column gap-3 w-50">
+                    <div class="d-flex gap-4">
+                        <input type="text" name="sensor_n_serie" class="form-control" value="{{sensor.sensor_n_serie}}"
+                            required>
+                        <input type="number" name="sensor_voltagem" class="form-control"
+                                value="{{sensor.sensor_voltagem}}" required>
+                    </div>
+                    <input type="text" name="sensor_modelo" class="form-control" placeholder="Modelo:" required>
+                </div>
+            </div>
+
+            <div class="d-flex gap-4 w-100">
+                <div class="w-50">
+                   <div class="col-12 col-md-4 mb-3 mb-md-0">
+                    <input type="text" name="sensor_localizacao" class="form-control"
+                        value="{{sensor.sensor_localizacao}}" required>
+                
+                </div>
+                <div class="w-50">
+                    <button type="submit" class="btn w-100 text-white background-verde-medio border-radius-menor"
+                        >Cadastrar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
