@@ -1107,8 +1107,12 @@ def relatorio():
         animais = Animal.contar_animais()
     except ValueError as e:
         animais = 0
+    try:
+        produtos = Produto.contar_produtos()
+    except ValueError as e:
+        produtos= 0
+    return render_template("relatorio.html", animal=animais, sensor=sensores, produto=produtos)
 
-    return render_template("relatorio.html", animal=animais, sensor=sensores)
     
 @app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
 def excluir_lista_compra_relatorio(lista_compra_id):
