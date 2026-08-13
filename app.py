@@ -838,12 +838,20 @@ def excluir_animal(id):
 def fornecedor_novo():
     try:
         fornecedores = Fornecedor.buscar_fornecedor()
-        return render_template("fornecedor_cadastrado.html", fornecedore=fornecedores)
+        for i in fornecedores:
+            print(i)
+        return render_template("fornecedor_cadastrado.html", fornecedores=fornecedores)
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("gravar_fornecedor"))
 
-
+@app.route("/fornecedor/novo")
+def fornecedor_criar():
+    try:
+        return render_template("cadastro_fornecedor.html")
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("gravar_fornecedor"))
 
 # ======= Salvar dados fornecedor ===== #
 @app.route("/fornecedor/salvar", methods=["POST"])

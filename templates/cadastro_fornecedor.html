@@ -3,7 +3,7 @@
 
 
 <div class="d-flex justify-content-start">
-    <a href="" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
+    <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
 </div>
 <h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Fornecedor
 </h3>
@@ -58,56 +58,6 @@
 
 </form>
 
-
-
-<div class="text-start">
-    <a href="gravar_fornecedor" class="bi bi-arrow-bar-left texto-a">Voltar</a>
-</div>
-<h3 class="mb-4 text-start titulo-h3 mt-4">Cadastro de
-    Fornecedor</h3>
-
-<form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor">
-    <div class="cadastro-sensor d-flex mt-4">
-        <div class="divisao-form me-4 w-100" >
-            <div class="mb-3 text-start">
-                <div class="input-group">
-                    <input type="name" name="especie" class="form-control" placeholder="Espécie:" required>
-                </div>
-            </div>
-
-            <div class="mb-3 text-start">
-                <div class="input-group">
-                    <input type="text" name="sexo" class="form-control" placeholder="Sexo: " required>
-                </div>
-            </div>
-
-            <div class="mb-3 text-start">
-                <div class="input-group">
-                    <input type="text" name="faixa_etaria" class="form-control" placeholder="Idade:" required>
-                </div>
-            </div>
-        </div>
-        <div class="w-100">
-            <div class="mb-3 text-start">
-                <div class="input-group">
-                    <input type="text" name="raca" class="form-control" placeholder="Raça:" required>
-                </div>
-            </div>
-
-            <div class="mb-3 text-start">
-                <div class="input-group">
-                    <input type="text" name="identificacao_animal" class="form-control"
-                        placeholder="Identificação de animal:" required>
-                </div>
-            </div>
-            <div class="text-center">
-                <button class="btn w-100 texto-a background-verde-medio border-radius-menor" type="submit">Cadastrar</button>
-            </div>
-
-        </div>
-    </div>
-
-</form>
 
 
 {% endblock %}
