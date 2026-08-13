@@ -15,6 +15,7 @@ from models.pedido_saida import Item_pedido_saida, Pedido_saida
 from models.pesquisa import Pesquisa
 from datetime import datetime
 import base64
+from models.contato import Contato
 
 
 # definição da variavel app
@@ -56,7 +57,7 @@ def get_contato_form():
     return{
         "contato_nome": request.form.get("nome", "").strip(),
         "contato_email": request.form.get("email", "").strip(),
-        "contato_mensagem": request.form.get("text", "").strip(), 
+        "contato_mensagem": request.form.get("texto", "").strip(), 
     }
 
 # ====== Pegando os dados de produto ====== #
@@ -269,7 +270,7 @@ def inicial():
 @app.route("/contato/enviar", methods=["POST"])
 def contato_enviar():
     dados = get_contato_form()
-    novo_contato = contato(**dados)
+    novo_contato = Contato(**dados)
     erros = contato.validar_contato()
 
     if erros:
@@ -1074,7 +1075,7 @@ def pedido_salvar():
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
     else:
-        animal = Animal.buscar_animal()
+        animal = Animal.contar_animal()
         saida = Pedido_saida(**dados_saida)
         erros_saida = saida.validar_pedido_saida()
         item = Item_pedido_saida(**item_dados_saida)
