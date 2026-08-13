@@ -21,17 +21,21 @@
         </tr>
         {% for animal in animais %}
         <tr>
-            <td class="texto-p text-start" >{{ animal.animal_id or animal['animal_id'] }}</td>
-            <td class="texto-p text-start" >{{ animal.animal_especie or animal['animal_especie'] }}</td>
+            <td class="texto-p text-start">{{ animal.animal_id or animal['animal_id'] }}</td>
+            <td class="texto-p text-start">{{ animal.animal_especie or animal['animal_especie'] }}</td>
             <td class="texto-p">{{ animal.animal_sexo or animal['animal_sexo'] }}</td>
             <td class="texto-p">{{ animal.animal_raca or animal['animal_raca'] }}</td>
             <td class="texto-p">{{ animal.animal_identificacao or animal['animal_identificacao'] }}</td>
             <td class="texto-p">{{ animal.animal_idade or animal['animal_idade'] }}</td>
-            
+            <td class="texto-p"><a class="btn btn-sm btn-link text-danger fs-5 p-0"
+                    href="{{url_for('excluir_animal', animal_id=animal.animal_id)}}">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </td>
 
-        </tr>
-        {% endfor %}
+            {% endfor %}
     </table>
 </div>
+
 
 {%endblock%}
