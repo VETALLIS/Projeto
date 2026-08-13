@@ -1,16 +1,17 @@
 {% extends 'base.html'%}
 {% block conteudo%}
-<div class="d-flex justify-content-between">
-    <h3 class="mb-4 text-start titulo-h3 w-100">Produtos</h3>
-    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio border-radius-menor"
-        href="{{url_for('novo_produto')}}">Adicionar Produto</a>
+<div class="d-flex justify-content-between mb-3">
+    <h3 class=" text-start titulo-h3 w-100">Produtos</h3>
+    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+        type="submit" href="{{url_for('novo_animal')}}">Adicionar
+        Animal</a>
 </div>
 
 
-<div class="d-flex flex-wrap justify-content-start" style="gap: 20px;">
+<div class="d-flex flex-wrap justify-content-start gap-3 mt-3">
     {%if produtos %}
     {% for produto in produtos %}
-    <div class="card card-produto mb-3 text-white backgroud-glass border-radius-menor" style="width: 320px;">
+    <div class="card card-produto mb-3 text-white backgroud-glass border-radius-menor">
         <div class="row g-0">
             <label for="imagem_produto" class="col-4 p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if produto.imagem_base64 %}
@@ -26,7 +27,8 @@
                     <h5 class="card-title fs-6 mt-1">{{produto.produto_nome}}</h5>
                 </div>
                 <div class="card-body text-start pb-0 pt-0">
-                    <a href="/informacao_produto/{{produto.produto_id}}" class="bi bi-arrow-bar-right text-white texto-a">
+                    <a href="/informacao_produto/{{produto.produto_id}}"
+                        class="bi bi-arrow-bar-right text-white texto-a">
                         Ver Detalhes
                     </a>
                 </div>
