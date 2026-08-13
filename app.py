@@ -21,7 +21,7 @@ import base64
 app = Flask(__name__)
 
 # Chave secreta usada na validação
-app.secret_key = "25713|TFZjE1B6p5Q21TSHCOs9Xre7GB9Vwc0P"
+app.secret_key = "27718|LE7dR7xbHO2ygaaOzq2Hh8W07kOle1Mt"
 
 
 # ====== converter inteiro ====== #
@@ -126,7 +126,7 @@ def get_usuario_form():
     return{
         "usuario_nome": request.form.get("nome", "").strip(),
         "usuario_email": request.form.get("email", "").strip(),
-        "usuario_cpf":request.form.get("cpf", "").strip(),
+        "usuario_cpf":request.form.get("cpf", "").replace(".","").replace("-","").replace("/","").replace(" ",""),
         "usuario_senha":request.form.get("senha", "").strip(),
         "usuario_cargo": request.form.get("cargo", "").strip(),
         "usuario_confirmar_senha": request.form.get("confirmar_senha", "").strip(),
@@ -173,7 +173,7 @@ def get_sensor_form():
 def get_fornecedor_form():
     return {
         "nome": request.form.get("fornecedor_nome", "").strip(),
-        "cnpj": (request.form.get("fornecedor_cnpj", "")),
+        "cnpj": (request.form.get("fornecedor_cnpj", "")).replace(".","").replace("-","").replace("/","").replace(" ",""),
         "endereço":(request.form.get("fornecedor_endereço")),
         "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
@@ -834,9 +834,16 @@ def excluir_animal(id):
 # ======= Endpoints fornecedor ====== #
 
 # ======= Formulário de cadastro de fornecedor ===== #
-@app.route("/fornecedor/novo")
+@app.route("/fornecedor")
 def fornecedor_novo():
-    return render_template("cadastro_fornecedor.html")
+    try:
+        fornecedores = Fornecedor.buscar_fornecedor()
+        return render_template("fornecedor_cadastrado.html", fornecedore=fornecedores)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("gravar_fornecedor"))
+
+
 
 # ======= Salvar dados fornecedor ===== #
 @app.route("/fornecedor/salvar", methods=["POST"])
@@ -854,7 +861,7 @@ def gravar_fornecedor():
         fornecedor.gravar_fornecedor()
 
         flash("Fornecedor cadastrado.", "success")
-        return redirect(url_for("fornecedor_novo"))
+        return redirect(url_for("fonecedor_novo"))
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
@@ -927,7 +934,7 @@ def excluir_usuario(usuario_id):
     try:
         Usuario.safe_delete(usuario_id)
         flash("Usuário excluído com sucesso!", "success")
-        return redirect(url_for("tela_inicial")) 
+        return redirect(url_for("inicial")) 
             
     except ValueError as e:
         flash(str(e), "danger") 

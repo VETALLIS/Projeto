@@ -68,8 +68,6 @@ class Manipular:
             "value":dados
         }
         try:
-            dados_limpo= dados.replace(".", "").replace("-", "").replace("/", "")
-            print(dados_limpo)
             response = requests.get(url, params=params)
             response.raise_for_status()
             data= response.json()
