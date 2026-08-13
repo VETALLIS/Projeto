@@ -269,7 +269,7 @@ def inicial():
 @app.route("/contato/enviar", methods=["POST"])
 def contato_enviar():
     dados = get_contato_form()
-    contato = contato(**dados)
+    novo_contato = Contato(**dados)
     erros = contato.validar_contato()
 
     if erros:
