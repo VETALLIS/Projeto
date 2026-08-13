@@ -50,6 +50,15 @@ def get_animal_form():
         "animal_identificacao": request.form.get("identificacao_animal", "").strip(),
     }
 
+
+
+def get_contato_form():
+    return{
+        "contato_nome": request.form.get("nome", "").strip(),
+        "contato_email": request.form.get("email", "").strip(),
+        "contato_mensagem": request.form.get("text", "").strip(), 
+    }
+
 # ====== Pegando os dados de produto ====== #
 def get_produto_form():
     arquivo = request.files.get("imagem")
@@ -256,6 +265,26 @@ def inicial():
         return render_template("tela_inicial.html")
 
 
+# ====== Contato ====== #
+@app.route("/contato/enviar", methods=["POST"])
+def contato_enviar():
+    dados = get_contato_form()
+    produto = Produto(**dados)
+    erros = produto.validar_produto()
+
+    if erros:
+        for erro in erros:
+            flash(erro, "danger")
+        return render_template("cadastro_produto.html", produto=dados)
+
+    try:
+        produto.gravar_produto()
+        flash("Produto cadastrado com sucesso.", "success")
+        return redirect(url_for("produtos"))
+    except Exception as e:
+        flash(f"Erro ao cadastrar produto: {e}", "danger")
+        return redirect(url_for('produtos'))
+        
 
 
 # ====== Endpoints para o cadastro de produtos ====== #
@@ -274,6 +303,7 @@ def produtos():
     except ValueError as e:
         flash(e, "danger")
         return render_template("produtos_cadastrados.html", produtos=[])
+
 
 
 # ======= Formulário cadastro de produtos =======#
@@ -843,7 +873,7 @@ def fornecedor_novo():
         return render_template("fornecedor_cadastrado.html", fornecedores=fornecedores)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("gravar_fornecedor"))
+        return redirect(url_for("fornecedor_criar"))
 
 @app.route("/fornecedor/novo")
 def fornecedor_criar():
@@ -1068,7 +1098,6 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatorio():
-
     try: 
         sensores = Sensor.contar_sensores() 
     except ValueError as e:

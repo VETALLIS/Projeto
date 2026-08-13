@@ -1,5 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
+from core.conectar import Database
 
 class Fornecedor(Crud_base):
     tabela = "fornecedor"
@@ -33,14 +34,48 @@ class Fornecedor(Crud_base):
 
         return "Fornecedor criado com sucesso"
 
-    def deletar_fornecedor(self, id):
-        fornecedor = self.buscar_por_id(id)
+    
 
+    @classmethod
+    def deletar_fornecedor(cls, id):
+        fornecedor = cls.buscar_por_id(id)
         if not fornecedor:
             raise ValueError("Fornecedor não encontrado")
+        
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            query_deletar_itens = """
+                DELETE ipe FROM item_pedido_entrada ipe
+                INNER JOIN pedido_entrada pe 
+                    ON ipe.pedido_entrada_pedido_entrada_id = pe.pedido_entrada_id
+                WHERE pe.fornecedor_fornecedor_id = %s
+            """
+            cursor.execute(query_deletar_itens, (id,))
+            
+            query_deletar_saidas = """
+                DELETE FROM pedido_entrada
+                WHERE fornecedor_fornecedor_id IN (
+                    SELECT fornecedor_id FROM fornecedor WHERE fornecedor_fornecedor_id = %s
+                )
+            """
+            cursor.execute(query_deletar_saidas, (id,))
 
-        self.deletar(id)
-        return "Fornecedor deletado com sucesso!"
+            query_deletar_pai = "DELETE FROM fornecedor WHERE fornecedor_id = %s"
+            cursor.execute(query_deletar_pai, (id,))
+            
+            conexao.commit()
+            
+        except Exception as e:
+            conexao.rollback()
+            raise e 
+            
+        finally:
+            cursor.close()
+            conexao.close()
+        
+        cls.deletar(id)
+        return "fornecedor deletado com sucesso"
 
     def atualizar_fornecedor(self, id):
         fornecedor = self.buscar_por_id(id)
