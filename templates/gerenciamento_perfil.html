@@ -103,41 +103,43 @@
                             Salvar alterações
                         </button>
                     </form>
-
-                    {% if usuario %}
-                    <button type="button" class="btn btn-danger text-white"
-                        style="width:200px; height:45px; border-radius:15px;" data-toggle="modal"
-                        data-target="#modal_excluir">
-                        Excluir conta
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Excluir Conta
                     </button>
-                    {% endif %}
-                </div>
-
-
-                <div class="modal" id="modal_excluir" tabindex="-1" role="dialog"></div>
-                <div class="modal" id="modalExcluir" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Cuidado!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>Essa ação excluirá todos os dados do sistema. Tem certeza de que deseja continuar?
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <form method="POST"
-                                    action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
-                                    <button type="submit" class="btn btn-primary">Excluir conta</button>
-                                </form>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cuidado!</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Essa ação poderá excluir todos os dados do sistema
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    {% if usuario %}
+                                    <form method="POST"
+                                        action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
+                                        <button id="teste" class="btn btn-danger text-white"
+                                            style="max-width: 150px; height:45px; border-radius:15px;" type="submit">Excluir
+                                            conta</button>
+                                    </form>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
+
+
                 </div>
+
+
             </div>
         </div>
 </div>
