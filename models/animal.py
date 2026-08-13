@@ -104,23 +104,15 @@ class Animal(Crud_base):
         return animal# retorna os dados encontrado
 
     @classmethod
-<<<<<<< Updated upstream
+
     def contar_animais(cls, order_by="animal_id"):
-=======
-    def contar_animal(cls, order_by="animal_id"):
->>>>>>> Stashed changes
+
         animal = cls.buscar_tudo(order_by)
         if not animal:
             raise ValueError("Animal não encontrato")
-        
-<<<<<<< Updated upstream
+
         animais = 0
         for i in animal:
             animais = animais + 1
         return animais
-=======
-        animal = 0
-        for i in animal:
-            animal = animal + 1
-        return animal
->>>>>>> Stashed changes
+
