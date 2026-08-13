@@ -4,7 +4,7 @@ from core.crud_base import Crud_base
 
 class Contato(Crud_base):
 
-    def __init__(self, contato_nome):
+    def __init__(self, contato_nome, contato_email, contato_mensagem):
         self.contato_nome = contato_nome
 
     @classmethod

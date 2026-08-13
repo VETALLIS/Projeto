@@ -57,7 +57,7 @@ def get_contato_form():
     return{
         "contato_nome": request.form.get("nome", "").strip(),
         "contato_email": request.form.get("email", "").strip(),
-        "contato_mensagem": request.form.get("text", "").strip(), 
+        "contato_mensagem": request.form.get("texto", "").strip(), 
     }
 
 # ====== Pegando os dados de produto ====== #
