@@ -918,7 +918,6 @@ def excluir_fornecedor(fornecedor_id):
     return redirect(url_for("fornecedor_novo"))
     
 
-
     
 # ========= Endpoint gerenciamento de perfil ======= #
 

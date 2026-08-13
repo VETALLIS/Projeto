@@ -1,16 +1,37 @@
-
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react'
+import { useState } from 'react';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 
 export default function LeitorScreen() {
-  const [mensagem, setMensagem] = useState('')
-  const [sucesso, setSucesso] = useState('')
+  const [mensagem, setMensagem] = useState('');
+  const [sucesso, setSucesso] = useState('');
+  const [scanning, setScanning] = useState(false);
+  const [scannedData, setScannedData] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
 
   function movimentacao() {
-    setMensagem('Movimentação realizada com sucesso')
-    setSucesso(true)
+    setMensagem('Movimentação realizada com sucesso');
+    setSucesso(true);
+  }
+
+  async function abrirLeitor() {
+    if (!permission?.granted) {
+      const res = await requestPermission();
+      if (!res.granted) {
+        setMensagem('Permissão de câmera negada');
+        setSucesso(false);
+        return;
+      }
+    }
+    setScannedData(null);
+    setScanning(true);
+  }
+
+  function handleBarcodeScanned({ data }) {
+    setScanning(false);
+    setScannedData(data);
   }
 
   return (
@@ -26,10 +47,6 @@ export default function LeitorScreen() {
           <View style={styles.iconCircle}>
             <MaterialCommunityIcons name="calendar-today" size={30} color="#fefefe" />
           </View>
-          <Image
-            source={require('../assets/vetallis.png')}
-            style={styles.logo}
-          />
         </View>
         <View style={styles.menuDireita}>
           <View style={styles.iconCircle}>
@@ -42,32 +59,51 @@ export default function LeitorScreen() {
       </View>
 
       <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>
-            Leitor de QR CODE
-          </Text>
-        </View>
+        <Text style={styles.title}>Movimentação de produtos</Text>
       </View>
-      <View style={styles.card}>
-        <View>
-          <Image
-            source={require('../assets/images.png')}
-            style={styles.imagem}
-          />
+
+      <ScrollView contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false}>
+        <View style={styles.card}>
+          {scanning ? (
+            <View style={styles.cameraBox}>
+              <CameraView
+                style={StyleSheet.absoluteFillObject}
+                barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
+                onBarcodeScanned={handleBarcodeScanned}
+              />
+              <TouchableOpacity style={styles.botao_saida} onPress={() => setScanning(false)}>
+                <Text style={styles.textoBotao}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.iconBox}>
+              <MaterialCommunityIcons name="qrcode-scan" size={100} color="#11686F" />
+              {scannedData && (
+                <Text style={styles.escrita}>Código lido: {scannedData}</Text>
+              )}
+            </View>
+          )}
+
+          <TouchableOpacity style={styles.botao} onPress={abrirLeitor}>
+            <Text style={styles.textoBotao}>
+              {scanning ? 'Escaneando...' : 'Escanear QR Code'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.botao} onPress={movimentacao}>
+            <Text style={styles.textoBotao}>Adicionar produto</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.botao_saida} onPress={movimentacao}>
+            <Text style={styles.textoBotao}>Retirar produto</Text>
+          </TouchableOpacity>
+
+          {mensagem !== '' && (
+            <Text style={[styles.mensagem, { color: sucesso ? '#2e7d32' : '#d32f2f' }]}>
+              {mensagem}
+            </Text>
+          )}
         </View>
-        <TouchableOpacity style={styles.botao} onPress={movimentacao}>
-          <Text style={styles.textoBotao}>Adicionar produto</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.botao_saida} onPress={movimentacao}>
-          <Text style={styles.textoBotao}>Retirar produto</Text>
-        </TouchableOpacity>
-        {mensagem !== '' && (
-          <Text style={[
-            styles.mensagem,
-            { color: sucesso ? '#2e7d32' : '#d32f2f' }
-          ]}>{mensagem}</Text>
-        )}
-      </View>
+      </ScrollView>
     </LinearGradient>
   );
 }
@@ -79,16 +115,24 @@ const styles = StyleSheet.create({
 
   },
   card: {
-    backgroundColor: '#ffff',
+    backgroundColor: '#ffffffd5',
     borderRadius: 25,
     padding: 25,
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
-    width: 500,
+    width: '100%',        // era 500
     alignSelf: 'center',
     paddingTop: 25,
+  },
+  iconBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 16,
+    paddingVertical: 40,
+    minHeight: 250
   },
   titulo: {
     alignSelf: 'center',
