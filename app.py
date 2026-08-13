@@ -1108,6 +1108,7 @@ def relatorio():
         lista_compra = []
 
     return render_template("relatorio.html", lista_compra=lista_compra, sensor=sensores)
+
     
 @app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
 def excluir_lista_compra_relatorio(lista_compra_id):
