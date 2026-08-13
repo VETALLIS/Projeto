@@ -105,16 +105,17 @@
                     </form>
 
                     {% if usuario %}
-                    <form method="POST" action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
-                        <button class="btn btn-danger text-white" style="width:200px; height:45px; border-radius:15px;"
-                            type="submit">Excluir conta</button>
-                    </form>
+                    <button type="button" class="btn btn-danger text-white"
+                        style="width:200px; height:45px; border-radius:15px;" data-toggle="modal"
+                        data-target="#modal_excluir">
+                        Excluir conta
+                    </button>
                     {% endif %}
-
                 </div>
 
 
-                <div class="modal" tabindex="-1" role="dialog">
+                <div class="modal" id="modal_excluir" tabindex="-1" role="dialog"></div>
+                <div class="modal" id="modalExcluir" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -124,10 +125,14 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Essa ação excluirá todos os dados do sistema. Tem certeza de que deseja continuar?</p>
+                                <p>Essa ação excluirá todos os dados do sistema. Tem certeza de que deseja continuar?
+                                </p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">Excluir conta</button>
+                                <form method="POST"
+                                    action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
+                                    <button type="submit" class="btn btn-primary">Excluir conta</button>
+                                </form>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
@@ -135,6 +140,7 @@
                 </div>
             </div>
         </div>
+</div>
 
 </div>
 

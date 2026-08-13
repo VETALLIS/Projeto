@@ -48,12 +48,11 @@ class GerenciamentoPerfil(Crud_base):
 
     @classmethod
     def buscar_usuario_por_id(cls, id):
-        usuario  = cls.buscar_por_id(id)
+        usuario = cls.buscar_por_id(id)
 
         if not usuario:
             raise ValueError("Usuario não encontrado.")
 
-        usuario.pop("usuario_id", None)
         return usuario
 
     

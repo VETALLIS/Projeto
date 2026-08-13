@@ -834,9 +834,24 @@ def excluir_animal(id):
 # ======= Endpoints fornecedor ====== #
 
 # ======= Formulário de cadastro de fornecedor ===== #
-@app.route("/fornecedor/novo")
+@app.route("/fornecedor")
 def fornecedor_novo():
-    return render_template("cadastro_fornecedor.html")
+    try:
+        fornecedores = Fornecedor.buscar_fornecedor()
+        for i in fornecedores:
+            print(i)
+        return render_template("fornecedor_cadastrado.html", fornecedores=fornecedores)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("gravar_fornecedor"))
+
+@app.route("/fornecedor/novo")
+def fornecedor_criar():
+    try:
+        return render_template("cadastro_fornecedor.html")
+    except ValueError as e:
+        flash(str(e), "danger")
+        return redirect(url_for("gravar_fornecedor"))
 
 # ======= Salvar dados fornecedor ===== #
 @app.route("/fornecedor/salvar", methods=["POST"])
@@ -854,7 +869,7 @@ def gravar_fornecedor():
         fornecedor.gravar_fornecedor()
 
         flash("Fornecedor cadastrado.", "success")
-        return redirect(url_for("fornecedor_novo"))
+        return redirect(url_for("fonecedor_novo"))
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
@@ -927,7 +942,7 @@ def excluir_usuario(usuario_id):
     try:
         Usuario.safe_delete(usuario_id)
         flash("Usuário excluído com sucesso!", "success")
-        return redirect(url_for("tela_inicial")) 
+        return redirect(url_for("inicial")) 
             
     except ValueError as e:
         flash(str(e), "danger") 
