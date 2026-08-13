@@ -147,11 +147,12 @@
                 </div>
                 <div id="campos-contato" class="w-25 p-4 backgroud-glass border-radius-menor d-flex flex-column gap-3 align-items-center justify-content-center" >
                     <h1 id="titulo-contato" class="titulo-h3 mb-2">Contato</h1>
-                    <form method="POST" action="{{ url_for('gravar_fornecedor') }}" class="form-sensor " style="width: 100%;">
-                    <input type="text" placeholder="Nome Completo" class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
-                    <input type="email" placeholder="Email" class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
-                    <textarea name="text" id="mensagem-contato" placeholder="Escreva sua mensagem" class="border-radius-menor backgroud-glass texto-p"></textarea>
-                    <button id="botao-enviar-contato" class="border-radius-menor mt-3 background-verde-medio w-100 border-radius-menor borda-none p-1"type="submit">Enviar</button>
+                        <form method="POST" action="{{ url_for('') }}" class="form-sensor " style="width: 100%;">
+                        <input type="text" name="nome" placeholder="Nome Completo" class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
+                        <input type="email"name="email" placeholder="Email" class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
+                        <textarea type="text" name="texto" id="mensagem-contato" placeholder="Escreva sua mensagem" class="border-radius-menor backgroud-glass texto-p"></textarea>
+                        <button id="botao-enviar-contato" class="border-radius-menor mt-3 background-verde-medio w-100 border-radius-menor borda-none p-1"type="submit">Enviar</button>
+                    </form>
                 </div>
             </div>
         </section>
