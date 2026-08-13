@@ -14,6 +14,9 @@
                     style="width: 80px; height: 80px; flex-shrink: 0;">
                     <i class="bi bi-feather text-white" style="font-size: 3rem;"></i>
                 </div>
+                <div class="d-flex justify-content-center" style="margin-left: 35px;">
+                    <h3 class="text-white fw-bold mb-0" style="font-size: 3rem;">{{ animal }}</h3>
+                </div>
             </div>
         </div>
 
@@ -60,63 +63,44 @@
     </div>
 </div>
 
-<div class="container-fluid px-4 py-3 mt-4" style="background: transparent;">
-    <div class="row g-3 align-items-end">
-        <div class="col">
-            <label class="text-white fw-bold mb-2">Nome</label>
-            <input type="text" class="form-control rounded-3" placeholder="Buscar por nome">
-        </div>
-        <div class="col">
-            <label class="text-white fw-bold mb-2">Categoria</label>
-            <select class="form-select rounded-3">
-                <option selected>Todas as categorias</option>
-                <option>Vacina</option>
-                <option>Antiparasitários</option>
-                <option>Antibióticos</option>
-                <option>Anti-inflamatórios</option>
-                <option>Analgésicos</option>
-                <option>Anestésicos</option>
-                <option>Animais</option>
-                <option>Sensores</option>
-            </select>
-        </div>
-        <div class="col-auto">
-            <label class="text-white fw-bold mb-2">Quantidade</label>
-            <input type="number" class="form-control rounded-3" placeholder="Quantidade" style="width: 150px;">
-        </div>
-        <div class="col-auto">
-            <button class="btn btn-light rounded-3 px-4 fw-bold">Filtrar</button>
+
+
+
+<div class=" mt-5" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
+    padding: 5px; height: 450px;">
+    <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
+    <div class="container-fluid px-4 py-3" style="background: transparent;">
+        <div class="row g-3 align-items-end">
+            <div class="col">
+                <label class="text-white fw-bold mb-2">Nome</label>
+                <input type="text" class="form-control rounded-3" placeholder="Buscar por nome">
+            </div>
+            <div class="col">
+                <label class="text-white fw-bold mb-2">Categoria</label>
+                <select class="form-select rounded-3">
+                    <option selected>Todas as categorias</option>
+                    <option>Vacina</option>
+                    <option>Antiparasitários</option>
+                    <option>Antibióticos</option>
+                    <option>Anti-inflamatórios</option>
+                    <option>Analgésicos</option>
+                    <option>Anestésicos</option>
+                    <option>Animais</option>
+                    <option>Sensores</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <label class="text-white fw-bold mb-2">Quantidade</label>
+                <input type="number" class="form-control rounded-3" placeholder="Quantidade" style="width: 150px;">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-light rounded-3 px-4 fw-bold">Filtrar</button>
+            </div>
         </div>
     </div>
-</div>
-
-
-
-
-
-
-
-
-
-<div class="d-flex colum mt-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px;max-width:1350px !important; width: 100% !important;height: 450px;">
-    <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
 
     <div class="table-responsive mt-3" style="width: 100%;;">
-        <table class="table">
-            <tr>
-                <th class="text-white text-start">Nome</th>
-                <th class="text-white fw-bold">Categoria</th>
-                <th class="text-white">Quantidade</th>
-            </tr>
-            {% for produto in produtos %}
-            <tr class="linha-produto" data-categoria="{{ produto.produto_categoria }}">
-                <th class="text-white fw-normal align-items-start text-start">{{ produto.produto_nome }}</th>
-                <th class="text-white fw-normal">{{ produto.produto_categoria }}</th>
-                <th class="text-white fw-normal">{{ produto.estoque_quantidade }}</th>
-            </tr>
-            {% endfor %}
-        </table>
+
     </div>
 </div>
 {% endblock%}

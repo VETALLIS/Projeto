@@ -111,5 +111,5 @@ class Animal(Crud_base):
         
         animais = 0
         for i in animal:
-            animais = animal + 1
+            animais = animais + 1
         return animais
