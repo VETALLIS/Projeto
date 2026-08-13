@@ -899,11 +899,10 @@ def gravar_fornecedor():
         fornecedor.gravar_fornecedor()
 
         flash("Fornecedor cadastrado.", "success")
-        return redirect(url_for("fonecedor_novo"))
+        return redirect(url_for("fornecedor_novo"))
 
     except Exception as e:
         flash(f"Erro ao cadastrar fornecedor", "danger")
-        print(e)
         return render_template("cadastro_fornecedor.html", login=dados)
 
 @app.route("/fornecedor/excluir/<int:fornecedor_id>", methods=["GET", "POST"])
