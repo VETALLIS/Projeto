@@ -843,7 +843,7 @@ def fornecedor_novo():
         return render_template("fornecedor_cadastrado.html", fornecedores=fornecedores)
     except ValueError as e:
         flash(str(e), "danger")
-        return redirect(url_for("gravar_fornecedor"))
+        return redirect(url_for("fornecedor_criar"))
 
 @app.route("/fornecedor/novo")
 def fornecedor_criar():
