@@ -201,3 +201,13 @@ class Produto(Crud_base):
         finally:
             cursor.close()
             conexao.close()
+    
+    @classmethod
+    def contar_produtos(cls, order_by="produto_id"):
+        produto = cls.buscar_tudo(order_by)
+        if not animal:
+            raise ValueError("Produto não encontrato")
+        animais = 0
+        for i in produto:
+            produtos = produtos + 1
+        return produtos
