@@ -3,54 +3,54 @@
 
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left text-white" style="text-decoration: none;">Voltar</a>
+    <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left text-white"
+        style="text-decoration: none;">Voltar</a>
 </div>
 <h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Fornecedor
 </h3>
 
 <form method="POST" action="{{ url_for('gravar_fornecedor') }}" class="form-sensor " style="width: 100%;">
 
-    <div class="divisao-form d-flex" >
+    <div class="divisao-form" style="width: 100%;">
 
-        <div class="mb-4 text-start m-2" style="width: 33%;">
-            <div class="input-group">
-                <input type="name" name="fornecedor_nome" class="form-control" placeholder="Nome do fornecedor:"
-                    required>
+        <div class="row mb-4">
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_nome" class="form-control" placeholder="Nome do fornecedor:"
+                        required>
+                </div>
             </div>
-        </div>
-        <div class="mb-4 text-start" style="width: 33%;">
-            <div class="input-group">
-                <input type="text" name="fornecedor_tipo_produtos" class="form-control" placeholder="Tipo de Produto:"
-                    required>
-            </div>
-        </div>
-        <div class="mb-4 text-start"  style="width: 33%;">
-            <div class="input-group">
-                <input type="number" name="fornecedor_pedido_minimo" class="form-control" placeholder="Pedido Mínimo:"
-                    required>
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_endereço" class="form-control" placeholder="Endereço:" required>
+                </div>
             </div>
         </div>
 
-        
-
-    </div>
-    <div class="divisao-form " style=" width: 50%;">
-
-        <div class="mb-4 text-start">
-            <div class="input-group">
-                <input type="text" name="fornecedor_endereço" class="form-control" placeholder="Endereço:" required>
+        <div class="row mb-4">
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_cnpj" class="form-control" placeholder="CNPJ:" required>
+                </div>
+            </div>
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="text" name="fornecedor_tipo_produtos" class="form-control"
+                        placeholder="Tipo de Produto:" required>
+                </div>
             </div>
         </div>
 
-        <div class="mb-4 text-start">
-            <div class="input-group">
-                <input type="text" name="fornecedor_cnpj" class="form-control" placeholder="CNPJ:" required>
+        <div class="row mb-4">
+            <div class="col-md-6 text-start">
+                <div class="input-group">
+                    <input type="number" name="fornecedor_pedido_minimo" class="form-control"
+                        placeholder="Pedido Mínimo:" required>
+                </div>
             </div>
-        </div>
-        <div class="mb-4 text-start">
-            <div class="text-center">
-                <button class="btn btn-login text-white "
-                    style="background: #03c356; border-radius: 15px; width: 50%;" type="submit">Cadastrar</button>
+            <div class="col-md-6 text-center">
+                <button class="btn btn-login text-white" style="background: #03c356; border-radius: 15px; width: 100%;"
+                    type="submit">Cadastrar</button>
             </div>
         </div>
 

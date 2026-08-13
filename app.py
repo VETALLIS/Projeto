@@ -1068,7 +1068,6 @@ def pedido_salvar():
 
 @app.route("/relatorio")
 def relatorio():
-
     try: 
         sensores = Sensor.contar_sensores() 
     except ValueError as e:
