@@ -5,33 +5,25 @@
 <div class="d-flex  justify-content-between">
 
 
-    <div class="col-4 d-flex">
-        <div class="me-4 card-dash" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px; height: 160px;">
-            <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5">Produtos <br>Vencidos</h5>
-            <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 ms-3 mt-3 "
-                style="width: 80px; height: 80px;">
-                <i class="bi bi-box-seam text-white" style="font-size: 3rem;"></i>
+    <div class="d-flex">
+        <div class="me-4 card-dash"
+            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
+            <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">Animais</h5>
+            <div class="d-flex align-items-center gap-3 mt-2 ms-3">
+                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
+                    style="width: 80px; height: 80px; flex-shrink: 0;">
+                    <i class="bi bi-feather text-white" style="font-size: 3rem;"></i>
+                </div>
             </div>
         </div>
 
         <div class="me-4 card-dash"
-            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px;">
-            <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5;">Sensor</h5>
+            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
+            <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">Total em estoque</h5>
             <div class="d-flex align-items-center gap-3 mt-2 ms-3">
-                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5"
+                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
                     style="width: 80px; height: 80px; flex-shrink: 0;">
-                    <i class="bi bi-thermometer-sun text-white" style="font-size: 3rem;"></i>
-                </div>
-
-                <div class="d-flex flex-column">
-                    <!-- Mostra a quantidade total de sensores cadastrados -->
-                    <label class="form-label mb-0" style="color: #fff; font-size: 0.9rem;">Quantidade Sensores:</label>
-
-                    <label class="form-label mb-0 mt-1" style="color: #fff; font-size: 0.85rem;"></label>
-                    <span style="color: #fff; font-size: 1.8rem; font-weight: bold; line-height: 1;">
-                        {{ sensor }}
-                    </span>
+                    <i class="bi bi-box-seam text-white" style="font-size: 3rem;"></i>
                 </div>
             </div>
         </div>
@@ -40,29 +32,67 @@
 
         <!-- Card do Total Estoque (Sempre visível, fora do if) -->
         <div class="me-4 card-dash"
-            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px;">
-            <h5 class="text-start text-white fw-bold mb-0 ps-4 fs-5;">Total em Estoque</h5>
+            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
+            <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">Produtos vencidos</h5>
             <div class="d-flex align-items-center gap-3 mt-2 ms-3">
-                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5"
+                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
                     style="width: 80px; height: 80px; flex-shrink: 0;">
-                    <i class="bi bi-cart text-white" style="font-size: 3rem;"></i>
+                    <i class="bi bi-capsule-pill text-white" style="font-size: 3rem;"></i>
                 </div>
+            </div>
+        </div>
 
-                <div class="d-flex flex-column">
-                    <!-- Mostra a quantidade total de sensores cadastrados -->
-                    <label class="form-label mb-0" style="color: #fff; font-size: 0.9rem;">Quantidade Produtos:
-                        <strong>{{ sensor }}</strong></label>
 
-                    <label class="form-label mb-0 mt-1" style="color: #fff; font-size: 0.85rem;"></label>
-                    <span style="color: #fff; font-size: 1.8rem; font-weight: bold; line-height: 1;">
-
-                    </span>
+        <div class="me-4 card-dash"
+            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
+            <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">Sensor</h5>
+            <div class="d-flex align-items-center gap-3 mt-2 ms-3">
+                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
+                    style="width: 80px; height: 80px; flex-shrink: 0;">
+                    <i class="bi bi-thermometer-sun text-white" style="font-size: 3rem;"></i>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
+
+<div class="container-fluid px-4 py-3 mt-4" style="background: transparent;">
+    <div class="row g-3 align-items-end">
+        <div class="col">
+            <label class="text-white fw-bold mb-2">Nome</label>
+            <input type="text" class="form-control rounded-3" placeholder="Buscar por nome">
+        </div>
+        <div class="col">
+            <label class="text-white fw-bold mb-2">Categoria</label>
+            <select class="form-select rounded-3">
+                <option selected>Todas as categorias</option>
+                <option>Vacina</option>
+                <option>Antiparasitários</option>
+                <option>Antibióticos</option>
+                <option>Anti-inflamatórios</option>
+                <option>Analgésicos</option>
+                <option>Anestésicos</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="text-white fw-bold mb-2">Quantidade</label>
+            <input type="number" class="form-control rounded-3" placeholder="Quantidade" style="width: 150px;">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-light rounded-3 px-4 fw-bold">Filtrar</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
 <div class="d-flex colum mt-4" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
     padding: 5px;max-width:1350px !important; width: 100% !important;height: 450px;">
     <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
