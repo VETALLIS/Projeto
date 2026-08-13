@@ -1,6 +1,7 @@
 # ===== Importar as classes =====#
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+from core.conectar import Database
 
 # ===== Cria a classe Animal ===#
 class Animal(Crud_base):
@@ -40,14 +41,38 @@ class Animal(Crud_base):
         return "Animal Cadastrado com sucesso!" # Retorna mensagem de sucesso
 
     # ===== Método de deletar dados dos animais ===== #
-    def deletar_animal(self, id):
-        animal = self.buscar_por_id(id) # chama o método de buscar por id do Crud_base
+    @classmethod
+    def deletar_animal(cls, id):
+        animal = cls.buscar_por_id(id)
+        if not animal:
+            raise ValueError("Animal não encontrado")
+        
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            query_deletar_saidas = """
+                DELETE FROM pedido_saida 
+                WHERE animal_animal_id IN (
+                    SELECT animal_id FROM animal WHERE animal_animal_id = %s
+                )
+            """
+            cursor.execute(query_deletar_saidas, (id,))
 
-        if not animal: # Verifica se os dados foram encontrados 
-            raise ValueError("Animal não encontrado.")
-
-        self.deletar(id) # Chama o método deletar da classe Crud_base
-        return "Animal deletado com sucesso!" # retorna se os dados foram deletados
+            query_deletar_pai = "DELETE FROM animal WHERE animal_id = %s"
+            cursor.execute(query_deletar_pai, (id,))
+            
+            conexao.commit()
+            
+        except Exception as e:
+            conexao.rollback()
+            raise e 
+            
+        finally:
+            cursor.close()
+            conexao.close()
+        
+        cls.deletar(id)
+        return "Animal deletado com sucesso"
 
     # ====== Método para atualizar os dados dos animais ===== #
     def atualizar_animal(self, id):

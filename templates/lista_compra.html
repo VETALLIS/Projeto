@@ -2,12 +2,11 @@
 {% block conteudo%}
 
 
-<div class="d-flex justify-content-between mt-5"
-    style="color: white; padding:5px; border-bottom:solid 1px #fff; width: 100%;">
-    <h3 class="mb-4 text-start">
+<div class="d-flex justify-content-between mt-5 w-100">
+    <h3 class="mb-4 text-start titulo-h3">
         Lista de compra</h3>
-    <a class="btn btn-login w-100 text-white d-flex justify-content-center"
-        style="background: #03c356; border-radius: 15px; max-width: 20%; height: 50px; align-items: center;" type="submit" href="{{url_for('novo_lista_compra')}}">Adicionar
+    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+        type="submit" href="{{url_for('novo_lista_compra')}}">Adicionar
         Item</a>
 </div>
 <div class="table-responsive mt-5">
@@ -25,9 +24,11 @@
             <th class="text-white fw-normal align-items-start text-start">{{ produto.lista_compra_nome }}</th>
             <th class="text-white fw-normal">R$ {{ produto.lista_compra_valor }}</th>
             <th class="text-white fw-normal">{{ produto.lista_compra_quantidade }}</th>
-            <th class="text-white fw-normal">R$ {{ "%.2f"|format(produto.lista_compra_valor * produto.lista_compra_quantidade) }}</th>
+            <th class="text-white fw-normal">R$ {{ "%.2f"|format(produto.lista_compra_valor *
+                produto.lista_compra_quantidade) }}</th>
             <td>
-                <a class="btn btn-sm btn-link text-danger" href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}">
+                <a class="btn btn-sm btn-link text-danger"
+                    href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}">
                     <i class="bi bi-trash"></i>
                 </a>
             </td>
