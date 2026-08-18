@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash,  session
+from flask import Flask, render_template, request, redirect, url_for, flash,  session, current_app
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
@@ -909,28 +909,58 @@ def excluir_fornecedor(fornecedor_id):
     except Exception as e:
         flash(f"Erro ao excluir fornecedor: {e}", "danger")
     return redirect(url_for("fornecedor_novo"))
-    
+
+@app.route("/fornecedor/editar/<int:fornecedor_id>" ,methods=["GET", "POST"])
+def editar_fornecedor(fornecedor_id):
+
+    try:
+        fornecedor = Fornecedor.buscar_por_id(fornecedor_id)
+        if not fornecedor:
+            flash("Fornecedor não encontrado.", "danger")
+            return redirect(url_for("novo_fornecedor"))
+        return render_template("editar_fornecedor.html", fornecedor=fornecedor)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("fornecedor_cadastrado.html")  
+
 
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
 def atualizar_fornecedor(fornecedor_id):
-    dados = get_fornecedor_form()
-    atualizar = Fornecedor(**dados)
-    erros = atualizar.validar_fornecedor()
-    dados_fornecedor = atualizar.buscar_fornecedor_id(fornecedor_id)
-
     try:
-        if erros:
-            flash(erros, "danger")
-            return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor) 
-
-        atualizar.atualizar_fornecedor(fornecedor_id) 
-
-        flash("Dados atualizados.", "success")
-        return redirect(url_for("editar_fornecedor", sensor_id=sensor_id))  
-
+        dados_fornecedor = Fornecedor.buscar_por_id(fornecedor_id)
+        if not dados_fornecedor:
+            flash("Fornecedor não encontrado.", "danger")
+            return redirect(url_for("fornecedor_novo"))
     except Exception as e:
-        flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
-        return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor)
+        flash(f"Erro ao buscar fornecedor: {str(e)}", "danger")
+        return redirect(url_for("fornecedor_novo"))
+    if request.method == "POST":
+        dados = get_fornecedor_form()
+        atualizar = Fornecedor(**dados)
+        erros = atualizar.validar_fornecedor(current_app.config['SECRET_KEY'])
+
+        try:
+            if erros:
+                for erro in erros:
+                    flash(erro, "danger")
+                # Retorna os dados digitados na tentativa para não apagar o formulário
+                return render_template("editar_fornecedor.html", fornecedor=dados) 
+
+            # Executa a atualização no banco de dados
+            atualizar.atualizar_fornecedor(fornecedor_id) 
+
+            flash("Dados atualizados com sucesso.", "success")
+            # Correção 4: Redireciona de volta para a rota correta passando o ID certo
+            return redirect(url_for("editar_fornecedor", fornecedor_id=fornecedor_id))  
+
+        except Exception as e:
+            flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
+            # Adicionado fornecedor_id=fornecedor_id no render_template abaixo
+            return render_template("editar_fornecedor.html", fornecedor=dados, fornecedor_id=fornecedor_id)
+
+    # 3. Se for GET, apenas exibe a página com os dados salvos no banco
+    return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor)
+
 
 #========== Endpoint de erro ======== #
 
