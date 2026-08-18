@@ -114,11 +114,11 @@ def get_item_entrada_form():
 
 def get_item_saida_form():
     return {
-        "item_pedido_saida_nome": request.form.getlist("item_pedido_saida_nome", "").strip(),
-        "item_pedido_saida_lote": request.form.getlist("item_pedido_saida_lote", "").strip(),
-        "item_pedido_saida_quantidade": request.form.getlist("item_pedido_saida_quantidade", "").strip(),
-        "pedido_saida_pedido_saida_id": request.form.getlist("pedido_entrada_pedido_entrada_ide", ""),  
-        "estoque_estoque_id": request.form.getlist("estoque_estoque_id", "")
+        "item_pedido_saida_nome": request.form.get("item_pedido_saida_nome", "").strip(),
+        "item_pedido_saida_lote": request.form.get("item_pedido_saida_lote", "").strip(),
+        "item_pedido_saida_quantidade": request.form.get("item_pedido_saida_quantidade", "").strip(),
+        "pedido_saida_pedido_saida_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
+        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
     }
 
 # ====== Pegando os dados do usuario ====== #
@@ -275,7 +275,7 @@ def contato_enviar():
     try:
         novo_contato.enviar_email(dados)
         flash("Mensagem enviada com sucesso", "success")
-        return redirect(url_for("home"))
+        return redirect(url_for("index"))
     except Exception as e:
         flash(f"Erro ao enviar mensagem: {e}", "danger")
         return redirect(url_for('home'))
