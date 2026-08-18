@@ -195,4 +195,6 @@ class Item_pedido_entrada(Crud_base):
         finally:
             cursor.close()
             conexao.close()
-    
+
+
+   

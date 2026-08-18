@@ -1,142 +1,729 @@
-{% extends 'base.html'%}
-{% block conteudo%}
+{% extends 'base.html' %}
 
-<h3 class="mb-4 text-start" style="color: white; padding:10px; border-bottom:solid 1px #fff;">Indicador</h3>
-<div class="d-flex  justify-content-between">
+{% block conteudo %}
 
+<!-- =====================================================
+     TÍTULO
+===================================================== -->
+
+<h3 class="mb-4 text-start"
+    style="
+        color: white;
+        padding: 10px;
+        border-bottom: solid 1px #fff;
+    ">
+    Indicador
+</h3>
+
+
+<!-- =====================================================
+     CARDS DOS INDICADORES
+===================================================== -->
+
+<div class="d-flex justify-content-between">
 
     <div class="d-flex">
+
+
+        <!-- =================================================
+             CARD ANIMAIS
+        ================================================== -->
+
         <div class="me-4 card-dash"
-            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
-            <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">Animais</h5>
+            style="
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.15);
+                padding: 5px;
+                height: 160px;
+                width: 317px;
+            ">
+
+            <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">
+                Animais
+            </h5>
+
             <div class="d-flex align-items-center gap-3 mt-2 ms-3">
-                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
-                    style="width: 80px; height: 80px; flex-shrink: 0;">
-                    <i class="bi bi-feather text-white" style="font-size: 3rem;"></i>
+
+                <div class="border border-white rounded-circle
+                            d-flex align-items-center justify-content-center
+                            border-5 mt-2"
+                    style="
+                        width: 80px;
+                        height: 80px;
+                        flex-shrink: 0;
+                    ">
+
+                    <i class="bi bi-feather text-white"
+                       style="font-size: 3rem;">
+                    </i>
+
                 </div>
-                <div class="d-flex justify-content-center" style="margin-left: 35px;">
-                    <h3 class="text-white fw-bold mb-0" style="font-size: 3rem;">{{ animal }}</h3>
+
+                <div class="d-flex justify-content-center"
+                     style="margin-left: 35px;">
+
+                    <h3 class="text-white fw-bold mb-0"
+                        style="font-size: 3rem;">
+
+                        {{ animal }}
+
+                    </h3>
+
                 </div>
+
             </div>
+
         </div>
 
+
+        <!-- =================================================
+             CARD PRODUTOS EM ESTOQUE
+        ================================================== -->
+
         <div class="me-4 card-dash"
-            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
-            <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">Produtos em estoque</h5>
+            style="
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.15);
+                padding: 5px;
+                height: 160px;
+                width: 317px;
+            ">
+
+            <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">
+                Produtos em estoque
+            </h5>
+
             <div class="d-flex align-items-center gap-3 mt-2 ms-3">
-                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
-                    style="width: 80px; height: 80px; flex-shrink: 0;">
-                    <i class="bi bi-box-seam text-white" style="font-size: 3rem;"></i>
+
+                <div class="border border-white rounded-circle
+                            d-flex align-items-center justify-content-center
+                            border-5 mt-2"
+                    style="
+                        width: 80px;
+                        height: 80px;
+                        flex-shrink: 0;
+                    ">
+
+                    <i class="bi bi-box-seam text-white"
+                       style="font-size: 3rem;">
+                    </i>
+
                 </div>
-                <div class="d-flex justify-content-center" style="margin-left: 35px;">
-                    <h3 class="text-white fw-bold mb-0" style="font-size: 3rem;">{{ produto }}</h3>
+
+                <div class="d-flex justify-content-center"
+                     style="margin-left: 35px;">
+
+                    <h3 class="text-white fw-bold mb-0"
+                        style="font-size: 3rem;">
+
+                        {{ produto }}
+
+                    </h3>
+
                 </div>
+
             </div>
+
         </div>
 
 
+        <!-- =================================================
+             CARD PRODUTOS VENCIDOS
+        ================================================== -->
 
-        <!-- Card do Total Estoque (Sempre visível, fora do if) -->
         <div class="me-4 card-dash"
-            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
-            <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">Produtos vencidos</h5>
+            style="
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.15);
+                padding: 5px;
+                height: 160px;
+                width: 317px;
+            ">
+
+            <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">
+                Produtos vencidos
+            </h5>
+
             <div class="d-flex align-items-center gap-3 mt-2 ms-3">
-                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
-                    style="width: 80px; height: 80px; flex-shrink: 0;">
-                    <i class="bi bi-capsule-pill text-white" style="font-size: 3rem;"></i>
-                    <div class="d-flex justify-content-center" style="margin-left: 35px;">
-                        <h3 class="text-white fw-bold mb-0" style="font-size: 3rem;">{{ vencido }}</h3>
-                    </div>
+
+                <div class="border border-white rounded-circle
+                            d-flex align-items-center justify-content-center
+                            border-5 mt-2"
+                    style="
+                        width: 80px;
+                        height: 80px;
+                        flex-shrink: 0;
+                    ">
+
+                    <i class="bi bi-capsule-pill text-white"
+                       style="font-size: 3rem;">
+                    </i>
+
                 </div>
+
+                <div class="d-flex justify-content-center"
+                     style="margin-left: 35px;">
+
+                    <h3 class="text-white fw-bold mb-0"
+                        style="font-size: 3rem;">
+
+                        {{ vencido }}
+
+                    </h3>
+
+                </div>
+
             </div>
+
         </div>
 
 
+        <!-- =================================================
+             CARD SENSOR
+        ================================================== -->
+
         <div class="me-4 card-dash"
-            style="border-radius: 15px; background: rgba(255, 255, 255, 0.15); padding: 5px; height: 160px; width: 317px;">
-            <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">Sensor</h5>
+            style="
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.15);
+                padding: 5px;
+                height: 160px;
+                width: 317px;
+            ">
+
+            <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">
+                Sensor
+            </h5>
+
             <div class="d-flex align-items-center gap-3 mt-2 ms-3">
-                <div class="border border-white rounded-circle d-flex align-items-center justify-content-center border-5 mt-2"
-                    style="width: 80px; height: 80px; flex-shrink: 0;">
-                    <i class="bi bi-thermometer-sun text-white" style="font-size: 3rem;"></i>
+
+                <div class="border border-white rounded-circle
+                            d-flex align-items-center justify-content-center
+                            border-5 mt-2"
+                    style="
+                        width: 80px;
+                        height: 80px;
+                        flex-shrink: 0;
+                    ">
+
+                    <i class="bi bi-thermometer-sun text-white"
+                       style="font-size: 3rem;">
+                    </i>
+
                 </div>
 
-                <div class="d-flex justify-content-center" style="margin-left: 35px;">
-                    <h3 class="text-white fw-bold mb-0" style="font-size: 3rem;">{{ sensor }}</h3>
+                <div class="d-flex justify-content-center"
+                     style="margin-left: 35px;">
+
+                    <h3 class="text-white fw-bold mb-0"
+                        style="font-size: 3rem;">
+
+                        {{ sensor }}
+
+                    </h3>
+
                 </div>
 
             </div>
+
         </div>
 
     </div>
+
 </div>
 
 
-<div class=" mt-5" style=" border-radius: 15px;background: rgba(255, 255, 255, 0.15); 
-    padding: 5px; height: 450px;">
-    <label style=" margin-left: 0 !important; align-self: flex-start; z-index: 1000;"></label>
-    <div class="container-fluid px-4 py-3" style="background: transparent;">
-        <div class="row g-3 align-items-end">
-            <div class="col">
-                <label class="text-white fw-bold mb-2">Nome</label>
-                <input type="text" class="form-control rounded-3" placeholder="Buscar por nome">
+<!-- =====================================================
+     ÁREA DE FILTROS E TABELA
+===================================================== -->
+
+<div class="mt-5"
+    style="
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 5px;
+        min-height: 450px;
+    ">
+
+
+    <!-- =================================================
+         FILTROS
+    ================================================== -->
+
+    <form id="form-filtros">
+
+        <div class="container-fluid px-4 py-3">
+
+            <div class="row g-3 align-items-end">
+
+
+                <!-- =================================================
+                     FILTRO NOME
+                ================================================== -->
+
+                <div class="col">
+
+                    <label class="text-white fw-bold mb-2">
+                        Nome
+                    </label>
+
+                    <input
+                        type="text"
+                        id="filtro-nome"
+                        name="nome"
+                        class="form-control rounded-3"
+                        placeholder="Buscar por nome"
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     FILTRO CATEGORIA
+                ================================================== -->
+
+                <div class="col">
+
+                    <label class="text-white fw-bold mb-2">
+                        Categoria
+                    </label>
+
+                    <select
+                        id="filtro-categoria"
+                        name="categoria"
+                        class="form-select rounded-3"
+                    >
+
+                        <option value="">
+                            Todas as categorias
+                        </option>
+
+                        <option value="Vacina">
+                            Vacina
+                        </option>
+
+                        <option value="Antiparasitários">
+                            Antiparasitários
+                        </option>
+
+                        <option value="Antibióticos">
+                            Antibióticos
+                        </option>
+
+                        <option value="Anti-inflamatórios">
+                            Anti-inflamatórios
+                        </option>
+
+                        <option value="Analgésicos">
+                            Analgésicos
+                        </option>
+
+                        <option value="Anestésicos">
+                            Anestésicos
+                        </option>
+
+                        <option value="Animais">
+                            Animais
+                        </option>
+
+                        <option value="Sensores">
+                            Sensores
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- =================================================
+                     FILTRO QUANTIDADE
+                ================================================== -->
+
+                <div class="col-auto">
+
+                    <label class="text-white fw-bold mb-2">
+                        Quantidade
+                    </label>
+
+                    <input
+                        type="number"
+                        id="filtro-quantidade"
+                        name="quantidade"
+                        class="form-control rounded-3"
+                        placeholder="Quantidade"
+                        style="width: 150px;"
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     BOTÃO FILTRAR
+                ================================================== -->
+
+                <div class="col-auto">
+
+                    <button
+                        type="submit"
+                        class="btn btn-light rounded-3 px-4 fw-bold"
+                    >
+                        Filtrar
+                    </button>
+
+                </div>
+
+
+                <!-- =================================================
+                     BOTÃO LIMPAR
+                ================================================== -->
+
+                <div class="col-auto">
+
+                    <button
+                        type="button"
+                        id="btn-limpar"
+                        class="btn btn-outline-light rounded-3 px-4 fw-bold"
+                    >
+                        Limpar
+                    </button>
+
+                </div>
+
             </div>
-            <div class="col">
-                <label class="text-white fw-bold mb-2">Categoria</label>
-                <select class="form-select rounded-3">
-                    <option selected>Todas as categorias</option>
-                    <option>Vacina</option>
-                    <option>Antiparasitários</option>
-                    <option>Antibióticos</option>
-                    <option>Anti-inflamatórios</option>
-                    <option>Analgésicos</option>
-                    <option>Anestésicos</option>
-                    <option>Animais</option>
-                    <option>Sensores</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="text-white fw-bold mb-2">Quantidade</label>
-                <input type="number" class="form-control rounded-3" placeholder="Quantidade" style="width: 150px;">
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-light rounded-3 px-4 fw-bold">Filtrar</button>
-            </div>
-            =
+
         </div>
-    </div>
 
-    <div class="table-responsive mt-3" style="width: 100%;;">
+    </form>
 
-        <div class="table-responsive mt-5">
-            <table class="table">
+
+    <!-- =====================================================
+         TABELA
+    ===================================================== -->
+
+    <div class="table-responsive mt-4">
+
+        <table class="table">
+
+            <thead>
+
                 <tr>
-                    <th class="texto-p text-start">Nome Produto</th>
-                    <th class="texto-p">Categoria</th>
-                    <th class="texto-p">Quantidade</th>
+
+                    <th
+                        class="texto-p text-start"
+                        style="width: 39%;"
+                    >
+                        Nome Produto
+                    </th>
+
+                    <th
+                        class="texto-p text-start"
+                        style="width: 38%;"
+                    >
+                        Categoria
+                    </th>
+
+                    <th
+                        class="texto-p text-start"
+                        style="width: 12%;"
+                    >
+                        Quantidade
+                    </th>
 
                 </tr>
-                {% for produto in produtos %}
+
+            </thead>
+
+
+            <tbody id="tabela-produtos">
+
                 <tr>
-                    <td class="texto-p text-start">{{ produto.produto_nome or produto['produto_nome'] }}
+
+                    <td
+                        colspan="3"
+                        class="text-center text-white py-4"
+                    >
+                        Carregando produtos...
                     </td>
-                    <td class="texto-p">{{ produto.produto_categoria or produto['produto_categoria']
-                        }}</td>
-
-                    {% for estoque in Estoque %}
-                    <td class="texto-p">{{ estoque.estoque_quantidade or estoque['estoque_quantidade']
-                        }}</td>
-                    {% endfor %}
-
 
                 </tr>
 
+            </tbody>
 
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
+        </table>
 
     </div>
+
 </div>
-{% endblock%}
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+async function buscarProdutos() {
+
+    // -------------------------------------------------
+    // PEGAR VALORES DOS FILTROS
+    // -------------------------------------------------
+
+    const nome =
+        document.getElementById("filtro-nome").value.trim();
+
+    const categoria =
+        document.getElementById("filtro-categoria").value;
+
+    const quantidade =
+        document.getElementById("filtro-quantidade").value;
+
+
+    // -------------------------------------------------
+    // MONTAR URL DA API
+    // -------------------------------------------------
+
+    const parametros = new URLSearchParams();
+
+
+    if (nome !== "") {
+
+        parametros.append("nome", nome);
+
+    }
+
+
+    if (categoria !== "") {
+
+        parametros.append("categoria", categoria);
+
+    }
+
+
+    if (quantidade !== "") {
+
+        parametros.append("quantidade", quantidade);
+
+    }
+
+
+    const url =
+        "/api/relatorio?" + parametros.toString();
+
+
+    console.log("URL chamada:", url);
+
+
+    // -------------------------------------------------
+    // MOSTRAR CARREGANDO
+    // -------------------------------------------------
+
+    const tabela =
+        document.getElementById("tabela-produtos");
+
+
+    tabela.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="3"
+                class="text-center text-white py-4"
+            >
+                Carregando...
+            </td>
+
+        </tr>
+
+    `;
+
+
+    try {
+
+        // -------------------------------------------------
+        // CHAMAR API
+        // -------------------------------------------------
+
+        const resposta = await fetch(url);
+
+
+        // -------------------------------------------------
+        // VERIFICAR ERRO HTTP
+        // -------------------------------------------------
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro HTTP: " + resposta.status
+            );
+
+        }
+
+
+        // -------------------------------------------------
+        // CONVERTER PARA JSON
+        // -------------------------------------------------
+
+        const dados = await resposta.json();
+
+
+        console.log("Resposta da API:", dados);
+
+
+        // -------------------------------------------------
+        // VERIFICAR SUCESSO
+        // -------------------------------------------------
+
+        if (!dados.sucesso) {
+
+            throw new Error(
+                dados.mensagem || "Erro na API"
+            );
+
+        }
+
+
+        // -------------------------------------------------
+        // LIMPAR TABELA
+        // -------------------------------------------------
+
+        tabela.innerHTML = "";
+
+
+        // -------------------------------------------------
+        // NENHUM PRODUTO
+        // -------------------------------------------------
+
+        if (
+            !dados.produtos ||
+            dados.produtos.length === 0
+        ) {
+
+            tabela.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="3"
+                        class="text-center text-white py-4"
+                    >
+                        Nenhum produto encontrado.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        // -------------------------------------------------
+        // PREENCHER TABELA
+        // -------------------------------------------------
+
+        dados.produtos.forEach(function(produto) {
+
+            const linha =
+                document.createElement("tr");
+
+
+            linha.innerHTML = `
+
+                <td class="texto-p text-start">
+                    ${produto.produto_nome}
+                </td>
+
+                <td class="texto-p text-start">
+                    ${produto.produto_categoria}
+                </td>
+
+                <td class="texto-p text-start">
+                    ${produto.estoque_quantidade}
+                </td>
+
+            `;
+
+
+            tabela.appendChild(linha);
+
+        });
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao buscar produtos:",
+            erro
+        );
+
+
+        tabela.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="3"
+                    class="text-center text-danger py-4"
+                >
+                    Erro ao buscar os produtos.
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// FORMULÁRIO
+// =====================================================
+
+document
+    .getElementById("form-filtros")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        buscarProdutos();
+
+    });
+
+
+// =====================================================
+// BOTÃO LIMPAR
+// =====================================================
+
+document
+    .getElementById("btn-limpar")
+    .addEventListener("click", function() {
+
+        document.getElementById("filtro-nome").value = "";
+
+        document.getElementById("filtro-categoria").value = "";
+
+        document.getElementById("filtro-quantidade").value = "";
+
+        buscarProdutos();
+
+    });
+
+
+// =====================================================
+// CARREGAR PRODUTOS AO ABRIR
+// =====================================================
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    buscarProdutos();
+
+});
+
+</script>
+
+
+{% endblock %}
