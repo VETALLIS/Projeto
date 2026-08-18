@@ -793,12 +793,15 @@ def logout():
 # ========= Animais cadastrados =====#
 @app.route("/animal")
 def animal():
-    
     try:
-        animais = Animal.contar_animais()
+        animais = Animal.contar_animal(order_by="animal_id")
+        
         return render_template("animais_cadastrados.html", animais=animais)
     except ValueError as e:
-        flash(str(e),"danger")
+        if "não encontrado" in str(e).lower():
+            return render_template("animais_cadastrados.html", animais=[])
+        
+        flash(str(e), "danger")
         return redirect(url_for("novo_animal"))
 
     
