@@ -778,6 +778,7 @@ body {
     padding-top:120px ;
 }
 
+
 .sobre-nos-container {
     flex-wrap: wrap;
     margin: 50px;
@@ -788,6 +789,7 @@ body {
     min-height: auto;
     margin-top: 120px;
     /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
+   
 }
 
 #img-sobre img {

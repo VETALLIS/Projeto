@@ -77,14 +77,16 @@ class Fornecedor(Crud_base):
         cls.deletar(id)
         return "fornecedor deletado com sucesso"
 
+    # Código corrigido:
     def atualizar_fornecedor(self, id):
         fornecedor = self.buscar_por_id(id)
 
         if not fornecedor:
             raise ValueError("Fornecedor não encontrado")
 
-        self.atualizar()
-        return "Fornecedor atualizado com sucesso!"
+        self.atualizar(id) # <--- Agora o ID foi enviado corretamente para a classe base
+        return "Fornecedor updated com sucesso!"
+
 
     def buscar_fornecedor_id(self):
         fornecedor  = self.buscar_por_id(id)
