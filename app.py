@@ -103,13 +103,13 @@ def get_pedido_entrada_form():
 
 def get_item_entrada_form():
     return {
-        "item_pedido_entrada_nome": request.form.getlist("item_pedido_entrada_nome", "").strip(),
-        "item_pedido_entrada_lote": request.form.getlist("item_pedido_entrada_lote", "").strip(),
-        "item_pedido_entrada_quantidade": request.form.getlist("item_pedido_entrada_quantidade", "").strip(),
-        "item_pedido_entrada_validade": request.form.getlist("item_pedido_entrada_validade", ""),
-        "item_pedido_entrada_valor_unitario": request.form.getlist("item_pedido_entrada_valor_unitario"),
-        "pedido_entrada_pedido_entrada_id": request.form.getlist("pedido_entrada_pedido_entrada_id", ""),
-        "estoque_estoque_id": request.form.getlist("estoque_estoque_id", "")    
+        "item_pedido_entrada_nome": request.form.get("item_pedido_entrada_nome", "").strip(),
+        "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
+        "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
+        "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_validade", ""),
+        "item_pedido_entrada_valor_unitario": request.form.get("item_pedido_entrada_valor_unitario"),
+        "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_id", ""),
+        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")    
     }
 
 def get_item_saida_form():
@@ -911,7 +911,7 @@ def excluir_fornecedor(fornecedor_id):
     return redirect(url_for("fornecedor_novo"))
     
 
-@app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["POST"])
+@app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
 def atualizar_fornecedor(fornecedor_id):
     dados = get_fornecedor_form()
     atualizar = Fornecedor(**dados)
@@ -934,9 +934,7 @@ def atualizar_fornecedor(fornecedor_id):
 
 #========== Endpoint de erro ======== #
 
-@app.errorhandler(404)
-def pagina_nao_encontrada(error):
-    return render_template("404.html"), 404
+
     
 # ========= Endpoint gerenciamento de perfil ======= #
 
