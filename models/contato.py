@@ -19,7 +19,7 @@ class Contato(Crud_base):
         msg.set_content(corpo)
         msg["Subject"] = "Contato do formulario"
         msg["From"] = dados['contato_email']
-        msg["To"] = "vitoria.h.silva9@aluno.senai.br"
+        msg["To"] = "vetalisge@gmail.com"
 
         # Enviar via servidor SMTP (exemplo do Gmail)
         smtp_server = "smtp.gmail.com"
@@ -35,5 +35,5 @@ class Contato(Crud_base):
         except Exception as e:
             print(f"Erro ao enviar: {e}")
 
-            return produto
+            return "Erro {e}"
 
