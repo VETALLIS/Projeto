@@ -1,9 +1,9 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 <div class="d-flex">
-    <div>
-        <div class="container row">
-            <div class="d-flex gap-3 align-items-start w-100">
+    <div class="container_inicial_res">
+        <div class="container row ">
+            <div class="d-flex gap-3  w-100 primeira_linha_res ">
                 <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-100 h-100">
 
                     {% if categoria %}
@@ -34,13 +34,14 @@
                     <label class="label-estoque"></label>
                     <h5 class="text-start fw-bold mb-0 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque</h5>
                 </div>
+                
             </div>
 
             <div class="mt-4 ms-3 card-sensores-container">
                 <label class="label-sensores"></label>
 
-                <div class="d-flex gap-3 ms-4">
-                    <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start card-luminosidade">
+                <div class="d-flex gap-3 ms-4 primeira_linha_card_sensores_container_res">
+                    <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start card-luminosidade luminosidade_res">
                         <p class="ms-2 mb-1 fs-2 texto-branco position-relative">Luminosidade</p>
                         <h4 class="ms-2 fw-bold display-3 texto-branco">300lux</h4>
                     </div>

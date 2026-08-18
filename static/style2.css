@@ -404,6 +404,18 @@ body {
     border: none;
 }
 
+
+.main_cards_res {}
+
+@media(max-width: 768px) {
+    .main_cards_res {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+
 #cards-produto {
     padding: 80px 50px 40px 50px;
     color: #FFFFF0;
@@ -762,6 +774,10 @@ body {
     z-index: 0;
     pointer-events: none;
 }
+#sobre-nos-section{
+    padding-top:120px ;
+}
+
 
 .sobre-nos-container {
     flex-wrap: wrap;
@@ -771,7 +787,9 @@ body {
     overflow: hidden;
     z-index: 1;
     min-height: auto;
+    margin-top: 120px;
     /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
+   
 }
 
 #img-sobre img {
@@ -782,6 +800,8 @@ body {
 }
 
 #texto-sobre {
+    text-align: justify;
+    line-height: 1.6;
     flex: 1;
     max-width: 100%;
     margin: 30px;
@@ -886,7 +906,24 @@ body {
 }
 
 /* Tela Inicial */
+.container_inicial_res {
+    display: flex;
+}
 
+.primeira_linha_res {
+    align-items: start;
+}
+
+@media(max-width: 768px) {
+    .container_inicial_res {
+        flex-direction: column;
+    }
+
+    .primeira_linha_res {
+        flex-direction: column;
+    }
+
+}
 
 /* Utilitário genérico reutilizado em vários cards da tela inicial */
 .texto-branco {
@@ -933,6 +970,21 @@ body {
     padding: 5px;
     width: 98%;
     height: 350px;
+}
+
+.primeira_linha_card_sensores_container_res {}
+
+
+@media(max-width: 768px) {
+    .primeira_linha_card_sensores_container_res {
+        flex-direction: column;
+        height: 30%;
+    }
+
+    .card-luminosidade {
+        
+    }
+
 }
 
 .label-sensores {
@@ -1169,4 +1221,8 @@ body {
 
 .form::placeholder {
     color: #fff;
+}
+
+.lista_pedidos {
+    justify-content: space-evenly;
 }

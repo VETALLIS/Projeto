@@ -6,10 +6,11 @@
     <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left text-white"
         style="text-decoration: none;">Voltar</a>
 </div>
-<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Cadastro de Fornecedor
+<h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Editar Fornecedor
 </h3>
 
-<form method="POST" action="{{ url_for('atualizar_fornecedor') }}" class="form-sensor " style="width: 100%;">
+<form method="POST" action="{{ url_for('atualizar_fornecedor', fornecedor_id=fornecedor_id or fornecedor.get('fornecedor_id')) }}" class="form-sensor " style="width: 100%;">
+
 
     <div class="divisao-form" style="width: 100%;">
 

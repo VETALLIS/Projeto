@@ -7,9 +7,9 @@
         type="submit" href="{{url_for('pedido')}}">Adicionar
         Pedido</a>
 </div>
-<div class="d-flex justify-content-between" >
-    <div class="table-responsive mt-5 ps-5 ">
-        <h3 class="text-start titulo-h2 pb-3">Pedidos de Entrada</h3>
+<div class="d-flex table-responsive mt-5 lista_pedidos">
+    <div class="table-responsive ">
+        <h3 class="text-start titulo-h2 pb-3">Entrada</h3>
         <table class="table">
             <tr>
                 <th class="texto-p text-start pe-5">Nome</th>
@@ -25,16 +25,15 @@
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td>
                 <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td>
                 <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td>
-                <td class="texto-p"><a href=""
-                    class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+                <td class="texto-p"><a href="" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
 
 
             </tr>
             {% endfor %}
         </table>
     </div>
-    <div class="table-responsive mt-5 pe-5" >
-        <h3 class="text-start titulo-h2 pb-3">Pedidos de Saída</h3>
+    <div class="table-responsive  ">
+        <h3 class="text-start titulo-h2 pb-3">Saída</h3>
         <table class="table">
             <tr>
                 <th class="texto-p text-start pe-5">Nome</th>
@@ -50,8 +49,7 @@
                 <td class="texto-p text-start">{{ pedido_saida.pedido_saida_data }}</td>
                 <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
                 <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
-                <td class="texto-p"><a href=""
-                    class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+                <td class="texto-p"><a href="" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
 
 
             </tr>
