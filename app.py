@@ -795,7 +795,7 @@ def logout():
 def animal():
     
     try:
-        animais = Animal.buscar_animal()
+        animais = Animal.contar_animais()
         return render_template("animais_cadastrados.html", animais=animais)
     except ValueError as e:
         flash(str(e),"danger")
@@ -963,7 +963,9 @@ def atualizar_fornecedor(fornecedor_id):
 
 
 #========== Endpoint de erro ======== #
-
+@app.errorhandler(404)
+def pagina_nao_encontrado(error):
+    return render_template("404.html"), 404
 
     
 # ========= Endpoint gerenciamento de perfil ======= #
@@ -1044,26 +1046,37 @@ def excluir_usuario(usuario_id):
 # ======== Endpoint entrada produto ====== #
 @app.route("/pedidos_cadastrados")
 def pedidos_cadastrados():
+    pedido_entrada = []
+    pedido_saida = []
+    
+    # 1. Tenta buscar pedidos de entrada
     try:
-        # Busca pedidos de entrada (se não houver, define como lista vazia)
         pedido_entrada = Pedido_entrada.buscar_todo_pedido_entrada(order_by="pedido_entrada_nome") or []
-        
-        # Busca pedidos de saída (se não houver, define como lista vazia)
-        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome") or []
-        
-        # Emite alerta apenas se REALMENTE os dois tipos estiverem zerados
-        if not pedido_entrada and not pedido_saida:
-            flash("Nenhum pedido de entrada ou saída encontrado.", "warning")
+    except ValueError as e:
+        if "não encontrado" in str(e).lower():
+            pedido_entrada = [] # Banco vazio para entradas
+        else:
+            flash(f"Erro nas entradas: {str(e)}", "danger")
 
-        return render_template(
-            "pedidos_cadastrados.html", 
-            Pedidos_ent=pedido_entrada, 
-            Pedidos_saida=pedido_saida
-        )
-        
-    except Exception as e:
-        flash(f"Erro ao carregar pedidos: {str(e)}", "danger")
-        return render_template("pedidos_cadastrados.html", Pedidos_ent=[], Pedidos_saida=[])
+    # 2. Tenta buscar pedidos de saída
+    try:
+        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome") or []
+    except ValueError as e:
+        if "não encontrado" in str(e).lower():
+            pedido_saida = [] # Banco vazio para saídas
+        else:
+            flash(f"Erro nas saídas: {str(e)}", "danger")
+
+    # 3. Notifica se ambos estiverem zerados de forma amigável (sem quebrar a tela)
+    if not pedido_entrada and not pedido_saida:
+        flash("Nenhum pedido de entrada ou saída localizado.", "warning")
+
+    return render_template(
+        "pedidos_cadastrados.html", 
+        Pedidos_ent=pedido_entrada, 
+        Pedidos_saida=pedido_saida
+    )
+
 
 
 @app.route("/pedido")
