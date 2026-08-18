@@ -800,6 +800,8 @@ body {
 }
 
 #texto-sobre {
+    text-align: justify;
+    line-height: 1.6;
     flex: 1;
     max-width: 100%;
     margin: 30px;
