@@ -105,7 +105,7 @@ class Item_pedido_saida(Crud_base):
             sql = """
                 UPDATE estoque 
                 SET estoque_quantidade = estoque_quantidade - %s
-                WHERE estoque_id = %s
+                WHERE estoque_id = %s AND estoque_quantidade >= %s
             """
 
             valores = (

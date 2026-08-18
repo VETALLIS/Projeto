@@ -1,7 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
-from core.manipular import validar_data
 import base64
 import os
 from datetime import datetime
@@ -221,12 +220,12 @@ class Produto(Crud_base):
     def contar_vencidos(cls, order_by="produto_id"):
         produtos = cls.buscar_tudo(order_by)
         if not produtos:
-        return 0
+            return False
     
-        hoje = date.today()
+        hoje = datetime.today()
         vencidos = 0
         for produto in produtos:
-        validade = validar_data(produto["validade"])  
-        if validade < hoje:
-            vencidos = vencidos + 1
-    return vencidos
+            validade = Manipular.validar_data(produto["validade"])  
+            if validade < hoje:
+                vencidos = vencidos + 1
+        return vencidos

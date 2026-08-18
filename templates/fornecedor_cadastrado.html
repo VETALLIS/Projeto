@@ -23,7 +23,7 @@
             <td class="texto-p text-start">{{ fornecedor.fornecedor_nome or fornecedor['fornecedor_nome'] }}</td>
             <td class="texto-p">{{ fornecedor.fornecedor_tipo_produtos or fornecedor['fornecedor_tipo_produtos'] }}</td>
             <td class="texto-p">{{ fornecedor.fornecedor_pedido_minimo or fornecedor['fornecedor_pedido_minimo'] }}</td>
-            <td class="texto-p"><a href="" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+            <td class="texto-p"><a href="/fornecedor/atualizar/{fornecedor.fornecedor_id}" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
             <td> <a class="btn btn-sm btn-link text-danger fs-5 p-0"
                     href="{{url_for('excluir_fornecedor', fornecedor_id=fornecedor.fornecedor_id)}}">
                     <i class="bi bi-trash"></i>

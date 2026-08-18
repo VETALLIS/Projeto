@@ -6,17 +6,20 @@ class Contato(Crud_base):
 
     def __init__(self, contato_nome, contato_email, contato_mensagem):
         self.contato_nome = contato_nome
+        self.contato_email = contato_email
+        self.contato_mensagem = contato_mensagem
 
     @classmethod
     def enviar_email(cls, dados):
         
         # Criar a mensagem
-        corpo = "Olá, este é um teste enviado pelo Python!"
+
+        corpo = (f" Nome: {dados['contato_nome']} \n Contato: {dados['contato_email']} \n Mensagem: {dados['contato_mensagem']}")
         msg = EmailMessage()
         msg.set_content(corpo)
-        msg["Subject"] = "A vitoria esta maulca"
-        msg["From"] = "vetalisge@gmail.com"
-        msg["To"] = "vitoria.h.silva9@aluno.senai.br"
+        msg["Subject"] = "Contato do formulario"
+        msg["From"] = dados['contato_email']
+        msg["To"] = "vetalisge@gmail.com"
 
         # Enviar via servidor SMTP (exemplo do Gmail)
         smtp_server = "smtp.gmail.com"
@@ -32,5 +35,5 @@ class Contato(Crud_base):
         except Exception as e:
             print(f"Erro ao enviar: {e}")
 
-            return produto
+            return "Erro {e}"
 

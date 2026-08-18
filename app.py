@@ -271,23 +271,15 @@ def inicial():
 def contato_enviar():
     dados = get_contato_form()
     novo_contato = Contato(**dados)
-    erros = contato.validar_contato()
-
-    if erros:
-        for erro in erros:
-            flash(erro, "danger")
-        return render_template("cadastro_produto.html", produto=dados)
 
     try:
-        produto.gravar_produto()
-        flash("Produto cadastrado com sucesso.", "success")
-        return redirect(url_for("produtos"))
+        novo_contato.enviar_email(dados)
+        flash("Mensagem enviada com sucesso", "success")
+        return redirect(url_for("index"))
     except Exception as e:
-        flash(f"Erro ao cadastrar produto: {e}", "danger")
-        return redirect(url_for('produtos'))
+        flash(f"Erro ao enviar mensagem: {e}", "danger")
+        return redirect(url_for('home'))
         
-
-
 # ====== Endpoints para o cadastro de produtos ====== #
 
 # ===== Rotas tela de produto ====== #
@@ -918,6 +910,29 @@ def excluir_fornecedor(fornecedor_id):
         flash(f"Erro ao excluir fornecedor: {e}", "danger")
     return redirect(url_for("fornecedor_novo"))
     
+
+@app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
+def atualizar_fornecedor(fornecedor_id):
+    dados = get_fornecedor_form()
+    atualizar = Fornecedor(**dados)
+    erros = atualizar.validar_fornecedor()
+    dados_fornecedor = atualizar.buscar_fornecedor_id(fornecedor_id)
+
+    try:
+        if erros:
+            flash(erros, "danger")
+            return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor) 
+
+        atualizar.atualizar_fornecedor(fornecedor_id) 
+
+        flash("Dados atualizados.", "success")
+        return redirect(url_for("editar_fornecedor", sensor_id=sensor_id))  
+
+    except Exception as e:
+        flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
+        return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor)
+
+#========== Endpoint de erro ======== #
 
 
     
