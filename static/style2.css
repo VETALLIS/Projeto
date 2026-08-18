@@ -405,14 +405,7 @@ body {
 }
 
 
-.main_cards_res {}
 
-@media(max-width: 768px) {
-    .main_cards_res {
-        display: flex;
-        flex-direction: column;
-    }
-}
 
 
 
@@ -429,6 +422,30 @@ body {
     gap: 16px;
     height: 100vh;
 }
+
+
+
+/*smarthphone*/
+@media(max-width: 576px) {
+    #cards-produto {
+        display: flex;
+        flex-direction: column;
+    }
+}  
+/*tablet*/
+@media(max-width: 768px) {
+    #cards-produto {
+        
+    }
+}  
+/*note*/
+@media(max-width: 992px) {
+    #cards-produto {
+        
+    }
+}  
+
+
 
 #card-oferecemos {
     grid-area: a;
@@ -515,6 +532,12 @@ body {
     margin-top: 0.5rem;
     margin-left: 1.5rem;
 }
+
+@media(max-width: 992px) {
+    #titulo-tecnologia {
+        font-size: x-large;
+    }
+}  
 
 #card-tecnologia-utilizada:hover>#titulo-tecnologia {
     opacity: 0.2;
@@ -745,6 +768,11 @@ body {
     margin-top: 0.5rem;
     margin-left: 1.5rem;
 }
+@media(max-width: 992px) {
+    #titulo-mercado {
+        font-size: x-large;
+    }
+}  
 
 #card-dados-mercado:hover>#titulo-mercado {
     opacity: 0.2;
@@ -763,6 +791,12 @@ body {
     left: 20px;
     right: 20px;
 }
+
+@media(max-width: 992px) {
+    #texto-dados {
+        font-size: small;
+    }
+}  
 
 #card-dados-mercado:hover>#texto-dados {
     opacity: 1;
