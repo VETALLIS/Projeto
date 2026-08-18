@@ -108,6 +108,35 @@
 
     <div class="table-responsive mt-3" style="width: 100%;;">
 
+        <div class="table-responsive mt-5">
+            <table class="table">
+                <tr>
+                    <th class="texto-p text-start">Nome Produto</th>
+                    <th class="texto-p">Categoria</th>
+                    <th class="texto-p">Quantidade</th>
+
+                </tr>
+                {% for produto in produtos %}
+                <tr>
+                    <td class="texto-p text-start">{{ produto.produto_nome or produto['produto_nome'] }}
+                    </td>
+                    <td class="texto-p">{{ produto.produto_categoria or produto['produto_categoria']
+                        }}</td>
+
+                    {% for estoque in Estoque %}
+                    <td class="texto-p">{{ estoque.estoque_quantidade or estoque['estoque_quantidade']
+                        }}</td>
+                    {% endfor %}
+
+
+                </tr>
+
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
     </div>
 </div>
 {% endblock%}
