@@ -1044,21 +1044,27 @@ def excluir_usuario(usuario_id):
 # ======== Endpoint entrada produto ====== #
 @app.route("/pedidos_cadastrados")
 def pedidos_cadastrados():
-
     try:
-        pedido_entrada = Pedido_entrada.buscar_todo_pedido_entrada(order_by="pedido_entrada_nome")
-        if not pedido_entrada:
-            flash("Nenhum pedido encontrado", "danger")
-            return render_template("pedidos_cadastrados.html")
-        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome")
-        if not pedido_saida:
-            flash("Nenhum pedido encontrado", "danger")
-            return render_template("pedidos_cadastrados.html")
+        # Busca pedidos de entrada (se não houver, define como lista vazia)
+        pedido_entrada = Pedido_entrada.buscar_todo_pedido_entrada(order_by="pedido_entrada_nome") or []
+        
+        # Busca pedidos de saída (se não houver, define como lista vazia)
+        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome") or []
+        
+        # Emite alerta apenas se REALMENTE os dois tipos estiverem zerados
+        if not pedido_entrada and not pedido_saida:
+            flash("Nenhum pedido de entrada ou saída encontrado.", "warning")
 
-        return render_template("pedidos_cadastrados.html", Pedidos_ent=pedido_entrada, Pedidos_saida=pedido_saida)
-    except ValueError as e:
-        flash(e, "danger")
-        return render_template("pedidos_cadastrados.html", funcionario=[])
+        return render_template(
+            "pedidos_cadastrados.html", 
+            Pedidos_ent=pedido_entrada, 
+            Pedidos_saida=pedido_saida
+        )
+        
+    except Exception as e:
+        flash(f"Erro ao carregar pedidos: {str(e)}", "danger")
+        return render_template("pedidos_cadastrados.html", Pedidos_ent=[], Pedidos_saida=[])
+
 
 @app.route("/pedido")
 def pedido():
