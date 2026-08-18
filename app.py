@@ -911,6 +911,32 @@ def excluir_fornecedor(fornecedor_id):
     return redirect(url_for("fornecedor_novo"))
     
 
+@app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["POST"])
+def atualizar_fornecedor(fornecedor_id):
+    dados = get_fornecedor_form()
+    atualizar = Fornecedor(**dados)
+    erros = atualizar.validar_fornecedor()
+    dados_fornecedor = atualizar.buscar_fornecedor_id(fornecedor_id)
+
+    try:
+        if erros:
+            flash(erros, "danger")
+            return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor) 
+
+        atualizar.atualizar_fornecedor(fornecedor_id) 
+
+        flash("Dados atualizados.", "success")
+        return redirect(url_for("editar_fornecedor", sensor_id=sensor_id))  
+
+    except Exception as e:
+        flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
+        return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor)
+
+#========== Endpoint de erro ======== #
+
+@app.errorhandler(404)
+def pagina_nao_encontrada(error):
+    return render_template("404.html"), 404
     
 # ========= Endpoint gerenciamento de perfil ======= #
 
