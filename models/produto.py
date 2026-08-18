@@ -216,6 +216,7 @@ class Produto(Crud_base):
             produtos = produtos + 1
         return produtos
 
+
     @classmethod
     def contar_vencidos(cls, order_by="produto_id"):
         produtos = cls.buscar_tudo(order_by)
