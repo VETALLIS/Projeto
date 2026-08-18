@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash,  session, current_app
+from flask import Flask, render_template, request, redirect, url_for, flash,  session, jsonify
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
@@ -14,6 +14,7 @@ from models.informacao_produto import Informacao_Produto
 from models.pedido_saida import Item_pedido_saida, Pedido_saida
 from models.pesquisa import Pesquisa
 from datetime import datetime
+from models.relatorio import buscar_estoque_db
 import base64
 from models.contato import Contato
 
@@ -1161,25 +1162,111 @@ def pedido_salvar():
             flash(f"Erro ao cadastrar saída, {e}", "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
-    
-# ======= Relatorio ======= #
+# ======= Relatorio ======= #  
+@app.route("/api/relatorio", methods=["GET"])
+def api_relatorio():
 
-@app.route("/relatorio")
-def relatorio():
-    try: 
-        sensores = Sensor.contar_sensores() 
-    except ValueError as e:
-        sensores = 0
+    try:
+
+
+        nome = request.args.get(
+            "nome",
+            ""
+        ).strip()
+
+
+        categoria = request.args.get(
+            "categoria",
+            ""
+        ).strip()
+
+
+        quantidade = request.args.get(
+            "quantidade",
+            ""
+        ).strip()
+
+
+        if quantidade:
+
+            try:
+
+                quantidade = int(quantidade)
+
+            except ValueError:
+
+                return jsonify({
+                    "sucesso": False,
+                    "mensagem": "Quantidade inválida."
+                }), 400
+
+        else:
+
+            quantidade = None
+
+
+        produtos = buscar_estoque_db(
+            nome=nome,
+            categoria=categoria,
+            quantidade=quantidade
+        )
+
+
     
+
+        return jsonify({
+            "sucesso": True,
+            "total": len(produtos),
+            "produtos": produtos
+        })
+
+
+    except Exception as erro:
+
+
+        return jsonify({
+            "sucesso": False,
+            "mensagem": str(erro)
+        }), 500
+
+
+
+@app.route("/relatorio", methods=["GET"])
+def relatorio():
+
     try:
+
+        sensores = Sensor.contar_sensores()
+
+    except ValueError:
+
+        sensores = 0
+
+
+    try:
+
         animais = Animal.contar_animais()
-    except ValueError as e:
+
+    except ValueError:
+
         animais = 0
+
+
     try:
+
         produtos = Produto.contar_produtos()
-    except ValueError as e:
-        produtos= 0
-    return render_template("relatorio.html", animal=animais, sensor=sensores, produto=produtos)
+
+    except ValueError:
+
+        produtos = 0
+
+
+    return render_template(
+        "relatorio.html",
+        animal=animais,
+        sensor=sensores,
+        produto=produtos
+    )
 
     
 @app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])

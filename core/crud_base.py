@@ -118,25 +118,42 @@ class Crud_base:
             cursor.close()
             conexao.close()
 
-    @classmethod
-    def buscar_pesquisa(cls, nome):
+
+    @staticmethod
+    def buscar_categoria_produto(cls, id):
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
 
         try:
-            sql = f"SELECT * FROM produto WHERE produto_nome LIKE %s"
-            pesq = "%" + nome + "%"
-            cursor.execute(sql, (pesq,))
-
-            resultados = cursor.fetchall()
-            
-
-            if resultados:
-                return resultados
-            else:
-                return None        
+            cursor.execute("select p.produto_nome, p.produto_categoria, e.estoque_quantidade from produto p join estoque e where e.produto_produto_id = p.produto_id;", (produto_id,))
+            resultado = cursor.fetchone()
+            if not resultado:
+                raise ValueError("Estoque não encontrado para esse produto.")
+            return resultado["estoque_id"]
         finally:
             cursor.close()
             conexao.close()
 
 
+
+def buscar_nome_produto(produto_id):
+    conexao = Database.connect()
+    cursor = conexao.cursor(dictionary=True)
+
+    try:
+        # Correção: Adicionado o "where" correto usando o parâmetro %s
+        query = """
+            SELECT p.produto_nome, p.produto_categoria, e.estoque_quantidade 
+            FROM produto p 
+            JOIN estoque e ON e.produto_produto_id = p.produto_id
+            WHERE p.produto_id = %s;
+        """
+        cursor.execute(query, (produto_id,))
+        resultado = cursor.fetchone()
+        
+        if not resultado:
+            return None
+        return resultado
+    finally:
+        cursor.close()
+        conexao.close()
