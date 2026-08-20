@@ -89,6 +89,11 @@ body {
     font-weight: 500 !important;
 
 }
+@media(max-width: 576px) {
+    .texto-a {
+        font-size: small !important;
+    }
+}  
 
 .list-style-none {
     list-style: none !important;
@@ -330,13 +335,21 @@ body {
 
 /* Landing Page */
 
+#body-landing-page{
+    width: 100%;
+    height: 100%;
+}
+
 #logo-menu-lp {
+    width: 100%;
+    height: 100%;
     max-width: 70px;
     max-height: 70;
     margin-top: 0.3rem;
     object-fit: contain;
     margin-left: -15px;
-}
+}  
+
 
 #botao-login-menu {
     background: #FFFFF0;
@@ -356,7 +369,10 @@ body {
 
 @media(max-width: 576px) {
     #botao-login-menu {
-        
+        font-size: small;
+        height: 30%;
+        width: 20%;
+        margin-left: 2%;
     }
 }  
 
@@ -379,18 +395,15 @@ body {
 
 @media(max-width: 576px) {
     #menu-nav {
-        display: flex;
-        flex-direction: column;
         
     }
 }  
 @media(max-width: 576px) {
     #lista-menu {
-        gap: none;
+        font-size:small;
+        gap: 5px;
         height: 100%;
-        background: none;
-        display: flex;
-        flex-direction: column;
+
     }
 }  
 
@@ -433,11 +446,6 @@ body {
     border: none;
 }
 
-
-
-
-
-
 #cards-produto {
     padding: 80px 50px 40px 50px;
     color: #FFFFF0;
@@ -459,22 +467,9 @@ body {
     #cards-produto {
         display: flex;
         flex-direction: column;
+        padding: 30px 20px 30px;
     }
 }  
-/*tablet*/
-@media(max-width: 768px) {
-    #cards-produto {
-        
-    }
-}  
-/*note*/
-@media(max-width: 992px) {
-    #cards-produto {
-        
-    }
-}  
-
-
 
 #card-oferecemos {
     grid-area: a;
@@ -486,6 +481,27 @@ body {
     overflow: hidden;
     position: relative;
 
+}
+
+@media(max-width: 576px) {
+    #card-oferecemos {
+        display: flex;
+    }
+}
+
+@media(max-width: 576px) {
+    #icone-oferecemos {
+        padding: 0;
+        margin: 2%;
+    }
+}
+
+@media(max-width: 576px) {
+    #titulo-oferecemos {
+        padding-top:1.5% ;
+        font-size: small;
+        margin-left:20% ;
+    }
 }
 
 #card-oferecemos:hover>#texto-oferecemos {
@@ -971,11 +987,15 @@ body {
 /* Tela Inicial */
 
 .card-categoria {
-    top: 50%;
+    top: 20%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
     width: 100%;
     text-align: center;
+    font-size: 2.2rem;
+    color: rgba(255, 255, 255, 0.722);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+    letter-spacing: 0.5px;
 }
 
 .container_inicial_res {
@@ -1004,7 +1024,7 @@ body {
 
 /* Card de estoque (número + rótulo) */
 .card-estoque-valor {
-    margin-top: 65px;
+    margin-top: 85px;
 }
 
 .texto-unidade-estoque {
