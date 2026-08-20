@@ -68,14 +68,13 @@ from core.manipular import Manipular
 class Item_pedido_saida(Crud_base):
     pk = "item_pedido_saida_id"
     tabela = "item_pedido_saida"
-    fields = ["item_pedido_saida_id", "item_pedido_saida_nome", "item_pedido_saida_quantidade","item_pedido_saida_lote", "estoque_estoque_id", "pedido_saida_pedido_saida_id"]
+    fields = ["item_pedido_saida_id", "item_pedido_saida_nome", "item_pedido_saida_quantidade","item_pedido_saida_lote", "pedido_saida_pedido_saida_id"]
 
-    def __init__(self, item_pedido_saida_nome, item_pedido_saida_quantidade, item_pedido_saida_lote, estoque_estoque_id, pedido_saida_pedido_saida_id ):
+    def __init__(self, item_pedido_saida_nome, item_pedido_saida_quantidade, item_pedido_saida_lote, pedido_saida_pedido_saida_id ):
         self.item_pedido_saida_id = None
         self.item_pedido_saida_nome = item_pedido_saida_nome
         self.item_pedido_saida_lote = item_pedido_saida_lote
         self.item_pedido_saida_quantidade = item_pedido_saida_quantidade
-        self.estoque_estoque_id = Item_pedido_saida.buscar_estoque_por_produto(item_pedido_saida_nome)
         self.pedido_saida_pedido_saida_id= pedido_saida_pedido_saida_id 
     
     def validar_item_pedido_saida(self):
@@ -109,8 +108,7 @@ class Item_pedido_saida(Crud_base):
             """
 
             valores = (
-                self.item_pedido_saida_quantidade,        
-                self.estoque_estoque_id  
+
             )
             
             cursor.execute(sql, valores)

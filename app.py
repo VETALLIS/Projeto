@@ -1127,6 +1127,7 @@ def pedido_salvar():
         erros_entrada = entrada.validar_pedido_entrada()
         erros_item_entrada = item.validar_item_pedido_entrada()
         converter_data = entrada.converter_data(entrada.pedido_entrada_data)
+        animal = Animal.buscar_animal()
 
         if erros_entrada or erros_item_entrada:
             for erro in erros_entrada + erros_item_entrada:
@@ -1135,11 +1136,36 @@ def pedido_salvar():
 
         try:
             numero = entrada.gravar_pedido_entrada()
-            item.gravar_item_pedido_entrada(numero)
+
+            itens_validados = []
+
+            for i in range(len(item_dados["item_pedido_entrada_nome"])):
+
+                dados_do_item = {
+                    "item_pedido_entrada_nome": item_dados["item_pedido_entrada_nome"][i],
+                    "item_pedido_entrada_lote": item_dados["item_pedido_entrada_lote"][i],
+                    "item_pedido_entrada_quantidade": item_dados["item_pedido_entrada_quantidade"][i],
+                    "item_pedido_entrada_validade": item_dados["item_pedido_entrada_validade"][i],
+                    "item_pedido_entrada_valor_unitario": item_dados["item_pedido_entrada_valor_unitario"][i]
+                }
+
+                item_instanciado = Item_pedido_entrada(**dados_do_item)
+
+                itens_validados.append(item_instanciado)
+
+            for item in itens_validados:
+                item.gravar_item_pedido_entrada(numero)
+
+
             flash("Entrada cadastrada.", "success")
             return redirect(url_for("pedido"))
         except Exception as e:
             flash(f"Erro ao cadastrar entrada, {e}", "danger")
+            print(e)
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+        except ValueError as e:
+            flash(f"Erro ao cadastrar entrada, {e}", "danger")
+            print(e)
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
     else:

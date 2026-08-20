@@ -13,10 +13,10 @@
 <body class="height-maior overflow-auto">
     <header class="height-maior position-relative">
         <div id="home">
-            <nav id="menu-nav" style="z-index: 10; height: 100px; ">
+            <nav id="menu-nav">
 
-                <ul class="list-style-none d-flex align-items-center justify-content-start gap-4 backgroud-glass border-radius-maior mt-4 h-50 gap-3"
-                    style="padding-left: 2px; width: 400px;">
+                <ul class="list-style-none d-flex align-items-center justify-content-start border-radius-maior mt-4 h-50 p-0 "
+                     id="lista-menu">
                     <li>
                         <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="logo" id="logo-menu-lp">
                     </li>
@@ -35,7 +35,7 @@
 
                 </ul>
                 <a id="botao-login-menu"
-                    class="verde-primario-texto position-relative borda-none border-radius-maior text-aling-center d-flex justify-content-center"
+                    class="verde-primario-texto position-relative borda-none border-radius-maior align-items-center d-flex justify-content-center"
                     href="{{ url_for('novo_login') }}">Login</a>
             </nav>
         </div>

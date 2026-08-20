@@ -95,16 +95,15 @@ class Pedido_entrada(Crud_base):
 class Item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada"
     pk = "item_pedido_entrada_id"
-    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "estoque_estoque_id"]
+    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id"]
 
-    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, estoque_estoque_id ):
+    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id):
         self.item_pedido_entrada_lote = item_pedido_entrada_lote
         self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
         self.item_pedido_entrada_validade = item_pedido_entrada_validade
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
         self.item_pedido_entrada_nome = item_pedido_entrada_nome
         self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
-        self.estoque_estoque_id= Item_pedido_entrada.buscar_estoque_por_produto(item_pedido_entrada_nome)
 
     def validar_item_pedido_entrada (self):
         erros = [
@@ -138,7 +137,7 @@ class Item_pedido_entrada(Crud_base):
 
             valores = (
                 self.item_pedido_entrada_quantidade,        
-                self.estoque_estoque_id  
+
             )
             
             cursor.execute(sql, valores)

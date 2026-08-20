@@ -354,6 +354,12 @@ body {
     margin-top: 2rem;
 }
 
+@media(max-width: 576px) {
+    #botao-login-menu {
+        
+    }
+}  
+
 #menu-nav {
     position: fixed;
     right: 0;
@@ -362,9 +368,32 @@ body {
     z-index: 10;
     display: flex;
     justify-content: center;
-    height: 85px;
-
+    height: 100px;
+    
 }
+
+#lista-menu{
+    background: rgba(255, 255, 255, 0.2);
+    gap:20px;
+}
+
+@media(max-width: 576px) {
+    #menu-nav {
+        display: flex;
+        flex-direction: column;
+        
+    }
+}  
+@media(max-width: 576px) {
+    #lista-menu {
+        gap: none;
+        height: 100%;
+        background: none;
+        display: flex;
+        flex-direction: column;
+    }
+}  
+
 
 #slogan-content {
     z-index: 3;
@@ -405,14 +434,7 @@ body {
 }
 
 
-.main_cards_res {}
 
-@media(max-width: 768px) {
-    .main_cards_res {
-        display: flex;
-        flex-direction: column;
-    }
-}
 
 
 
@@ -429,6 +451,30 @@ body {
     gap: 16px;
     height: 100vh;
 }
+
+
+
+/*smarthphone*/
+@media(max-width: 576px) {
+    #cards-produto {
+        display: flex;
+        flex-direction: column;
+    }
+}  
+/*tablet*/
+@media(max-width: 768px) {
+    #cards-produto {
+        
+    }
+}  
+/*note*/
+@media(max-width: 992px) {
+    #cards-produto {
+        
+    }
+}  
+
+
 
 #card-oferecemos {
     grid-area: a;
@@ -515,6 +561,12 @@ body {
     margin-top: 0.5rem;
     margin-left: 1.5rem;
 }
+
+@media(max-width: 992px) {
+    #titulo-tecnologia {
+        font-size: x-large;
+    }
+}  
 
 #card-tecnologia-utilizada:hover>#titulo-tecnologia {
     opacity: 0.2;
@@ -745,6 +797,11 @@ body {
     margin-top: 0.5rem;
     margin-left: 1.5rem;
 }
+@media(max-width: 992px) {
+    #titulo-mercado {
+        font-size: x-large;
+    }
+}  
 
 #card-dados-mercado:hover>#titulo-mercado {
     opacity: 0.2;
@@ -763,6 +820,12 @@ body {
     left: 20px;
     right: 20px;
 }
+
+@media(max-width: 992px) {
+    #texto-dados {
+        font-size: small;
+    }
+}  
 
 #card-dados-mercado:hover>#texto-dados {
     opacity: 1;
@@ -906,6 +969,15 @@ body {
 }
 
 /* Tela Inicial */
+
+.card-categoria {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
 .container_inicial_res {
     display: flex;
 }
@@ -1105,7 +1177,7 @@ body {
 
 .modal-filtro-content {
     border-radius: 16px;
-    background: #089068;
+    background: #089068 !important;
     padding: 8px;
 }
 
@@ -1225,4 +1297,9 @@ body {
 
 .lista_pedidos {
     justify-content: space-evenly;
+}
+
+.modal-title,
+.modal-body{
+    color: #000 !important
 }
