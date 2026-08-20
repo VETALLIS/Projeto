@@ -18,7 +18,7 @@ class Contato(Crud_base):
         msg = EmailMessage()
         msg.set_content(corpo)
         msg["Subject"] = "Contato do formulario"
-        msg["From"] = dados['contato_email']
+        msg["From"] = "vetalisge@gmail.com"
         msg["To"] = "vetalisge@gmail.com"
 
         # Enviar via servidor SMTP (exemplo do Gmail)
