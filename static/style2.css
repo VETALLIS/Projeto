@@ -90,6 +90,7 @@ body {
 
 }
 
+
 .list-style-none {
     list-style: none !important;
 }
@@ -330,13 +331,21 @@ body {
 
 /* Landing Page */
 
+#body-landing-page{
+    width: 100%;
+    height: 100%;
+}
+
 #logo-menu-lp {
+    width: 100%;
+    height: 100%;
     max-width: 70px;
     max-height: 70;
     margin-top: 0.3rem;
     object-fit: contain;
     margin-left: -15px;
-}
+}  
+
 
 #botao-login-menu {
     background: #FFFFF0;
@@ -354,11 +363,6 @@ body {
     margin-top: 2rem;
 }
 
-@media(max-width: 576px) {
-    #botao-login-menu {
-        
-    }
-}  
 
 #menu-nav {
     position: fixed;
@@ -376,23 +380,6 @@ body {
     background: rgba(255, 255, 255, 0.2);
     gap:20px;
 }
-
-@media(max-width: 576px) {
-    #menu-nav {
-        display: flex;
-        flex-direction: column;
-        
-    }
-}  
-@media(max-width: 576px) {
-    #lista-menu {
-        gap: none;
-        height: 100%;
-        background: none;
-        display: flex;
-        flex-direction: column;
-    }
-}  
 
 
 #slogan-content {
@@ -433,11 +420,6 @@ body {
     border: none;
 }
 
-
-
-
-
-
 #cards-produto {
     padding: 80px 50px 40px 50px;
     color: #FFFFF0;
@@ -452,30 +434,6 @@ body {
     height: 100vh;
 }
 
-
-
-/*smarthphone*/
-@media(max-width: 576px) {
-    #cards-produto {
-        display: flex;
-        flex-direction: column;
-    }
-}  
-/*tablet*/
-@media(max-width: 768px) {
-    #cards-produto {
-        
-    }
-}  
-/*note*/
-@media(max-width: 992px) {
-    #cards-produto {
-        
-    }
-}  
-
-
-
 #card-oferecemos {
     grid-area: a;
     transition: 0.5s;
@@ -488,6 +446,10 @@ body {
 
 }
 
+
+#prod{
+
+}
 #card-oferecemos:hover>#texto-oferecemos {
     opacity: 1;
 }
@@ -535,6 +497,71 @@ body {
     right: 20px;
 }
 
+@media(max-width: 576px) {
+    .texto-a {
+        font-size: small !important;
+    }
+    /*LANDING PAGE*/
+    /*menu*/
+    #botao-login-menu {
+        font-size: small;
+        height: 30%;
+        width: 20%;
+        margin-left: 2%;
+    }
+    #lista-menu {
+        font-size:small;
+        gap: 5px;
+        height: 100%;
+
+    }
+    /*card produto*/
+    #cards-produto {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding: 40px 30px;
+        gap: 10px;
+    }
+    #card-oferecemos,
+    #card-tecnologia-utilizada,
+    #card-inovacao,
+    #card-solucao,
+    #card-planos-futuros,
+    #card-dados-mercado {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        height: auto;
+        padding: 12px 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+    /*icones*/
+    .icone-cards-lp{
+        margin: 0;
+        padding: 0;
+    }
+
+    #titulo-oferecemos,
+    #titulo-tecnologia {
+        padding-top:12% ;
+        font-size: small;
+        margin-left:20% ;
+    }
+    #texto-oferecemos,
+    #texto-tecnologia {
+        font-size: x-small;
+    }
+    .prod {
+        font-size: medium;
+    }
+
+    
+}
+
 #card-tecnologia-utilizada {
     grid-area: d;
     transition: 0.2s ease-in-out;
@@ -562,11 +589,6 @@ body {
     margin-left: 1.5rem;
 }
 
-@media(max-width: 992px) {
-    #titulo-tecnologia {
-        font-size: x-large;
-    }
-}  
 
 #card-tecnologia-utilizada:hover>#titulo-tecnologia {
     opacity: 0.2;
@@ -797,11 +819,6 @@ body {
     margin-top: 0.5rem;
     margin-left: 1.5rem;
 }
-@media(max-width: 992px) {
-    #titulo-mercado {
-        font-size: x-large;
-    }
-}  
 
 #card-dados-mercado:hover>#titulo-mercado {
     opacity: 0.2;
@@ -820,12 +837,6 @@ body {
     left: 20px;
     right: 20px;
 }
-
-@media(max-width: 992px) {
-    #texto-dados {
-        font-size: small;
-    }
-}  
 
 #card-dados-mercado:hover>#texto-dados {
     opacity: 1;
@@ -971,11 +982,15 @@ body {
 /* Tela Inicial */
 
 .card-categoria {
-    top: 50%;
+    top: 20%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
     width: 100%;
     text-align: center;
+    font-size: 2.2rem;
+    color: rgba(255, 255, 255, 0.722);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+    letter-spacing: 0.5px;
 }
 
 .container_inicial_res {
@@ -986,17 +1001,6 @@ body {
     align-items: start;
 }
 
-@media(max-width: 768px) {
-    .container_inicial_res {
-        flex-direction: column;
-    }
-
-    .primeira_linha_res {
-        flex-direction: column;
-    }
-
-}
-
 /* Utilitário genérico reutilizado em vários cards da tela inicial */
 .texto-branco {
     color: #fff !important;
@@ -1004,7 +1008,7 @@ body {
 
 /* Card de estoque (número + rótulo) */
 .card-estoque-valor {
-    margin-top: 65px;
+    margin-top: 85px;
 }
 
 .texto-unidade-estoque {
@@ -1042,21 +1046,6 @@ body {
     padding: 5px;
     width: 98%;
     height: 350px;
-}
-
-.primeira_linha_card_sensores_container_res {}
-
-
-@media(max-width: 768px) {
-    .primeira_linha_card_sensores_container_res {
-        flex-direction: column;
-        height: 30%;
-    }
-
-    .card-luminosidade {
-        
-    }
-
 }
 
 .label-sensores {

@@ -168,7 +168,7 @@ class Produto(Crud_base):
                 produto["imagem_base64"] = None
         return produtos
 
-        
+       
 
     @classmethod
     def filtro_categoria(cls, categoria):
