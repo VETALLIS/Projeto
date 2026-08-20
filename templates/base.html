@@ -42,12 +42,37 @@
                     <i class="bi bi-person"></i>
                 </a>
                 {% endif %}
+
+                <!--notificações-->
+                <button type="button" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
+                    data-bs-toggle="modal" data-bs-target="#notificacoes">
+                    <i class="bi bi-bell"></i>
+                </button>
+
+                <div class="modal fade" id="notificacoes" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Notificações</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <a id="link-perfil" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
                     title="Configurações">
                     <i class="bi bi-gear"></i>
                 </a>
                 <a href="{{ url_for('logout') }}"
-                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor" title="Sair">
+                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor" title="Notificações">
                     <i class="bi bi-box-arrow-right"></i>
                 </a>
             </div>
