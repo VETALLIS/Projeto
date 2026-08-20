@@ -8,23 +8,26 @@
 
                     {% if categoria %}
                     {% for categorias in categoria %}
-                    <span class="position-absolute card-categoria">
+                    <span
+                        class="position-absolute card-categoria fw-bold mb-0 display-5 text-center titulo-h2 z-index-10">
                         {{ categorias.produto_categoria }}
                     </span>
 
-                    <h5 class="fw-bold mb-0 ps-2 display-5 text-center position-relative titulo-h2 z-index-1 card-estoque-valor">
+                    <h5
+                        class="fw-bold mb-0 ps-2 display-5 text-center position-relative titulo-h2 z-index-1 card-estoque-valor">
                         {{ categorias.estoque_quantidade }}
                     </h5>
                     <p class="text-center text-white-50 z-index-1 texto-unidade-estoque">
                         Unidades em Estoque</p>
                     {% endfor %}
                     {% else %}
-                    <h5 class="fw-bold mb-0 ps-2 fs-4 text-center texto z-index-1 position-relative titulo-h2 card-estoque-vazio">
+                    <h5
+                        class="fw-bold mb-0 ps-2 fs-4 text-center texto z-index-1 position-relative titulo-h2 card-estoque-vazio">
                         Nenhum filtro aplicado
                     </h5>
                     {% endif %}
 
-                    <button type="button"
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalFiltro"
                         class="rounded-circle border-0 d-flex backgroud-glass align-items-center justify-content-center position-absolute top-0 end-0 m-2 z-index-1 back4 botao-filtro-icone">
                         <i class="bi bi-sliders text-white"></i>
                     </button>
@@ -32,16 +35,18 @@
 
                 <div class="position-relative overflow-hidden card-estoque-header">
                     <label class="label-estoque"></label>
-                    <h5 class="text-start fw-bold mb-0 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque</h5>
+                    <h5 class="text-start fw-bold mb-0 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque
+                    </h5>
                 </div>
-                
+
             </div>
 
             <div class="mt-4 ms-3 card-sensores-container">
                 <label class="label-sensores"></label>
 
                 <div class="d-flex gap-3 ms-4 primeira_linha_card_sensores_container_res">
-                    <div class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start card-luminosidade luminosidade_res">
+                    <div
+                        class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start card-luminosidade luminosidade_res">
                         <p class="ms-2 mb-1 fs-2 texto-branco position-relative">Luminosidade</p>
                         <h4 class="ms-2 fw-bold display-3 texto-branco">300lux</h4>
                     </div>
@@ -66,7 +71,8 @@
     <div class="card-destaque position-relative">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <p class="mb-0 ms-2 fs-2 texto-branco">Destaque</p>
-            <button class="rounded-circle border-0 d-flex align-items-center justify-content-center botao-destaque-icone">
+            <button
+                class="rounded-circle border-0 d-flex align-items-center justify-content-center botao-destaque-icone">
                 <i class="bi bi-sliders text-white"></i>
             </button>
         </div>
@@ -84,9 +90,7 @@
                                 <p class="text-secondary">Em estoque</p>
                             </div>
                             <div class="produto-imagem-container">
-                                <img src="https://picsum.photos/120/120?random=10"
-                                    class="produto-imagem"
-                                    alt="produto">
+                                <img src="https://picsum.photos/120/120?random=10" class="produto-imagem" alt="produto">
                             </div>
                         </div>
                         <div class="produto-info-box">
@@ -110,9 +114,7 @@
                                 <p class="text-secondary">Em estoque</p>
                             </div>
                             <div class="produto-imagem-container">
-                                <img src="https://picsum.photos/120/120?random=20"
-                                    class="produto-imagem"
-                                    alt="produto">
+                                <img src="https://picsum.photos/120/120?random=20" class="produto-imagem" alt="produto">
                             </div>
                         </div>
                         <div class="produto-info-box">
@@ -136,9 +138,7 @@
                                 <p class="text-secondary">Em estoque</p>
                             </div>
                             <div class="produto-imagem-container">
-                                <img src="https://picsum.photos/120/120?random=30"
-                                    class="produto-imagem"
-                                    alt="produto">
+                                <img src="https://picsum.photos/120/120?random=30" class="produto-imagem" alt="produto">
                             </div>
                         </div>
                         <div class="produto-info-box">
@@ -189,7 +189,7 @@
                         <label for="c4"
                             class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                             <span>Antiparasitários</span>
-                            <input type="radio" name="categoria" id="c4" value="Vacina" class="filtro-check">
+                            <input type="radio" name="categoria" id="c4" value="Antiparasitários" class="filtro-check">
                         </label>
                     </li>
                     <li class="list-style-none item-filtro-categoria">
