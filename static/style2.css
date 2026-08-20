@@ -354,6 +354,12 @@ body {
     margin-top: 2rem;
 }
 
+@media(max-width: 576px) {
+    #botao-login-menu {
+        
+    }
+}  
+
 #menu-nav {
     position: fixed;
     right: 0;
@@ -362,9 +368,32 @@ body {
     z-index: 10;
     display: flex;
     justify-content: center;
-    height: 85px;
-
+    height: 100px;
+    
 }
+
+#lista-menu{
+    background: rgba(255, 255, 255, 0.2);
+    gap:20px;
+}
+
+@media(max-width: 576px) {
+    #menu-nav {
+        display: flex;
+        flex-direction: column;
+        
+    }
+}  
+@media(max-width: 576px) {
+    #lista-menu {
+        gap: none;
+        height: 100%;
+        background: none;
+        display: flex;
+        flex-direction: column;
+    }
+}  
+
 
 #slogan-content {
     z-index: 3;
@@ -1139,7 +1168,7 @@ body {
 
 .modal-filtro-content {
     border-radius: 16px;
-    background: #089068;
+    background: #089068 !important;
     padding: 8px;
 }
 
@@ -1259,4 +1288,9 @@ body {
 
 .lista_pedidos {
     justify-content: space-evenly;
+}
+
+.modal-title,
+.modal-body{
+    color: #000 !important
 }
