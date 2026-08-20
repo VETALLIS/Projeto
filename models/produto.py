@@ -229,3 +229,5 @@ class Produto(Crud_base):
             if validade < hoje:
                 vencidos = vencidos + 1
         return vencidos
+
+
