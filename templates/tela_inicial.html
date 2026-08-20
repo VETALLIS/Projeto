@@ -103,16 +103,19 @@
                             </div>
                         </div>
                         <div class="produto-info-box">
-                            <p class="text-secondary mb-1">Quantidade</p>
-                            <p class="text-white mb-3">{{produto.estoque_quantidade}}</p>
+                            <p class="text-secondary mb-1">Descrição</p>
+                            <p class="text-white mb-3">{{produto.produto_descricao}}</p>
                             <p class="text-secondary mb-1">Tipo</p>
                             <p class="text-white mb-3">{{produto.produto_categoria}}</p>
-                            <p class="text-secondary mb-1">Descrição</p>
-                            <p class="text-white mb-0">{{produto.produto_descricao}}</p>
+                            {%for categorias in categoria%}
+                            <p class="text-secondary mb-1">Quantidade</p>
+                            <p class="text-white mb-0">{{categorias.estoque_quantidade | int}}</p>
+                            {%endfor%}
                         </div>
                     </div>
                 </div>
                 {%endfor%}
+           
 
             <!-- Controles -->
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselVertical" data-bs-slide="prev">
