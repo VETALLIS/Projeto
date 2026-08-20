@@ -17,6 +17,7 @@ from datetime import datetime
 from models.relatorio import buscar_estoque_db
 import base64
 from models.contato import Contato
+from models.estoque import Estoque
 
 
 # definição da variavel app
@@ -104,22 +105,18 @@ def get_pedido_entrada_form():
 
 def get_item_entrada_form():
     return {
-        "item_pedido_entrada_nome": request.form.get("item_pedido_entrada_nome", "").strip(),
-        "item_pedido_entrada_lote": request.form.get("item_pedido_entrada_lote", "").strip(),
-        "item_pedido_entrada_quantidade": request.form.get("item_pedido_entrada_quantidade", "").strip(),
-        "item_pedido_entrada_validade": request.form.get("item_pedido_entrada_validade", ""),
-        "item_pedido_entrada_valor_unitario": request.form.get("item_pedido_entrada_valor_unitario"),
-        "pedido_entrada_pedido_entrada_id": request.form.get("pedido_entrada_pedido_entrada_id", ""),
-        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")    
+        "produto_produto_id": request.form.getlist("produto_produto_id"),
+        "item_pedido_entrada_lote": request.form.getlist("item_pedido_entrada_lote"),
+        "item_pedido_entrada_quantidade": request.form.getlist("item_pedido_entrada_quantidade"),
+        "item_pedido_entrada_valor_unitario": request.form.getlist("item_pedido_entrada_valor_unitario"),
+        "item_pedido_entrada_validade": request.form.getlist("item_pedido_entrada_validade"),
     }
 
 def get_item_saida_form():
     return {
-        "item_pedido_saida_nome": request.form.get("item_pedido_saida_nome", "").strip(),
-        "item_pedido_saida_lote": request.form.get("item_pedido_saida_lote", "").strip(),
-        "item_pedido_saida_quantidade": request.form.get("item_pedido_saida_quantidade", "").strip(),
-        "pedido_saida_pedido_saida_id": request.form.get("pedido_entrada_pedido_entrada_ide", ""),  
-        "estoque_estoque_id": request.form.get("estoque_estoque_id", "")
+        "produto_produto_id": request.form.getlist("produto_produto_id"),
+        "item_pedido_saida_lote": request.form.getlist("item_pedido_saida_lote"),
+        "item_pedido_saida_quantidade": request.form.getlist("item_pedido_saida_quantidade"),
     }
 
 # ====== Pegando os dados do usuario ====== #
@@ -319,7 +316,11 @@ def salvar_produto():
         return render_template("cadastro_produto.html", produto=dados)
 
     try:
-        produto.gravar_produto()
+        id_produto = produto.gravar_produto()
+        observacao = ""
+        estoque = Estoque(id_produto, observacao, dados["usuario_usuario_id"])
+        criar_estoque = estoque.gravar_estoque()
+
         flash("Produto cadastrado com sucesso.", "success")
         return redirect(url_for("produtos"))
     except Exception as e:
@@ -1113,58 +1114,96 @@ def pedido():
 def pedido_salvar():
     fornecedor = Fornecedor.buscar_fornecedor()
     produtos = Produto.buscar_todo_produto()
-    
 
-    dados_entrado = get_pedido_entrada_form()
+    dados_entrada = get_pedido_entrada_form()
     dados_saida = get_pedido_saida_form()
     item_dados = get_item_entrada_form()
     item_dados_saida = get_item_saida_form()
-    print (dados_entrado)
 
     if "pedido_entrada_nome" in request.form:
-        entrada = Pedido_entrada(**dados_entrado)
-        item = Item_pedido_entrada(**item_dados)
+        entrada = Pedido_entrada(**dados_entrada)
         erros_entrada = entrada.validar_pedido_entrada()
-        erros_item_entrada = item.validar_item_pedido_entrada()
-        converter_data = entrada.converter_data(entrada.pedido_entrada_data)
         animal = Animal.buscar_animal()
 
-        if erros_entrada or erros_item_entrada:
-            for erro in erros_entrada + erros_item_entrada:
+        data_convertida = entrada.converter_data(entrada.pedido_entrada_data)
+        if data_convertida:
+            entrada.pedido_entrada_data = data_convertida
+
+        if erros_entrada:
+            for erro in erros_entrada:
                 flash(erro, "danger")
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos)
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+        # Valida pelo ID retornado do formulário
+        produtos_entrada = [p for p in item_dados.get("produto_produto_id", []) if p.strip()]
+        if not produtos_entrada:
+            flash("Adicione pelo menos um item válido ao pedido.", "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+        tamanhos = [len(v) for v in item_dados.values() if isinstance(v, list)]
+        if len(set(tamanhos)) > 1:
+            flash("Erro nos dados dos itens — tente adicionar novamente.", "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
         try:
             numero = entrada.gravar_pedido_entrada()
 
-            itens_validados = []
+            if not numero:
+                flash("Erro ao cadastrar entrada", "danger")
+                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
-            for i in range(len(item_dados["item_pedido_entrada_nome"])):
+            itens_validados = []
+            erros_itens = []
+
+            for i in range(len(item_dados["produto_produto_id"])):
+                prod_id_raw = item_dados["produto_produto_id"][i]
+                qtd_raw = item_dados["item_pedido_entrada_quantidade"][i]
+                valor_raw = item_dados["item_pedido_entrada_valor_unitario"][i]
+
+                if not prod_id_raw or not qtd_raw or not valor_raw:
+                    erros_itens.append(f"Item {i+1}: produto, quantidade e valor unitário são obrigatórios.")
+                    continue
+
+                try:
+                    produto_id_convertido = int(prod_id_raw)
+                    quantidade_convertida = int(qtd_raw)
+                    valor_convertido = float(valor_raw)
+                except ValueError:
+                    erros_itens.append(f"Item {i+1}: ID do produto, quantidade ou valor inválido.")
+                    continue
+
+                nome_produto = Produto.buscar_nome_produto(produto_id_convertido)
 
                 dados_do_item = {
-                    "item_pedido_entrada_nome": item_dados["item_pedido_entrada_nome"][i],
+                    "produto_produto_id": produto_id_convertido,
+                    "item_pedido_entrada_nome": nome_produto,
                     "item_pedido_entrada_lote": item_dados["item_pedido_entrada_lote"][i],
-                    "item_pedido_entrada_quantidade": item_dados["item_pedido_entrada_quantidade"][i],
+                    "item_pedido_entrada_quantidade": quantidade_convertida,
                     "item_pedido_entrada_validade": item_dados["item_pedido_entrada_validade"][i],
-                    "item_pedido_entrada_valor_unitario": item_dados["item_pedido_entrada_valor_unitario"][i]
+                    "item_pedido_entrada_valor_unitario": valor_convertido,
+                    "pedido_entrada_pedido_entrada_id": numero
                 }
 
                 item_instanciado = Item_pedido_entrada(**dados_do_item)
+                erros_do_item = item_instanciado.validar_item_pedido_entrada()
+
+                if erros_do_item:
+                    erros_itens.extend(erros_do_item)
+                    continue
 
                 itens_validados.append(item_instanciado)
+                item_instanciado.gravar_item_pedido_entrada(numero)
 
-            for item in itens_validados:
-                item.gravar_item_pedido_entrada(numero)
-
+            if erros_itens:
+                for erro in erros_itens:
+                    flash(erro, "danger")
+                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
             flash("Entrada cadastrada.", "success")
             return redirect(url_for("pedido"))
+
         except Exception as e:
-            flash(f"Erro ao cadastrar entrada, {e}", "danger")
-            print(e)
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-        except ValueError as e:
-            flash(f"Erro ao cadastrar entrada, {e}", "danger")
+            flash(f"Erro ao cadastrar entrada: {e}", "danger")
             print(e)
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
@@ -1172,20 +1211,77 @@ def pedido_salvar():
         animal = Animal.contar_animal()
         saida = Pedido_saida(**dados_saida)
         erros_saida = saida.validar_pedido_saida()
-        item = Item_pedido_saida(**item_dados_saida)
 
         if erros_saida:
             for erro in erros_saida:
                 flash(erro, "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
+        # Valida pelos IDs de produtos da saída
+        produtos_saida = [p for p in item_dados_saida.get("produto_produto_id", []) if p.strip()]
+        if not produtos_saida:
+            flash("Adicione pelo menos um item válido ao pedido.", "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+        tamanhos = [len(v) for v in item_dados_saida.values() if isinstance(v, list)]
+        if len(set(tamanhos)) > 1:
+            flash("Erro nos dados dos itens — tente adicionar novamente.", "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
         try:
-            numero = saida.gravar_pedido_saida()
-            item.gravar_item_pedido_saida(numero)
+            numero_saida = saida.gravar_pedido_saida()
+
+            if not numero_saida:
+                flash("Erro ao cadastrar saída", "danger")
+                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+            itens_validados_saida = []
+            erros_itens_saida = []
+
+            for i in range(len(item_dados_saida["produto_produto_id"])):
+                qtd_raw = item_dados_saida["item_pedido_saida_quantidade"][i]
+                prod_id_raw = item_dados_saida["produto_produto_id"][i]
+
+                if not prod_id_raw or not qtd_raw:
+                    erros_itens_saida.append(f"Item {i+1}: produto e quantidade são obrigatórios.")
+                    continue
+
+                try:
+                    quantidade_convertida = int(qtd_raw)
+                    produto_id_convertido = int(prod_id_raw)
+                except ValueError:
+                    erros_itens_saida.append(f"Item {i+1}: quantidade ou ID do produto inválido.")
+                    continue
+
+                nome_produto = Produto.buscar_nome_produto(produto_id_convertido)
+
+                dados_do_item_saida = {
+                    "item_pedido_saida_nome": nome_produto,
+                    "item_pedido_saida_lote": item_dados_saida["item_pedido_saida_lote"][i],
+                    "item_pedido_saida_quantidade": quantidade_convertida,
+                    "pedido_saida_pedido_saida_id": numero_saida
+                }
+
+                item_instanciado_saida = Item_pedido_saida(**dados_do_item_saida)
+                erros_do_item = item_instanciado_saida.validar_item_pedido_saida()
+
+                if erros_do_item:
+                    erros_itens_saida.extend(erros_do_item)
+                    continue
+
+                itens_validados_saida.append(item_instanciado_saida)
+                item_instanciado_saida.gravar_item_pedido_saida(numero_saida)
+
+            if erros_itens_saida:
+                for erro in erros_itens_saida:
+                    flash(erro, "danger")
+                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
             flash("Saída cadastrada.", "success")
             return redirect(url_for("pedido"))
+
         except Exception as e:
-            flash(f"Erro ao cadastrar saída, {e}", "danger")
+            flash(f"Erro ao cadastrar saída: {e}", "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
 # ======= Relatorio ======= #  

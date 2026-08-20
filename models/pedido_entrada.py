@@ -38,7 +38,7 @@ class Pedido_entrada(Crud_base):
 
         if not pedido_entrada:
             raise ValueError("Erro ao cadastrar pedido de entrada.")
-        
+
         return pedido_entrada
 
     @classmethod
@@ -95,15 +95,16 @@ class Pedido_entrada(Crud_base):
 class Item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada"
     pk = "item_pedido_entrada_id"
-    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id"]
+    fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "produto_produto_id"]
 
-    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id):
+    def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, produto_produto_id):
         self.item_pedido_entrada_lote = item_pedido_entrada_lote
         self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
         self.item_pedido_entrada_validade = item_pedido_entrada_validade
         self.item_pedido_entrada_valor_unitario = item_pedido_entrada_valor_unitario
         self.item_pedido_entrada_nome = item_pedido_entrada_nome
         self.pedido_entrada_pedido_entrada_id= pedido_entrada_pedido_entrada_id
+        self.produto_produto_id = produto_produto_id
 
     def validar_item_pedido_entrada (self):
         erros = [
@@ -118,13 +119,13 @@ class Item_pedido_entrada(Crud_base):
 
         return [ erro for erro in erros if erro]
     
-    def gravar_item_pedido_entrada (self,numero):
+    def gravar_item_pedido_entrada(self, numero):
         self.pedido_entrada_pedido_entrada_id= numero
-        itens= self.gravar()
+        itens = self.gravar()
 
-        if not Item_pedido_entrada:
+        if not itens:
             raise ValueError("Erro ao cadastrar item de pedido de entrada.")
-        
+
         conexao = Database.connect()
         cursor = conexao.cursor()
 
@@ -132,18 +133,18 @@ class Item_pedido_entrada(Crud_base):
             sql = """
                 UPDATE estoque 
                 SET estoque_quantidade = estoque_quantidade + %s
-                WHERE estoque_id = %s
+                WHERE produto_produto_id = %s
             """
 
             valores = (
                 self.item_pedido_entrada_quantidade,        
-
+                self.produto_produto_id
             )
             
             cursor.execute(sql, valores)
             conexao.commit()
             
-            return "Produto e estoque cadastrados com sucesso!"
+            return itens
             
         except Exception as e:
             conexao.rollback() 
@@ -151,7 +152,10 @@ class Item_pedido_entrada(Crud_base):
             
         finally:
             cursor.close()
-            conexao.close()
+            conexao.close() 
+        
+        
+        
 
     def deletar_item_pedido_entrada(cls, id):
         item_pedido_entrada = cls.buscar_por_id(id)
@@ -180,20 +184,6 @@ class Item_pedido_entrada(Crud_base):
             raise ValueError("item_pedido_entrada não encontrado.") 
 
         return item_pedido_entrada
-
-    @staticmethod
-    def buscar_estoque_por_produto(produto_id):
-        conexao = Database.connect()
-        cursor = conexao.cursor(dictionary=True)
-        try:
-            cursor.execute("SELECT estoque_id FROM estoque WHERE produto_produto_id = %s", (produto_id,))
-            resultado = cursor.fetchone()
-            if not resultado:
-                raise ValueError("Estoque não encontrado para esse produto.")
-            return resultado["estoque_id"]
-        finally:
-            cursor.close()
-            conexao.close()
 
 
    

@@ -27,6 +27,15 @@ class Pedido_saida(Crud_base):
     
         return [ erro for erro in erros if erro]
 
+    def converter_data_saida(data_str):
+            formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']
+            for formato in formatos:
+                try:
+                    return datetime.strptime(data_str.strip(), formato).strftime('%Y-%m-%d')
+                except ValueError:
+                    continue
+            return None
+
     def gravar_pedido_saida(self):
         pedido_saida = self.gravar()
 
@@ -80,8 +89,6 @@ class Item_pedido_saida(Crud_base):
     def validar_item_pedido_saida(self):
         erros = [
             Manipular.validar_vazio(self.item_pedido_saida_nome, "nome"),
-            Manipular.validar_vazio(self.item_pedido_saida_data_validade, "data"),
-            Manipular.validar_data(self.item_pedido_saida_data_validade, "data"),
             Manipular.validar_numero_negativo(self.item_pedido_saida_quantidade, "quantidade"),
             Manipular.validar_vazio(self.item_pedido_saida_quantidade, "quantidade"),
             Manipular.validar_vazio(self.item_pedido_saida_lote, "lote"),       
@@ -95,7 +102,7 @@ class Item_pedido_saida(Crud_base):
         
 
         if not pedido_saida:
-            raise ValueError("Erro ao criar pedido!")
+            raise ValueError("Erro ao cadastrar items!")
 
         conexao = Database.connect()
         cursor = conexao.cursor()
@@ -114,7 +121,7 @@ class Item_pedido_saida(Crud_base):
             cursor.execute(sql, valores)
             conexao.commit()
             
-            return "Produto e estoque cadastrados com sucesso!"
+            return pedido_saida
             
         except Exception as e:
             conexao.rollback() 

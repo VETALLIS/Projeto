@@ -54,7 +54,7 @@ class Produto(Crud_base):
             cursor.execute(sql, valores)
             conexao.commit()
             
-            return "Produto e estoque cadastrados com sucesso!"
+            return produto_id
         except Exception as e:
             conexao.rollback() 
             raise ValueError(f"Erro ao cadastrar o estoque do produto: {e}")
@@ -229,3 +229,12 @@ class Produto(Crud_base):
             if validade < hoje:
                 vencidos = vencidos + 1
         return vencidos
+
+    @classmethod
+    def buscar_nome_produto(cls, produto_id):
+        # Exemplo utilizando consulta ao banco (ajuste conforme o seu banco/ORM)
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        cursor.execute("SELECT produto_nome FROM produto WHERE produto_id = %s", (produto_id,))
+        resultado = cursor.fetchone()
+        return resultado[0] if resultado else ""
