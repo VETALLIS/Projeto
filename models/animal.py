@@ -92,7 +92,16 @@ class Animal(Crud_base):
             raise ValueError("Animal não encontrado.") # retorna se tiver erro
 
         return Animal(**animal)# retorna os dados encontrado
+
+
+    @classmethod
+    def buscar_animal(cls, order_by="animal_id"):
+            animal = cls.buscar_tudo(order_by) # chama o método para de buscar por id do Crud_base
     
+            if not animal: # verifica se foi encontrado
+                raise ValueError("Animal não encontrado.") # retorna se tiver erro
+    
+            return animal
 
     @classmethod
     def contar_animal(cls, order_by=pk):
