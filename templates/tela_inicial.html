@@ -107,9 +107,9 @@
                             <p class="text-white mb-3">{{produto.produto_descricao}}</p>
                             <p class="text-secondary mb-1">Tipo</p>
                             <p class="text-white mb-3">{{produto.produto_categoria}}</p>
-                            {%for categorias in categoria%}
+                            {%for quantidade in categoria%}
                             <p class="text-secondary mb-1">Quantidade</p>
-                            <p class="text-white mb-0">{{categorias.estoque_quantidade | int}}</p>
+                            <p class="text-white mb-0">{{quantidade.estoque_quantidade | int}}</p>
                             {%endfor%}
                         </div>
                     </div>
