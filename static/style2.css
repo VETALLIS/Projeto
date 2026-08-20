@@ -89,11 +89,7 @@ body {
     font-weight: 500 !important;
 
 }
-@media(max-width: 576px) {
-    .texto-a {
-        font-size: small !important;
-    }
-}  
+
 
 .list-style-none {
     list-style: none !important;
@@ -367,14 +363,6 @@ body {
     margin-top: 2rem;
 }
 
-@media(max-width: 576px) {
-    #botao-login-menu {
-        font-size: small;
-        height: 30%;
-        width: 20%;
-        margin-left: 2%;
-    }
-}  
 
 #menu-nav {
     position: fixed;
@@ -392,20 +380,6 @@ body {
     background: rgba(255, 255, 255, 0.2);
     gap:20px;
 }
-
-@media(max-width: 576px) {
-    #menu-nav {
-        
-    }
-}  
-@media(max-width: 576px) {
-    #lista-menu {
-        font-size:small;
-        gap: 5px;
-        height: 100%;
-
-    }
-}  
 
 
 #slogan-content {
@@ -460,17 +434,6 @@ body {
     height: 100vh;
 }
 
-
-
-/*smarthphone*/
-@media(max-width: 576px) {
-    #cards-produto {
-        display: flex;
-        flex-direction: column;
-        padding: 30px 20px 30px;
-    }
-}  
-
 #card-oferecemos {
     grid-area: a;
     transition: 0.5s;
@@ -483,27 +446,10 @@ body {
 
 }
 
-@media(max-width: 576px) {
-    #card-oferecemos {
-        display: flex;
-    }
-}
 
-@media(max-width: 576px) {
-    #icone-oferecemos {
-        padding: 0;
-        margin: 2%;
-    }
-}
+#prod{
 
-@media(max-width: 576px) {
-    #titulo-oferecemos {
-        padding-top:1.5% ;
-        font-size: small;
-        margin-left:20% ;
-    }
 }
-
 #card-oferecemos:hover>#texto-oferecemos {
     opacity: 1;
 }
@@ -551,6 +497,71 @@ body {
     right: 20px;
 }
 
+@media(max-width: 576px) {
+    .texto-a {
+        font-size: small !important;
+    }
+    /*LANDING PAGE*/
+    /*menu*/
+    #botao-login-menu {
+        font-size: small;
+        height: 30%;
+        width: 20%;
+        margin-left: 2%;
+    }
+    #lista-menu {
+        font-size:small;
+        gap: 5px;
+        height: 100%;
+
+    }
+    /*card produto*/
+    #cards-produto {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding: 40px 30px;
+        gap: 10px;
+    }
+    #card-oferecemos,
+    #card-tecnologia-utilizada,
+    #card-inovacao,
+    #card-solucao,
+    #card-planos-futuros,
+    #card-dados-mercado {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        height: auto;
+        padding: 12px 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+    }
+    /*icones*/
+    .icone-cards-lp{
+        margin: 0;
+        padding: 0;
+    }
+
+    #titulo-oferecemos,
+    #titulo-tecnologia {
+        padding-top:12% ;
+        font-size: small;
+        margin-left:20% ;
+    }
+    #texto-oferecemos,
+    #texto-tecnologia {
+        font-size: x-small;
+    }
+    .prod {
+        font-size: medium;
+    }
+
+    
+}
+
 #card-tecnologia-utilizada {
     grid-area: d;
     transition: 0.2s ease-in-out;
@@ -578,11 +589,6 @@ body {
     margin-left: 1.5rem;
 }
 
-@media(max-width: 992px) {
-    #titulo-tecnologia {
-        font-size: x-large;
-    }
-}  
 
 #card-tecnologia-utilizada:hover>#titulo-tecnologia {
     opacity: 0.2;
@@ -813,11 +819,6 @@ body {
     margin-top: 0.5rem;
     margin-left: 1.5rem;
 }
-@media(max-width: 992px) {
-    #titulo-mercado {
-        font-size: x-large;
-    }
-}  
 
 #card-dados-mercado:hover>#titulo-mercado {
     opacity: 0.2;
@@ -836,12 +837,6 @@ body {
     left: 20px;
     right: 20px;
 }
-
-@media(max-width: 992px) {
-    #texto-dados {
-        font-size: small;
-    }
-}  
 
 #card-dados-mercado:hover>#texto-dados {
     opacity: 1;
@@ -1006,17 +1001,6 @@ body {
     align-items: start;
 }
 
-@media(max-width: 768px) {
-    .container_inicial_res {
-        flex-direction: column;
-    }
-
-    .primeira_linha_res {
-        flex-direction: column;
-    }
-
-}
-
 /* Utilitário genérico reutilizado em vários cards da tela inicial */
 .texto-branco {
     color: #fff !important;
@@ -1062,21 +1046,6 @@ body {
     padding: 5px;
     width: 98%;
     height: 350px;
-}
-
-.primeira_linha_card_sensores_container_res {}
-
-
-@media(max-width: 768px) {
-    .primeira_linha_card_sensores_container_res {
-        flex-direction: column;
-        height: 30%;
-    }
-
-    .card-luminosidade {
-        
-    }
-
 }
 
 .label-sensores {
