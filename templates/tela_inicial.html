@@ -9,13 +9,13 @@
                     {% if categoria %}
                     {% for categorias in categoria %}
                     <span
-                        class="position-absolute card-categoria fw-bold mb-0 display-5 text-center titulo-h2 z-index-10">
+                        class="position-absolute card-categoria fw-bold mb-0 display-5 text-center titulo-h3 z-index-10">
                         {{ categorias.produto_categoria }}
                     </span>
 
                     <h5
                         class="fw-bold mb-0 ps-2 display-5 text-center position-relative titulo-h2 z-index-1 card-estoque-valor">
-                        {{ categorias.estoque_quantidade }}
+                        {{ categorias.estoque_quantidade | int }}
                     </h5>
                     <p class="text-center text-white-50 z-index-1 texto-unidade-estoque">
                         Unidades em Estoque</p>
@@ -36,6 +36,9 @@
                 <div class="position-relative overflow-hidden card-estoque-header">
                     <label class="label-estoque"></label>
                     <h5 class="text-start fw-bold mb-0 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque
+                    </h5>
+                    <h5 class="fw-bold  ps-2 display-5 text-center position-relative titulo-h2 z-index-1 ">
+
                     </h5>
                 </div>
 
@@ -79,30 +82,37 @@
 
         <div id="carouselVertical" class="carousel slide carousel-vertical" data-bs-ride="carousel">
             <div class="carousel-inner">
-
+                {%for produto in produtos%}
                 <!-- Slide 1 -->
                 <div class="carousel-item active" data-bs-interval="2000">
                     <div class="slide-destaque">
                         <span class="badge mb-3 badge-novo">NOVO</span>
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h3 class="text-white fw-bold">Mastizone</h3>
+                                <h3 class="text-white fw-bold">{{produto.produto_nome}}</h3>
                                 <p class="text-secondary">Em estoque</p>
                             </div>
                             <div class="produto-imagem-container">
-                                <img src="https://picsum.photos/120/120?random=10" class="produto-imagem" alt="produto">
+                                {%if produto.imagem_base64%}
+                                <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
+                                    class="produto-imagem" alt="produto">
+                                {%else%}
+                                <img src="/static/medicamento.jpg"
+                                    class="text-white aling-itens-center border-radius-menor z-index-1">
+                                {%endif%}
                             </div>
                         </div>
                         <div class="produto-info-box">
                             <p class="text-secondary mb-1">Quantidade</p>
-                            <p class="text-white mb-3">15.</p>
+                            <p class="text-white mb-3">{{produto.estoque_quantidade}}</p>
                             <p class="text-secondary mb-1">Tipo</p>
-                            <p class="text-white mb-3">Gota.</p>
+                            <p class="text-white mb-3">{{produto.produto_categoria}}</p>
                             <p class="text-secondary mb-1">Descrição</p>
-                            <p class="text-white mb-0">Cura dor de cabeça.</p>
+                            <p class="text-white mb-0">{{produto.produto_descricao}}</p>
                         </div>
                     </div>
                 </div>
+                {%endfor%}
 
                 <!-- Slide 2 -->
                 <div class="carousel-item" data-bs-interval="2000">
