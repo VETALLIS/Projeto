@@ -17,8 +17,7 @@
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link text-black" data-bs-toggle="tab" data-bs-target="#saida" type="button"
-             onclick="
+        <button class="nav-link text-black" data-bs-toggle="tab" data-bs-target="#saida" type="button" onclick="
                 this.style.color='#074040';
                 document.querySelector('[data-bs-target=\'#saida\']').style.color='black';
             ">
@@ -79,7 +78,6 @@
                             </tr>
                         </thead>
                         <tbody id="corpoItensEntrada"></tbody>
-                        </tbody>
                     </table>
                 </div>
 
@@ -88,10 +86,10 @@
                 <template id="templateItemEntrada">
                     <tr>
                         <td>
-                            <select name="item_pedido_entrada_nome" class="form-select" name="produto">
+                            <select name="produto_produto_id" class="form-select">
                                 <option value=""> Selecione o produto</option>
                                 {% for p in produtos%}
-                                <option value="{{ p.produto_id }}, {{p.produto_nome}}" class="text-black">{{
+                                <option value="{{ p.produto_id }}" class="text-black">{{
                                     p.produto_nome }}
                                 </option>
                                 {% endfor %}
@@ -154,8 +152,9 @@
 
                 <div class="d-flex justify-content-between p-2 w-100 border-bottom">
                     <h3 class="text-start text-white">Item do Pedido</h3>
-                    <button type="button" class="btn background-verde-medio border-radius-menor text-white btn-adicionar-item" data-template="templateItemSaida"
-                        data-corpo="corpoItensSaida">
+                    <button type="button"
+                        class="btn background-verde-medio border-radius-menor text-white btn-adicionar-item"
+                        data-template="templateItemSaida" data-corpo="corpoItensSaida">
                         Adicionar Item
                     </button>
                 </div>
@@ -178,11 +177,10 @@
                 <template id="templateItemSaida">
                     <tr>
                         <td>
-                            <select name="item_pedido_saida_nome" class="form-select">
+                            <select name="produto_produto_id" class="form-select">
                                 <option value=""> Selecione o produto</option>
                                 {% for p in produtos%}
-                                <option value="{{ p.produto_id }}" class="text-black">{{ p.produto_nome }}
-                                </option>
+                                <option value="{{ p.produto_id }}" class="text-black">{{ p.produto_nome }}</option>
                                 {% endfor %}
                             </select>
                         </td>

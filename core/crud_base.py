@@ -125,7 +125,7 @@ class Crud_base:
         cursor = conexao.cursor(dictionary=True)
 
         try:
-            cursor.execute("select p.produto_nome, p.produto_categoria, e.estoque_quantidade from produto p join estoque e where e.produto_produto_id = p.produto_id;", (produto_id,))
+            cursor.execute("select p.produto_nome, p.produto_categoria, e.estoque_quantidade from produto p join estoque e where e.produto_produto_id = p.produto_id;", (id,))
             resultado = cursor.fetchone()
             if not resultado:
                 raise ValueError("Estoque não encontrado para esse produto.")
