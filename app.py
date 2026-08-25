@@ -1,6 +1,6 @@
 # ====== Importação de bibliotecas ====== #
 #from crypt import methods
-from flask import Flask, render_template, request, redirect, url_for, flash,  session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash,  session, jsonify, current_app
 from models.produto import Produto
 from models.sensor import Sensor
 from models.usuario import Usuario
