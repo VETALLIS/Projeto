@@ -107,10 +107,8 @@
                             <p class="text-white mb-3">{{produto.produto_descricao}}</p>
                             <p class="text-secondary mb-1">Tipo</p>
                             <p class="text-white mb-3">{{produto.produto_categoria}}</p>
-                            {%for quantidade in categoria%}
                             <p class="text-secondary mb-1">Quantidade</p>
-                            <p class="text-white mb-0">{{quantidade.estoque_quantidade | int}}</p>
-                            {%endfor%}
+                            <p class="text-white mb-0">{{ produto.estoque_quantidade | int }}</p>
                         </div>
                     </div>
                 </div>
@@ -186,7 +184,7 @@
                     </li>
                 </div>
                 <div class="modal-footer border-0 pt-0 px-3 pb-3">
-                    <button type="submit" class="btn w-100 fw-semibold botao-aplicar-filtro">
+                    <button type="submit" class="btn w-100 text-white fw-semibold botao-aplicar-filtro">
                         Aplicar
                     </button>
                 </div>

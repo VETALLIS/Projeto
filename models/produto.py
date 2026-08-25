@@ -155,18 +155,35 @@ class Produto(Crud_base):
 
     @classmethod
     def buscar_todo_produto(cls, order_by="produto_nome"):
-        produtos = cls.buscar_tudo(order_by)  
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
 
-        if not produtos:
-            raise ValueError("Produtos não encontrados")
+        try:
+            sql = f"""
+            SELECT p.*, COALESCE(e.estoque_quantidade, 0) AS estoque_quantidade
+            FROM produto p
+            LEFT JOIN (
+                SELECT produto_produto_id, SUM(estoque_quantidade) AS estoque_quantidade
+                FROM estoque
+                GROUP BY produto_produto_id
+            ) e ON e.produto_produto_id = p.produto_id
+            ORDER BY p.{order_by}
+            """
+            cursor.execute(sql)
+            produtos = cursor.fetchall()
 
-        for produto in produtos:
-            produto["imagem_base64"] = None
-            if produto.get("imagem_blob"):
-                produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
-            else:
+            if not produtos:
+                raise ValueError("Produtos não encontrados")
+
+            for produto in produtos:
                 produto["imagem_base64"] = None
-        return produtos
+                if produto.get("imagem_blob"):
+                    produto["imagem_base64"] = base64.b64encode(produto["imagem_blob"]).decode("utf-8")
+
+            return produtos
+        finally:
+            cursor.close()
+            conexao.close()
 
        
 
