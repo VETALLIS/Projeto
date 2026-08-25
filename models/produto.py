@@ -233,19 +233,44 @@ class Produto(Crud_base):
         return produtos
 
 
+# produto.py
+
+    @staticmethod
+    def contar_vencidos():
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            sql = """
+            SELECT COUNT(DISTINCT e.produto_produto_id)
+            FROM item_pedido_entrada ipe
+            JOIN estoque e ON ipe.estoque_estoque_id = e.estoque_id
+            WHERE STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
+            """
+            cursor.execute(sql)
+            resultado = cursor.fetchone()
+            return resultado[0] if resultado else 0
+        finally:
+            cursor.close()
+            conexao.close()
+
     @classmethod
-    def contar_vencidos(cls, order_by="produto_id"):
-        produtos = cls.buscar_tudo(order_by)
-        if not produtos:
-            return False
-    
-        hoje = datetime.today()
-        vencidos = 0
-        for produto in produtos:
-            validade = Manipular.validar_data(produto["validade"])  
-            if validade < hoje:
-                vencidos = vencidos + 1
-        return vencidos
+    def total_estoque(cls):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+        try:
+            sql = """
+            SELECT SUM(e.estoque_quantidade) AS total
+            FROM estoque e;
+            """
+            cursor.execute(sql)
+            resultado = cursor.fetchone()
+            return resultado['total'] if resultado and resultado['total'] else 0
+        except Exception as e:
+            print(f"Erro ao buscar total de estoque: {e}")
+            return 0
+        finally:
+            cursor.close()
+            conexao.close()
 
     @classmethod
     def buscar_nome_produto(cls, produto_id):
