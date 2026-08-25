@@ -248,6 +248,25 @@ class Produto(Crud_base):
         return vencidos
 
     @classmethod
+    def total_estoque(cls):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+        try:
+            sql = """
+            SELECT SUM(e.estoque_quantidade) AS total
+            FROM estoque e;
+            """
+            cursor.execute(sql)
+            resultado = cursor.fetchone()
+            return resultado['total'] if resultado and resultado['total'] else 0
+        except Exception as e:
+            print(f"Erro ao buscar total de estoque: {e}")
+            return 0
+        finally:
+            cursor.close()
+            conexao.close()
+
+    @classmethod
     def buscar_nome_produto(cls, produto_id):
         # Exemplo utilizando consulta ao banco (ajuste conforme o seu banco/ORM)
         conexao = Database.connect()
