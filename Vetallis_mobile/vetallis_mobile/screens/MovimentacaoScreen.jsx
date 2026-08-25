@@ -1,7 +1,6 @@
-
-import { LinearGradient, search } from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 import {
   View,
@@ -10,67 +9,65 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 
+// Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
+// src/services/api.js, troque essa constante por um import de lá.
+const API_URL = 'http://10.135.60.20:3000';
 
 export default function MovimentacaoScreen() {
-   const [search, setSearch] = useState('');
-  const history = [
-    {
-      id: 1,
-      type: 'Entrada',
-      product: 'Dipirona',
-      quantity: 50,
-      date: '20/05/2026',
-      hour: '09:30',
-    },
+  const [search, setSearch] = useState('');
+  const [historico, setHistorico] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState('');
 
-    {
-      id: 2,
-      type: 'Saída',
-      product: 'Vermífugo',
-      quantity: 15,
-      date: '18/05/2026',
-      hour: '10:15',
-    },
+  async function carregarHistorico() {
+    setCarregando(true);
+    setErro('');
+    try {
+      const resposta = await fetch(`${API_URL}/api/historico`);
+      const dados = await resposta.json();
+      if (resposta.ok) {
+        setHistorico(dados);
+      } else {
+        setErro(dados.mensagem || 'Não foi possível carregar o histórico.');
+      }
+    } catch (e) {
+      setErro('Não foi possível conectar ao servidor.');
+    } finally {
+      setCarregando(false);
+    }
+  }
 
-    {
-      id: 3,
-      type: 'Entrada',
-      product: 'Vacinas',
-      quantity: 150,
-      date: '15/05/2026',
-      hour: '11:40',
-    },
+  useEffect(() => {
+    carregarHistorico();
+  }, []);
 
-    {
-      id: 4,
-      type: 'Saída',
-      product: 'Losartana',
-      quantity: 5,
-      date: '10/05/2026',
-      hour: '13:20',
-    },
+  const filteredHistory = useMemo(() => {
+    const termo = search.toLowerCase();
+    return historico.filter(
+      (item) =>
+        item.produto?.toLowerCase().includes(termo) ||
+        item.tipo?.toLowerCase().includes(termo)
+    );
+  }, [search, historico]);
 
-    {
-      id: 5,
-      type: 'Entrada',
-      product: 'Loratadina',
-      quantity: 50,
-      date: '09/05/2026',
-      hour: '08:50',
-    },
-  ];
-
-  const filteredHistory = history.filter(
-    (item) =>
-      item.product
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      item.type
-        .toLowerCase()
-        .includes(search.toLowerCase())
-  );
+  // Soma a QUANTIDADE de itens (não a contagem de pedidos) de cada tipo
+  const { totalEntradas, totalSaidas } = useMemo(() => {
+    return historico.reduce(
+      (totais, item) => {
+        const qtd = Number(item.quantidade) || 0;
+        if (item.tipo === 'Entrada') {
+          totais.totalEntradas += qtd;
+        } else if (item.tipo === 'Saída') {
+          totais.totalSaidas += qtd;
+        }
+        return totais;
+      },
+      { totalEntradas: 0, totalSaidas: 0 }
+    );
+  }, [historico]);
 
   return (
     <LinearGradient
@@ -113,16 +110,14 @@ export default function MovimentacaoScreen() {
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.filterButton}>
+          <TouchableOpacity style={styles.filterButton} onPress={carregarHistorico}>
             <Ionicons
-              name="calendar-outline"
+              name="refresh"
               size={24}
               color="#fff"
             />
           </TouchableOpacity>
         </View>
-
-        {/* PESQUISA */}
 
         {/* ESTATÍSTICAS */}
 
@@ -135,7 +130,7 @@ export default function MovimentacaoScreen() {
             />
 
             <Text style={styles.statsNumber}>
-              18
+              {totalEntradas}
             </Text>
 
             <Text style={styles.statsLabel}>
@@ -151,7 +146,7 @@ export default function MovimentacaoScreen() {
             />
 
             <Text style={styles.statsNumber}>
-              9
+              {totalSaidas}
             </Text>
 
             <Text style={styles.statsLabel}>
@@ -162,85 +157,90 @@ export default function MovimentacaoScreen() {
 
         {/* LISTA */}
 
-        <FlatList
-          data={filteredHistory}
-          keyExtractor={(item) =>
-            item.id.toString()
-          }
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom: 40,
-          }}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              {/* ÍCONE */}
+        {carregando ? (
+          <ActivityIndicator size="large" color="#fff" style={{ marginTop: 30 }} />
+        ) : erro ? (
+          <Text style={styles.mensagemErro}>{erro}</Text>
+        ) : (
+          <FlatList
+            data={filteredHistory}
+            keyExtractor={(item, index) => `${item.tipo}-${item.id}-${index}`}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingBottom: 40,
+            }}
+            onRefresh={carregarHistorico}
+            refreshing={carregando}
+            ListEmptyComponent={
+              <Text style={styles.mensagemErro}>Nenhuma movimentação encontrada.</Text>
+            }
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                {/* ÍCONE */}
 
-              <View
-                style={[
-                  styles.iconContainer,
-                  {
-                    backgroundColor:
-                      item.type === 'Entrada'
-                        ? '#007204'
-                        : '#450A0A',
-                  },
-                ]}
-              >
-                <Ionicons
-                  name={
-                    item.type === 'Entrada'
-                      ? 'arrow-down-circle'
-                      : 'arrow-up-circle'
-                  }
-                  size={30}
-                  color={
-                    item.type === 'Entrada'
-                      ? '#22C55E'
-                      : '#EF4444'
-                  }
-                />
-              </View>
-
-              {/* INFO */}
-
-              <View style={styles.info}>
-                <View style={styles.topRow}>
-                  <Text style={styles.product}>
-                    {item.product}
-                  </Text>
-
-                  <Text
-                    style={[
-                      styles.type,
-                      {
-                        color:
-                          item.type === 'Entrada'
-                            ? '#86EFAC'
-                            : '#FCA5A5',
-                      },
-                    ]}
-                  >
-                    {item.type}
-                  </Text>
+                <View
+                  style={[
+                    styles.iconContainer,
+                    {
+                      backgroundColor:
+                        item.tipo === 'Entrada'
+                          ? '#007204'
+                          : '#450A0A',
+                    },
+                  ]}
+                >
+                  <Ionicons
+                    name={
+                      item.tipo === 'Entrada'
+                        ? 'arrow-down-circle'
+                        : 'arrow-up-circle'
+                    }
+                    size={30}
+                    color={
+                      item.tipo === 'Entrada'
+                        ? '#22C55E'
+                        : '#EF4444'
+                    }
+                  />
                 </View>
 
-                <View style={styles.detailsRow}>
-                  <Text style={styles.quantity}>
-                    Quantidade: {item.quantity}
-                  </Text>
+                {/* INFO */}
 
-                  <Text style={styles.date}>
-                    {item.date}
-                  </Text>
+                <View style={styles.info}>
+                  <View style={styles.topRow}>
+                    <Text style={styles.product}>
+                      {item.produto}
+                    </Text>
+
+                    <Text
+                      style={[
+                        styles.type,
+                        {
+                          color:
+                            item.tipo === 'Entrada'
+                              ? '#86EFAC'
+                              : '#FCA5A5',
+                        },
+                      ]}
+                    >
+                      {item.tipo}
+                    </Text>
+                  </View>
+
+                  <View style={styles.detailsRow}>
+                    <Text style={styles.quantity}>
+                      Quantidade: {item.quantidade}
+                    </Text>
+
+                    <Text style={styles.date}>
+                      {item.data}
+                    </Text>
+                  </View>
                 </View>
-
-                <Text style={styles.hour}>
-                  {item.hour}
-                </Text>
               </View>
-            </View>
-          )}
-        />
+            )}
+          />
+        )}
       </View>
     </LinearGradient>
   );
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
   filterButton: {
     width: 52,
     height: 52,
-    backgroundColor: 'rgba(255, 255, 255, 0.15);',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.15);',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderRadius: 24,
     padding: 18,
     marginBottom: 18,
@@ -401,5 +401,11 @@ const styles = StyleSheet.create({
   logo: {
     width: 60,
     height: 60,
+  },
+  mensagemErro: {
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 30,
+    fontSize: 15,
   },
 });

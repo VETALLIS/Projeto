@@ -1,27 +1,58 @@
-
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
-import {useState} from 'react';
+import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../screens/AuthContext';
+
+// IP da máquina onde o backend (node server.js) está rodando, na mesma rede do BlueStacks.
+// A porta precisa ser a MESMA que aparece no terminal ao rodar o server.js (const PORTA = 3000).
+const API_URL = 'http://10.135.60.20:3000';
 
 export default function Login() {
   const [Email, setEmail] = useState('')
   const [Senha, setSenha] = useState('')
   const [mensagem, setMensagem] = useState('')
   const [sucesso, setSucesso] = useState('')
+  const [carregando, setCarregando] = useState(false)
   const [isChecked, setChecked] = useState(false);
   const navigation = useNavigation();
-  
-  function fazerLogin(){
-    if (Email === "teste@gmail.com" && Senha === "123"){
-      setMensagem('Login realizado com sucesso!')
-      setSucesso(true)
-      navigation.replace('App')
-    } else {
-      setMensagem("Email ou senha invalidas")
-      setSucesso(false)
+  const { setUsuario } = useAuth();
+
+  async function fazerLogin() {
+    if (!Email || !Senha) {
+      setMensagem('Preencha email e senha');
+      setSucesso(false);
+      return;
+    }
+
+    setCarregando(true);
+    setMensagem('');
+
+    try {
+      const resposta = await fetch(`${API_URL}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: Email, senha: Senha }),
+      });
+
+      const dados = await resposta.json();
+
+      if (resposta.ok && dados.sucesso) {
+        setMensagem('Login realizado com sucesso!');
+        setSucesso(true);
+        setUsuario(dados.usuario);
+        navigation.replace('App');
+      } else {
+        setMensagem(dados.mensagem || 'Email ou senha inválidos');
+        setSucesso(false);
+      }
+    } catch (erro) {
+      setMensagem('Não foi possível conectar ao servidor');
+      setSucesso(false);
+    } finally {
+      setCarregando(false);
     }
   }
 
@@ -45,6 +76,9 @@ export default function Login() {
               placeholderTextColor="#999" 
               value={Email}
               onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              editable={!carregando}
             />
           </View>
           <Text style={styles.escrita}>Senha</Text>
@@ -56,6 +90,8 @@ export default function Login() {
               placeholderTextColor="#999" 
               value={Senha}
               onChangeText={setSenha}
+              secureTextEntry
+              editable={!carregando}
             />
           </View>
           <View style={styles.checkrow}>
@@ -67,8 +103,12 @@ export default function Login() {
             />
             <Text style={styles.label}>Lembrar-me</Text>
           </View>
-          <TouchableOpacity style={styles.botao} onPress={fazerLogin}>
-            <Text style={styles.textoBotao}>Entrar</Text>
+          <TouchableOpacity style={styles.botao} onPress={fazerLogin} disabled={carregando}>
+            {carregando ? (
+              <ActivityIndicator color="#ffff" />
+            ) : (
+              <Text style={styles.textoBotao}>Entrar</Text>
+            )}
           </TouchableOpacity>
           {mensagem !== '' && (
             <Text style={[
