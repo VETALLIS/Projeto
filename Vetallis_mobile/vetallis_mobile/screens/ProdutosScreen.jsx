@@ -1,10 +1,81 @@
-
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
-import { Ionicons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
-export default function DashScreen() {
+import { useState, useEffect, useMemo } from 'react';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, ActivityIndicator } from 'react-native';
+
+// Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
+// src/services/api.js, troque essa constante por um import de lá.
+const API_URL = 'http://10.135.60.20:3000';
+
+export default function ProdutosScreen() {
     const [busca, setBusca] = useState('');
+    const [produtos, setProdutos] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState('');
+
+    async function carregarProdutos() {
+        setCarregando(true);
+        setErro('');
+        try {
+            const resposta = await fetch(`${API_URL}/api/produtos`);
+            const dados = await resposta.json();
+            if (resposta.ok) {
+                setProdutos(dados);
+            } else {
+                setErro(dados.mensagem || 'Não foi possível carregar os produtos.');
+            }
+        } catch (e) {
+            setErro('Não foi possível conectar ao servidor.');
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    useEffect(() => {
+        carregarProdutos();
+    }, []);
+
+    const produtosFiltrados = useMemo(() => {
+        const termo = busca.trim().toLowerCase();
+        if (!termo) return produtos;
+        return produtos.filter((p) =>
+            p.nome?.toLowerCase().includes(termo) ||
+            p.categoria?.toLowerCase().includes(termo) ||
+            p.descricao?.toLowerCase().includes(termo)
+        );
+    }, [busca, produtos]);
+
+    function renderProduto({ item }) {
+        return (
+            <View style={styles.card}>
+                <Image
+                    source={
+                        item.temImagem
+                            ? { uri: `${API_URL}/api/produtos/${item.id}/imagem` }
+                            : require('../assets/vetallis.png')
+                    }
+                    style={styles.logo_card}
+                />
+                <View style={styles.letra}>
+                    <View>
+                        <View style={styles.ajuste}>
+                            <Text style={styles.titulo}>{item.nome}</Text>
+                            {!!item.categoria && (
+                                <Text style={styles.fundo}>{item.categoria}</Text>
+                            )}
+                        </View>
+                        <Text style={styles.descricao}>
+                            {item.descricao || 'Sem descrição cadastrada.'}
+                        </Text>
+                        <Text style={styles.estoque}>
+                            Em estoque: {item.quantidade}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+
     return (
         <LinearGradient
             colors={['#000000', '#0d3b2e', '#0a4a3a', '#1a6b4a']}
@@ -54,48 +125,25 @@ export default function DashScreen() {
                     <Ionicons name="filter" size={20} color="#e2e8f0" />
                 </TouchableOpacity>
             </View>
-            <View style={styles.card}>
-                <Image source={require('../assets/vetallis.png')} style={styles.logo_card} />
-                <View style={styles.letra}>
-                    <View>
-                        <View style={styles.ajuste}>
-                            <Text style={styles.titulo}>Baytrill</Text>
-                            <Text style={styles.fundo}>Vacina</Text>
-                        </View>
-                        <Text>
-                            A vacina é muito top,{"\n"}faz bem pra saúde, apliquem
-                        </Text>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <Image source={require('../assets/vetallis.png')} style={styles.logo_card} />
-                <View style={styles.letra}>
-                    <View>
-                        <View style={styles.ajuste}>
-                            <Text style={styles.titulo}>Baytrill</Text>
-                            <Text style={styles.fundo}>Vacina</Text>
-                        </View>
-                        <Text>
-                            A vacina é muito top,{"\n"}faz bem pra saúde, apliquem
-                        </Text>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <Image source={require('../assets/vetallis.png')} style={styles.logo_card} />
-                <View style={styles.letra}>
-                    <View>
-                        <View style={styles.ajuste}>
-                            <Text style={styles.titulo}>Baytrill</Text>
-                            <Text style={styles.fundo}>Vacina</Text>
-                        </View>
-                        <Text>
-                            A vacina é muito top,{"\n"}faz bem pra saúde, apliquem
-                        </Text>
-                    </View>
-                </View>
-            </View>
+
+            {carregando ? (
+                <ActivityIndicator size="large" color="#fff" style={{ marginTop: 30 }} />
+            ) : erro ? (
+                <Text style={styles.mensagemErro}>{erro}</Text>
+            ) : (
+                <FlatList
+                    data={produtosFiltrados}
+                    keyExtractor={(item) => String(item.id)}
+                    renderItem={renderProduto}
+                    showsVerticalScrollIndicator={false}
+                    onRefresh={carregarProdutos}
+                    refreshing={carregando}
+                    contentContainerStyle={{ paddingBottom: 20 }}
+                    ListEmptyComponent={
+                        <Text style={styles.mensagemErro}>Nenhum produto encontrado.</Text>
+                    }
+                />
+            )}
 
         </LinearGradient>
 
@@ -120,7 +168,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginBottom: 20,
         alignSelf: 'center',
-        flex: 1,
         justifyContent: 'center',
         gap: 25,
         width: 380
@@ -179,7 +226,8 @@ const styles = StyleSheet.create({
     logo_card: {
         width: 120,
         height: 150,
-        padding: 10
+        padding: 10,
+        resizeMode: 'contain',
     },
     header: {
         marginTop: 20,
@@ -207,7 +255,8 @@ const styles = StyleSheet.create({
         color: '#000000',
         fontSize: 20,
         fontWeight: 'bold',
-        marginTop: 25
+        marginTop: 25,
+        flexShrink: 1,
     },
     fundo: {
         color: '#4fba24b8',
@@ -221,7 +270,18 @@ const styles = StyleSheet.create({
         padding: 5
     },
     ajuste: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    descricao: {
+        color: '#333',
+        fontSize: 13,
+    },
+    estoque: {
+        color: '#666',
+        fontSize: 12,
+        marginTop: 6,
+        fontWeight: 'bold',
     },
     searchRow: {
         flexDirection: 'row',
@@ -256,6 +316,12 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(255,255,255,0.15)',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    mensagemErro: {
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: 30,
+        fontSize: 15,
     },
 
 });

@@ -1,7 +1,52 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../screens/AuthContext';
+
+// Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
+// src/services/api.js, troque essa constante por um import de lá.
+const API_URL = 'http://10.135.60.20:3000';
+
 export default function DashScreen() {
+    const { usuario } = useAuth();
+
+    const [estoqueTotal, setEstoqueTotal] = useState(0);
+    const [produtosDestaque, setProdutosDestaque] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState('');
+
+    async function carregarDados() {
+        setCarregando(true);
+        setErro('');
+        try {
+            const [respostaPainel, respostaProdutos] = await Promise.all([
+                fetch(`${API_URL}/api/painel`),
+                fetch(`${API_URL}/api/produtos`),
+            ]);
+
+            const dadosPainel = await respostaPainel.json();
+            const dadosProdutos = await respostaProdutos.json();
+
+            if (respostaPainel.ok) {
+                setEstoqueTotal(dadosPainel.totalProdutos || 0);
+            }
+
+            if (respostaProdutos.ok) {
+                // Mostra só os 3 primeiros produtos em destaque
+                setProdutosDestaque(dadosProdutos.slice(0, 3));
+            }
+        } catch (e) {
+            setErro('Não foi possível conectar ao servidor.');
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    useEffect(() => {
+        carregarDados();
+    }, []);
+
     return (
         <LinearGradient
             colors={['#000000', '#0d3b2e', '#0a4a3a', '#1a6b4a']}
@@ -24,9 +69,9 @@ export default function DashScreen() {
                     <View style={styles.iconCircle}>
                         <MaterialCommunityIcons name="magnify" size={30} color="#fefefe" />
                     </View>
-                    <View style={styles.iconCircle}>
-                        <MaterialCommunityIcons name="cog-outline" size={30} color="#fefefe" />
-                    </View>
+                    <TouchableOpacity style={styles.iconCircle} onPress={carregarDados}>
+                        <MaterialCommunityIcons name="refresh" size={30} color="#fefefe" />
+                    </TouchableOpacity>
                 </View>
             </View>
 
@@ -39,10 +84,15 @@ export default function DashScreen() {
                         Bem-vindo
                     </Text>
                     <Text style={styles.subtitulo}>
-                        Usuário
+                        {usuario?.nome || 'Usuário'}
                     </Text>
                 </View>
             </View>
+
+            {erro !== '' && (
+                <Text style={styles.mensagemErro}>{erro}</Text>
+            )}
+
             <View style={styles.card}>
                 <View>
                     <View style={styles.card_menor}>
@@ -57,7 +107,11 @@ export default function DashScreen() {
                 <View>
                     <View style={styles.card_menor}>
                         <Text style={styles.letra}>Estoque total</Text>
-                        <Text style={styles.fundo}>500 unidades</Text>
+                        {carregando ? (
+                            <ActivityIndicator color="#000" />
+                        ) : (
+                            <Text style={styles.fundo}>{estoqueTotal} unidades</Text>
+                        )}
                     </View>
                     <View style={styles.card_menor}>
                         <Text style={styles.letra}>Umidade</Text>
@@ -89,23 +143,32 @@ export default function DashScreen() {
                 <Text style={styles.alerta_titulo}>
                     Produtos em Destaque
                 </Text>
-                <View style={styles.ajuste}>
-                    <View style={styles.card_menor}>
-                        <Image source={require('../assets/vetallis.png')} style={styles.logo} />
-                        <Text style={styles.letra_produtos}>Estoque total</Text>
-                        <Text style={styles.fundo_produto}>vacina</Text>
+                {carregando ? (
+                    <ActivityIndicator color="#fff" style={{ marginTop: 15 }} />
+                ) : produtosDestaque.length === 0 ? (
+                    <Text style={styles.alerta_subtitulo}>Nenhum produto cadastrado.</Text>
+                ) : (
+                    <View style={styles.ajuste}>
+                        {produtosDestaque.map((produto) => (
+                            <View key={produto.id} style={styles.card_menor}>
+                                <Image
+                                    source={
+                                        produto.temImagem
+                                            ? { uri: `${API_URL}/api/produtos/${produto.id}/imagem` }
+                                            : require('../assets/vetallis.png')
+                                    }
+                                    style={styles.logo}
+                                />
+                                <Text style={styles.letra_produtos} numberOfLines={1}>
+                                    {produto.nome}
+                                </Text>
+                                <Text style={styles.fundo_produto}>
+                                    {produto.quantidade} un.
+                                </Text>
+                            </View>
+                        ))}
                     </View>
-                    <View style={styles.card_menor}>
-                        <Image source={require('../assets/vetallis.png')} style={styles.logo} />
-                        <Text style={styles.letra_produtos}>Umidade</Text>
-                        <Text style={styles.fundo_produto}>vacina</Text>
-                    </View>
-                    <View style={styles.card_menor}>
-                        <Image source={require('../assets/vetallis.png')} style={styles.logo} />
-                        <Text style={styles.letra_produtos}>Estoque total</Text>
-                        <Text style={styles.fundo_produto}>vacina</Text>
-                    </View>
-                </View>
+                )}
             </View>
         </LinearGradient>
 
@@ -266,14 +329,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 6,
-
         marginBottom: 5
     },
     letra_produtos: {
         color: '#000000',
         fontSize: 15,
         fontWeight: 'bold',
-        padding: 5
+        padding: 5,
+        maxWidth: 90,
     },
     fundo_produto: {
         color: '#0f5d1c98',
@@ -283,5 +346,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginLeft: 3
 
+    },
+    mensagemErro: {
+        color: '#fff',
+        textAlign: 'center',
+        marginBottom: 10,
+        fontSize: 14,
     },
 });
