@@ -123,6 +123,10 @@ class Item_pedido_saida(Crud_base):
             )
             
             cursor.execute(sql, valores)
+            linhas = cursor.rowcount
+            if linhas == 0:
+                raise ValueError("Estoque insuficiente")
+
             conexao.commit()
             
             return pedido_saida
