@@ -233,19 +233,25 @@ class Produto(Crud_base):
         return produtos
 
 
-    @classmethod
-    def contar_vencidos(cls, order_by="produto_id"):
-        produtos = cls.buscar_tudo(order_by)
-        if not produtos:
-            return False
-    
-        hoje = datetime.today()
-        vencidos = 0
-        for produto in produtos:
-            validade = Manipular.validar_data(produto["validade"])  
-            if validade < hoje:
-                vencidos = vencidos + 1
-        return vencidos
+# produto.py
+
+    @staticmethod
+    def contar_vencidos():
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            sql = """
+            SELECT COUNT(DISTINCT e.produto_produto_id)
+            FROM item_pedido_entrada ipe
+            JOIN estoque e ON ipe.estoque_estoque_id = e.estoque_id
+            WHERE STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
+            """
+            cursor.execute(sql)
+            resultado = cursor.fetchone()
+            return resultado[0] if resultado else 0
+        finally:
+            cursor.close()
+            conexao.close()
 
     @classmethod
     def total_estoque(cls):

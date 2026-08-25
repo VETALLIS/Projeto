@@ -1385,11 +1385,21 @@ def relatorio():
         produtos = 0
 
 
+    try:
+
+        vencidos = Produto.contar_vencidos()
+
+    except ValueError:
+
+        vencidos = 0
+
+
     return render_template(
         "relatorio.html",
         animal=animais,
         sensor=sensores,
-        produto=produtos
+        produto=produtos,
+        vencido=vencidos
     )
 
     
