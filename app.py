@@ -253,16 +253,16 @@ def inicial():
     try:
         produtos = Produto.buscar_todo_produto()
         categoria = Produto.filtro_categoria(dados)
+        total_estoque = Produto.total_estoque()
 
         if usuario_id:
             usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
-            return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos, categoria=categoria)
+            return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos, categoria=categoria,total_estoque=total_estoque)
         
         return redirect('/login')
     except ValueError as e:
         flash(e, "danger")
         return render_template("tela_inicial.html")
-
 
 # ====== Contato ====== #
 @app.route("/contato/enviar", methods=["POST"])
