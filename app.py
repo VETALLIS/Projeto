@@ -1259,7 +1259,9 @@ def pedido_salvar():
                     "item_pedido_saida_nome": nome_produto,
                     "item_pedido_saida_lote": item_dados_saida["item_pedido_saida_lote"][i],
                     "item_pedido_saida_quantidade": quantidade_convertida,
-                    "pedido_saida_pedido_saida_id": numero_saida
+                    "pedido_saida_pedido_saida_id": numero_saida,
+                    "produto_produto_id": produto_id_convertido
+                    
                 }
 
                 item_instanciado_saida = Item_pedido_saida(**dados_do_item_saida)
