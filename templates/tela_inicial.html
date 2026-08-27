@@ -73,7 +73,6 @@
     <div class="card-destaque position-relative">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <p class="mb-0 ms-2 fs-2 texto-branco">Destaque</p>
-
         </div>
 
         <div id="carouselVertical" class="carousel slide carousel-vertical" data-bs-ride="carousel">
@@ -90,7 +89,7 @@
                             <div class="produto-imagem-container">
                                 {%if produto.imagem_base64%}
                                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                                    class="produto-imagem" alt="produto">
+                                    class="produto-imagem" alt="imagem do produto">
                                 {%else%}
                                 <img src="/static/imagens/medicamento.jpg"
                                     class="produto-imagem">
@@ -131,7 +130,9 @@
             <div class="modal-content border-0 modal-filtro-content">
                 <div class="modal-body p-3">
                     <div class="d-flex align-items-center mb-3 modal-filtro-header">
-                        <button type="button" data-bs-dismiss="modal" class="botao-fechar-modal">&times;</button>
+                        <button  type="button" data-bs-dismiss="modal" class="botao-fechar-modal" aria-label="botão de sair da aba">
+                            <span aria-hidden="true">x</span>
+                        </button>
                         <h5 class="text-white fw-semibold mb-0 titulo-modal-filtro">Categorias</h5>
                     </div>
                     <li class="list-style-none item-filtro-categoria">

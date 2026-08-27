@@ -28,10 +28,10 @@
             </div>
 
             <div class="topbar-search backgroud-glass border-radius-menor mt-2 ">
-                <i class="bi bi-search" aria-label="ícone de pesquisa"  ></i>
-                <form action="{{ url_for('pesquisa') }}" method="GET">
-                    <input type="text" name="pesquisa" placeholder="Pesquisar..."
-                        class="backgroud-transparente borda-none texto-p outline-none">
+                <i class="bi bi-search" role="img" aria-label="ícone de pesquisa"></i>
+                <form role="search" action="{{ url_for('pesquisa') }}" method="GET">
+                    <input aria-label="Pesquisar no site, aperte Enter para buscar" type="text" name="pesquisa"
+                        placeholder="Pesquisar..." class="backgroud-transparente borda-none texto-p outline-none">
                 </form>
             </div>
 
@@ -39,14 +39,14 @@
                 {% if session.get('usuario_cargo') == 'adm' %}
                 <a title="Funcionarios" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
                     href="{{ url_for('funcionarios')}}">
-                    <i class="bi bi-person"></i>
+                    <i  role="img" aria-label="Botão de Funcionários" class="bi bi-person"></i>
                 </a>
                 {% endif %}
 
                 <!--notificações-->
-                <button type="button" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
+                <button aria-label="Botão de notificações" type="button" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
                     data-bs-toggle="modal" data-bs-target="#notificacoes">
-                    <i class="bi bi-bell"></i>
+                    <i role="img" aria-label="Botão de notificação" class="bi bi-bell"></i>
                 </button>
 
                 <div class="modal fade" id="notificacoes" tabindex="-1" role="dialog"
@@ -59,7 +59,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary">Fechar</button>
@@ -69,11 +69,11 @@
                 </div>
                 <a id="link-perfil" class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
                     title="Configurações">
-                    <i class="bi bi-gear"></i>
+                    <i role="img" aria-label="Botão de gerenciamento de perfil" class="bi bi-gear"></i>
                 </a>
                 <a href="{{ url_for('logout') }}"
                     class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor" title="Notificações">
-                    <i class="bi bi-box-arrow-right"></i>
+                    <i role="img" aria-label="Botão para sair do site" class="bi bi-box-arrow-right"></i>
                 </a>
             </div>
         </section>
