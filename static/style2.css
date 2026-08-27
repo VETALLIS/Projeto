@@ -411,6 +411,8 @@ body {
     width: 0;
     animation: digitar 3s steps(31) forwards;
     z-index: 3;
+    font-weight: 700;
+    font-size: 3rem;
 }
 
 @keyframes digitar {
@@ -537,6 +539,14 @@ body {
 }
 
 #titulo-tecnologia {
+    position: absolute;
+    transition: 0.4s ease-in-out;
+    z-index: 1;
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+#titulo-oferecemos {
     position: absolute;
     transition: 0.4s ease-in-out;
     z-index: 1;
@@ -1420,6 +1430,7 @@ body {
         margin: 0;
         font-size: 1rem;
     }
+
 
     #texto-oferecemos,
     #texto-tecnologia,
