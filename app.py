@@ -245,11 +245,12 @@ def get_categoria_form():
 @app.route("/inicial", methods=["GET", "POST"])
 def inicial():
     usuario_id = session.get("usuario_id") 
+    
+        
     dados = get_categoria_form()
-
+    
 
     try:
-        
         produtos = Produto.buscar_todo_produto()
         categoria = Produto.filtro_categoria(dados)
         total_estoque = Produto.total_estoque()
@@ -260,8 +261,8 @@ def inicial():
         
         return redirect('/login')
     except ValueError as e:
-        flash(str(e), "danger")
-        return render_template("tela_inicial.html", produtos=[], categoria=[], total_estoque=0)
+        flash(e, "danger")
+        return render_template("tela_inicial.html")
 
 # ====== Contato ====== #
 @app.route("/contato/enviar", methods=["POST"])
@@ -928,59 +929,6 @@ def editar_fornecedor(fornecedor_id):
         return render_template("fornecedor_cadastrado.html")  
 
 
-@app.route("/pedido/editar/<int:pedido_id>" ,methods=["GET", "POST"])
-def editar_pedido(pedido_id):
-
-    try:
-        pedido = Fornecedor.buscar_por_id(pedido_id)
-        if not pedido:
-            flash("Pedido não encontrado.", "danger")
-            return redirect(url_for("pedido"))
-        return render_template("editar_pedido.html", pedido=pedido)
-    except ValueError as e:
-        flash(e, "danger")
-        return render_template("pedidos_cadastrado.html")
-
-
-
-@app.route("/pedido/atualizar/<int:pedido_id>", methods=["GET", "POST"])
-def atualizar_pedido(pedido_id):
-    try:
-        dados_pedido = Fornecedor.buscar_por_id(fornecedor_id)
-        if not dados_pedido:
-            flash("Pedido não encontrado.", "danger")
-            return redirect(url_for("pedido"))
-    except Exception as e:
-        flash(f"Erro ao buscar pedido: {str(e)}", "danger")
-        return redirect(url_for("pedido"))
-    if request.method == "POST":
-        dados = get_pedido_form()
-        atualizar = Pedido(**dados)
-        erros = atualizar.validar_fornecedor(current_app.config['SECRET_KEY'])
-
-        try:
-            if erros:
-                for erro in erros:
-                    flash(erro, "danger")
-                # Retorna os dados digitados na tentativa para não apagar o formulário
-                return render_template("editar_pedido.html", pedido=dados) 
-
-            # Executa a atualização no banco de dados
-            atualizar.atualizar_fornecedor(fornecedor_id) 
-
-            flash("Dados atualizados com sucesso.", "success")
-            # Correção 4: Redireciona de volta para a rota correta passando o ID certo
-            return redirect(url_for("editar_pedido", pedido_id=pedido_id))  
-
-        except Exception as e:
-            flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
-            # Adicionado fornecedor_id=fornecedor_id no render_template abaixo
-            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id)
-
-    # 3. Se for GET, apenas exibe a página com os dados salvos no banco
-    return render_template("editar_pedido.html", pedido=dados_pedido)
-
-
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
 def atualizar_fornecedor(fornecedor_id):
     try:
@@ -1344,51 +1292,32 @@ def api_relatorio():
 
     try:
 
-
-        nome = request.args.get(
-            "nome",
-            ""
-        ).strip()
-
-
-        categoria = request.args.get(
-            "categoria",
-            ""
-        ).strip()
-
-
-        quantidade = request.args.get(
-            "quantidade",
-            ""
-        ).strip()
-
+        nome = request.args.get("nome", "").strip()
+        categoria = request.args.get("categoria", "").strip()
+        quantidade = request.args.get("quantidade", "").strip()
 
         if quantidade:
-
             try:
-
                 quantidade = int(quantidade)
-
             except ValueError:
-
                 return jsonify({
                     "sucesso": False,
                     "mensagem": "Quantidade inválida."
                 }), 400
-
         else:
-
             quantidade = None
 
-
-        produtos = buscar_estoque_db(
-            nome=nome,
-            categoria=categoria,
-            quantidade=quantidade
-        )
-
-
-    
+        if categoria == "vencidos":
+            produtos = Produto.buscar_vencidos_db(
+                nome=nome,
+                quantidade=quantidade
+            )
+        else:
+            produtos = buscar_estoque_db(
+                nome=nome,
+                categoria=categoria,
+                quantidade=quantidade
+            )
 
         return jsonify({
             "sucesso": True,
@@ -1396,55 +1325,35 @@ def api_relatorio():
             "produtos": produtos
         })
 
-
     except Exception as erro:
-
-
         return jsonify({
             "sucesso": False,
             "mensagem": str(erro)
         }), 500
 
 
-
 @app.route("/relatorio", methods=["GET"])
 def relatorio():
 
     try:
-
         sensores = Sensor.contar_sensores()
-
     except ValueError:
-
         sensores = 0
 
-
     try:
-
         animais = Animal.contar_animais()
-
     except ValueError:
-
         animais = 0
 
-
     try:
-
         produtos = Produto.contar_produtos()
-
     except ValueError:
-
         produtos = 0
 
-
     try:
-
-        vencidos = Produto.contar_vencidos()
-
-    except ValueError:
-
+        vencidos = len(Produto.buscar_vencidos_db())
+    except Exception:
         vencidos = 0
-
 
     return render_template(
         "relatorio.html",
@@ -1453,7 +1362,6 @@ def relatorio():
         produto=produtos,
         vencido=vencidos
     )
-
     
 @app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
 def excluir_lista_compra_relatorio(lista_compra_id):
