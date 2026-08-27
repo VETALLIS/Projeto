@@ -1,28 +1,127 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../screens/AuthContext';
+
+// Mesmo IP/porta usados no LoginScrenn.jsx — se você já centralizou isso em
+// src/services/api.js, troque essa constante por um import de lá.
+const API_URL = 'http://10.135.60.20:3000';
 
 export default function Perfil() {
+  const { usuario, setUsuario } = useAuth();
+  const navigation = useNavigation();
+
+  // Dados exibidos no topo (vindo do usuário logado)
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [cargo, setCargo] = useState('');
+
+  // Campos para alterar os dados
   const [alterarEmail, setAlterarEmail] = useState('');
   const [alterarNome, setAlterarNome] = useState('');
-  const [mudarSenha, setMudarSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
-  
+  const [alterarCargo, setAlterarCargo] = useState('');
+  const [confirmarCargo, setConfirmarCargo] = useState('');
+
+  const [carregando, setCarregando] = useState(false);
   const [mensagem, setMensagem] = useState('');
   const [sucesso, setSucesso] = useState(false);
 
-  function salvarAlteracoes() {
-    setMensagem('Alterações realizadas com sucesso!');
-    setSucesso(true);
+  // Assim que a tela abre (ou o usuário logado muda), busca os dados
+  // atualizados na API e preenche os campos de exibição.
+  useEffect(() => {
+    async function carregarUsuario() {
+      if (!usuario?.id) return;
+      try {
+        const resposta = await fetch(`${API_URL}/api/usuarios/${usuario.id}`);
+        const dados = await resposta.json();
+        if (resposta.ok) {
+          setNome(dados.nome);
+          setEmail(dados.email);
+          setCargo(dados.cargo);
+        }
+      } catch (erro) {
+        setMensagem('Não foi possível carregar os dados do usuário.');
+        setSucesso(false);
+      }
+    }
+    carregarUsuario();
+  }, [usuario?.id]);
+
+  async function salvarAlteracoes() {
+    if (!usuario?.id) return;
+
+    if (alterarCargo && alterarCargo !== confirmarCargo) {
+      setMensagem('Os campos de cargo não coincidem.');
+      setSucesso(false);
+      return;
+    }
+
+    setCarregando(true);
+    setMensagem('');
+
+    try {
+      const resposta = await fetch(`${API_URL}/api/usuarios/${usuario.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome: alterarNome || undefined,
+          email: alterarEmail || undefined,
+          cargo: alterarCargo || undefined,
+        }),
+      });
+
+      const dados = await resposta.json();
+
+      if (resposta.ok && dados.sucesso) {
+        setNome(dados.usuario.nome);
+        setEmail(dados.usuario.email);
+        setCargo(dados.usuario.cargo);
+        setUsuario(dados.usuario);
+        setAlterarNome('');
+        setAlterarEmail('');
+        setAlterarCargo('');
+        setConfirmarCargo('');
+        setMensagem('Alterações realizadas com sucesso!');
+        setSucesso(true);
+      } else {
+        setMensagem(dados.mensagem || 'Não foi possível salvar as alterações.');
+        setSucesso(false);
+      }
+    } catch (erro) {
+      setMensagem('Não foi possível conectar ao servidor.');
+      setSucesso(false);
+    } finally {
+      setCarregando(false);
+    }
   }
 
-  function excluirConta() {
-    setMensagem('Conta excluída com sucesso.');
-    setSucesso(false);
+  async function excluirConta() {
+    if (!usuario?.id) return;
+
+    setCarregando(true);
+    setMensagem('');
+
+    try {
+      const resposta = await fetch(`${API_URL}/api/usuarios/${usuario.id}`, {
+        method: 'DELETE',
+      });
+      const dados = await resposta.json();
+
+      if (resposta.ok && dados.sucesso) {
+        setUsuario(null);
+        navigation.replace('Login');
+      } else {
+        setMensagem(dados.mensagem || 'Não foi possível excluir a conta.');
+        setSucesso(false);
+      }
+    } catch (erro) {
+      setMensagem('Não foi possível conectar ao servidor.');
+      setSucesso(false);
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
@@ -74,21 +173,21 @@ export default function Perfil() {
                 placeholder="Nome" 
                 placeholderTextColor="#999"
                 value={nome}
-                onChangeText={setNome}
+                editable={false}
               />
               <TextInput 
                 style={styles.inputLinha} 
                 placeholder="Email" 
                 placeholderTextColor="#999"
                 value={email}
-                onChangeText={setEmail}
+                editable={false}
               />
               <TextInput 
                 style={styles.inputLinha} 
                 placeholder="Cargo" 
                 placeholderTextColor="#999"
                 value={cargo}
-                onChangeText={setCargo}
+                editable={false}
               />
             </View>
           </View>
@@ -101,6 +200,9 @@ export default function Perfil() {
               placeholderTextColor="#999"
               value={alterarEmail}
               onChangeText={setAlterarEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              editable={!carregando}
             />
           </View>
 
@@ -111,6 +213,7 @@ export default function Perfil() {
               placeholderTextColor="#999"
               value={alterarNome}
               onChangeText={setAlterarNome}
+              editable={!carregando}
             />
           </View>
 
@@ -121,9 +224,9 @@ export default function Perfil() {
                 style={styles.inputGrande} 
                 placeholder="Alterar Cargo" 
                 placeholderTextColor="#999"
-                secureTextEntry
-                value={mudarSenha}
-                onChangeText={setMudarSenha}
+                value={alterarCargo}
+                onChangeText={setAlterarCargo}
+                editable={!carregando}
               />
             </View>
             <View style={[styles.inputGrandeContainer, { flex: 1 }]}>
@@ -131,24 +234,30 @@ export default function Perfil() {
                 style={styles.inputGrande} 
                 placeholder="Confirmar Cargo" 
                 placeholderTextColor="#999"
-                secureTextEntry
-                value={confirmarSenha}
-                onChangeText={setConfirmarSenha}
+                value={confirmarCargo}
+                onChangeText={setConfirmarCargo}
+                editable={!carregando}
               />
             </View>
           </View>
 
          
-          <TouchableOpacity style={styles.botaoSalvar} onPress={salvarAlteracoes}>
+          <TouchableOpacity style={styles.botaoSalvar} onPress={salvarAlteracoes} disabled={carregando}>
             <View style={styles.btnContent}>
-              <MaterialCommunityIcons name="trash-can-outline" size={20} color="#fff" style={{marginRight: 5}} />
-              <Text style={styles.textoBotao}>salvar alterações</Text>
+              {carregando ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <>
+                  <MaterialCommunityIcons name="content-save-outline" size={20} color="#fff" style={{marginRight: 5}} />
+                  <Text style={styles.textoBotao}>salvar alterações</Text>
+                </>
+              )}
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.botaoExcluir} onPress={excluirConta}>
+          <TouchableOpacity style={styles.botaoExcluir} onPress={excluirConta} disabled={carregando}>
             <View style={styles.btnContent}>
-              <Ionicons name="checkmark-circle-outline" size={20} color="#fff" style={{marginRight: 5}} />
+              <MaterialCommunityIcons name="trash-can-outline" size={20} color="#fff" style={{marginRight: 5}} />
               <Text style={styles.textoBotao}>excluir conta</Text>
             </View>
           </TouchableOpacity>
