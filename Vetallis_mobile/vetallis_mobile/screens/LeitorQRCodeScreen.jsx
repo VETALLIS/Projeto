@@ -1,8 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import ModalPedido from './ModalPedido';
+
+const API_URL = 'http://10.135.60.25:3000';
 
 export default function LeitorScreen() {
   const [mensagem, setMensagem] = useState('');
@@ -11,9 +14,100 @@ export default function LeitorScreen() {
   const [scannedData, setScannedData] = useState(null);
   const [permission, requestPermission] = useCameraPermissions();
 
-  function movimentacao() {
-    setMensagem('Movimentação realizada com sucesso');
-    setSucesso(true);
+  // ---- ESTADOS DO MODAL DE PEDIDO ----
+  const [modalVisible, setModalVisible] = useState(false);
+  const [tipoMovimentacao, setTipoMovimentacao] = useState(null); // 'entrada' | 'saida'
+  const [produtosEstoque, setProdutosEstoque] = useState([]);
+  const [fornecedores, setFornecedores] = useState([]);
+  const [animais, setAnimais] = useState([]);
+  const [carregandoProdutos, setCarregandoProdutos] = useState(false);
+
+  useEffect(() => {
+    carregarProdutos();
+    carregarFornecedores();
+    carregarAnimais();
+  }, []);
+
+  async function carregarProdutos() {
+    setCarregandoProdutos(true);
+    try {
+      const res = await fetch(`${API_URL}/api/produtos`);
+      const data = await res.json();
+      setProdutosEstoque(data);
+    } catch (err) {
+      console.log('Erro ao carregar produtos:', err);
+    } finally {
+      setCarregandoProdutos(false);
+    }
+  }
+
+  async function carregarFornecedores() {
+    try {
+      const res = await fetch(`${API_URL}/api/fornecedores`);
+      const data = await res.json();
+      setFornecedores(data);
+    } catch (err) {
+      console.log('Erro ao carregar fornecedores:', err);
+    }
+  }
+
+  async function carregarAnimais() {
+    try {
+      const res = await fetch(`${API_URL}/api/animais`);
+      const data = await res.json();
+      setAnimais(data);
+    } catch (err) {
+      console.log('Erro ao carregar animais:', err);
+    }
+  }
+
+  // Listas já formatadas pro formato que o ModalPedido espera ({ id, nome, subtitulo })
+  const fornecedoresFormatados = fornecedores.map((f) => ({
+    id: f.fornecedor_id,
+    nome: f.fornecedor_nome,
+    subtitulo: f.fornecedor_tipo_produtos,
+  }));
+
+  const animaisFormatados = animais.map((a) => ({
+    id: a.animal_id,
+    nome: a.animal_identificacao,
+    subtitulo: `${a.animal_especie} • ${a.animal_raca}`,
+  }));
+
+  // Escolhe a lista certa de acordo com o tipo de movimentação aberto
+  const referenciasDoModal = tipoMovimentacao === 'entrada' ? fornecedoresFormatados : animaisFormatados;
+
+  function abrirModalPedido(tipo) {
+    setTipoMovimentacao(tipo);
+    setModalVisible(true);
+  }
+
+  async function enviarPedido(pedido) {
+    try {
+      const response = await fetch(`${API_URL}/api/pedidos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pedido),
+      });
+
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        throw new Error(resultado.erro || 'Erro ao registrar pedido');
+      }
+
+      setMensagem(
+        pedido.tipo === 'entrada'
+          ? 'Entrada registrada com sucesso'
+          : 'Saída registrada com sucesso'
+      );
+      setSucesso(true);
+      carregarProdutos();
+    } catch (err) {
+      setMensagem(err.message);
+      setSucesso(false);
+      throw err;
+    }
   }
 
   async function abrirLeitor() {
@@ -90,10 +184,10 @@ export default function LeitorScreen() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.botao} onPress={movimentacao}>
+          <TouchableOpacity style={styles.botao} onPress={() => abrirModalPedido('entrada')}>
             <Text style={styles.textoBotao}>Adicionar produto</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.botao_saida} onPress={movimentacao}>
+          <TouchableOpacity style={styles.botao_saida} onPress={() => abrirModalPedido('saida')}>
             <Text style={styles.textoBotao}>Retirar produto</Text>
           </TouchableOpacity>
 
@@ -104,6 +198,17 @@ export default function LeitorScreen() {
           )}
         </View>
       </ScrollView>
+
+      {tipoMovimentacao && (
+        <ModalPedido
+          visible={modalVisible}
+          tipo={tipoMovimentacao}
+          produtosDisponiveis={produtosEstoque}
+          referenciasDisponiveis={referenciasDoModal}
+          onClose={() => setModalVisible(false)}
+          onConfirmar={enviarPedido}
+        />
+      )}
     </LinearGradient>
   );
 }
@@ -112,7 +217,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-
   },
   card: {
     backgroundColor: '#ffffffd5',
@@ -122,7 +226,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
-    width: '100%',        // era 500
+    width: '100%',
     alignSelf: 'center',
     paddingTop: 25,
   },
@@ -132,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',
     borderRadius: 16,
     paddingVertical: 40,
-    minHeight: 250
+    minHeight: 250,
   },
   titulo: {
     alignSelf: 'center',
@@ -158,11 +262,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     flex: 1,
     padding: 15,
-    borderColor: "#e0e0e0",
+    borderColor: '#e0e0e0',
   },
   menu: {
     flexDirection: 'row',
-    justifyContent: 'space-between',  // empurra esquerda e direita
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 10,
   },
@@ -180,7 +284,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 21,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',  // translúcido
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -189,39 +293,34 @@ const styles = StyleSheet.create({
     height: 60,
   },
   header: {
-    marginTop: 55,
-    marginBottom: 25,
+    borderBottomColor: '#fff',
+    borderBottomWidth: 2,
+    paddingBottom: 8,
+    marginBottom: 50,
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-
   title: {
     color: '#fff',
     fontSize: 32,
     fontWeight: 'bold',
   },
-  header: {
-    borderBottomColor: '#fff',
-    borderBottomWidth: 2,   // <-- adiciona isso
-    paddingBottom: 8,
-    marginBottom: 50,
-    marginTop: 20,
-  },
   imagem: {
     width: 400,
     height: 400,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   botao: {
-    backgroundColor: "#03A64A",
+    backgroundColor: '#03A64A',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 40
+    marginTop: 40,
   },
   textoBotao: {
-    color: "#ffff",
+    color: '#ffff',
     fontWeight: 'bold',
     fontSize: 16,
     alignSelf: 'center',
@@ -230,14 +329,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'center',
     fontSize: 15,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   botao_saida: {
-    backgroundColor: "#bd0404",
-    marginTop: 15,
+    backgroundColor: '#bd0404',
+    marginTop: 50,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 50
   },
 });

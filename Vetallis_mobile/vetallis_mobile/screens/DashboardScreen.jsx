@@ -6,7 +6,7 @@ import { useAuth } from '../screens/AuthContext';
 
 // Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
 // src/services/api.js, troque essa constante por um import de lá.
-const API_URL = 'http://10.135.60.20:3000';
+const API_URL = 'http://10.135.60.25:3000';
 
 export default function DashScreen() {
     const { usuario } = useAuth();
@@ -150,7 +150,7 @@ export default function DashScreen() {
                 ) : (
                     <View style={styles.ajuste}>
                         {produtosDestaque.map((produto) => (
-                            <View key={produto.id} style={styles.card_menor}>
+                            <View key={produto.id} style={styles.card_produto}>
                                 <Image
                                     source={
                                         produto.temImagem
@@ -352,5 +352,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 10,
         fontSize: 14,
+    },
+    card_produto: {
+        backgroundColor: '#ffffff',
+        borderRadius: 15,
+        padding: 15,
+        margin: 15,
+        width: '30%',
+        alignItems: 'center'
     },
 });
