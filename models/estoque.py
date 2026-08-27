@@ -26,7 +26,7 @@ class Estoque(Crud_base):
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
         try:
-            cursor.execute("SELECT estoque_id FROM estoque WHERE produto_produto_id = %s", (produto_id,))
+            cursor.execute("SELECT estoque_id FROM estoque WHERE produto_produto_id = %s LIMIT 1", (produto_id,))
             resultado = cursor.fetchone()
             if not resultado:
                 raise ValueError("Estoque não encontrado para esse produto.")
