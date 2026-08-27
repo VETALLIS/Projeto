@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://10.135.60.37/api', // Substitua pelo seu IP Local
+  baseURL: 'http://10.135.60.38/api', // Substitua pelo seu IP Local
 });
 
 export default api;
