@@ -69,18 +69,14 @@ class Produto(Crud_base):
             # 1. Apagar os dependentes (filhos) na tabela item_pedido_saida
             query_deletar_saidas = """
                 DELETE FROM item_pedido_saida 
-                WHERE estoque_estoque_id IN (
-                    SELECT estoque_id FROM estoque WHERE produto_produto_id = %s
-                )
+                WHERE produto_produto_id = %s
             """
             cursor.execute(query_deletar_saidas, (id,))
 
             # 2. Apagar os dependentes (filhos) na tabela item_pedido_entrada
             query_deletar_entradas = """
                 DELETE FROM item_pedido_entrada 
-                WHERE estoque_estoque_id IN (
-                    SELECT estoque_id FROM estoque WHERE produto_produto_id = %s
-                )
+                WHERE produto_produto_id = %s
             """
             cursor.execute(query_deletar_entradas, (id,))
             

@@ -7,57 +7,36 @@
         Gerenciamento de Perfil
     </h3>
 
-    <form method="POST" action="{{ url_for('gerenciar_perfil_salvar') }}" enctype="multipart/form-data" id="form-salvar"
-        class="w-100">
+    <form method="POST" action="{{ url_for('gerenciar_perfil_salvar') }}" enctype="multipart/form-data" id="form-salvar" class="w-100">
 
         <input type="hidden" name="usuario_id" value="{{ usuario.usuario_id }}">
 
-        <div class="d-flex w-100 gap-3">
+        <div class="d-flex w-100 gap-4">
 
             <div>
                 <h4 class="mb-4 text-start titulo-h2">Informações Pessoais</h4>
-                <div class="d-flex">
-                    <div class="d-flex">
-                        <div class="upload-imagem me-4">
-                            <label for="imagem_usuario" class="upload-box perfil-upload-box">
+                
+                <div class="d-flex align-items-center gap-5">
+                    
+                    <div class="upload-imagem">
+                        <label for="imagem_usuario" class="upload-box perfil-upload-box">
 
-                                <input type="file" id="imagem_usuario" name="imagem_usuario" accept="image/*"
-                                    class="d-none">
+                            <input type="file" id="imagem_usuario" name="imagem_usuario" accept="image/*" class="d-none">
 
-                                {% if usuario.imagem_base64 %}
-                                <img id="preview_imagem"
-                                    src="data:{{ usuario.imagem_tipo }};base64,{{ usuario.imagem_base64 }}"
-                                    class="perfil-preview-imagem ">
-                                {% else %}
-                                <div class="upload-imagem me-5 mt-3">
+                            <img id="preview_imagem"
+                                 src="{% if usuario.imagem_base64 %}data:{{ usuario.imagem_tipo }};base64,{{ usuario.imagem_base64 }}{% else %}/static/imagens/usuario_padrao.png{% endif %}"
+                                 class="perfil-preview-imagem" alt="Foto de Perfil">
 
-                                    <label for="imagem_produto"
-                                        class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
+                            {% if not usuario.imagem_base64 %}
+                            <span id="texto_upload" class="texto-upload-overlay">
+                                Clique para adicionar imagem
+                            </span>
+                            {% endif %}
 
-                                        {% if usuario.imagem_base64 %}
-                                        <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                                            class="upload-imagem position-absolute t-0 l-0">
-                                        {%else%}
-                                        <img src="/static/imagens/medicamento.jpg"
-                                            class="text-white aling-itens-center z-index-1">
-                                        {%endif%}
-                                    </label>
-                                    <input type="file" id="imagem_produto" name="imagem" accept="image/*"
-                                        class="d-none">
-                                    <p class="mt-3 texto-p">Clique na imagem para alterá-la</p>
-                                </div>
-
-                                <img id="preview_imagem" src="" alt="" class="perfil-preview-imagem perfil-oculto">
-                                <span id="texto_upload" class="text-white text-center z-index-1">
-                                    Clique para adicionar imagem
-                                </span>
-                                {% endif %}
-
-                                <div id="icone_trocar" class="mudar-imagem-btn">
-                                    <i class="bi bi-pencil text-white icone-mudar-imagem"></i>
-                                </div>
-                            </label>
-                        </div>
+                            <div id="icone_trocar" class="mudar-imagem-btn">
+                                <i class="bi bi-pencil text-white icone-mudar-imagem"></i>
+                            </div>
+                        </label>
                     </div>
 
                     <div class="d-flex flex-column justify-content-center">
@@ -74,12 +53,13 @@
                             <label class="d-nome texto-branco">{{usuario.usuario_cargo}}</label>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             <div class="perfil-divisor-vertical"></div>
 
-            <div class="flex-grow-auto">
+            <div class="flex-grow-1">
                 <h4 class="mb-4 text-start texto-branco perfil-titulo-editar">Editar</h4>
 
                 <div class="mb-3 text-start">
@@ -87,70 +67,61 @@
                         <input type="text" name="usuario_nome" class="form-control" value="{{usuario.usuario_nome}}">
                     </div>
                 </div>
-.
+
                 <div class="d-flex gap-2">
                     <div class="mb-3 text-start w-50">
                         <div class="input-group">
-                            <input type="text" name="usuario_email" class="form-control"
-                                value="{{usuario.usuario_email}}">
+                            <input type="text" name="usuario_email" class="form-control" value="{{usuario.usuario_email}}">
                         </div>
                     </div>
                     <div class="mb-3 text-start w-50">
                         <div class="input-group">
-                            <input type="text" name="usuario_cargo" class="form-control"
-                                value="{{usuario.usuario_cargo}}">
+                            <input type="text" name="usuario_cargo" class="form-control" value="{{usuario.usuario_cargo}}">
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-3 d-flex gap-3 align-items-center justify-content-center">
-
-                    <form method="POST"
-                        action="{{ url_for('gerenciar_perfil_salvar', usuario_id=usuario.usuario_id) }}">
-                        <button class="btn text-white btn-salvar-perfil background-verde-medio border-radius-menor" type="submit">
-                            Salvar alterações
-                        </button>
-                    </form>
+                    <button class="btn text-white btn-salvar-perfil background-verde-medio border-radius-menor" type="submit">
+                        Salvar alterações
+                    </button>
+                    
                     <button type="button" class="btn-salvar-perfil background-vermelho border-radius-menor text-white borda-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Excluir Conta
                     </button>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cuidado!</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Essa ação poderá excluir todos os dados do sistema
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn  btn-salvar-perfil btn-secondary border-radius-menor"
-                                        data-bs-dismiss="modal">Cancelar</button>
-                                    {% if usuario %}
-                                    <form method="POST"
-                                        action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
-                                        <button id="teste" class="btn text-white btn-confirmar-exclusao background-vermelho border-radius-menor"
-                                            type="submit">Excluir
-                                            conta</button>
-                                    </form>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Modal de Exclusão -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cuidado!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Essa ação poderá excluir todos os dados do sistema
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-salvar-perfil btn-secondary border-radius-menor" data-bs-dismiss="modal">Cancelar</button>
+                    {% if usuario %}
+                    <form method="POST" action="{{ url_for('excluir_usuario', usuario_id=usuario.usuario_id) }}">
+                        <button id="teste" class="btn text-white btn-confirmar-exclusao background-vermelho border-radius-menor" type="submit">
+                            Excluir conta
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
 
 </div>
-
-</form>
 
 <script>
     localStorage.setItem("usuario", JSON.stringify({
@@ -172,7 +143,7 @@
             preview.classList.remove("perfil-oculto");
             preview.style.display = "block";
             if (texto) texto.style.display = "none";
-            icone.style.display = "flex";
+            if (icone) icone.style.display = "flex";
         };
         reader.readAsDataURL(arquivo);
     });
