@@ -10,33 +10,59 @@ import {
   FlatList,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+// Converte um objeto Date em string "AAAA-MM-DD" (formato aceito pelo backend)
+function formatarDataISO(date) {
+  if (!date) return '';
+  const ano = date.getFullYear();
+  const mes = String(date.getMonth() + 1).padStart(2, '0');
+  const dia = String(date.getDate()).padStart(2, '0');
+  return `${ano}-${mes}-${dia}`;
+}
+
+// Converte Date em string "DD/MM/AAAA" (formato exibido pro usuário)
+function formatarDataBR(date) {
+  if (!date) return '';
+  const ano = date.getFullYear();
+  const mes = String(date.getMonth() + 1).padStart(2, '0');
+  const dia = String(date.getDate()).padStart(2, '0');
+  return `${dia}/${mes}/${ano}`;
+}
 
 export default function ModalPedido({
   visible,
   tipo, // 'entrada' ou 'saida'
   produtosDisponiveis, // [{ id, nome, estoque_quantidade }]
+  referenciasDisponiveis, // [{ id, nome, subtitulo? }] -> fornecedores (entrada) ou animais (saida)
   onClose,
   onConfirmar, // (pedidoCompleto) => Promise/void
 }) {
   const labelReferencia = tipo === 'entrada' ? 'Fornecedor' : 'Animal';
+  const isEntrada = tipo === 'entrada';
 
   // ---- CABEÇALHO DO PEDIDO ----
   const [nome, setNome] = useState('');
-  const [dataPedido, setDataPedido] = useState('');
-  const [referencia, setReferencia] = useState('');
+  const [dataPedido, setDataPedido] = useState(null); // Date | null
+  const [referenciaSelecionada, setReferenciaSelecionada] = useState(null); // { id, nome }
 
   // ---- ITEM ATUAL SENDO PREENCHIDO ----
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   const [lote, setLote] = useState('');
   const [qtd, setQtd] = useState('');
   const [valorUnitario, setValorUnitario] = useState('');
-  const [dataItem, setDataItem] = useState('');
+  const [dataItem, setDataItem] = useState(null); // Date | null
 
   // ---- LISTA DE ITENS JÁ ADICIONADOS ----
   const [itens, setItens] = useState([]);
 
-  // ---- SELETOR DE PRODUTO ----
-  const [seletorVisible, setSeletorVisible] = useState(false);
+  // ---- SELETORES (produto / referência) ----
+  const [seletorProdutoVisible, setSeletorProdutoVisible] = useState(false);
+  const [seletorReferenciaVisible, setSeletorReferenciaVisible] = useState(false);
+
+  // ---- CALENDÁRIOS ----
+  const [mostrarCalendarioPedido, setMostrarCalendarioPedido] = useState(false);
+  const [mostrarCalendarioItem, setMostrarCalendarioItem] = useState(false);
 
   // ---- ESTADO DE ENVIO ----
   const [enviando, setEnviando] = useState(false);
@@ -44,19 +70,15 @@ export default function ModalPedido({
 
   function limparCampos() {
     setNome('');
-    setDataPedido('');
-    setReferencia('');
-    setItens([]);
-    setErroValidacao('');
-    limparItemAtual();
-  }
-
-  function limparItemAtual() {
+    setDataPedido(null);
+    setReferenciaSelecionada(null);
     setProdutoSelecionado(null);
     setLote('');
     setQtd('');
     setValorUnitario('');
-    setDataItem('');
+    setDataItem(null);
+    setItens([]);
+    setErroValidacao('');
   }
 
   function adicionarItem() {
@@ -68,19 +90,27 @@ export default function ModalPedido({
       setErroValidacao('Informe uma quantidade válida');
       return;
     }
+
     setErroValidacao('');
+
     setItens((prev) => [
       ...prev,
       {
         produto_id: produtoSelecionado.id,
         produto_nome: produtoSelecionado.nome,
-        lote,
+        lote: lote || 'S/L',
         qtd: Number(qtd),
-        valor_unitario: valorUnitario ? Number(valorUnitario) : null,
-        data: dataItem,
+        valor_unitario: isEntrada && valorUnitario ? Number(valorUnitario) : null,
+        data: isEntrada ? formatarDataISO(dataItem) : null,
       },
     ]);
-    limparItemAtual();
+
+    // Limpa apenas os inputs do item após adicionar
+    setProdutoSelecionado(null);
+    setLote('');
+    setQtd('');
+    setValorUnitario('');
+    setDataItem(null);
   }
 
   function removerItem(index) {
@@ -88,8 +118,8 @@ export default function ModalPedido({
   }
 
   async function handleConfirmar() {
-    if (!nome || !dataPedido || !referencia) {
-      setErroValidacao(`Preencha nome, data e ${labelReferencia.toLowerCase()}`);
+    if (!nome || !dataPedido || !referenciaSelecionada) {
+      setErroValidacao(`Preencha nome, data e selecione o ${labelReferencia.toLowerCase()}`);
       return;
     }
     if (itens.length === 0) {
@@ -100,13 +130,14 @@ export default function ModalPedido({
     const pedido = {
       tipo,
       nome,
-      data: dataPedido,
-      [tipo === 'entrada' ? 'fornecedor' : 'animal']: referencia,
+      data: formatarDataISO(dataPedido),
+      [tipo === 'entrada' ? 'fornecedor' : 'animal']: referenciaSelecionada.id,
       itens,
     };
 
     setEnviando(true);
     setErroValidacao('');
+
     try {
       await onConfirmar(pedido);
       limparCampos();
@@ -123,6 +154,17 @@ export default function ModalPedido({
     onClose();
   }
 
+  // Handlers dos date pickers (Android fecha sozinho ao escolher; iOS fica inline)
+  function onMudarDataPedido(event, selectedDate) {
+    setMostrarCalendarioPedido(false);
+    if (selectedDate) setDataPedido(selectedDate);
+  }
+
+  function onMudarDataItem(event, selectedDate) {
+    setMostrarCalendarioItem(false);
+    if (selectedDate) setDataItem(selectedDate);
+  }
+
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={handleCancelar}>
       <View style={styles.tela}>
@@ -133,37 +175,41 @@ export default function ModalPedido({
 
           {/* ---- BLOCO PEDIDO ---- */}
           <Text style={styles.secao}>Pedido</Text>
-          <View style={styles.linha}>
-            <View style={{ flex: 2, marginRight: 10 }}>
-              <Text style={styles.label}>Nome:</Text>
-              <TextInput style={styles.input} value={nome} onChangeText={setNome} placeholder="Nome" />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.label}>Data:</Text>
-              <TextInput
-                style={styles.input}
-                value={dataPedido}
-                onChangeText={setDataPedido}
-                placeholder="DD/MM/AAAA"
-              />
-            </View>
-          </View>
+
+          <Text style={styles.label}>Nome:</Text>
+          <TextInput style={styles.input} value={nome} onChangeText={setNome} placeholder="Nome do Pedido" />
+
+          <Text style={styles.label}>Data:</Text>
+          <TouchableOpacity style={styles.seletorProduto} onPress={() => setMostrarCalendarioPedido(true)}>
+            <Text style={{ color: dataPedido ? '#000' : '#888' }}>
+              {dataPedido ? formatarDataBR(dataPedido) : 'Selecione a data'}
+            </Text>
+            <Ionicons name="calendar-outline" size={18} color="#555" />
+          </TouchableOpacity>
+          {mostrarCalendarioPedido && (
+            <DateTimePicker
+              value={dataPedido || new Date()}
+              mode="date"
+              display="default"
+              onChange={onMudarDataPedido}
+            />
+          )}
 
           <Text style={styles.label}>{labelReferencia}:</Text>
-          <TextInput
-            style={styles.input}
-            value={referencia}
-            onChangeText={setReferencia}
-            placeholder={`Selecione o ${labelReferencia.toLowerCase()}`}
-          />
+          <TouchableOpacity style={styles.seletorProduto} onPress={() => setSeletorReferenciaVisible(true)}>
+            <Text style={{ color: referenciaSelecionada ? '#000' : '#888' }}>
+              {referenciaSelecionada ? referenciaSelecionada.nome : `Selecione o ${labelReferencia.toLowerCase()}`}
+            </Text>
+            <Ionicons name="chevron-down" size={18} color="#555" />
+          </TouchableOpacity>
 
           {/* ---- BLOCO ITEM DO PEDIDO ---- */}
           <Text style={styles.secao}>Item do pedido</Text>
 
           <Text style={styles.label}>Produto:</Text>
-          <TouchableOpacity style={styles.seletorProduto} onPress={() => setSeletorVisible(true)}>
+          <TouchableOpacity style={styles.seletorProduto} onPress={() => setSeletorProdutoVisible(true)}>
             <Text style={{ color: produtoSelecionado ? '#000' : '#888' }}>
-              {produtoSelecionado ? produtoSelecionado.nome : 'Selecione'}
+              {produtoSelecionado ? produtoSelecionado.nome : 'Selecione um produto'}
             </Text>
             <Ionicons name="chevron-down" size={18} color="#555" />
           </TouchableOpacity>
@@ -185,27 +231,37 @@ export default function ModalPedido({
             </View>
           </View>
 
-          <View style={styles.linha}>
-            <View style={{ flex: 1, marginRight: 10 }}>
-              <Text style={styles.label}>Valor uni.:</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={valorUnitario}
-                onChangeText={setValorUnitario}
-                placeholder="0,00"
-              />
+          {isEntrada && (
+            <View style={styles.linha}>
+              <View style={{ flex: 1, marginRight: 10 }}>
+                <Text style={styles.label}>Valor uni.:</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  value={valorUnitario}
+                  onChangeText={setValorUnitario}
+                  placeholder="0.00"
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.label}>Validade:</Text>
+                <TouchableOpacity style={styles.seletorProduto} onPress={() => setMostrarCalendarioItem(true)}>
+                  <Text style={{ color: dataItem ? '#000' : '#888' }}>
+                    {dataItem ? formatarDataBR(dataItem) : 'Selecionar'}
+                  </Text>
+                  <Ionicons name="calendar-outline" size={16} color="#555" />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.label}>Data:</Text>
-              <TextInput
-                style={styles.input}
-                value={dataItem}
-                onChangeText={setDataItem}
-                placeholder="DD/MM/AAAA"
-              />
-            </View>
-          </View>
+          )}
+          {mostrarCalendarioItem && (
+            <DateTimePicker
+              value={dataItem || new Date()}
+              mode="date"
+              display="default"
+              onChange={onMudarDataItem}
+            />
+          )}
 
           <TouchableOpacity style={styles.botaoAdicionarItem} onPress={adicionarItem}>
             <Ionicons name="add" size={18} color="#03A64A" />
@@ -257,7 +313,7 @@ export default function ModalPedido({
       </View>
 
       {/* ---- MODAL SECUNDÁRIO: SELETOR DE PRODUTO ---- */}
-      <Modal visible={seletorVisible} animationType="fade" transparent onRequestClose={() => setSeletorVisible(false)}>
+      <Modal visible={seletorProdutoVisible} animationType="fade" transparent onRequestClose={() => setSeletorProdutoVisible(false)}>
         <View style={styles.overlaySeletor}>
           <View style={styles.caixaSeletor}>
             <Text style={styles.tituloSeletor}>Selecione o produto</Text>
@@ -269,7 +325,7 @@ export default function ModalPedido({
                   style={styles.produtoOpcao}
                   onPress={() => {
                     setProdutoSelecionado(item);
-                    setSeletorVisible(false);
+                    setSeletorProdutoVisible(false);
                   }}
                 >
                   <Text style={styles.produtoOpcaoNome}>{item.nome}</Text>
@@ -283,7 +339,43 @@ export default function ModalPedido({
                 </Text>
               }
             />
-            <TouchableOpacity onPress={() => setSeletorVisible(false)} style={{ marginTop: 12 }}>
+            <TouchableOpacity onPress={() => setSeletorProdutoVisible(false)} style={{ marginTop: 12 }}>
+              <Text style={{ color: '#bd0404', textAlign: 'center' }}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* ---- MODAL SECUNDÁRIO: SELETOR DE FORNECEDOR / ANIMAL ---- */}
+      <Modal visible={seletorReferenciaVisible} animationType="fade" transparent onRequestClose={() => setSeletorReferenciaVisible(false)}>
+        <View style={styles.overlaySeletor}>
+          <View style={styles.caixaSeletor}>
+            <Text style={styles.tituloSeletor}>Selecione o {labelReferencia.toLowerCase()}</Text>
+            <FlatList
+              data={referenciasDisponiveis}
+              keyExtractor={(item) => String(item.id)}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.produtoOpcao}
+                  onPress={() => {
+                    setReferenciaSelecionada(item);
+                    setSeletorReferenciaVisible(false);
+                  }}
+                >
+                  <Text style={styles.produtoOpcaoNome}>{item.nome}</Text>
+                  {!!item.subtitulo && (
+                    <Text style={styles.produtoOpcaoEstoque}>{item.subtitulo}</Text>
+                  )}
+                </TouchableOpacity>
+              )}
+              ItemSeparatorComponent={() => <View style={styles.separador} />}
+              ListEmptyComponent={
+                <Text style={{ textAlign: 'center', color: '#999', padding: 20 }}>
+                  Nenhum {labelReferencia.toLowerCase()} disponível
+                </Text>
+              }
+            />
+            <TouchableOpacity onPress={() => setSeletorReferenciaVisible(false)} style={{ marginTop: 12 }}>
               <Text style={{ color: '#bd0404', textAlign: 'center' }}>Fechar</Text>
             </TouchableOpacity>
           </View>

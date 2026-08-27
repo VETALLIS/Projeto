@@ -207,22 +207,69 @@ class Produto(Crud_base):
 # produto.py
 
     @staticmethod
-    def contar_vencidos():
-        conexao = Database.connect()
-        cursor = conexao.cursor()
-        try:
-            sql = """
-            SELECT COUNT(DISTINCT ipe.produto_produto_id)
-            FROM item_pedido_entrada ipe
-            WHERE ipe.item_pedido_entrada_validade < CURDATE()
-            """
-            cursor.execute(sql)
-            resultado = cursor.fetchone()
-            return resultado[0] if resultado else 0
-        finally:
-            cursor.close()
-            conexao.close()
+    def buscar_vencidos_db(nome=None, quantidade=None):
+        """
+        Busca produtos vencidos tratando o campo VARCHAR de validade
+        e agrupa por produto.
+        """
+        conexao = None
+        cursor = None
 
+        try:
+            conexao = Database.connect()
+            cursor = conexao.cursor(dictionary=True)
+
+            query = """
+                SELECT 
+                    p.produto_id,
+                    p.produto_nome,
+                    p.produto_categoria,
+                    COALESCE(e.estoque_quantidade, 0) AS estoque_quantidade
+
+                FROM item_pedido_entrada ipe
+
+                INNER JOIN produto p 
+                    ON p.produto_id = ipe.produto_produto_id
+
+                LEFT JOIN estoque e 
+                    ON e.produto_produto_id = p.produto_id
+
+                WHERE 
+                    (
+                        STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d') < CURDATE()
+                        OR
+                        STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
+                    )
+            """
+
+            parametros = []
+
+            if nome:
+                query += " AND p.produto_nome LIKE %s"
+                parametros.append(f"%{nome}%")
+
+            if quantidade is not None:
+                query += " AND e.estoque_quantidade = %s"
+                parametros.append(quantidade)
+
+            query += """
+                GROUP BY 
+                    p.produto_id, 
+                    p.produto_nome, 
+                    p.produto_categoria, 
+                    e.estoque_quantidade
+                ORDER BY p.produto_nome ASC
+            """
+
+            cursor.execute(query, tuple(parametros))
+            return cursor.fetchall()
+
+        finally:
+            if cursor is not None:
+                cursor.close()
+            if conexao is not None:
+                conexao.close()
+                
     @classmethod
     def total_estoque(cls):
         conexao = Database.connect()
@@ -254,3 +301,4 @@ class Produto(Crud_base):
         cursor.execute("SELECT produto_nome FROM produto WHERE produto_id = %s", (produto_id,))
         resultado = cursor.fetchone()
         return resultado[0] if resultado else ""
+
