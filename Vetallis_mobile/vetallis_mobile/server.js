@@ -11,7 +11,7 @@ const db = mysql.createPool({
   host: 'localhost',
   user: 'root',        // Altere para seu usuário do MySQL
   password: '123456',  // Altere para sua senha do MySQL
-  database: 'vetallis_db_2_2',
+  database: 'vetallis_db_2_3',
   waitForConnections: true,
   connectionLimit: 10,
 });
