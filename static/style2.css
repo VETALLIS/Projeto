@@ -152,6 +152,7 @@ body {
     cursor: pointer;
     transition: 0.3s;
     background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
 }
 
 /* Textarea tamanho */
@@ -292,6 +293,8 @@ body {
     transition: 0.3s;
     align-self: flex-start;
     z-index: 1000;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
 }
 
 .card-sensor {
@@ -305,6 +308,9 @@ body {
     overflow: hidden !important;
     width: 250px !important;
     height: 400px !important;
+    object-fit: cover; 
+    display: none;
+    object-position: center !important;
 }
 
 .mudar-imagem-btn {
@@ -453,9 +459,6 @@ body {
 }
 
 
-#prod{
-
-}
 #card-oferecemos:hover>#texto-oferecemos {
     opacity: 1;
 }
