@@ -31,6 +31,7 @@ const db = mysql.createPool({
 // 1. Rota de Login
 app.post('/api/login', async (req, res) => {
   const { email, senha } = req.body;
+  console.log('📥 Recebido do app:', JSON.stringify({ email, senha }));
   try {
     const [linhas] = await db.query(
       `SELECT usuario_id AS id, usuario_nome AS nome, usuario_email AS email, usuario_cargo AS cargo
@@ -38,6 +39,7 @@ app.post('/api/login', async (req, res) => {
        WHERE usuario_email = ? AND usuario_senha = ?`,
       [email, senha]
     );
+    console.log('📤 Linhas encontradas no banco:', linhas);
     if (linhas.length > 0) {
       res.json({ sucesso: true, usuario: linhas[0] });
     } else {
@@ -47,6 +49,7 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
+
 
 // 2. Rota de Painel (Resumo)
 app.get('/api/painel', async (req, res) => {
@@ -197,27 +200,34 @@ app.post('/api/estoque/movimentar', async (req, res) => {
   }
 });
 
-// 6. Listar Histórico Completo (entradas + saídas)
+// ==========================================
+// ROTA 6: HISTÓRICO AJUSTADO AO NOVO SCHEMA
+// ==========================================
 app.get('/api/historico', async (req, res) => {
   try {
     const [linhas] = await db.query(`
-      (SELECT ipe.item_pedido_entrada_id AS id, 'Entrada' AS tipo,
+      (SELECT ipe.item_pedido_entrada_id AS id, 
+              'Entrada' AS tipo,
               ipe.item_pedido_entrada_quantidade AS quantidade,
-              pe.pedido_entrada_data AS data, NULL AS hora,
+              pe.pedido_entrada_data AS data, 
+              NULL AS hora,
               pr.produto_nome AS produto
        FROM item_pedido_entrada ipe
-       JOIN estoque e ON ipe.estoque_estoque_id = e.estoque_id
-       JOIN produto pr ON e.produto_produto_id = pr.produto_id
+       JOIN produto pr ON ipe.produto_produto_id = pr.produto_id
        JOIN pedido_entrada pe ON ipe.pedido_entrada_pedido_entrada_id = pe.pedido_entrada_id)
+      
       UNION ALL
-      (SELECT ips.item_pedido_saida_id AS id, 'Saída' AS tipo,
+      
+      (SELECT ips.item_pedido_saida_id AS id, 
+              'Saída' AS tipo,
               ips.item_pedido_saida_quantidade AS quantidade,
-              ps.pedido_saida_data AS data, NULL AS hora,
+              ps.pedido_saida_data AS data, 
+              NULL AS hora,
               pr.produto_nome AS produto
        FROM item_pedido_saida ips
-       JOIN estoque e ON ips.estoque_estoque_id = e.estoque_id
-       JOIN produto pr ON e.produto_produto_id = pr.produto_id
+       JOIN produto pr ON ips.produto_produto_id = pr.produto_id
        JOIN pedido_saida ps ON ips.pedido_saida_pedido_saida_id = ps.pedido_saida_id)
+      
       ORDER BY id DESC
     `);
     res.json(linhas);
@@ -226,7 +236,160 @@ app.get('/api/historico', async (req, res) => {
   }
 });
 
-// 7. Buscar Usuário Específico por ID
+// ==========================================
+// ROTA 7: POST UNIFICADO DE PEDIDOS (ENTRADA E SAÍDA)
+// ==========================================
+app.post('/api/pedidos', async (req, res) => {
+  const connection = await db.getConnection(); // Obtém conexão para gerenciar a Transaction
+
+  try {
+    await connection.beginTransaction();
+
+    const { tipo, nome, data, fornecedor, animal, itens } = req.body;
+
+    if (!tipo || !nome || !data || !itens || itens.length === 0) {
+      throw new Error('Dados incompletos no corpo da requisição.');
+    }
+
+    if (tipo === 'entrada') {
+      // 1. Cria o Pedido de Entrada
+      const [resultPedido] = await connection.query(
+        `INSERT INTO pedido_entrada (pedido_entrada_nome, pedido_entrada_data, pedido_entrada_status, fornecedor_fornecedor_id)
+         VALUES (?, ?, ?, ?)`,
+        [nome, data, 'Concluído', fornecedor] // 'fornecedor' deve ser o ID (fornecedor_id)
+      );
+
+      const pedidoId = resultPedido.insertId;
+
+      // 2. Insere os Itens e Atualiza o Estoque
+      for (const item of itens) {
+        await connection.query(
+          `INSERT INTO item_pedido_entrada 
+           (item_pedido_entrada_lote, item_pedido_entrada_quantidade, item_pedido_entrada_valor_unitario, 
+            pedido_entrada_pedido_entrada_id, item_pedido_entrada_nome, item_pedido_entrada_validade, produto_produto_id)
+           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          [
+            item.lote || 'S/L',
+            item.qtd,
+            item.valor_unitario || 0,
+            pedidoId,
+            item.produto_nome,
+            item.data || '',
+            item.produto_id
+          ]
+        );
+
+        // Soma no estoque
+        await connection.query(
+          `UPDATE estoque SET estoque_quantidade = estoque_quantidade + ? WHERE produto_produto_id = ?`,
+          [item.qtd, item.produto_id]
+        );
+      }
+
+    } else if (tipo === 'saida') {
+      // 1. Valida se há estoque disponível para todos os itens antes de dar saída
+      for (const item of itens) {
+        const [est] = await connection.query(
+          `SELECT estoque_quantidade FROM estoque WHERE produto_produto_id = ?`,
+          [item.produto_id]
+        );
+
+        const qtdAtual = est[0]?.estoque_quantidade || 0;
+        if (qtdAtual < item.qtd) {
+          throw new Error(`Estoque insuficiente para o produto ${item.produto_nome}. Disponível: ${qtdAtual}`);
+        }
+      }
+
+      // 2. Cria o Pedido de Saída
+      const [resultPedido] = await connection.query(
+        `INSERT INTO pedido_saida (pedido_saida_nome, pedido_saida_data, pedido_entrada_status, animal_animal_id)
+         VALUES (?, ?, ?, ?)`,
+        [nome, data, 'Concluído', animal] // 'animal' deve ser o ID (animal_id)
+      );
+
+      const pedidoId = resultPedido.insertId;
+
+      // 3. Insere os Itens e Subtrai do Estoque
+      for (const item of itens) {
+        await connection.query(
+          `INSERT INTO item_pedido_saida 
+           (item_pedido_saida_lote, item_pedido_saida_quantidade, pedido_saida_pedido_saida_id, item_pedido_saida_nome, produto_produto_id)
+           VALUES (?, ?, ?, ?, ?)`,
+          [
+            item.lote || 'S/L',
+            item.qtd,
+            pedidoId,
+            item.produto_nome,
+            item.produto_id
+          ]
+        );
+
+        // Subtrai do estoque
+        await connection.query(
+          `UPDATE estoque SET estoque_quantidade = estoque_quantidade - ? WHERE produto_produto_id = ?`,
+          [item.qtd, item.produto_id]
+        );
+      }
+    } else {
+      throw new Error('Tipo de pedido inválido.');
+    }
+
+    // Se tudo ocorreu bem, confirma no banco
+    await connection.commit();
+    res.status(201).json({ mensagem: 'Pedido registrado com sucesso!' });
+
+  } catch (erro) {
+    // Se der erro, desfaz qualquer alteração no banco
+    await connection.rollback();
+    res.status(400).json({ erro: erro.message });
+  } finally {
+    connection.release();
+  }
+});
+
+// ==========================================
+// ROTA 8: LISTAR FORNECEDORES
+// ==========================================
+app.get('/api/fornecedores', async (req, res) => {
+  try {
+    const [fornecedores] = await db.query(`
+      SELECT fornecedor_id,
+             fornecedor_nome,
+             fornecedor_cnpj,
+             fornecedor_endereço AS fornecedor_endereco,
+             fornecedor_pedido_minimo,
+             fornecedor_tipo_produtos
+      FROM fornecedor
+      ORDER BY fornecedor_nome ASC
+    `);
+    res.json(fornecedores);
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
+// ==========================================
+// ROTA 9: LISTAR ANIMAIS
+// ==========================================
+app.get('/api/animais', async (req, res) => {
+  try {
+    const [animais] = await db.query(`
+      SELECT animal_id,
+             animal_especie,
+             animal_sexo,
+             animal_raca,
+             animal_identificacao,
+             animal_idade
+      FROM animal
+      ORDER BY animal_identificacao ASC
+    `);
+    res.json(animais);
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
+// 10. Buscar Usuário Específico por ID
 app.get('/api/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -245,7 +408,7 @@ app.get('/api/usuarios/:id', async (req, res) => {
   }
 });
 
-// 8. Atualizar Usuário (nome, email e/ou cargo)
+// 11. Atualizar Usuário (nome, email e/ou cargo)
 app.put('/api/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   const { nome, email, cargo } = req.body;
@@ -283,7 +446,7 @@ app.put('/api/usuarios/:id', async (req, res) => {
   }
 });
 
-// 9. Excluir Usuário
+// 12. Excluir Usuário
 app.delete('/api/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   try {

@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, A
 
 // Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
 // src/services/api.js, troque essa constante por um import de lá.
-const API_URL = 'http://10.135.60.20:3000';
+const API_URL = 'http://10.135.60.25:3000';
 
 export default function ProdutosScreen() {
     const [busca, setBusca] = useState('');
