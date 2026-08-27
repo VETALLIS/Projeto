@@ -34,33 +34,8 @@ class Produto(Crud_base):
         if not produto_id:
             raise ValueError("Erro ao cadastrar produto.")
         
-        conexao = Database.connect()
-        cursor = conexao.cursor()
-
-        try:
-            sql = """
-                INSERT INTO estoque 
-                (estoque_quantidade, estoque_observacao, produto_produto_id, produto_usuario_usuario_id) 
-                VALUES (%s, %s, %s, %s)
-            """
-
-            valores = (
-                estoque_quantidade, 
-                estoque_observacao, 
-                produto_id,             
-                self.usuario_usuario_id  
-            )
             
-            cursor.execute(sql, valores)
-            conexao.commit()
-            
-            return produto_id
-        except Exception as e:
-            conexao.rollback() 
-            raise ValueError(f"Erro ao cadastrar o estoque do produto: {e}")
-        finally:
-            cursor.close()
-            conexao.close()
+        return produto_id
     
     @classmethod
     def relacao_entre_tabelas(cls, id):
@@ -264,6 +239,10 @@ class Produto(Crud_base):
             """
             cursor.execute(sql)
             resultado = cursor.fetchone()
+
+            if not resultado:
+                return ValueError("Nenhum produto encontrado")
+
             return resultado['total'] if resultado and resultado['total'] else 0
         except Exception as e:
             print(f"Erro ao buscar total de estoque: {e}")

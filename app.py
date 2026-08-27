@@ -245,12 +245,11 @@ def get_categoria_form():
 @app.route("/inicial", methods=["GET", "POST"])
 def inicial():
     usuario_id = session.get("usuario_id") 
-    
-        
     dados = get_categoria_form()
-    
+
 
     try:
+        
         produtos = Produto.buscar_todo_produto()
         categoria = Produto.filtro_categoria(dados)
         total_estoque = Produto.total_estoque()
@@ -261,8 +260,8 @@ def inicial():
         
         return redirect('/login')
     except ValueError as e:
-        flash(e, "danger")
-        return render_template("tela_inicial.html")
+        flash(str(e), "danger")
+        return render_template("tela_inicial.html", produtos=[], categoria=[], total_estoque=0)
 
 # ====== Contato ====== #
 @app.route("/contato/enviar", methods=["POST"])
