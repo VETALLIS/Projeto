@@ -216,10 +216,9 @@ class Produto(Crud_base):
         cursor = conexao.cursor()
         try:
             sql = """
-            SELECT COUNT(DISTINCT e.produto_produto_id)
+            SELECT COUNT(DISTINCT ipe.produto_produto_id)
             FROM item_pedido_entrada ipe
-            JOIN estoque e ON ipe.estoque_estoque_id = e.estoque_id
-            WHERE STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
+            WHERE ipe.item_pedido_entrada_validade < CURDATE()
             """
             cursor.execute(sql)
             resultado = cursor.fetchone()
