@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import ModalPedido from './ModalPedido';
 
-const API_URL = 'http://10.135.60.25:3000';
+const API_URL = 'http://10.135.60.38:3000';
 
 export default function LeitorScreen() {
   const [mensagem, setMensagem] = useState('');
