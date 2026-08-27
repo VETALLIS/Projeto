@@ -245,21 +245,40 @@ def get_categoria_form():
 @app.route("/inicial", methods=["GET", "POST"])
 def inicial():
     usuario_id = session.get("usuario_id") 
-    
-        
-    dados = get_categoria_form()
-    
+
+    if request.method == 'POST':
+        session['categoria_selecionada'] = request.form.get('categoria')
+        return redirect(url_for('inicial'))
+
+    categoria_selecionada = session.get('categoria_selecionada')
 
     try:
         produtos = Produto.buscar_todo_produto()
-        categoria = Produto.filtro_categoria(dados)
         total_estoque = Produto.total_estoque()
+
+        # Soma a quantidade em estoque dos produtos da categoria selecionada
+        total_categoria = 0
+        if categoria_selecionada and produtos:
+            for p in produtos:
+                cat = p.get('produto_categoria') if isinstance(p, dict) else getattr(p, 'produto_categoria', None)
+                qtd = p.get('estoque_quantidade') if isinstance(p, dict) else getattr(p, 'estoque_quantidade', 0)
+                
+                if cat == categoria_selecionada:
+                    total_categoria += int(qtd or 0)
 
         if usuario_id:
             usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
-            return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos, categoria=categoria,total_estoque=total_estoque)
+            return render_template(
+                "tela_inicial.html", 
+                usuario=usuario_completo, 
+                produtos=produtos,
+                total_estoque=total_estoque, 
+                total_categoria=total_categoria,
+                categoria_selecionada=categoria_selecionada
+            )
         
         return redirect('/login')
+
     except ValueError as e:
         flash(e, "danger")
         return render_template("tela_inicial.html")
@@ -783,10 +802,11 @@ def salvar_login():
 # ======= Logout ======= #
 @app.route("/logout")
 def logout():
-    session.clear()
+    session.pop('usuario_cargo', None)
+    session.pop('usuario_id', None)
+    session.pop('usuario_nome', None)
     flash("Você saiu do sistema.", "info")
     return redirect(url_for("novo_login"))
-
 
 
 
