@@ -1,5 +1,6 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
+from core.conectar import Database
 
 class Pesquisa(Crud_base):
     tabela = "produto"
@@ -17,11 +18,19 @@ class Pesquisa(Crud_base):
         return [ erro for erro in erros if erro]
     
     
+    from core.conectar import Database
+
+
     @classmethod
-    def buscar_tudo_pesquisa(cls, dados):
-        produto = cls.buscar_pesquisa(dados)
+    def buscar_tudo_pesquisa(cls, termo):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
 
-        if not produto:
-            raise ValueError("Produtos não encontrado")
+        sql = "SELECT * FROM produto WHERE produto_nome LIKE %s"
+        cursor.execute(sql, (f"%{termo}%",))
+        resultados = cursor.fetchall()
 
-        return produto
+        cursor.close()
+        conexao.close()
+
+        return resultados
