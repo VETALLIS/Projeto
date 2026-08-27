@@ -16,9 +16,9 @@
             <label for="imagem_produto" class="col-4 p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if produto.imagem_base64 %}
                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
-                    class="border-radius-menor img-sensor">
+                    class="border-radius-menor img-sensor" aria-label="imagem do produto">
                 {%else%}
-                <img src="/static/imagens/medicamento.jpg" class="border-radius-menor img-sensor">
+                <img src="/static/imagens/medicamento.jpg" class="border-radius-menor img-sensor" aria-label="imagem do produto">
                 {%endif%}
             </label>
             <div class="col-8 p-0">
@@ -34,8 +34,8 @@
                 </div>
                 <div class="card-body d-flex align-items-center gap-3 pt-0">
                     <a class="btn btn-sm btn-link text-danger fs-5 p-0"
-                        href="{{url_for('excluir_produto', produto_id=produto.produto_id)}}">
-                        <i class="bi bi-trash"></i>
+                        href="{{url_for('excluir_produto', produto_id=produto.produto_id)}}" >
+                        <i role="img" aria-label="Botão de excluir" class="bi bi-trash" ></i>
                     </a>
                     <a href="/produto/editar/{{produto.produto_id}}" class="bi bi-pencil text-white texto-a">
                         Editar
