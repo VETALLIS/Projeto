@@ -39,8 +39,9 @@
                     <div class="d-flex w-100 gap-3">
 
                         <div class="mb-4 w-100">
-                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:">
+                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:" value="{{pedido.pedido_entrada_nome}}">
                         </div>
+                        <p>{{pedido.nome}}</p>
                         <div class="mb-4 w-100">
                             <select name="fornecedor_fornecedor_id" class="form-select">
                                 <option value=""> Selecione um fornecedor</option>
