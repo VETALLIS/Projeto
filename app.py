@@ -245,21 +245,40 @@ def get_categoria_form():
 @app.route("/inicial", methods=["GET", "POST"])
 def inicial():
     usuario_id = session.get("usuario_id") 
-    
-        
-    dados = get_categoria_form()
-    
+
+    if request.method == 'POST':
+        session['categoria_selecionada'] = request.form.get('categoria')
+        return redirect(url_for('inicial'))
+
+    categoria_selecionada = session.get('categoria_selecionada')
 
     try:
         produtos = Produto.buscar_todo_produto()
-        categoria = Produto.filtro_categoria(dados)
         total_estoque = Produto.total_estoque()
+
+        # Soma a quantidade em estoque dos produtos da categoria selecionada
+        total_categoria = 0
+        if categoria_selecionada and produtos:
+            for p in produtos:
+                cat = p.get('produto_categoria') if isinstance(p, dict) else getattr(p, 'produto_categoria', None)
+                qtd = p.get('estoque_quantidade') if isinstance(p, dict) else getattr(p, 'estoque_quantidade', 0)
+                
+                if cat == categoria_selecionada:
+                    total_categoria += int(qtd or 0)
 
         if usuario_id:
             usuario_completo = Usuario.buscar_usuario_por_id(usuario_id) 
-            return render_template("tela_inicial.html", usuario=usuario_completo, produtos=produtos, categoria=categoria,total_estoque=total_estoque)
+            return render_template(
+                "tela_inicial.html", 
+                usuario=usuario_completo, 
+                produtos=produtos,
+                total_estoque=total_estoque, 
+                total_categoria=total_categoria,
+                categoria_selecionada=categoria_selecionada
+            )
         
         return redirect('/login')
+
     except ValueError as e:
         flash(e, "danger")
         return render_template("tela_inicial.html")
@@ -783,10 +802,11 @@ def salvar_login():
 # ======= Logout ======= #
 @app.route("/logout")
 def logout():
-    session.clear()
+    session.pop('usuario_cargo', None)
+    session.pop('usuario_id', None)
+    session.pop('usuario_nome', None)
     flash("Você saiu do sistema.", "info")
     return redirect(url_for("novo_login"))
-
 
 
 
@@ -929,6 +949,63 @@ def editar_fornecedor(fornecedor_id):
         return render_template("fornecedor_cadastrado.html")  
 
 
+<<<<<<< Updated upstream
+=======
+@app.route("/pedido/editar/<int:pedido_id>" ,methods=["GET", "POST"])
+def editar_pedido(pedido_id):
+    print(pedido_id)
+    try:
+        pedido = Pedido_entrada.buscar_por_id(pedido_id)
+        print(pedido)
+        if not pedido:
+            flash("Pedido não encontrado.", "danger")
+            return redirect(url_for("pedido"))
+        return render_template("editar_pedido.html", pedido=pedido)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("pedidos_cadastrado.html")
+
+
+
+@app.route("/pedido/atualizar/<int:pedido_id>", methods=["GET", "POST"])
+def atualizar_pedido(pedido_id):
+    try:
+        dados_pedido = Fornecedor.buscar_por_id(fornecedor_id)
+        if not dados_pedido:
+            flash("Pedido não encontrado.", "danger")
+            return redirect(url_for("pedido"))
+    except Exception as e:
+        flash(f"Erro ao buscar pedido: {str(e)}", "danger")
+        return redirect(url_for("pedido"))
+    if request.method == "POST":
+        dados = get_pedido_form()
+        atualizar = Pedido(**dados)
+        erros = atualizar.validar_fornecedor(current_app.config['SECRET_KEY'])
+
+        try:
+            if erros:
+                for erro in erros:
+                    flash(erro, "danger")
+                # Retorna os dados digitados na tentativa para não apagar o formulário
+                return render_template("editar_pedido.html", pedido=dados) 
+
+            # Executa a atualização no banco de dados
+            atualizar.atualizar_fornecedor(fornecedor_id) 
+
+            flash("Dados atualizados com sucesso.", "success")
+            # Correção 4: Redireciona de volta para a rota correta passando o ID certo
+            return redirect(url_for("editar_pedido", pedido_id=pedido_id))  
+
+        except Exception as e:
+            flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
+            # Adicionado fornecedor_id=fornecedor_id no render_template abaixo
+            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id)
+
+    # 3. Se for GET, apenas exibe a página com os dados salvos no banco
+    return render_template("editar_pedido.html", pedido=dados_pedido)
+
+
+>>>>>>> Stashed changes
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
 def atualizar_fornecedor(fornecedor_id):
     try:

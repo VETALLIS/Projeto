@@ -6,20 +6,19 @@
             <div class="d-flex gap-3  w-100 primeira_linha_res ">
                 <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-100 h-100">
 
-                    {% if categoria %}
-                    {% for categorias in categoria %}
+                    {% if categoria_selecionada %}
                     <span
                         class="position-absolute card-categoria fw-bold mb-0 display-5 text-center titulo-h3 z-index-10">
-                        {{ categorias.produto_categoria }}
+                        {{ categoria_selecionada }}
                     </span>
 
                     <h5
                         class="fw-bold mb-0 ps-2 display-5 text-center position-relative titulo-h2 z-index-1 card-estoque-valor">
-                        {{ categorias.estoque_quantidade | int }}
+                        {{ total_categoria }}
                     </h5>
                     <p class="text-center text-white-50 z-index-1 texto-unidade-estoque">
-                        Unidades em Estoque</p>
-                    {% endfor %}
+                        Unidades em Estoque
+                    </p>
                     {% else %}
                     <h5
                         class="fw-bold mb-0 ps-2 fs-4 text-center texto z-index-1 position-relative titulo-h2 card-estoque-vazio">
@@ -33,11 +32,12 @@
                     </button>
                 </div>
 
-                <div class="position-relative overflow-hidden card-estoque-header">
+                <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-100 h-100">
                     <label class="label-estoque"></label>
-                    <h5 class="text-start fw-bold mb-0 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque
+                    <h5 class="text-start fw-bold mb-0 ms-3 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque
                     </h5>
-                    <h5 class="fw-bold  ps-2 display-5 text-center position-relative titulo-h2 z-index-1 ">{{total_estoque | int}}
+                    <h5 class="fw-bold ps-2 display-5 text-end me-5 position-relative titulo-h2 mt-2 z-index-1 ">
+                        {{total_estoque | int}}
                     </h5>
                 </div>
 
@@ -91,8 +91,7 @@
                                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
                                     class="produto-imagem" alt="imagem do produto">
                                 {%else%}
-                                <img src="/static/imagens/medicamento.jpg"
-                                    class="produto-imagem">
+                                <img src="/static/imagens/medicamento.jpg" class="produto-imagem">
                                 {%endif%}
                             </div>
                         </div>
@@ -107,86 +106,96 @@
                     </div>
                 </div>
                 {%endfor%}
-           
 
-            <!-- Controles -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselVertical" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselVertical" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+
+                <!-- Controles -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselVertical"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselVertical"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
         </div>
+
+
     </div>
 
 
-</div>
 
-
-
-<form method="POST" action="{{ url_for('inicial') }}">
-    <div class="modal fade" id="modalFiltro" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-filtro-dialog">
-            <div class="modal-content border-0 modal-filtro-content">
-                <div class="modal-body p-3">
-                    <div class="d-flex align-items-center mb-3 modal-filtro-header">
-                        <button  type="button" data-bs-dismiss="modal" class="botao-fechar-modal" aria-label="botão de sair da aba">
-                            <span aria-hidden="true">x</span>
-                        </button>
-                        <h5 class="text-white fw-semibold mb-0 titulo-modal-filtro">Categorias</h5>
+    <form method="POST" action="{{ url_for('inicial') }}">
+        <div class="modal fade" id="modalFiltro" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-filtro-dialog">
+                <div class="modal-content border-0 modal-filtro-content">
+                    <div class="modal-body p-3">
+                        <div class="d-flex align-items-center mb-3 modal-filtro-header">
+                            <button type="button" data-bs-dismiss="modal" class="botao-fechar-modal"
+                                aria-label="botão de sair da aba">
+                                <span aria-hidden="true">x</span>
+                            </button>
+                            <h5 class="text-white fw-semibold mb-0 titulo-modal-filtro">Categorias</h5>
+                        </div>
+                        <li class="list-style-none item-filtro-categoria">
+                            <label for="c3"
+                                class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
+                                <span>Vacina</span>
+                                <input type="radio" name="categoria" id="c3" value="Vacina" class="filtro-check" {% if
+                                    categoria_selecionada=='Vacina' %}checked{% endif %}>
+                            </label>
+                        </li>
+                        <li class="list-style-none item-filtro-categoria">
+                            <label for="c4"
+                                class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
+                                <span>Antiparasitários</span>
+                                <input type="radio" name="categoria" id="c4" value="Antiparasitários"
+                                    class="filtro-check" {% if categoria_selecionada=='Antiparasitários' %}checked{%
+                                    endif %}>
+                            </label>
+                        </li>
+                        <li class="list-style-none item-filtro-categoria">
+                            <label for="c5"
+                                class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
+                                <span>Antibióticos</span>
+                                <input type="radio" name="categoria" id="c5" value="Antibióticos" class="filtro-check"
+                                    {% if categoria_selecionada=='Antibióticos' %}checked{% endif %}>
+                            </label>
+                        </li>
+                        <li class="list-style-none item-filtro-categoria">
+                            <label for="c6"
+                                class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
+                                <span>Anti-inflamatórios</span>
+                                <input type="radio" name="categoria" id="c6" value="Anti-inflamatórios"
+                                    class="filtro-check" {% if categoria_selecionada=='Anti-inflamatórios' %}checked{%
+                                    endif %}>
+                            </label>
+                        </li>
+                        <li class="list-style-none item-filtro-categoria">
+                            <label for="c7"
+                                class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
+                                <span>Analgésicos</span>
+                                <input type="radio" name="categoria" id="c7" value="Analgésicos" class="filtro-check" {%
+                                    if categoria_selecionada=='Analgésicos' %}checked{% endif %}>
+                            </label>
+                        </li>
+                        <li class="list-style-none item-filtro-categoria">
+                            <label for="c8"
+                                class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
+                                <span>Anestésicos</span>
+                                <input type="radio" name="categoria" id="c8" value="Anestésicos" class="filtro-check" {%
+                                    if categoria_selecionada=='Anestésicos' %}checked{% endif %}>
+                            </label>
+                        </li>
                     </div>
-                    <li class="list-style-none item-filtro-categoria">
-                        <label for="c3"
-                            class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
-                            <span>Vacina</span>
-                            <input type="radio" name="categoria" id="c3" value="Vacina" class="filtro-check">
-                        </label>
-                    </li>
-                    <li class="list-style-none item-filtro-categoria">
-                        <label for="c4"
-                            class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
-                            <span>Antiparasitários</span>
-                            <input type="radio" name="categoria" id="c4" value="Antiparasitários" class="filtro-check">
-                        </label>
-                    </li>
-                    <li class="list-style-none item-filtro-categoria">
-                        <label for="c5"
-                            class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
-                            <span>Antibióticos</span>
-                            <input type="radio" name="categoria" id="c5" value="Antibióticos" class="filtro-check">
-                        </label>
-                    </li>
-                    <li class="list-style-none item-filtro-categoria">
-                        <label for="c6"
-                            class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
-                            <span>Anti-inflamatórios</span>
-                            <input type="radio" name="categoria" id="c6" value="Anti-inflamatórios"
-                                class="filtro-check">
-                        </label>
-                    </li>
-                    <li class="list-style-none item-filtro-categoria">
-                        <label for="c7"
-                            class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
-                            <span>Analgésicos</span>
-                            <input type="radio" name="categoria" id="c7" value="Analgésicos" class="filtro-check">
-                        </label>
-                    </li>
-                    <li class="list-style-none item-filtro-categoria">
-                        <label for="c8"
-                            class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
-                            <span>Anestésicos</span>
-                            <input type="radio" name="categoria" id="c8" value="Anestésicos" class="filtro-check">
-                        </label>
-                    </li>
-                </div>
-                <div class="modal-footer border-0 pt-0 px-3 pb-3">
-                    <button type="submit" class="btn w-100 text-white fw-semibold botao-aplicar-filtro">
-                        Aplicar
-                    </button>
+                    <div class="modal-footer border-0 pt-0 px-3 pb-3">
+                        <button type="submit" class="btn w-100 text-white fw-semibold botao-aplicar-filtro">
+                            Aplicar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 
-{% endblock %}
+    {% endblock %}
