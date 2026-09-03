@@ -3,7 +3,7 @@ from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
 
-# ===== Cria a classe Animal ===#
+# ===== Cria a classe Alertas ===#
 class Alertas(Crud_base):
 
     # Define a tabela e os campos do banco
@@ -60,7 +60,7 @@ class Alertas(Crud_base):
 
             sql = """
                 SELECT 
-                    p.produto_id, p.produto_nome, p.produto_categoria,
+                    p.produto_id, p.produto_nome, p.produto_categoria,ipe.item_pedido_entrada_validade
                 FROM produto p
                 INNER JOIN estoque e
                     ON e.produto_id = p.produto_produto_id
@@ -74,6 +74,39 @@ class Alertas(Crud_base):
             cursor.execute(sql)
             vencidos = cursor.fetchall()
             return vencidos
+        finally:
+            cursor.close()
+            conexao.close()
+    
+    def contar_data_relativa():
+        conexao =  Database.connect()
+        cursor =  conexao.cursor()
+
+        try:
+            conexao = Database.connect()
+            cursor = conexao.cursor(dictionary=True)
+
+            sql = """
+                SELECT 
+                p.produto_id, 
+                p.produto_nome, 
+                p.produto_categoria,
+                ipe.item_pedido_entrada_validade
+                FROM produto p
+                INNER JOIN item_pedido_entrada ipe
+                ON ipe.produto_produto_id = p.produto_id
+                WHERE (
+                STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d') 
+                BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+                OR
+                STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') 
+                BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+                )
+            """
+
+            cursor.execute(sql)
+            perto_vencimento = cursor.fetchall()
+            return perto_vencimento
         finally:
             cursor.close()
             conexao.close()
