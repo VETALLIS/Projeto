@@ -1,10 +1,10 @@
 {% extends 'base.html'%}
 {% block conteudo%}
-<div class="d-flex">
-    <div class="container_inicial_res">
-        <div class="container row ">
-            <div class="d-flex gap-3  w-100 primeira_linha_res ">
-                <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-100 h-100">
+<div class="d-flex gap-3 w-100">
+    <div class="container_inicial_res flex-grow-1">
+        <div class="container row">
+            <div class="d-flex gap-3 w-100 primeira_linha_res">
+                <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-50 h-100">
 
                     {% if categoria_selecionada %}
                     <span
@@ -32,7 +32,7 @@
                     </button>
                 </div>
 
-                <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-100 h-100">
+                <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-50 h-100">
                     <label class="label-estoque"></label>
                     <h5 class="text-start fw-bold mb-0 ms-3 ps-2 display-5 position-relative z-index-1 texto-branco">Estoque
                     </h5>
@@ -49,23 +49,23 @@
 
             </div>
 
-            <div class="mt-4 ms-3 card-sensores-container">
+            <div class="mt-4 w-100 card-sensores-container">
                 <label class="label-sensores"></label>
 
-                <div class="d-flex gap-3 ms-4 primeira_linha_card_sensores_container_res">
+                <div class="d-flex gap-3 w-100 primeira_linha_card_sensores_container_res">
                     <div
-                        class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start card-luminosidade luminosidade_res">
+                        class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start w-50 card-luminosidade luminosidade_res">
                         <p class="ms-2 mb-1 fs-2 texto-branco position-relative">Luminosidade</p>
                         <h4 class="ms-2 fw-bold display-3 texto-branco">300lux</h4>
                     </div>
 
-                    <div class="position-relative overflow-hidden d-flex flex-column align-items-start card-umidade">
+                    <div class="position-relative overflow-hidden d-flex flex-column align-items-start w-50 card-umidade">
                         <p class="ms-2 mb-1 fs-2 mt-3 texto-branco position-relative">Umidade</p>
                         <h4 class="fw-bold display-3 w-100 text-center mb-2 texto-branco">20%</h4>
                     </div>
                 </div>
 
-                <div class="position-relative overflow-hidden ms-4 mt-4 card-temperatura">
+                <div class="position-relative overflow-hidden mt-3 w-100 card-temperatura">
                     <p class="mb-1 ms-2 fs-2 mt-3 texto-branco position-absolute temperatura-label">
                         Temperatura</p>
                     <div class="position-absolute temperatura-valor">
@@ -76,19 +76,19 @@
         </div>
     </div>
 
-    <div class="card-destaque position-relative ">
+    <div class="card-destaque position-relative">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <p class="mb-0 ms-2 fs-2 texto-branco">Destaques</p>
         </div>
 
-        {% if porduto %}
+        {% if produtos %}
 
         <div id="card-fantasma-1" class="position-absolute border-radius-menor"></div>
         <div class="position-absolute"></div>
         <div id="carouselVertical" class="carousel slide carousel-vertical border-radius-menor" data-bs-ride="carousel">
             <div class="carousel-inner">
                 {%for produto in produtos%}
-                <div class="carousel-item active" data-bs-interval="2000">
+                <div class="carousel-item {% if loop.first %}active{% endif %}" data-bs-interval="2000">
                     <div class=" bg-dark p-4">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -122,10 +122,7 @@
         <h1 class="titulo-h2 text-center">Nenhum produto cadastrado</h1>
         {%endif%}
 
-
     </div>
-
-
 
     <form method="POST" action="{{ url_for('inicial') }}">
         <div class="modal fade" id="modalFiltro" tabindex="-1" aria-hidden="true">
@@ -199,5 +196,5 @@
             </div>
         </div>
     </form>
-
-    {% endblock %}
+</div>
+{% endblock %}

@@ -7,16 +7,6 @@
 </h3>
 
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for categoria, mensagem in messages %}
-<div class="alert alert-{{ categoria }} text-center w-75 mx-auto" role="alert">
-    {{ mensagem }}
-</div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-
 <form method="POST" class="d-flex" action="/usuario/salvar" enctype="multipart/form-data">
     <div class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4 ">
         <label for="imagem_produto"
