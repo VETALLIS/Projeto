@@ -1616,9 +1616,11 @@ body {
 }
 
 #notificacoes .btn-fechar-notificacoes {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.247);
     color: #e6efe9;
     border: none;
+    width: 50%;
+    border-radius: 5px;
 }
 
 #notificacoes .btn-fechar-notificacoes:hover {
