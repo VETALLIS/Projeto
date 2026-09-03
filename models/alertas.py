@@ -2,6 +2,7 @@
 from core.crud_base import Crud_base
 from core.manipular import Manipular
 from core.conectar import Database
+from datetime import date
 
 # ===== Cria a classe Alertas ===#
 class Alertas(Crud_base):
@@ -59,8 +60,8 @@ class Alertas(Crud_base):
             baixo_estoque = cursor.fetchall()
 
             for item in baixo_estoque:
-            descricao = f"Estoque baixo: {item['produto_nome']} ({item['estoque_quantidade']} unidades restantes)"
-            Alertas.registrar_notificacao(cursor, descricao)
+                descricao = f"Estoque baixo: {item['produto_nome']} ({item['estoque_quantidade']} unidades restantes)"
+                Alertas.registrar_notificacao(cursor, descricao)
             conexao.commit()
 
             return baixo_estoque
@@ -77,17 +78,18 @@ class Alertas(Crud_base):
             conexao = Database.connect()
             cursor = conexao.cursor(dictionary=True)
 
-            sql = """
-                SELECT 
-                    p.produto_id, p.produto_nome, p.produto_categoria,
-                FROM produto p
-                INNER JOIN item_pedido_entrada ipe
-                    ON p.produto_id = ipe.produto_produto_id
-                WHERE (
-                        STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d') < CURDATE()
-                        OR
-                        STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
-                )
+            sql = """   
+            SELECT 
+            p.produto_id, p.produto_nome, p.produto_categoria,
+            ipe.item_pedido_entrada_validade
+            FROM produto p
+            INNER JOIN item_pedido_entrada ipe
+            ON p.produto_id = ipe.produto_produto_id
+            WHERE (
+                STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d') < CURDATE()
+                OR
+                STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
+            )
             """
 
             cursor.execute(sql)
@@ -147,4 +149,20 @@ class Alertas(Crud_base):
             cursor.close()
             conexao.close()
         
+    @staticmethod
+    def buscar_pendentes():
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+        try:
+            sql = """
+            SELECT notificacao_id, notificacao_status, notificacao_data, notificacao_descricao
+            FROM notificacao
+            WHERE notificacao_status = 'pendente'
+            ORDER BY notificacao_data DESC
+            """
+            cursor.execute(sql)
+            return cursor.fetchall()
+        finally:
+            cursor.close()
+            conexao.close()
     
