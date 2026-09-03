@@ -307,7 +307,7 @@ def produtos():
         produtos = Produto.buscar_todo_produto()
         if not produtos:
             flash("Nenhum produto encontrado", "danger")
-            return render_template("produto_cadastrados.html")
+            return render_template("produtos_cadastrados.html", produtos=[])
 
         return render_template("produtos_cadastrados.html", produtos=produtos)
     except ValueError as e:
