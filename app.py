@@ -1450,8 +1450,6 @@ def excluir_lista_compra_relatorio(lista_compra_id):
     return redirect(url_for("relatorio"))
 
 
-
-
 # ====== Executar codigo ======#
 if __name__ == "__main__":
     app.run(debug=True)
