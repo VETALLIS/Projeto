@@ -5,7 +5,7 @@
 <div class="d-flex justify-content-between mt-5 w-100">
     <h3 class="mb-4 text-start titulo-h3">
         Lista de compra</h3>
-    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+    <a role="button" aria-label="Adicionar item na lista de compra" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('novo_lista_compra')}}">Adicionar
         Item</a>
 </div>
@@ -29,7 +29,7 @@
             <td>
                 <a class="btn btn-sm btn-link text-danger"
                     href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}">
-                    <i class="bi bi-trash"></i>
+                    <i role="img" aria-label="Botão de excluir item da lista de compra" class="bi bi-trash"></i>
                 </a>
             </td>
 
