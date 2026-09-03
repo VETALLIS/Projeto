@@ -23,9 +23,9 @@
             <td class="texto-p text-start">{{ fornecedor.fornecedor_nome or fornecedor['fornecedor_nome'] }}</td>
             <td class="texto-p">{{ fornecedor.fornecedor_tipo_produtos or fornecedor['fornecedor_tipo_produtos'] }}</td>
             <td class="texto-p">{{ fornecedor.fornecedor_pedido_minimo or fornecedor['fornecedor_pedido_minimo'] }}</td>
-            <td class="texto-p" role="button"   >
+            <td class="texto-p"   >
                 <a role="img" aria-label="Botão editar fornecedor " href="{{ url_for('editar_fornecedor', fornecedor_id=fornecedor.fornecedor_id) }}"
-                    class="bi bi-arrow-bar-right text-white texto-a"> </a>
+                    class="bi bi-pencil text-white texto-a"> </a>
             </td>
             <td>
                 <a role="button" aria-label="Excluir produto" class="btn btn-sm btn-link text-danger fs-5 p-0"

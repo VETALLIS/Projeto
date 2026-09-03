@@ -3,7 +3,7 @@
 
 <div class="d-flex justify-content-between ">
     <h3 class="text-start titulo-h3">Pedidos</h3>
-    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+    <a role="button" aria-label="Adicionar pedido" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('pedido')}}">Adicionar
         Pedido</a>
 </div>
@@ -12,7 +12,7 @@
     <div class="table-responsive w-100">
 
         <h4 class="titulo-h3 d-flex align-items-center gap-2 mb-3">
-            <i class="bi bi-arrow-down-left-circle-fill text-success"></i>
+            <i role="img" title="ícone de entradas" class="bi bi-arrow-down-left-circle-fill text-success"></i>
             Entradas
         </h4>
 
@@ -31,7 +31,7 @@
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td>
                 <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td>
                 <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td>
-                <td class="texto-p"><a href="/pedido/editar/{{pedido_entrada.pedido_entrada_id}}" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+                <td class="texto-p"><a role="img" aria-label="Botão ver detalhes do pedido de entrada" href="/pedido/editar/{{pedido_entrada.pedido_entrada_id}}" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
 
 
             </tr>
@@ -41,7 +41,7 @@
 
     <div class="table-responsive  w-100">
         <h4 class="titulo-h3 d-flex align-items-center gap-2 mb-3">
-            <i class="bi bi-arrow-up-right-circle-fill text-danger"></i>
+            <i role="img" title="ícone de saídas" class="bi bi-arrow-up-right-circle-fill text-danger"></i>
             Saídas
         </h4>
         <table class="table">
@@ -59,7 +59,7 @@
                 <td class="texto-p text-start">{{ pedido_saida.pedido_saida_data }}</td>
                 <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
                 <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
-                <td class="texto-p"><a href="" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+                <td class="texto-p"><a href="" role="img" aria-label="Botão ver detalhes do pedido de saída" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
 
 
             </tr>
