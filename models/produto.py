@@ -143,9 +143,6 @@ class Produto(Crud_base):
             cursor.execute(sql)
             produtos = cursor.fetchall()
 
-            if not produtos:
-                raise ValueError("Produtos não encontrados")
-
             for produto in produtos:
                 produto["imagem_base64"] = None
                 if produto.get("imagem_blob"):

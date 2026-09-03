@@ -269,12 +269,13 @@ SHOW WARNINGS;
 --------------------------------------------------
 -- Table 'notificacao'
 -------------------------------------------------
-CREATE TABLE IF NOT EXISTS 'notificacao' (
+CREATE TABLE IF NOT EXISTS 'notificacao'(
   'notificacao_id' INT NOT NULL AUTO_INCREMENT,
   'notificacao_status' VARCHAR(15) NOT NULL,
   'notificacao_data' DATE,
+  'notificacao_descricao' VARCHAR(150) NOT NULL,
   PRIMARY KEY (notificacao_id))
-
+  
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
