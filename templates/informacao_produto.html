@@ -16,10 +16,10 @@
             class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
 
             {% if produto.imagem_base64 %}
-            <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
+            <img role="img" aria-label="imagem do produto" src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
                 class="upload-imagem position-absolute t-0 l-0">
             {%else%}
-            <img src="/static/imagens/medicamento.jpg" class="text-white aling-itens-center z-index-1" >
+            <img role="img" aria-label="imagem do produto" src="/static/imagens/medicamento.jpg" class="text-white aling-itens-center z-index-1" >
             {%endif%}
         </label>
     </div>

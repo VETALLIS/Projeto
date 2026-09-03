@@ -3,7 +3,7 @@
 
 <div class="d-flex justify-content-between ">
     <h3 class="text-start titulo-h3">Fornecedores</h3>
-    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+    <a role="button" aria-label="Adicionar fornecedor" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('fornecedor_criar')}}">Adicionar
         Fornecedor</a>
 </div>
@@ -23,14 +23,14 @@
             <td class="texto-p text-start">{{ fornecedor.fornecedor_nome or fornecedor['fornecedor_nome'] }}</td>
             <td class="texto-p">{{ fornecedor.fornecedor_tipo_produtos or fornecedor['fornecedor_tipo_produtos'] }}</td>
             <td class="texto-p">{{ fornecedor.fornecedor_pedido_minimo or fornecedor['fornecedor_pedido_minimo'] }}</td>
-            <td class="texto-p">
-                <a href="{{ url_for('editar_fornecedor', fornecedor_id=fornecedor.fornecedor_id) }}"
-                    class="bi bi-arrow-bar-right text-white texto-a"></a>
+            <td class="texto-p" role="button"   >
+                <a role="img" aria-label="Botão editar fornecedor " href="{{ url_for('editar_fornecedor', fornecedor_id=fornecedor.fornecedor_id) }}"
+                    class="bi bi-arrow-bar-right text-white texto-a"> </a>
             </td>
             <td>
-                <a class="btn btn-sm btn-link text-danger fs-5 p-0"
+                <a role="button" aria-label="Excluir produto" class="btn btn-sm btn-link text-danger fs-5 p-0"
                     href="{{ url_for('excluir_fornecedor', fornecedor_id=fornecedor.fornecedor_id) }}">
-                    <i class="bi bi-trash"></i>
+                    <i role="img" aria-label="Botão de excluir produto" class="bi bi-trash"></i>
                 </a>
             </td>
         </tr>

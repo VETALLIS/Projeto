@@ -27,7 +27,7 @@
             <td class="texto-p">{{ animal.animal_raca or animal['animal_raca'] }}</td>
             <td class="texto-p">{{ animal.animal_identificacao or animal['animal_identificacao'] }}</td>
             <td class="texto-p">{{ animal.animal_idade or animal['animal_idade'] }}</td>
-            <td class="texto-p"><a class="btn btn-sm btn-link text-danger fs-5 p-0"
+            <td class="texto-p"><a title="Botão de excluir animal" class="btn btn-sm btn-link text-danger fs-5 p-0"
                     href="{{url_for('excluir_animal', animal_id=animal.animal_id)}}">
                     <i class="bi bi-trash"></i>
                 </a>
