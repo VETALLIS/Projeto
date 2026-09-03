@@ -1572,7 +1572,7 @@ body {
 
 /* ===== Estilo do modal de notificações, no padrão dark/glass do site ===== */
 #notificacoes .modal-content {
-    background: rgba(10, 30, 25, 0.92);
+    background: rgba(28, 74, 63, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1581,7 +1581,7 @@ body {
 
 #notificacoes .modal-header,
 #notificacoes .modal-footer {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.253);
 }
 
 #notificacoes .modal-body {
