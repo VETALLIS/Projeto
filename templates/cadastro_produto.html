@@ -1,8 +1,11 @@
 {% extends 'base.html'%}
 {% block conteudo%}
+<div class="d-flex justify-content-start">
+   <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
+</div>
 
 <h3 class="mb-4 text-start titulo-h3">Cadastro de Produto</h3>
-
+ 
 <form method="POST" action="{{url_for('salvar_produto')}}" enctype="multipart/form-data" class="form-sensor gap-4">
     <div class="mt-4 ">
         <div class="d-flex justify-content-start ">
