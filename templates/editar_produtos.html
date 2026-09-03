@@ -20,7 +20,7 @@
                     <img role="img" aria-label="Imagem do produto" src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
                         class="upload-imagem position-absolute t-0 l-0">
                     {%else%}
-                    <img role="img" aria-label="imagem do produto" src="/static/imagens/medicamento.jpg" class="text-white aling-itens-center z-index-1" >
+                    <img role="img" aria-label="imagem do produto" src="/static/imagens/medicamento.jpg" class="text-white aling-itens-center z-index-1">
                     {%endif%}
                 </label>
                 <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
@@ -30,7 +30,8 @@
             <div class="divisao-form w-100 mt-5">
                 <div class="mb-3 text-start">
                     <div class="input-group">
-                        <input type="name" name="nome" class="form-control  border-radius-menor" value="{{produto.produto_nome}}" required>
+                        <input type="name" name="nome" class="form-control  border-radius-menor"
+                            value="{{produto.produto_nome}}" required>
                     </div>
                 </div>
                 <div class="mb-3 text-start">
@@ -40,19 +41,29 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div class="mb-2  me-4 text-start w-100">
+                    <div class="mb-2 me-4 text-start w-100">
                         <div class="input-group">
-                            <input type="text" name="categoria" class="form-control "
-                                value="{{produto.produto_categoria}}" required>
+                            <select class="form-select" name="categoria" required>
+                                <option value="{{produto.produto_categoria}}">{{produto.produto_categoria}}</option>
+                                <option value="Vacina">Vacina</option>
+                                <option value="Antiparasitários">Antiparasitários</option>
+                                <option value="Antibioticos">Antibioticos</option>
+                                <option value="Anti-inflamatórios">Anti-inflamatórios</option>
+                                <option value="Analgésicos">Analgésicos</option>
+                                <option value="Anestésicos">Anestésicos</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="justify-content-center w-100" >
-                        <button class="btn w-100 text-white background-verde-medio border-radius-menor"
-                             type="submit">Alterar</button>
+
+                    <div class="mb-2 w-100">
+                        <button aria-label="Alterar produto"
+                            class="btn w-100 texto-a background-verde-medio border-radius-menor"
+                            type="submit">Alterar</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </form>
 
