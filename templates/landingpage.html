@@ -26,17 +26,17 @@
 
                 <ul class="list-style-none d-flex align-items-center justify-content-start border-radius-maior mt-4 h-50 p-0 "
                     id="lista-menu">
-                    <li><img src="/static/imagens/vetalis_branca_sem_fundo.png" class="ms-1" alt="logo" id="logo-menu-lp"></li>
+                    <li><img src="/static/imagens/vetalis_branca_sem_fundo.png" class="ms-1" alt="logo"
+                            id="logo-menu-lp"></li>
                     <li><a href="#home" class="texto-a position-relative mt-5" style="margin-left: -20px;">Home</a></li>
                     <li><a href="#produtos-container" class="texto-a position-relative mt-5">Produto</a></li>
                     <li><a href="#sobre-nos-section" class="texto-a position-relative mt-5">Sobre nós</a></li>
                     <li><a href="#contato-section" class="texto-a position-relative mt-5">Contato</a></li>
-                    <a id="botao-login-menu"
-                    class="verde-primario-texto position-relative borda-none border-radius-maior align-items-center d-flex justify-content-center me-1"
-                    href="{{ url_for('novo_login') }}">Login</a>
+                    <a id="botao-login-menu" href="{{ url_for('novo_login') }}" role="button" aria-label="login"
+                        class="verde-primario-texto position-relative borda-none border-radius-maior align-items-center d-flex justify-content-center me-1">Login</a>
                 </ul>
 
-                
+
             </nav>
         </div>
         <video id="video-menu" src="/static/imagens/videomain.mp4" autoplay loop muted>
@@ -51,7 +51,7 @@
                 <div id="card-oferecemos" class="backgroud-glass border-radius-menor">
                     <img src="/static/imagens/box-iso.svg" alt="oq_oferecemos" id="icone-oferecemos"
                         class="icone-cards-lp titulo-cards-lp">
-                    <h1  id="titulo-oferecemos">O que <br> oferecemos
+                    <h1 id="titulo-oferecemos">O que <br> oferecemos
                     </h1>
                     <div id="texto-oferecemos" class="d-flex flex-column position-absolute gap-2">
                         <h2 class="prod">Solução Inteligente</h2>
@@ -123,7 +123,8 @@
             <div
                 class="sobre-nos-container d-flex justify-content-between align-items-center border-radius-maior backgroud-glass ">
                 <div id="img-sobre">
-                    <img src="/static/imagens/Imagem_correta.jpg" alt="" class="border-radius-maior ">
+                    <img role="img" aria-label="Imagem dos desenvolvedores do site Vetallis "
+                        src="/static/imagens/Imagem_correta.jpg" alt="" class="border-radius-maior ">
                 </div>
                 <div id="texto-sobre">
                     <h1 id="titulo-sobre">Sobre Nós</h1>
@@ -149,20 +150,21 @@
         <section id="contato-section" class="height-maior d-flex justify-content-center align-items-center ">
             <div id="contato-container" class="d-flex aling-items-center justify-content-center w-100 gap-5">
                 <div id="img-contato" class="w-100">
-                    <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="contato">
+                    <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="logo Vetallis">
                 </div>
                 <div id="campos-contato"
                     class="w-25 p-4 backgroud-glass border-radius-menor d-flex flex-column gap-3 align-items-center justify-content-center">
                     <h1 id="titulo-contato" class="titulo-h3 mb-2">Contato</h1>
                     <form method="POST" action="{{ url_for('contato_enviar') }}" class="form-sensor "
                         style="width: 100%;">
-                        <input type="text" name="nome" placeholder="Nome Completo"
+                        <input type="text" aria-label="Digite seu nome completo" name="nome" placeholder="Nome Completo"
                             class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
-                        <input type="email" name="email" placeholder="Email"
+                        <input type="email" aria-label="Digite seu e-mail" name="email" placeholder="Email"
                             class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
-                        <textarea type="text" name="texto" id="mensagem-contato" placeholder="Escreva sua mensagem"
+                        <textarea type="text" aria-label="Digite sua mensagem para nos contatar" name="texto"
+                            id="mensagem-contato" placeholder="Escreva sua mensagem"
                             class="border-radius-menor backgroud-glass texto-p"></textarea>
-                        <button id="botao-enviar-contato"
+                        <button aria-label="Botão de enviar" id="botao-enviar-contato"
                             class="border-radius-menor mt-3 background-verde-medio w-100 border-radius-menor borda-none p-1"
                             type="submit">Enviar</button>
                     </form>
@@ -228,18 +230,25 @@
             </div>
             <div>
                 <ul id="redes_sociais" class="d-flex">
-                    <li class="list-style-none"><a href="https://www.facebook.com/?locale=pt_BR"><img
+                    <li class="list-style-none"><a aria-label="Link para o Facebook"
+                            href="https://www.facebook.com/?locale=pt_BR"><img aria-hidden="true"
                                 src="/static/imagens/facebook2021.png" alt="" class="social_icon"></a></li>
-                    <li class="list-style-none"><a href="https://www.instagram.com/"><img
-                                src="/static/imagens/instagram.png" alt="" class="social_icon"></a></li>
-                    <li class="list-style-none"><a href="https://www.tiktok.com/pt-BR/"><img
-                                src="/static/imagens/tik-tok2021.png" alt="" class="social_icon"></a></li>
-                    <li class="list-style-none"><a href="https://x.com/?lang=pt"><img src="/static/imagens/twitter.png"
-                                alt="" class="social_icon"></a></li>
+                    <li class="list-style-none">
+                        <a aria-label="Link para o Instagram" href="https://www.instagram.com/"><img aria-hidden="true"
+                                src="/static/imagens/instagram.png" alt="" class="social_icon"></a>
+                    </li>
+                    <li class="list-style-none">
+                        <a aria-label="Link para o Tik Tok" href="https://www.tiktok.com/pt-BR/">
+                            <img src="/static/imagens/tik-tok2021.png" alt="" class="social_icon"
+                                aria-hidden="true"></a>
+                    </li>
+                    <li class="list-style-none"><a aria-label="Link para o Twitter" href="https://x.com/?lang=pt"><img
+                                src="/static/imagens/twitter.png" aria-hidden="true" alt="" class="social_icon"></a>
+                    </li>
                 </ul>
             </div>
         </section>
-        <h1 id="vetallis-rodape">VETALLIS</h1>
+        <h1 role="img" aria-label="Rodapé da Landing Page da Vetallis" id="vetallis-rodape">VETALLIS</h1>
     </footer>
 </body>
 
