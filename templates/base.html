@@ -45,31 +45,34 @@
                 {% endif %}
 
                 <!--notificações-->
+                <!--notificações-->
                 <button aria-label="Botão de notificações" type="button"
-                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
-                    data-bs-toggle="modal" data-bs-target="#notificacoes">
+                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor position-relative"
+                    data-bs-toggle="modal" data-bs-target="#notificacoes" style="overflow: visible;">
                     <i role="img" aria-label="Botão de notificação" class="bi bi-bell"></i>
-                    <span id="notificacoes-badge"
-                        class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle"
-                        style="font-size: 0.6rem; display: none;">
+                    <span id="notificacoes-badge" class="position-absolute badge rounded-pill bg-danger"
+                        style="display: none;">
                         0
                     </span>
                 </button>
 
                 <div class="modal fade" id="notificacoes" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Notificações</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-labelledby="notificacoesLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered " role="document">
+                        <div class="modal-content border-radius-medio">
+                            <div class="modal-header border-0 pb-0">
+                                <h5 class="modal-title text-white texto-p" id="notificacoesLabel">
+                                    <i class="bi bi-bell-fill me-2"></i>Notificações
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="notificacoes-modal-body">
-                                <p class="text-muted text-center mb-0">Carregando...</p>
+                                <p class="text-center mb-0 notificacoes-vazio">Carregando...</p>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                            <div class="modal-footer border-0">
+                                <button type="button" class="btn btn-sm border-radius-menor btn-fechar-notificacoes"
+                                    data-bs-dismiss="modal">Fechar</button>
                             </div>
                         </div>
                     </div>
@@ -205,7 +208,6 @@
             }
         }
 
-        // SCRIPT notificações
         let notificacoesCache = [];
 
         async function carregarNotificacoes() {
@@ -233,16 +235,16 @@
             const container = document.getElementById("notificacoes-modal-body");
 
             if (!notificacoesCache || notificacoesCache.length === 0) {
-                container.innerHTML = <p class="text-muted text-center mb-0">Nenhuma notificação pendente.</p>;
+                container.innerHTML = `<p class="text-center mb-0 notificacoes-vazio">Nenhuma notificação pendente.</p>`;
                 return;
             }
 
             container.innerHTML = notificacoesCache.map(n => `
-            <div class="alert alert-warning d-flex justify-content-between align-items-center py-2 px-3 mb-2">
-                <span>${n.notificacao_descricao}</span>
-                <small class="text-muted ms-2">${n.notificacao_data}</small>
-            </div>
-        `).join("");
+                <div class="notificacao-item">
+                    <span>${n.notificacao_descricao}</span>
+                    <small>${new Date(n.notificacao_data).toLocaleDateString('pt-BR')}</small>
+                </div>
+            `).join("");
         }
 
         // Carrega ao abrir a página
@@ -256,6 +258,7 @@
         if (modalNotificacoes) {
             modalNotificacoes.addEventListener("show.bs.modal", renderizarModal);
         }
+
     </script>
 </body>
 

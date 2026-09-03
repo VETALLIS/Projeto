@@ -308,7 +308,7 @@ body {
     overflow: hidden !important;
     width: 250px !important;
     height: 400px !important;
-    object-fit: cover; 
+    object-fit: cover;
     display: none;
     object-position: center !important;
     margin-right: 40px;
@@ -338,7 +338,7 @@ body {
 
 /* Landing Page */
 
-#body-landing-page{
+#body-landing-page {
     width: 100%;
     height: 100%;
 }
@@ -351,7 +351,7 @@ body {
     margin-top: 0.3rem;
     object-fit: contain;
     margin-left: -15px;
-}  
+}
 
 #mobile-topbar {
     display: none;
@@ -386,12 +386,12 @@ body {
     display: flex;
     justify-content: center;
     height: 100px;
-    
+
 }
 
-#lista-menu{
+#lista-menu {
     background: rgba(255, 255, 255, 0.2);
-    gap:20px;
+    gap: 20px;
 }
 
 
@@ -814,8 +814,9 @@ body {
     z-index: 0;
     pointer-events: none;
 }
-#sobre-nos-section{
-    padding-top:120px ;
+
+#sobre-nos-section {
+    padding-top: 120px;
 }
 
 
@@ -829,7 +830,7 @@ body {
     min-height: auto;
     margin-top: 120px;
     /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
-   
+
 }
 
 #img-sobre img {
@@ -1268,7 +1269,7 @@ body {
 }
 
 .modal-title,
-.modal-body{
+.modal-body {
     color: #000 !important
 }
 
@@ -1344,7 +1345,7 @@ body {
         overflow-y: auto !important;
     }
 
-    .menu-input-checkbox:checked ~ #lista-menu {
+    .menu-input-checkbox:checked~#lista-menu {
         display: flex !important;
     }
 
@@ -1532,6 +1533,7 @@ body {
         gap: 20px !important;
         padding: 0 20px;
     }
+
     #img-contato {
         max-width: 55% !important;
         width: 55% !important;
@@ -1557,4 +1559,69 @@ body {
         padding: 20px 10px;
         word-break: break-word;
     }
+}
+
+
+#notificacoes-badge {
+    top: -6px;
+    right: -6px;
+    font-size: 0.65rem;
+    padding: 3px 6px;
+    z-index: 10;
+}
+
+/* ===== Estilo do modal de notificações, no padrão dark/glass do site ===== */
+#notificacoes .modal-content {
+    background: rgba(28, 74, 63, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e6efe9;
+}
+
+#notificacoes .modal-header,
+#notificacoes .modal-footer {
+    border-color: rgba(255, 255, 255, 0.253);
+}
+
+#notificacoes .modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notificacao-item {
+    border-left: 3px solid #f0b429;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.notificacao-item span {
+    color: #e6efe9;
+    font-size: 0.9rem;
+}
+
+.notificacao-item small {
+    color: rgba(230, 239, 233, 0.5);
+    white-space: nowrap;
+}
+
+.notificacoes-vazio {
+    color: rgba(230, 239, 233, 0.6);
+}
+
+#notificacoes .btn-fechar-notificacoes {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e6efe9;
+    border: none;
+}
+
+#notificacoes .btn-fechar-notificacoes:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #e6efe9;
 }
