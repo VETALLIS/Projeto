@@ -19,6 +19,8 @@ import base64
 from models.contato import Contato
 from models.estoque import Estoque
 from models.alertas import Alertas
+from datetime import date, datetime
+from models.redefinir_senha import Redefinir
 
 
 # definição da variavel app
@@ -61,6 +63,11 @@ def get_contato_form():
         "contato_nome": request.form.get("nome", "").strip(),
         "contato_email": request.form.get("email", "").strip(),
         "contato_mensagem": request.form.get("texto", "").strip(), 
+    }
+
+def get_recuperar_form():
+    return{
+        "email": request.form.get("email", "").strip()
     }
 
 # ====== Pegando os dados de produto ====== #
@@ -955,16 +962,20 @@ def editar_fornecedor(fornecedor_id):
         return render_template("fornecedor_cadastrado.html")  
 
 
-@app.route("/pedido/editar/<int:pedido_id>" ,methods=["GET", "POST"])
+@app.route("/pedido/editar/<int:pedido_id>", methods=["GET", "POST"])
 def editar_pedido(pedido_id):
-    print(pedido_id)
     try:
         pedido = Pedido_entrada.buscar_por_id(pedido_id)
-        print(pedido)
         if not pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
-        return render_template("editar_pedido.html", pedido=pedido)
+
+        itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
+        fornecedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
+        produtos = Produto.buscar_tudo(order_by="produto_nome")  
+
+        return render_template("editar_pedido.html", pedido=pedido, fornecedor=fornecedor,
+                                produtos=produtos, itens=itens)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedidos_cadastrado.html")
@@ -974,13 +985,16 @@ def editar_pedido(pedido_id):
 @app.route("/pedido/atualizar/<int:pedido_id>", methods=["GET", "POST"])
 def atualizar_pedido(pedido_id):
     try:
-        dados_pedido = Fornecedor.buscar_por_id(fornecedor_id)
+        dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)  # era Fornecedor.buscar_por_id(fornecedor_id)
         if not dados_pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
     except Exception as e:
         flash(f"Erro ao buscar pedido: {str(e)}", "danger")
         return redirect(url_for("pedido"))
+
+    fornecedor = Fornecedor.buscar_todos()
+
     if request.method == "POST":
         dados = get_pedido_form()
         atualizar = Pedido(**dados)
@@ -990,23 +1004,129 @@ def atualizar_pedido(pedido_id):
             if erros:
                 for erro in erros:
                     flash(erro, "danger")
-                # Retorna os dados digitados na tentativa para não apagar o formulário
-                return render_template("editar_pedido.html", pedido=dados) 
+                return render_template("editar_pedido.html", pedido=dados, fornecedor=fornecedor)
 
-            # Executa a atualização no banco de dados
-            atualizar.atualizar_fornecedor(fornecedor_id) 
+            atualizar.atualizar_fornecedor(pedido_id)  # confirma se o método espera pedido_id ou fornecedor_id aqui
 
             flash("Dados atualizados com sucesso.", "success")
-            # Correção 4: Redireciona de volta para a rota correta passando o ID certo
-            return redirect(url_for("editar_pedido", pedido_id=pedido_id))  
+            return redirect(url_for("editar_pedido", pedido_id=pedido_id))
 
         except Exception as e:
-            flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
-            # Adicionado fornecedor_id=fornecedor_id no render_template abaixo
-            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id)
+            flash(f"Erro ao atualizar dados: {str(e)}", "danger")
+            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id, fornecedor=fornecedor)
 
-    # 3. Se for GET, apenas exibe a página com os dados salvos no banco
-    return render_template("editar_pedido.html", pedido=dados_pedido)
+    return render_template("editar_pedido.html", pedido=dados_pedido, fornecedor=fornecedor)
+
+#============ Endpoint tela de editar pedido de saida =========#
+@app.route("/pedido_saida/editar/<int:pedido_id>", methods=["GET", "POST"])
+def editar_pedido_saida(pedido_id):
+    try:
+        pedido = Pedido_saida.buscar_por_id(pedido_id)
+        if not pedido:
+            flash("Pedido não encontrado.", "danger")
+            return redirect(url_for("pedido"))
+
+        itens = Item_pedido_saida.buscar_por_pedido(pedido_id)
+        animal = Animal.buscar_tudo(order_by="animal_identificacao")
+        produtos = Produto.buscar_tudo(order_by="produto_nome")  # ajuste para o nome real do método
+
+        return render_template("editar_pedido.html",pedido=pedido,animal=animal,fornecedor=[],produtos=produtos,itens=itens,tipo_pedido="saida", pedido_id=pedido_id)
+    except ValueError as e:
+        flash(str(e), "danger")
+        return render_template("pedidos_cadastrado.html")
+
+
+@app.route("/pedido/saida/atualizar/<int:pedido_id>", methods=["GET", "POST"])
+def atualizar_pedido_saida(pedido_id):
+    try:
+        dados_pedido = Pedido_saida.buscar_por_id(pedido_id)
+        if not dados_pedido:
+            flash("Pedido não encontrado.", "danger")
+            return redirect(url_for("pedido"))
+    except Exception as e:
+        flash(f"Erro ao buscar pedido: {str(e)}", "danger")
+        return redirect(url_for("pedido"))
+
+    animal = Animal.buscar_tudo(order_by="animal_identificacao")
+    produtos = Produto.buscar_tudo(order_by="produto_nome")
+    itens = Item_pedido_saida.buscar_por_pedido(pedido_id)
+
+    if request.method == "POST":
+        dados = get_pedido_saida_form()
+        atualizar = Pedido_saida(**dados)
+        erros = atualizar.validar_pedido_saida()
+
+        try:
+            if erros:
+                for erro in erros:
+                    flash(erro, "danger")
+                return render_template(
+                    "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                    animal=animal, produtos=produtos, itens=itens,
+                    tipo_pedido="saida", fornecedor=[]
+                )
+
+            atualizar.atualizar_pedido_saida(pedido_id)
+
+            # -------- Atualizar itens --------
+            ids = request.form.getlist("item_pedido_saida_id")
+            nomes = request.form.getlist("item_pedido_saida_nome")
+            lotes = request.form.getlist("item_pedido_saida_lote")
+            quantidades = request.form.getlist("item_pedido_saida_quantidade")
+
+            for i in range(len(nomes)):
+                if not nomes[i]:
+                    continue
+
+                item = Item_pedido_saida(
+                    item_pedido_saida_nome=nomes[i],
+                    item_pedido_saida_quantidade=quantidades[i],
+                    item_pedido_saida_lote=lotes[i],
+                    pedido_saida_pedido_saida_id=pedido_id,
+                    produto_produto_id=nomes[i]
+                )
+
+                item_id = ids[i] if i < len(ids) else ""
+                if item_id:
+                    item.item_pedido_saida_id = int(item_id)
+                    item.atualizar_item_pedido_saida(item.item_pedido_saida_id)
+                else:
+                    item.gravar_item_pedido_saida(pedido_id)
+
+            flash("Dados atualizados com sucesso.", "success")
+            return redirect(url_for("editar_pedido_saida", pedido_id=pedido_id))
+
+        except Exception as e:
+            flash(f"Erro ao atualizar dados: {str(e)}", "danger")
+            return render_template(
+                "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                animal=animal, produtos=produtos, itens=itens,
+                tipo_pedido="saida", fornecedor=[]
+            )
+
+    return render_template(
+        "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
+        animal=animal, produtos=produtos, itens=itens,
+        tipo_pedido="saida", fornecedor=[]
+    )
+
+
+@app.template_filter('data_input')
+def data_input(valor):
+    
+    if not valor:
+        return ''
+    if isinstance(valor, (date, datetime)):
+        return valor.strftime('%Y-%m-%d')
+    if isinstance(valor, str):
+        
+        for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y-%m-%d %H:%M:%S'):
+            try:
+                return datetime.strptime(valor, fmt).strftime('%Y-%m-%d')
+            except ValueError:
+                continue
+        return '' 
+    return ''
 
 
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
@@ -1477,6 +1597,40 @@ def verificar_notificacoes():
         return jsonify({"sucesso": True})
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+
+
+@app.route("/redefinir-senha/email", methods=["GET"])
+def pegar_email():
+
+    return render_template("pegar_email.html")
+
+@app.route("/redefinir-senha/email/salvar", methods=["GET", "POST"])
+def pegar_email_salvar():
+
+    email  = get_recuperar_form()
+    email = email["email"]
+    redefinir = Redefinir()
+
+    usuario_email = redefinir.buscar_email_redefinir(email)
+
+    if not usuario_email:
+        flash("Esse email não possui conta")
+        return redirect(url_for('login'))
+
+    
+    enviar_email = redefinir.enviar_email(email)
+
+    return render_template("redefinir_senha.html")
+
+
+
+
+@app.route("/redefinir-senha", methods=["GET"])
+def redefinir_senha():
+
+
+    
+    return render_template("redefinir_senha.html")
 
 
 # ====== Executar codigo ======#

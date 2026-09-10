@@ -8,8 +8,8 @@
     Pedidos</h3>
 <ul class="nav nav-tabs mb-3 w-100" id="tipoPedido" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active text-black" data-bs-toggle="tab" data-bs-target="#entrada" type="button "
-            onclick="
+        <button class="nav-link {% if tipo_pedido != 'saida' %}active{% endif %}  text-black" data-bs-toggle="tab"
+            data-bs-target="#entrada" type="button " onclick="
                 this.style.color='#074040';
                 document.querySelector('[data-bs-target=\'#entrada\']').style.color='black';
             ">
@@ -17,7 +17,8 @@
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link text-black" data-bs-toggle="tab" data-bs-target="#saida" type="button" onclick="
+        <button class="nav-link {% if tipo_pedido == 'saida' %} active{% endif %} text-black" data-bs-toggle="tab"
+            data-bs-target="#saida" type="button" onclick="
                 this.style.color='#074040';
                 document.querySelector('[data-bs-target=\'#saida\']').style.color='black';
             ">
@@ -30,7 +31,7 @@
     <div class="tab-content">
 
         <!-- Editar entrada -->
-        <div class="tab-pane fade show active w-100" id="entrada">
+        <div class="tab-pane fade {% if tipo_pedido != 'saida' %}show active{% endif %} w-100" id="entrada">
             <form method="POST" action="{{url_for('pedido')}}">
                 <input type="hidden" name="tipo_movimentacao" value="entrada">
                 <input type="hidden" name="pedido_entrada_status" value="Concluido">
@@ -48,7 +49,8 @@
                             </select>
                         </div>
                         <div class="mb-4 w-100">
-                            <input type="date" name="pedido_entrada_data" class="form-control" placeholder="Data:">
+                            <input type="date" name="pedido_entrada_data" class="form-control" placeholder="Data:"
+                                value="{{ pedido.pedido_entrada_data | data_input if pedido else '' }}">
                         </div>
                     </div>
 
@@ -75,7 +77,47 @@
                                 <th class="text-white text-center w-25">Ação</th>
                             </tr>
                         </thead>
-                        <tbody id="corpoItensEntrada"></tbody>
+                        <tbody id="corpoItensEntrada">
+                            {% for item in itens %}
+                            <tr>
+                                <td>
+                                    <select name="item_pedido_entrada_produto" class="form-select">
+                                        <option value="">Selecione o produto</option>
+                                        {% for p in produtos %}
+                                        <option value="{{ p.produto_id }}" class="text-black" {% if
+                                            p.produto_id==item.produto_produto_id %}selected{% endif %}>
+                                            {{ p.produto_nome }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <input type="text" name="item_pedido_entrada_lote"
+                                        class="form-control border-0 form w-100 text-center"
+                                        value="{{ item.item_pedido_entrada_lote }}">
+                                </td>
+                                <td class="text-center">
+                                    <input type="number" name="item_pedido_entrada_quantidade"
+                                        class="form-control border-0 form w-100 text-center"
+                                        value="{{ item.item_pedido_entrada_quantidade }}" min="0" step="1">
+                                </td>
+                                <td class="text-center">
+                                    <input type="number" name="item_pedido_entrada_valor_unitario"
+                                        class="form-control border-0 form w-100 text-center"
+                                        value="{{ item.item_pedido_entrada_valor_unitario }}" min="0" step="0.1">
+                                </td>
+                                <td class="text-center">
+                                    <input type="date" name="item_pedido_entrada_validade"
+                                        class="form-control border-0 form w-100 text-center"
+                                        value="{{ item.item_pedido_entrada_validade | data_input }}">
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                        onclick="removerLinha(this)">X</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
                         </tbody>
                     </table>
                 </div>
@@ -85,12 +127,9 @@
                 <template id="templateItemEntrada">
                     <tr>
                         <td>
-                            <select name="item_pedido_entrada_nome" class="form-select" name="produto">
-                                <option value=""> Selecione o produto</option>
-                                <option value="{{ p.produto_id }}, {{p.produto_nome}}" class="text-black">{{
-                                    p.produto_nome }}
-                                </option>
-
+                            <select name="item_pedido_entrada_produto" class="form-select">
+                                <option value="">Selecione o produto</option>
+                                <option value="{{ p.produto_id }}" class="text-black">{{ p.produto_nome }}</option>
                             </select>
                         </td>
                         <td class="text-center">
@@ -127,41 +166,42 @@
                 </div>
             </form>
         </div>
-
         <!-- Editar saida -->
-        <div class="tab-pane fade" id="saida">
-            <form method="POST" action="{{url_for('pedido')}}" class="w-100">
+        <!-- Editar saida -->
+        <div class="tab-pane fade  {% if tipo_pedido == 'saida' %}show active{% endif %}" id="saida">
+            <form method="POST"
+                action="{% if tipo_pedido == 'saida' %}{{ url_for('atualizar_pedido_saida', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}"
+                class="w-100">
                 <input type="hidden" name="tipo_movimentacao" value="saida">
                 <input type="hidden" name="pedido_saida_status" value="Concluido">
 
                 <div class="me-3 w-100">
                     <div class="d-flex gap-3 w-100">
                         <div class="mb-4 w-100">
-                            <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:">
+                            <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:"
+                                value="{{ pedido.pedido_saida_nome }}">
                         </div>
                         <div class="mb-4 w-100">
                             <select name="animal_animal_id" class="form-select">
-                                <option value=""> Selecione um animal</option>
-                                {% for f in animal%}
-                                <option value="{{ f.animal_id }}" class="text-black">{{ f.animal_identificacao }}
+                                <option value="">Selecione um animal</option>
+                                {% for f in animal %}
+                                <option value="{{ f.animal_id }}" class="text-black" {% if pedido and
+                                    pedido.animal_animal_id==f.animal_id %}selected{% endif %}>
+                                    {{ f.animal_identificacao }}
                                 </option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="mb-4 w-100">
-                            <input type="date" name="pedido_saida_data" class="form-control" placeholder="Data:">
+                            <input type="date" name="pedido_saida_data" class="form-control" placeholder="Data:"
+                                value="{{ pedido.pedido_saida_data }}">
                         </div>
                     </div>
-
                 </div>
 
                 <div class="d-flex justify-content-between p-2 w-100 border-bottom">
                     <h3 class="text-start text-white">Item do Pedido</h3>
-                    <button type="button"
-                        class="btn background-verde-medio border-radius-menor text-white btn-adicionar-item"
-                        data-template="templateItemSaida" data-corpo="corpoItensSaida">
-                        Adicionar Item
-                    </button>
+
                 </div>
 
                 <div class="table-responsive mt-2">
@@ -175,6 +215,37 @@
                             </tr>
                         </thead>
                         <tbody id="corpoItensSaida">
+                            {% for item in itens %}
+                            <tr>
+                                <td>
+                                    <select name="item_pedido_saida_nome" class="form-select">
+                                        <option value="">Selecione o produto</option>
+                                        {% for p in produtos %}
+                                        <option value="{{ p.produto_id }}" class="text-black" {% if
+                                            p.produto_id==item.produto_produto_id %}selected{% endif %}>
+                                            {{ p.produto_nome }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" name="item_pedido_saida_lote"
+                                        class="form-control border-0 form w-100 text-center"
+                                        value="{{ item.item_pedido_saida_lote }}">
+                                </td>
+                                <td>
+                                    <input type="number" name="item_pedido_saida_quantidade"
+                                        class="form-control border-0 form w-100 text-center"
+                                        value="{{ item.item_pedido_saida_quantidade }}">
+                                </td>
+                                <td class="text-center">
+                                    <input type="hidden" name="item_pedido_saida_id"
+                                        value="{{ item.item_pedido_saida_id }}">
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                        onclick="removerLinha(this)">X</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -222,6 +293,7 @@
 
     </div>
 </div>
+
 <script>
     function adicionarItem(templateId, corpoId) {
         const template = document.getElementById(templateId);
@@ -235,8 +307,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        adicionarItem("templateItemEntrada", "corpoItensEntrada");
-        adicionarItem("templateItemSaida", "corpoItensSaida");
 
         document.querySelectorAll(".btn-adicionar-item").forEach(function (botao) {
             botao.addEventListener("click", function () {
@@ -247,8 +317,8 @@
         });
     });
 
-const fornecedores = {{ fornecedor | tojson }};
-const fornecedorAtual = {{ (pedido[0].fornecedor_fornecedor_id if pedido else '')|tojson }};
+    const fornecedores = {{ fornecedor | tojson }};
+    const fornecedorAtual = {{ (pedido.fornecedor_fornecedor_id | default (none)) | tojson }}
 
     document.addEventListener("DOMContentLoaded", function () {
         const select = document.getElementById("selectFornecedor");
@@ -265,4 +335,5 @@ const fornecedorAtual = {{ (pedido[0].fornecedor_fornecedor_id if pedido else ''
     });
 
 </script>
+
 {%endblock%}

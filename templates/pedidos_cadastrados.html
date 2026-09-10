@@ -3,7 +3,8 @@
 
 <div class="d-flex justify-content-between ">
     <h3 class="text-start titulo-h3">Pedidos</h3>
-    <a role="button" aria-label="Adicionar pedido" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+    <a role="button" aria-label="Adicionar pedido"
+        class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('pedido')}}">Adicionar
         Pedido</a>
 </div>
@@ -31,7 +32,9 @@
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td>
                 <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td>
                 <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td>
-                <td class="texto-p"><a role="img" aria-label="Botão ver detalhes do pedido de entrada" href="/pedido/editar/{{pedido_entrada.pedido_entrada_id}}" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+                <td class="texto-p"><a role="img" aria-label="Botão ver detalhes do pedido de entrada"
+                        href="/pedido/editar/{{pedido_entrada.pedido_entrada_id}}"
+                        class="bi bi-arrow-bar-right text-white texto-a"></a></td>
 
 
             </tr>
@@ -59,7 +62,10 @@
                 <td class="texto-p text-start">{{ pedido_saida.pedido_saida_data }}</td>
                 <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
                 <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
-                <td class="texto-p"><a href="" role="img" aria-label="Botão ver detalhes do pedido de saída" class="bi bi-arrow-bar-right text-white texto-a"></a></td>
+                <td class="texto-p">
+                    <a href="{{ url_for('editar_pedido_saida', pedido_id=pedido_saida.pedido_saida_id) }}" role="img"
+                        aria-label="Botão ver detalhes do pedido de saída" class="bi bi-arrow-bar-right text-white texto-a"></a>
+                </td>
 
 
             </tr>
