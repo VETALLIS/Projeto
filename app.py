@@ -1380,7 +1380,7 @@ def pedidos_cadastrados():
 
 
 
-@app.route("/pedido", methods=['POST'])
+@app.route("/pedido", methods=['POST', 'GET'])
 def pedido():
     try:
         fornecedor = Fornecedor.buscar_fornecedor()
