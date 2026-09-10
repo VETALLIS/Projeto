@@ -1030,7 +1030,7 @@ def editar_pedido_saida(pedido_id):
         animal = Animal.buscar_tudo(order_by="animal_identificacao")
         produtos = Produto.buscar_tudo(order_by="produto_nome")  # ajuste para o nome real do método
 
-        return render_template("editar_pedido.html",pedido=pedido,animal=animal,fornecedor=[],produtos=produtos,itens=itens,tipo_pedido="saida")
+        return render_template("editar_pedido.html",pedido=pedido,animal=animal,fornecedor=[],produtos=produtos,itens=itens,tipo_pedido="saida", pedido_id=pedido_id)
     except ValueError as e:
         flash(str(e), "danger")
         return render_template("pedidos_cadastrado.html")
