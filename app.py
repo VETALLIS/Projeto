@@ -18,6 +18,7 @@ from models.relatorio import buscar_estoque_db
 import base64
 from models.contato import Contato
 from models.estoque import Estoque
+from models.alertas import Alertas
 
 
 # definição da variavel app
@@ -251,7 +252,12 @@ def inicial():
         return redirect(url_for('inicial'))
 
     categoria_selecionada = session.get('categoria_selecionada')
-
+    try:
+        Alertas.contar_baixo_estoque()
+        Alertas.contar_vencidos()
+        Alertas.contar_data_relativa()
+    except Exception as e:
+        print(f"Erro ao verificar notificações: {e}")
     try:
         produtos = Produto.buscar_todo_produto()
         total_estoque = Produto.total_estoque()
@@ -307,7 +313,7 @@ def produtos():
         produtos = Produto.buscar_todo_produto()
         if not produtos:
             flash("Nenhum produto encontrado", "danger")
-            return render_template("produto_cadastrados.html")
+            return render_template("produtos_cadastrados.html", produtos=[])
 
         return render_template("produtos_cadastrados.html", produtos=produtos)
     except ValueError as e:
@@ -1449,7 +1455,28 @@ def excluir_lista_compra_relatorio(lista_compra_id):
         flash(f"Erro ao excluir lista de compra: {e}", "danger")
     return redirect(url_for("relatorio"))
 
+#====== Rotas Noficicacoes ========#
+@app.route("/api/notificacoes")
+def api_notificacoes():
+    try:
+        notificacoes = Alertas.buscar_pendentes()
+        return jsonify({
+            "sucesso": True,
+            "total": len(notificacoes),
+            "notificacoes": notificacoes
+        })
+    except Exception as e:
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
 
+@app.route("/api/notificacoes/verificar", methods=["POST"])
+def verificar_notificacoes():
+    try:
+        Alertas.contar_baixo_estoque()
+        Alertas.contar_vencidos()
+        Alertas.contar_data_relativa()
+        return jsonify({"sucesso": True})
+    except Exception as e:
+        return jsonify({"sucesso": False, "mensagem": str(e)}), 500
 
 
 # ====== Executar codigo ======#
