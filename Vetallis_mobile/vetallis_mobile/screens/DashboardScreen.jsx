@@ -3,10 +3,7 @@ import { Ionicons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icon
 import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../screens/AuthContext';
-
-// Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
-// src/services/api.js, troque essa constante por um import de lá.
-const API_URL = 'http://10.135.60.38:3000';
+import { API_URL } from '../src/services/api';
 
 export default function DashScreen() {
     const { usuario } = useAuth();

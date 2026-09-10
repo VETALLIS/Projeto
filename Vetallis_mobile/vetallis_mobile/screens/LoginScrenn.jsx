@@ -5,10 +5,9 @@ import Checkbox from 'expo-checkbox';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../screens/AuthContext';
+import { API_URL } from '../src/services/api';
 
-// IP da máquina onde o backend (node server.js) está rodando, na mesma rede do BlueStacks.
-// A porta precisa ser a MESMA que aparece no terminal ao rodar o server.js (const PORTA = 3000).
-const API_URL = 'http://10.135.60.38:3000';
+
 
 export default function Login() {
   const [Email, setEmail] = useState('')

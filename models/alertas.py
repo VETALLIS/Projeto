@@ -10,15 +10,16 @@ class Alertas(Crud_base):
     # Define a tabela e os campos do banco
     tabela = "notificacao"
     pk = "notificacao_id"
-    fields = ["notificacao_status","notificacao_data" ]
+    fields = ["notificacao_status","notificacao_data", "notificacao_descricao" ]
 
     # Define os atributos 
-    def __init__(self,notificacao_data, notificacao_status):
+    def __init__(self,notificacao_data, notificacao_status, notificacao_descricao):
         self.notificacao_status = notificacao_status
         self.notificacao_data = notificacao_data
+        self.notificacao_descricao = notificacao_descricao
 
     @staticmethod
-    def limpar_notificacoes_antigas(dias=30):
+    def limpar_notificacoes_antigas(dias=7):
         """
         Deleta automaticamente as notificações do banco com mais de X dias.
         """

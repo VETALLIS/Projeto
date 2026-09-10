@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import ModalPedido from './ModalPedido';
+import { API_URL } from '../src/services/api';
 
-const API_URL = 'http://10.135.60.38:3000';
 
 export default function LeitorScreen() {
   const [mensagem, setMensagem] = useState('');
@@ -162,6 +162,7 @@ export default function LeitorScreen() {
             <View style={styles.cameraBox}>
               <CameraView
                 style={StyleSheet.absoluteFillObject}
+                facing="back"
                 barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
                 onBarcodeScanned={handleBarcodeScanned}
               />
@@ -337,5 +338,14 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
+  },
+  cameraBox: {
+    width: '100%',
+    height: 350,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#000',
+    justifyContent: 'flex-end',  // empurra o botão pro FUNDO da caixa
+
   },
 });

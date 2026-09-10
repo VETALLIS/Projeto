@@ -1,13 +1,11 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../screens/AuthContext';
+import { API_URL } from '../src/services/api';
 
-// Mesmo IP/porta usados no LoginScrenn.jsx — se você já centralizou isso em
-// src/services/api.js, troque essa constante por um import de lá.
-const API_URL = 'http://10.135.60.38:3000';
 
 export default function Perfil() {
   const { usuario, setUsuario } = useAuth();
