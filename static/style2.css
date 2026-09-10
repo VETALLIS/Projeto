@@ -260,6 +260,14 @@ body {
     align-items: center;
 
 }
+.titulo-csv2 {
+    background-color: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    border: none;
+    height: 40%;
+    align-items: center;
+
+}
 
 .table> :not(caption)>*>* {
     background-color: transparent !important;
