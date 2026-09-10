@@ -1047,6 +1047,7 @@ def atualizar_pedido_saida(pedido_id):
 
     if request.method == "POST":
         dados = get_pedido_saida_form()
+        
         atualizar = Pedido_saida(**dados)
         erros = atualizar.validar_pedido_saida()
 
@@ -1103,6 +1104,49 @@ def atualizar_pedido_saida(pedido_id):
         animal=animal, produtos=produtos, itens=itens,
         tipo_pedido="saida", fornecedor=[]
     )
+
+#================ Endpoint deletar pedido =================#
+@app.route("/pedido/excluir/saida/<int:pedido_id>")
+def excluir_pedido_saida(pedido_id):
+    try:
+        # 1. Buscar e deletar os itens do pedido de saída primeiro (FK)
+        itens = Item_pedido_saida.buscar_por_pedido(pedido_id)
+        for item in itens:
+            Item_pedido_saida.deletar(item["item_pedido_saida_id"])
+
+        # 2. Deletar o pedido de saída em si
+        Pedido_saida.deletar(pedido_id)
+
+        flash("Pedido de saída excluído com sucesso.", "success")
+        return redirect(url_for("pedidos_cadastrados"))
+    except ValueError as e:
+        flash(str(e), "erro")
+        return redirect(url_for("pedidos_cadastrados"))
+    except Exception as e:
+        flash(f"Erro ao excluir pedido de saída: {e}", "danger")
+        return redirect(url_for("pedidos_cadastrados"))
+
+
+@app.route("/pedido/excluir/entrada/<int:pedido_id>")
+def excluir_pedido_entrada(pedido_id):
+    try:
+        # 1. Buscar e deletar os itens do pedido de entrada primeiro (FK)
+        itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
+        for item in itens:
+            Item_pedido_entrada.deletar(item["item_pedido_entrada_id"])
+
+        # 2. Deletar o pedido de entrada em si
+        Pedido_entrada.deletar(pedido_id)
+
+        flash("Pedido de entrada excluído com sucesso.", "success")
+        return redirect(url_for("pedidos_cadastrados"))
+    except ValueError as e:
+        flash(str(e), "erro")
+        return redirect(url_for("pedidos_cadastrados"))
+    except Exception as e:
+        flash(f"Erro ao excluir pedido de entrada: {e}", "danger")
+        return redirect(url_for("pedidos_cadastrados"))
+    
 
 
 @app.template_filter('data_input')
