@@ -20,6 +20,7 @@ from models.contato import Contato
 from models.estoque import Estoque
 from models.alertas import Alertas
 from datetime import date, datetime
+from models.redefinir_senha import Redefinir
 
 
 # definição da variavel app
@@ -62,6 +63,11 @@ def get_contato_form():
         "contato_nome": request.form.get("nome", "").strip(),
         "contato_email": request.form.get("email", "").strip(),
         "contato_mensagem": request.form.get("texto", "").strip(), 
+    }
+
+def get_recuperar_form():
+    return{
+        "email": request.form.get("email", "").strip()
     }
 
 # ====== Pegando os dados de produto ====== #
@@ -184,7 +190,7 @@ def get_fornecedor_form():
     return {
         "nome": request.form.get("fornecedor_nome", "").strip(),
         "cnpj": (request.form.get("fornecedor_cnpj", "")).replace(".","").replace("-","").replace("/","").replace(" ",""),
-        "endereço":(request.form.get("fornecedor_endereço")),
+        "endereco":(request.form.get("fornecedor_endereco")),
         "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
     }
@@ -1088,6 +1094,7 @@ def atualizar_pedido_saida(pedido_id):
 
     if request.method == "POST":
         dados = get_pedido_saida_form()
+        
         atualizar = Pedido_saida(**dados)
         erros = atualizar.validar_pedido_saida()
 
@@ -1144,6 +1151,49 @@ def atualizar_pedido_saida(pedido_id):
         animal=animal, produtos=produtos, itens=itens,
         tipo_pedido="saida", fornecedor=[]
     )
+
+#================ Endpoint deletar pedido =================#
+@app.route("/pedido/excluir/saida/<int:pedido_id>")
+def excluir_pedido_saida(pedido_id):
+    try:
+        # 1. Buscar e deletar os itens do pedido de saída primeiro (FK)
+        itens = Item_pedido_saida.buscar_por_pedido(pedido_id)
+        for item in itens:
+            Item_pedido_saida.deletar(item["item_pedido_saida_id"])
+
+        # 2. Deletar o pedido de saída em si
+        Pedido_saida.deletar(pedido_id)
+
+        flash("Pedido de saída excluído com sucesso.", "success")
+        return redirect(url_for("pedidos_cadastrados"))
+    except ValueError as e:
+        flash(str(e), "erro")
+        return redirect(url_for("pedidos_cadastrados"))
+    except Exception as e:
+        flash(f"Erro ao excluir pedido de saída: {e}", "danger")
+        return redirect(url_for("pedidos_cadastrados"))
+
+
+@app.route("/pedido/excluir/entrada/<int:pedido_id>")
+def excluir_pedido_entrada(pedido_id):
+    try:
+        # 1. Buscar e deletar os itens do pedido de entrada primeiro (FK)
+        itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
+        for item in itens:
+            Item_pedido_entrada.deletar(item["item_pedido_entrada_id"])
+
+        # 2. Deletar o pedido de entrada em si
+        Pedido_entrada.deletar(pedido_id)
+
+        flash("Pedido de entrada excluído com sucesso.", "success")
+        return redirect(url_for("pedidos_cadastrados"))
+    except ValueError as e:
+        flash(str(e), "erro")
+        return redirect(url_for("pedidos_cadastrados"))
+    except Exception as e:
+        flash(f"Erro ao excluir pedido de entrada: {e}", "danger")
+        return redirect(url_for("pedidos_cadastrados"))
+    
 
 
 @app.template_filter('data_input')
@@ -1632,6 +1682,40 @@ def verificar_notificacoes():
         return jsonify({"sucesso": True})
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+
+
+@app.route("/redefinir-senha/email", methods=["GET"])
+def pegar_email():
+
+    return render_template("pegar_email.html")
+
+@app.route("/redefinir-senha/email/salvar", methods=["GET", "POST"])
+def pegar_email_salvar():
+
+    email  = get_recuperar_form()
+    email = email["email"]
+    redefinir = Redefinir()
+
+    usuario_email = redefinir.buscar_email_redefinir(email)
+
+    if not usuario_email:
+        flash("Esse email não possui conta")
+        return redirect(url_for('login'))
+
+    
+    enviar_email = redefinir.enviar_email(email)
+
+    return render_template("redefinir_senha.html")
+
+
+
+
+@app.route("/redefinir-senha", methods=["GET"])
+def redefinir_senha():
+
+
+    
+    return render_template("redefinir_senha.html")
 
 
 # ====== Executar codigo ======#
