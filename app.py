@@ -1006,6 +1006,99 @@ def atualizar_pedido(pedido_id):
 
     return render_template("editar_pedido.html", pedido=dados_pedido, fornecedor=fornecedor)
 
+#============ Endpoint tela de editar pedido de saida =========#
+@app.route("/pedido_saida/editar/<int:pedido_id>", methods=["GET", "POST"])
+def editar_pedido_saida(pedido_id):
+    try:
+        pedido = Pedido_saida.buscar_por_id(pedido_id)
+        if not pedido:
+            flash("Pedido não encontrado.", "danger")
+            return redirect(url_for("pedido"))
+
+        itens = Item_pedido_saida.buscar_por_pedido(pedido_id)
+        animal = Animal.buscar_tudo(order_by="animal_identificacao")
+        produtos = Produto.buscar_tudo(order_by="produto_nome")  # ajuste para o nome real do método
+
+        return render_template("editar_pedido.html",pedido=pedido,animal=animal,fornecedor=[],produtos=produtos,itens=itens,tipo_pedido="saida")
+    except ValueError as e:
+        flash(str(e), "danger")
+        return render_template("pedidos_cadastrado.html")
+
+
+@app.route("/pedido/saida/atualizar/<int:pedido_id>", methods=["GET", "POST"])
+def atualizar_pedido_saida(pedido_id):
+    try:
+        dados_pedido = Pedido_saida.buscar_por_id(pedido_id)
+        if not dados_pedido:
+            flash("Pedido não encontrado.", "danger")
+            return redirect(url_for("pedido"))
+    except Exception as e:
+        flash(f"Erro ao buscar pedido: {str(e)}", "danger")
+        return redirect(url_for("pedido"))
+
+    animal = Animal.buscar_tudo(order_by="animal_identificacao")
+    produtos = Produto.buscar_tudo(order_by="produto_nome")
+    itens = Item_pedido_saida.buscar_por_pedido(pedido_id)
+
+    if request.method == "POST":
+        dados = get_pedido_saida_form()
+        atualizar = Pedido_saida(**dados)
+        erros = atualizar.validar_pedido_saida()
+
+        try:
+            if erros:
+                for erro in erros:
+                    flash(erro, "danger")
+                return render_template(
+                    "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                    animal=animal, produtos=produtos, itens=itens,
+                    tipo_pedido="saida", fornecedor=[]
+                )
+
+            atualizar.atualizar_pedido_saida(pedido_id)
+
+            # -------- Atualizar itens --------
+            ids = request.form.getlist("item_pedido_saida_id")
+            nomes = request.form.getlist("item_pedido_saida_nome")
+            lotes = request.form.getlist("item_pedido_saida_lote")
+            quantidades = request.form.getlist("item_pedido_saida_quantidade")
+
+            for i in range(len(nomes)):
+                if not nomes[i]:
+                    continue
+
+                item = Item_pedido_saida(
+                    item_pedido_saida_nome=nomes[i],
+                    item_pedido_saida_quantidade=quantidades[i],
+                    item_pedido_saida_lote=lotes[i],
+                    pedido_saida_pedido_saida_id=pedido_id,
+                    produto_produto_id=nomes[i]
+                )
+
+                item_id = ids[i] if i < len(ids) else ""
+                if item_id:
+                    item.item_pedido_saida_id = int(item_id)
+                    item.atualizar_item_pedido_saida(item.item_pedido_saida_id)
+                else:
+                    item.gravar_item_pedido_saida(pedido_id)
+
+            flash("Dados atualizados com sucesso.", "success")
+            return redirect(url_for("editar_pedido_saida", pedido_id=pedido_id))
+
+        except Exception as e:
+            flash(f"Erro ao atualizar dados: {str(e)}", "danger")
+            return render_template(
+                "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                animal=animal, produtos=produtos, itens=itens,
+                tipo_pedido="saida", fornecedor=[]
+            )
+
+    return render_template(
+        "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
+        animal=animal, produtos=produtos, itens=itens,
+        tipo_pedido="saida", fornecedor=[]
+    )
+
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
 def atualizar_fornecedor(fornecedor_id):
     try:

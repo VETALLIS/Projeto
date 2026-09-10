@@ -220,3 +220,15 @@ class Item_pedido_saida(Crud_base):
         finally:
             cursor.close()
             conexao.close()
+    
+    @classmethod
+    def buscar_por_pedido(cls, pedido_saida_id):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+        try:
+            sql = "SELECT * FROM item_pedido_saida WHERE pedido_saida_pedido_saida_id = %s"
+            cursor.execute(sql, (pedido_saida_id,))
+            return cursor.fetchall()
+        finally:
+            cursor.close()
+            conexao.close()
