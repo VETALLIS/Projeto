@@ -435,19 +435,19 @@ body {
     border: none;
 }
 
-#sobre-nos-section{
+#sobre-nos-section {
     height: 10%;
 }
 
-#header-lp{
-    background-color: #0000006a ;
+#header-lp {
+    background-color: #0000006a;
 }
 
 #produtos-container {
     background-color: #0000006a;
 }
 
-#contato-section{
+#contato-section {
     background-color: #0000006a;
 }
 
@@ -965,7 +965,7 @@ body {
 
 /* Tela Inicial */
 
-#card-fantasma-1{
+#card-fantasma-1 {
     width: 90%;
     height: 20px;
     background-color: #0000006a;
@@ -1646,4 +1646,53 @@ body {
 #notificacoes .btn-fechar-notificacoes:hover {
     background: rgba(255, 255, 255, 0.15);
     color: #e6efe9;
+}
+
+.otp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: Arial, sans-serif;
+}
+
+.otp-inputs {
+    display: flex;
+    gap: 12px;
+}
+
+.otp-box {
+    width: 50px;
+    height: 55px;
+    border: 2px solid #b2dfdb;
+    border-radius: 12px;
+    background-color: #ebebeb;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.otp-box:focus {
+    border-color: #80cbd3;
+    background-color: #ffffff;
+    box-shadow: 0 0 6px rgba(128, 203, 211, 0.4);
+}
+
+.resend-link {
+    font-size: 13px;
+    color: #555;
+    text-decoration: none;
+    margin-top: 4px;
+}
+
+.resend-link:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
+#form-recuperar-senha{
+    max-width: 400px;
 }
