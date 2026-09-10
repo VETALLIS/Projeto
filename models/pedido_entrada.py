@@ -185,5 +185,26 @@ class Item_pedido_entrada(Crud_base):
 
         return item_pedido_entrada
 
+    @classmethod
+    def buscar_item_pedido_entrada(cls, order_by="item_pedido_entrada_id"):
+        item_pedido_entrada = cls.buscar_tudo(order_by)
 
+        if not item_pedido_entrada:
+            raise ValueError("item_pedido_entrada não encontrado.") 
+
+        return item_pedido_entrada
+
+    @classmethod
+    def buscar_por_pedido_entrada(cls, pedido_entrada_id):
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            sql = f"SELECT * FROM {cls.tabela} WHERE pedido_entrada_pedido_entrada_id = %s"
+            cursor.execute(sql, (pedido_entrada_id,))
+            colunas = [desc[0] for desc in cursor.description]
+            linhas = cursor.fetchall()
+            return [dict(zip(colunas, linha)) for linha in linhas]
+        finally:
+            cursor.close()
+            conexao.close()
    
