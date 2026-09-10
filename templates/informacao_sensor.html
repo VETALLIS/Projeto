@@ -12,18 +12,21 @@
 
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
 
-    <div class="mt-4 w-25">
-        <label for="imagem_sensor"
-            class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
-
-            {% if sensor.imagem_base64 %}
-            <img role="img" aria-label="imagem do sensor" src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
-                class="upload-imagem position-absolute t-0 l-0 border-radius-menor">
-            {%else%}
-            <img role="img" aria-label="imagem do sensor" src="/static/sensor_imagem.webp" class="text-white aling-itens-center border-radius-menor z-index-1" >
-            {%endif%}
-        </label>
-    </div>
+      <!-- COLUNA ESQUERDA: IMAGEM -->
+        <div class="upload-imagem me-4 mt-3">
+            <label for="imagem_sensor"
+                class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative overflow-hidden"
+                style="max-height: 250px;">
+                {% if sensor.imagem_base64 %}
+                <img role="img" aria-label="imagem do sensor" src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
+                    class="w-100 h-100 object-fit-cover position-absolute top-0 start-0">
+                {% else %}
+                <img role="img" aria-label="imagem do sensor" src="/static/imagens/medicamento.jpg" class="w-100 h-100" style="object-fit: cover; z-index:1;">
+                {% endif %}
+            </label>
+            <input type="file" id="imagem_sensor" name="imagem" accept="image/*" class="d-none">
+            <p class="mt-3 texto-p text-center">Clique na imagem para alterá-la</p>
+        </div>
 
     <div class="mt-4 w-100">
 
