@@ -31,8 +31,8 @@
     <div class="tab-content">
 
         <!-- Editar entrada -->
-        <div class="tab-pane fade {% if tipo_pedido != 'entrada' %}show active{% endif %} w-100" id="entrada">
-            <form method="POST" action="{% if tipo_pedido == 'entrada' %}{{ url_for('atualizar_pedido_entrada', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}">
+        <div class="tab-pane fade {% if tipo_pedido != 'saida' %}show active{% endif %} w-100" id="entrada">
+            <form method="POST" action="{% if tipo_pedido == 'entrada'  %}{{ url_for('atualizar_pedido_entrada', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}">
                 <input type="hidden" name="tipo_movimentacao" value="entrada">
                 <input type="hidden" name="pedido_entrada_status" value="Concluido">
                 <div class="me-3 w-100">
