@@ -955,16 +955,16 @@ def editar_fornecedor(fornecedor_id):
         return render_template("fornecedor_cadastrado.html")  
 
 
-@app.route("/pedido/editar/<int:pedido_id>" ,methods=["GET", "POST"])
+@app.route("/pedido/editar/<int:pedido_id>", methods=["GET", "POST"])
 def editar_pedido(pedido_id):
-    print(pedido_id)
     try:
         pedido = Pedido_entrada.buscar_por_id(pedido_id)
-        print(pedido)
         if not pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
-        return render_template("editar_pedido.html", pedido=pedido)
+
+        fornecedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")  
+        return render_template("editar_pedido.html", pedido=pedido, fornecedor=fornecedor)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedidos_cadastrado.html")
@@ -974,13 +974,16 @@ def editar_pedido(pedido_id):
 @app.route("/pedido/atualizar/<int:pedido_id>", methods=["GET", "POST"])
 def atualizar_pedido(pedido_id):
     try:
-        dados_pedido = Fornecedor.buscar_por_id(fornecedor_id)
+        dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)  # era Fornecedor.buscar_por_id(fornecedor_id)
         if not dados_pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
     except Exception as e:
         flash(f"Erro ao buscar pedido: {str(e)}", "danger")
         return redirect(url_for("pedido"))
+
+    fornecedor = Fornecedor.buscar_todos()
+
     if request.method == "POST":
         dados = get_pedido_form()
         atualizar = Pedido(**dados)
@@ -990,24 +993,18 @@ def atualizar_pedido(pedido_id):
             if erros:
                 for erro in erros:
                     flash(erro, "danger")
-                # Retorna os dados digitados na tentativa para não apagar o formulário
-                return render_template("editar_pedido.html", pedido=dados) 
+                return render_template("editar_pedido.html", pedido=dados, fornecedor=fornecedor)
 
-            # Executa a atualização no banco de dados
-            atualizar.atualizar_fornecedor(fornecedor_id) 
+            atualizar.atualizar_fornecedor(pedido_id)  # confirma se o método espera pedido_id ou fornecedor_id aqui
 
             flash("Dados atualizados com sucesso.", "success")
-            # Correção 4: Redireciona de volta para a rota correta passando o ID certo
-            return redirect(url_for("editar_pedido", pedido_id=pedido_id))  
+            return redirect(url_for("editar_pedido", pedido_id=pedido_id))
 
         except Exception as e:
-            flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
-            # Adicionado fornecedor_id=fornecedor_id no render_template abaixo
-            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id)
+            flash(f"Erro ao atualizar dados: {str(e)}", "danger")
+            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id, fornecedor=fornecedor)
 
-    # 3. Se for GET, apenas exibe a página com os dados salvos no banco
-    return render_template("editar_pedido.html", pedido=dados_pedido)
-
+    return render_template("editar_pedido.html", pedido=dados_pedido, fornecedor=fornecedor)
 
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
 def atualizar_fornecedor(fornecedor_id):

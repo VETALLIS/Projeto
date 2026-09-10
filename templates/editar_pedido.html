@@ -248,7 +248,7 @@
     });
 
 const fornecedores = {{ fornecedor | tojson }};
-const fornecedorAtual = {{ (pedido[0].fornecedor_fornecedor_id if pedido else '')|tojson }};
+const fornecedorAtual = {{ (pedido.fornecedor_fornecedor_id if pedido else '')|tojson }};
 
     document.addEventListener("DOMContentLoaded", function () {
         const select = document.getElementById("selectFornecedor");
