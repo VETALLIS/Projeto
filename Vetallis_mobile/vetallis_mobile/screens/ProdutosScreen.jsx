@@ -2,10 +2,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useState, useEffect, useMemo } from 'react';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, ActivityIndicator } from 'react-native';
+import { API_URL } from '../src/services/api';
 
-// Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
-// src/services/api.js, troque essa constante por um import de lá.
-const API_URL = 'http://10.135.60.38:3000';
 
 export default function ProdutosScreen() {
     const [busca, setBusca] = useState('');
