@@ -85,9 +85,6 @@ class Alertas(Crud_base):
 
     @staticmethod
     def contar_vencidos():
-        conexao =  Database.connect()
-        cursor =  conexao.cursor()
-
         try:
             conexao = Database.connect()
             cursor = conexao.cursor(dictionary=True)
@@ -123,9 +120,6 @@ class Alertas(Crud_base):
     
     @staticmethod
     def contar_data_relativa():
-        conexao =  Database.connect()
-        cursor =  conexao.cursor()
-
         try:
             conexao = Database.connect()
             cursor = conexao.cursor(dictionary=True)
