@@ -975,7 +975,8 @@ def editar_pedido(pedido_id):
         produtos = Produto.buscar_tudo(order_by="produto_nome")  
 
         return render_template("editar_pedido.html", pedido=pedido, fornecedor=fornecedor,
-                                produtos=produtos, itens=itens)
+                                produtos=produtos, itens=itens,
+                                tipo_pedido="entrada", pedido_id=pedido_id)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedidos_cadastrado.html")
@@ -993,7 +994,7 @@ def atualizar_pedido_entrada(pedido_id):
         flash(f"Erro ao buscar pedido: {str(e)}", "danger")
         return redirect(url_for("pedido"))
 
-    forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_identificacao")
+    forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
     produtos = Produto.buscar_tudo(order_by="produto_nome")
     itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
 
@@ -1016,21 +1017,29 @@ def atualizar_pedido_entrada(pedido_id):
             
 
             # -------- Atualizar itens --------
+            # -------- Atualizar itens --------
             ids = request.form.getlist("item_pedido_entrada_id")
-            nomes = request.form.getlist("item_pedido_entrada_produto")
+            produto_ids = request.form.getlist("item_pedido_entrada_produto")  # confira o name= no HTML do select
             lotes = request.form.getlist("item_pedido_entrada_lote")
             quantidades = request.form.getlist("item_pedido_entrada_quantidade")
+            valores = request.form.getlist("item_pedido_entrada_valor_unitario")
+            validades = request.form.getlist("item_pedido_entrada_validade")
 
-            for i in range(len(nomes)):
-                if not nomes[i]:
+            for i in range(len(produto_ids)):
+                if not produto_ids[i]:
                     continue
 
+                produto_id_convertido = int(produto_ids[i])
+                nome_produto = Produto.buscar_nome_produto(produto_id_convertido)
+
                 item = Item_pedido_entrada(
-                    item_pedido_entrada_nome=nomes[i],
+                    item_pedido_entrada_nome=nome_produto,
                     item_pedido_entrada_quantidade=quantidades[i],
                     item_pedido_entrada_lote=lotes[i],
+                    item_pedido_entrada_valor_unitario=valores[i] if i < len(valores) else None,
+                    item_pedido_entrada_validade=validades[i] if i < len(validades) else None,
                     pedido_entrada_pedido_entrada_id=pedido_id,
-                    produto_produto_id=nomes[i]
+                    produto_produto_id=produto_id_convertido
                 )
 
                 item_id = ids[i] if i < len(ids) else ""
@@ -1041,9 +1050,11 @@ def atualizar_pedido_entrada(pedido_id):
                     item.gravar_item_pedido_entrada(pedido_id)
 
             flash("Dados atualizados com sucesso.", "success")
-            return redirect(url_for("editar_pedido_entrada", pedido_id=pedido_id))
+            return redirect(url_for("atualizar_pedido_entrada", pedido_id=pedido_id))
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             flash(f"Erro ao atualizar dados: {str(e)}", "danger")
             return render_template(
                 "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
