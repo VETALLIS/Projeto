@@ -1,12 +1,23 @@
 {%extends 'base.html'%}
 {%block conteudo%}
 
-<div class="d-flex justify-content-between ">
-    <h3 class="text-start titulo-h3">Animais</h3>
-    <a class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
-        type="submit" href="{{url_for('novo_animal')}}">Adicionar
-        Animal</a>
+<div class="d-flex">
+    <h3 class="text-start titulo-h3" id="titulo-animal-cadastrado">Animais</h3>
+    <div class="div-com-csv d-flex justify-content-end ">
+        <form action="" >
+            <label for="input-csv"
+                class=" w-100 titulo-csv texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor">Adicione
+                Animal por Arquivo CSV</label>
+            <input type="file" class="titulo-csv" id="input-csv" accept=".CSV"></input>
+        </form>
+        <a class="btn titulo-animal ms-4 w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+            type="submit" href="{{url_for('novo_animal')}}">Adicionar
+            Animal</a>
+    </div>
 </div>
+
+
+
 <div class="table-responsive mt-5">
     <table class="table">
         <tr>

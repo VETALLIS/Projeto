@@ -8,9 +8,9 @@ from core.conectar import Database
 class Pedido_saida(Crud_base):
     pk = "pedido_saida_id"
     tabela = "pedido_saida"
-    fields = ["pedido_saida_id", "pedido_saida_nome", "pedido_saida_data", "pedido_entrada_status", "animal_animal_id"]
+    fields = [ "pedido_saida_nome", "pedido_saida_data", "pedido_entrada_status", "animal_animal_id"]
 
-    def __init__(self, pedido_saida_nome, pedido_saida_data, animal_animal_id, pedido_entrada_status = "PENDENTE" ):
+    def __init__(self, pedido_saida_nome,pedido_saida_data, animal_animal_id, pedido_entrada_status = "PENDENTE" ):
         self.pedido_saida_id = None
         self.pedido_saida_nome = pedido_saida_nome
         self.pedido_saida_data = pedido_saida_data 
@@ -59,7 +59,7 @@ class Pedido_saida(Crud_base):
         if not pedido_saida:
             raise ValueError("Pedido não encontrado")
 
-        self.atualizar()
+        self.atualizar(id)
         return "Pedido atualizado com sucesso!"
     
     @classmethod
@@ -77,7 +77,7 @@ from core.manipular import Manipular
 class Item_pedido_saida(Crud_base):
     pk = "item_pedido_saida_id"
     tabela = "item_pedido_saida"
-    fields = ["item_pedido_saida_id", "item_pedido_saida_nome", "item_pedido_saida_quantidade","item_pedido_saida_lote", "pedido_saida_pedido_saida_id", "produto_produto_id"]
+    fields = [ "item_pedido_saida_nome", "item_pedido_saida_quantidade","item_pedido_saida_lote", "pedido_saida_pedido_saida_id", "produto_produto_id"]
 
     def __init__(self, item_pedido_saida_nome, item_pedido_saida_quantidade, item_pedido_saida_lote, pedido_saida_pedido_saida_id, produto_produto_id):
         self.item_pedido_saida_id = None
@@ -186,7 +186,7 @@ class Item_pedido_saida(Crud_base):
         if not pedido_saida:
             raise ValueError("Pedido não encontrado")
 
-        self.atualizar()
+        self.atualizar(id)
         return "Pedido atualizado com sucesso!"
 
     def buscar_item_pedido_saida(self):
@@ -217,6 +217,18 @@ class Item_pedido_saida(Crud_base):
             if not resultado:
                 raise ValueError("Estoque não encontrado para esse produto.")
             return resultado["estoque_id"]
+        finally:
+            cursor.close()
+            conexao.close()
+    
+    @classmethod
+    def buscar_por_pedido(cls, pedido_saida_id):
+        conexao = Database.connect()
+        cursor = conexao.cursor(dictionary=True)
+        try:
+            sql = "SELECT * FROM item_pedido_saida WHERE pedido_saida_pedido_saida_id = %s"
+            cursor.execute(sql, (pedido_saida_id,))
+            return cursor.fetchall()
         finally:
             cursor.close()
             conexao.close()
