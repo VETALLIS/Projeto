@@ -184,7 +184,7 @@ def get_fornecedor_form():
     return {
         "nome": request.form.get("fornecedor_nome", "").strip(),
         "cnpj": (request.form.get("fornecedor_cnpj", "")).replace(".","").replace("-","").replace("/","").replace(" ",""),
-        "endereço":(request.form.get("fornecedor_endereço")),
+        "endereco":(request.form.get("fornecedor_endereco")),
         "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
     }
