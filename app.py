@@ -19,6 +19,7 @@ import base64
 from models.contato import Contato
 from models.estoque import Estoque
 from models.alertas import Alertas
+from datetime import date, datetime
 
 
 # definição da variavel app
@@ -963,8 +964,12 @@ def editar_pedido(pedido_id):
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
 
-        fornecedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")  
-        return render_template("editar_pedido.html", pedido=pedido, fornecedor=fornecedor)
+        itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
+        fornecedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
+        produtos = Produto.buscar_tudo(order_by="produto_nome")  
+
+        return render_template("editar_pedido.html", pedido=pedido, fornecedor=fornecedor,
+                                produtos=produtos, itens=itens)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedidos_cadastrado.html")
@@ -1005,6 +1010,25 @@ def atualizar_pedido(pedido_id):
             return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id, fornecedor=fornecedor)
 
     return render_template("editar_pedido.html", pedido=dados_pedido, fornecedor=fornecedor)
+
+
+@app.template_filter('data_input')
+def data_input(valor):
+    
+    if not valor:
+        return ''
+    if isinstance(valor, (date, datetime)):
+        return valor.strftime('%Y-%m-%d')
+    if isinstance(valor, str):
+        
+        for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y-%m-%d %H:%M:%S'):
+            try:
+                return datetime.strptime(valor, fmt).strftime('%Y-%m-%d')
+            except ValueError:
+                continue
+        return '' 
+    return ''
+
 
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
 def atualizar_fornecedor(fornecedor_id):
