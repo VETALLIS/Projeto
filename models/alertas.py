@@ -17,14 +17,27 @@ class Alertas(Crud_base):
         self.notificacao_status = notificacao_status
         self.notificacao_data = notificacao_data
 
-    def deletar_alerta(self, id):
-        alerta = self.buscar_por_id(id)
-
-        if not alerta:
-            raise ValueError("Alerta não encontrado")
-
-        self.deletar(id)
-        return "Alerta deletado com sucesso!"
+    @staticmethod
+    def limpar_notificacoes_antigas(dias=30):
+        """
+        Deleta automaticamente as notificações do banco com mais de X dias.
+        """
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            # Query usando funções nativas do MySQL (DATEDIFF ou DATE_SUB)
+            sql = """
+            DELETE FROM notificacao 
+            WHERE notificacao_data < DATE_SUB(CURDATE(), INTERVAL %s DAY)
+            """
+            cursor.execute(sql, (dias,))
+            conexao.commit()
+            
+            # Retorna a quantidade de registros deletados
+            return cursor.rowcount  
+        finally:
+            cursor.close()
+            conexao.close()
     
     @staticmethod
     def registrar_notificacao(cursor, descricao):

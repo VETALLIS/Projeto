@@ -17,10 +17,10 @@
             class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
 
             {% if sensor.imagem_base64 %}
-            <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
+            <img role="img" aria-label="imagem do sensor" src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
                 class="upload-imagem position-absolute t-0 l-0 border-radius-menor">
             {%else%}
-            <img src="/static/sensor_imagem.webp" class="text-white aling-itens-center border-radius-menor z-index-1" >
+            <img role="img" aria-label="imagem do sensor" src="/static/sensor_imagem.webp" class="text-white aling-itens-center border-radius-menor z-index-1" >
             {%endif%}
         </label>
     </div>

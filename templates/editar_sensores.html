@@ -18,10 +18,10 @@
                 class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative overflow-hidden"
                 style="max-height: 250px;">
                 {% if sensor.imagem_base64 %}
-                <img src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
+                <img role="img" aria-label="imagem do sensor" src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
                     class="w-100 h-100 object-fit-cover position-absolute top-0 start-0">
                 {% else %}
-                <img src="/static/imagens/medicamento.jpg" class="w-100 h-100" style="object-fit: cover; z-index:1;">
+                <img role="img" aria-label="imagem do sensor" src="/static/imagens/medicamento.jpg" class="w-100 h-100" style="object-fit: cover; z-index:1;">
                 {% endif %}
             </label>
             <input type="file" id="imagem_sensor" name="imagem" accept="image/*" class="d-none">
