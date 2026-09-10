@@ -55,30 +55,35 @@ app.post('/api/login', async (req, res) => {
 app.get('/api/painel', async (req, res) => {
   try {
     const [[{ totalProdutos }]] = await db.query(
-      `SELECT SUM(CAST(estoque_quantidade AS UNSIGNED)) AS totalProdutos FROM estoque`
+      `SELECT COALESCE(SUM(CAST(estoque_quantidade AS UNSIGNED)), 0) AS totalProdutos FROM estoque`
     );
     const [[{ estoqueBaixoCount }]] = await db.query(
       `SELECT COUNT(*) AS estoqueBaixoCount FROM estoque WHERE CAST(estoque_quantidade AS UNSIGNED) <= 5`
     );
-    const [atividadesRecentes] = await db.query(`
-      (SELECT ipe.item_pedido_entrada_id AS id, 'Entrada' AS tipo,
-              ipe.item_pedido_entrada_quantidade AS quantidade,
-              pr.produto_nome AS produto, pe.pedido_entrada_data AS data
-       FROM item_pedido_entrada ipe
-       JOIN estoque e ON ipe.estoque_estoque_id = e.estoque_id
-       JOIN produto pr ON e.produto_produto_id = pr.produto_id
-       JOIN pedido_entrada pe ON ipe.pedido_entrada_pedido_entrada_id = pe.pedido_entrada_id)
-      UNION ALL
-      (SELECT ips.item_pedido_saida_id AS id, 'Saída' AS tipo,
-              ips.item_pedido_saida_quantidade AS quantidade,
-              pr.produto_nome AS produto, ps.pedido_saida_data AS data
-       FROM item_pedido_saida ips
-       JOIN estoque e ON ips.estoque_estoque_id = e.estoque_id
-       JOIN produto pr ON e.produto_produto_id = pr.produto_id
-       JOIN pedido_saida ps ON ips.pedido_saida_pedido_saida_id = ps.pedido_saida_id)
-      ORDER BY id DESC
-      LIMIT 5
-    `);
+
+    let atividadesRecentes = [];
+    try {
+      const [linhas] = await db.query(`
+    (SELECT ipe.item_pedido_entrada_id AS id, 'Entrada' AS tipo,
+            ipe.item_pedido_entrada_quantidade AS quantidade,
+            pr.produto_nome AS produto, pe.pedido_entrada_data AS data
+     FROM item_pedido_entrada ipe
+     JOIN produto pr ON ipe.produto_produto_id = pr.produto_id
+     JOIN pedido_entrada pe ON ipe.pedido_entrada_pedido_entrada_id = pe.pedido_entrada_id)
+    UNION ALL
+    (SELECT ips.item_pedido_saida_id AS id, 'Saída' AS tipo,
+            ips.item_pedido_saida_quantidade AS quantidade,
+            pr.produto_nome AS produto, ps.pedido_saida_data AS data
+     FROM item_pedido_saida ips
+     JOIN produto pr ON ips.produto_produto_id = pr.produto_id
+     JOIN pedido_saida ps ON ips.pedido_saida_pedido_saida_id = ps.pedido_saida_id)
+    ORDER BY id DESC
+    LIMIT 5
+  `);
+      atividadesRecentes = linhas;
+    } catch (erroAtividades) {
+      console.log('⚠️ Erro ao buscar atividades recentes (ignorado):', erroAtividades.message);
+    }
 
     res.json({
       totalProdutos: totalProdutos || 0,

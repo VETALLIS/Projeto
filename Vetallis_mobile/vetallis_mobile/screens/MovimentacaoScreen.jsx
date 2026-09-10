@@ -1,20 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react';
+import { API_URL } from '../src/services/api';
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-
-// Mesmo IP/porta usados nas outras telas — se você já centralizou isso em
-// src/services/api.js, troque essa constante por um import de lá.
-const API_URL = 'http://10.135.60.38:3000';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 
 export default function MovimentacaoScreen() {
   const [search, setSearch] = useState('');
