@@ -20,6 +20,7 @@ from models.contato import Contato
 from models.estoque import Estoque
 from models.alertas import Alertas
 from datetime import date, datetime
+from models.redefinir_senha import Redefinir
 
 
 # definição da variavel app
@@ -62,6 +63,11 @@ def get_contato_form():
         "contato_nome": request.form.get("nome", "").strip(),
         "contato_email": request.form.get("email", "").strip(),
         "contato_mensagem": request.form.get("texto", "").strip(), 
+    }
+
+def get_recuperar_form():
+    return{
+        "email": request.form.get("email", "").strip()
     }
 
 # ====== Pegando os dados de produto ====== #
@@ -1635,6 +1641,40 @@ def verificar_notificacoes():
         return jsonify({"sucesso": True})
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+
+
+@app.route("/redefinir-senha/email", methods=["GET"])
+def pegar_email():
+
+    return render_template("pegar_email.html")
+
+@app.route("/redefinir-senha/email/salvar", methods=["GET", "POST"])
+def pegar_email_salvar():
+
+    email  = get_recuperar_form()
+    email = email["email"]
+    redefinir = Redefinir()
+
+    usuario_email = redefinir.buscar_email_redefinir(email)
+
+    if not usuario_email:
+        flash("Esse email não possui conta")
+        return redirect(url_for('login'))
+
+    
+    enviar_email = redefinir.enviar_email(email)
+
+    return render_template("redefinir_senha.html")
+
+
+
+
+@app.route("/redefinir-senha", methods=["GET"])
+def redefinir_senha():
+
+
+    
+    return render_template("redefinir_senha.html")
 
 
 # ====== Executar codigo ======#
