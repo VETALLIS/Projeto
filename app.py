@@ -976,10 +976,10 @@ def editar_pedido(pedido_id):
 
 
 
-@app.route("/pedido/atualizar/<int:pedido_id>", methods=["GET", "POST"])
-def atualizar_pedido(pedido_id):
+@app.route("/pedido/entrada/atualizar/<int:pedido_id>", methods=["GET", "POST"])
+def atualizar_pedido_entrada(pedido_id):
     try:
-        dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)  # era Fornecedor.buscar_por_id(fornecedor_id)
+        dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)
         if not dados_pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
@@ -987,29 +987,70 @@ def atualizar_pedido(pedido_id):
         flash(f"Erro ao buscar pedido: {str(e)}", "danger")
         return redirect(url_for("pedido"))
 
-    fornecedor = Fornecedor.buscar_todos()
+    forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_identificacao")
+    produtos = Produto.buscar_tudo(order_by="produto_nome")
+    itens = Item_pedido_entrada.buscar_por_pedido(pedido_id)
 
     if request.method == "POST":
-        dados = get_pedido_form()
-        atualizar = Pedido(**dados)
-        erros = atualizar.validar_fornecedor(current_app.config['SECRET_KEY'])
+        dados = get_pedido_entrada_form()
+        atualizar = Pedido_entrada(**dados)
+        erros = atualizar.validar_pedido_entrada()
 
         try:
             if erros:
                 for erro in erros:
                     flash(erro, "danger")
-                return render_template("editar_pedido.html", pedido=dados, fornecedor=fornecedor)
+                return render_template(
+                    "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                     produtos=produtos, itens=itens,
+                    tipo_pedido="entrada", fornecedor=[]
+                )
 
-            atualizar.atualizar_fornecedor(pedido_id)  # confirma se o método espera pedido_id ou fornecedor_id aqui
+            atualizar.atualizar_pedido_entrada(pedido_id)
+            
+
+            # -------- Atualizar itens --------
+            ids = request.form.getlist("item_pedido_entrada_id")
+            nomes = request.form.getlist("item_pedido_entrada_nome")
+            lotes = request.form.getlist("item_pedido_entrada_lote")
+            quantidades = request.form.getlist("item_pedido_entrada_quantidade")
+
+            for i in range(len(nomes)):
+                if not nomes[i]:
+                    continue
+
+                item = Item_pedido_entrada(
+                    item_pedido_entrada_nome=nomes[i],
+                    item_pedido_entrada_quantidade=quantidades[i],
+                    item_pedido_entrada_lote=lotes[i],
+                    pedido_entrada_pedido_entrada_id=pedido_id,
+                    produto_produto_id=nomes[i]
+                )
+
+                item_id = ids[i] if i < len(ids) else ""
+                if item_id:
+                    item.item_pedido_entrada_id = int(item_id)
+                    item.atualizar_item_pedido_saida(item.item_pedido_entrada_id)
+                else:
+                    item.gravar_item_pedido_entrada(pedido_id)
 
             flash("Dados atualizados com sucesso.", "success")
-            return redirect(url_for("editar_pedido", pedido_id=pedido_id))
+            return redirect(url_for("editar_pedido_entrada", pedido_id=pedido_id))
 
         except Exception as e:
             flash(f"Erro ao atualizar dados: {str(e)}", "danger")
-            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id, fornecedor=fornecedor)
+            return render_template(
+                "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                 produtos=produtos, itens=itens,
+                tipo_pedido="entrada", fornecedor=[]
+            )
 
-    return render_template("editar_pedido.html", pedido=dados_pedido, fornecedor=fornecedor)
+    return render_template(
+        "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
+         produtos=produtos, itens=itens,
+        tipo_pedido="entrada", fornecedor=[]
+    )
+
 
 #============ Endpoint tela de editar pedido de saida =========#
 @app.route("/pedido_saida/editar/<int:pedido_id>", methods=["GET", "POST"])
@@ -1278,7 +1319,7 @@ def pedidos_cadastrados():
 
 
 
-@app.route("/pedido")
+@app.route("/pedido", methods=['POST'])
 def pedido():
     try:
         fornecedor = Fornecedor.buscar_fornecedor()
