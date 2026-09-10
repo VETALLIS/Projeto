@@ -435,6 +435,22 @@ body {
     border: none;
 }
 
+#sobre-nos-section{
+    height: 10%;
+}
+
+#header-lp{
+    background-color: #0000006a ;
+}
+
+#produtos-container {
+    background-color: #0000006a;
+}
+
+#contato-section{
+    background-color: #0000006a;
+}
+
 #cards-produto {
     padding: 80px 50px 40px 50px;
     color: #FFFFF0;
@@ -446,7 +462,7 @@ body {
         "c d b b"
         "e e f f";
     gap: 16px;
-    height: 100vh;
+    height: 100%;
 }
 
 #card-oferecemos {
@@ -816,11 +832,13 @@ body {
 }
 
 #sobre-nos-section {
+    padding-bottom: 120px;
     padding-top: 120px;
 }
 
 
 .sobre-nos-container {
+
     flex-wrap: wrap;
     margin: 50px;
     /* Reduzido de 100px para ocupar menos espaço na tela */
@@ -828,7 +846,6 @@ body {
     overflow: hidden;
     z-index: 1;
     min-height: auto;
-    margin-top: 120px;
     /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
 
 }
