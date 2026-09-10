@@ -167,6 +167,7 @@
             </form>
         </div>
         <!-- Editar saida -->
+        <!-- Editar saida -->
         <div class="tab-pane fade  {% if tipo_pedido == 'saida' %}show active{% endif %}" id="saida">
             <form method="POST"
                 action="{% if tipo_pedido == 'saida' %}{{ url_for('atualizar_pedido_saida', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}"
@@ -200,7 +201,7 @@
 
                 <div class="d-flex justify-content-between p-2 w-100 border-bottom">
                     <h3 class="text-start text-white">Item do Pedido</h3>
-                    
+
                 </div>
 
                 <div class="table-responsive mt-2">
@@ -292,6 +293,7 @@
 
     </div>
 </div>
+
 <script>
     function adicionarItem(templateId, corpoId) {
         const template = document.getElementById(templateId);
@@ -305,7 +307,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        adicionarItem("templateItemEntrada", "corpoItensEntrada");
 
         document.querySelectorAll(".btn-adicionar-item").forEach(function (botao) {
             botao.addEventListener("click", function () {
@@ -317,7 +318,7 @@
     });
 
     const fornecedores = {{ fornecedor | tojson }};
-    const fornecedorAtual = {{ (pedido.fornecedor_fornecedor_id if pedido else '')| tojson }};
+    const fornecedorAtual = {{ (pedido.fornecedor_fornecedor_id | default (none)) | tojson }}
 
     document.addEventListener("DOMContentLoaded", function () {
         const select = document.getElementById("selectFornecedor");
