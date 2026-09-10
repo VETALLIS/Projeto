@@ -995,7 +995,7 @@ def atualizar_pedido_entrada(pedido_id):
 
     forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_identificacao")
     produtos = Produto.buscar_tudo(order_by="produto_nome")
-    itens = Item_pedido_entrada.buscar_por_pedido(pedido_id)
+    itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
 
     if request.method == "POST":
         dados = get_pedido_entrada_form()
@@ -1017,7 +1017,7 @@ def atualizar_pedido_entrada(pedido_id):
 
             # -------- Atualizar itens --------
             ids = request.form.getlist("item_pedido_entrada_id")
-            nomes = request.form.getlist("item_pedido_entrada_nome")
+            nomes = request.form.getlist("item_pedido_entrada_produto")
             lotes = request.form.getlist("item_pedido_entrada_lote")
             quantidades = request.form.getlist("item_pedido_entrada_quantidade")
 
@@ -1036,7 +1036,7 @@ def atualizar_pedido_entrada(pedido_id):
                 item_id = ids[i] if i < len(ids) else ""
                 if item_id:
                     item.item_pedido_entrada_id = int(item_id)
-                    item.atualizar_item_pedido_saida(item.item_pedido_entrada_id)
+                    item.atualizar_item_pedido_entrada(item.item_pedido_entrada_id)
                 else:
                     item.gravar_item_pedido_entrada(pedido_id)
 
@@ -1054,7 +1054,7 @@ def atualizar_pedido_entrada(pedido_id):
     return render_template(
         "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
          produtos=produtos, itens=itens,
-        tipo_pedido="entrada", fornecedor=[]
+        tipo_pedido="entrada", fornecedor=forncedor
     )
 
 
