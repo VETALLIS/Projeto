@@ -1716,19 +1716,32 @@ def pegar_email_salvar():
         flash("Esse email não possui conta")
         return redirect(url_for('novo_login'))
 
-    
-    enviar_email = redefinir.enviar_email(email)
+    codigo = redefinir.gerar_codigo()
+    enviar_email = redefinir.enviar_email(email, codigo)
+
+    if not enviar_email:
+        flash("Erro ao enviar email de verificação")
+
+    gravar_codigo = redefinir.gravar_codigo(codigo)
 
     return render_template("redefinir_senha.html")
 
 
 
 
-@app.route("/redefinir-senha", methods=["GET"])
-def redefinir_senha():
+@app.route("/redefinir-senha/codigo", methods=["GET", "POST"])
+def verifi_codigo():
+    redefinir = Redefinir()
 
+    numero = request.form.get("codigo", "").strip()
 
-    
+    verificar = redefinir.verificar_codigo(numero)
+
+    if not verificar:
+        flash("Codigo invalido", "danger")
+        return render_template("redefinir_senha.html")
+
+    flash("Certo", "success")
     return render_template("redefinir_senha.html")
 
 
