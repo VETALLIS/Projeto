@@ -361,7 +361,7 @@ app.get('/api/fornecedores', async (req, res) => {
       SELECT fornecedor_id,
              fornecedor_nome,
              fornecedor_cnpj,
-             fornecedor_endereço AS fornecedor_endereco,
+             fornecedor_endereco AS fornecedor_endereco,
              fornecedor_pedido_minimo,
              fornecedor_tipo_produtos
       FROM fornecedor
@@ -465,8 +465,7 @@ app.delete('/api/usuarios/:id', async (req, res) => {
   }
 });
 
-const PORTA = 3000;
-app.listen(PORTA, () => console.log(`Servidor rodando em http://localhost:${PORTA}`));
+
 
 
 // 13. Verificar se o email existe (Esqueci a senha - passo 1)
@@ -516,3 +515,6 @@ app.post('/api/redefinir-senha', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
+
+const PORTA = 3000;
+app.listen(PORTA, () => console.log(`Servidor rodando em http://localhost:${PORTA}`));
