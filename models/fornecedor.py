@@ -5,12 +5,12 @@ from core.conectar import Database
 class Fornecedor(Crud_base):
     tabela = "fornecedor"
     pk = "fornecedor_id"
-    fields = ["fornecedor_nome", "fornecedor_cnpj", "fornecedor_endereço", "fornecedor_pedido_minimo", "fornecedor_tipo_produtos"]
+    fields = ["fornecedor_nome", "fornecedor_cnpj", "fornecedor_endereco", "fornecedor_pedido_minimo", "fornecedor_tipo_produtos"]
 
-    def __init__(self, nome, cnpj, endereço, pedido_minimo, tipo_produtos):
+    def __init__(self, nome, cnpj, endereco, pedido_minimo, tipo_produtos):
         self.fornecedor_nome = nome
         self.fornecedor_cnpj = cnpj
-        self.fornecedor_endereço = endereço
+        self.fornecedor_endereco = endereco
         self.fornecedor_pedido_minimo = pedido_minimo
         self.fornecedor_tipo_produtos = tipo_produtos
 
@@ -19,7 +19,7 @@ class Fornecedor(Crud_base):
             Manipular.validar_vazio(self.fornecedor_nome, "nome"),
             Manipular.validar_vazio(self.fornecedor_cnpj, "cnpj"),
             Manipular.validar_cnpj(self.fornecedor_cnpj, "cnpj", secret_key),
-            Manipular.validar_vazio(self.fornecedor_endereço, "endereço"),
+            Manipular.validar_vazio(self.fornecedor_endereco, "endereco"),
             Manipular.validar_vazio(self.fornecedor_pedido_minimo, "pedido_minimo")
             
         ]          

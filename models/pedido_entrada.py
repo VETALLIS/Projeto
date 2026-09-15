@@ -173,7 +173,31 @@ class Item_pedido_entrada(Crud_base):
 
         if not item_pedido_entrada:
             raise ValueError("Item de pedido de entrada não encontrado!")
+
+        quantidade_antiga = int(item_pedido_entrada["item_pedido_entrada_quantidade"])
+        quantidade_nova = int(self.item_pedido_entrada_quantidade)
+        diferenca = quantidade_nova - quantidade_antiga
+
         self.atualizar(id)
+
+        if diferenca != 0:
+            conexao = Database.connect()
+            cursor = conexao.cursor()
+            try:
+                sql = """
+                    UPDATE estoque
+                    SET estoque_quantidade = estoque_quantidade + %s
+                    WHERE produto_produto_id = %s
+                """
+                cursor.execute(sql, (diferenca, self.produto_produto_id))
+                conexao.commit()
+            except Exception as e:
+                conexao.rollback()
+                raise ValueError(f"Erro ao ajustar o estoque do produto: {e}")
+            finally:
+                cursor.close()
+                conexao.close()
+
         return "Item de pedido de entrada atualizado com sucesso!"
 
     @classmethod

@@ -190,7 +190,7 @@ def get_fornecedor_form():
     return {
         "nome": request.form.get("fornecedor_nome", "").strip(),
         "cnpj": (request.form.get("fornecedor_cnpj", "")).replace(".","").replace("-","").replace("/","").replace(" ",""),
-        "endereço":(request.form.get("fornecedor_endereço")),
+        "endereco":(request.form.get("fornecedor_endereco")),
         "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
     }
@@ -975,17 +975,18 @@ def editar_pedido(pedido_id):
         produtos = Produto.buscar_tudo(order_by="produto_nome")  
 
         return render_template("editar_pedido.html", pedido=pedido, fornecedor=fornecedor,
-                                produtos=produtos, itens=itens)
+                                produtos=produtos, itens=itens,
+                                tipo_pedido="entrada", pedido_id=pedido_id)
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedidos_cadastrado.html")
 
 
 
-@app.route("/pedido/atualizar/<int:pedido_id>", methods=["GET", "POST"])
-def atualizar_pedido(pedido_id):
+@app.route("/pedido/entrada/atualizar/<int:pedido_id>", methods=["GET", "POST"])
+def atualizar_pedido_entrada(pedido_id):
     try:
-        dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)  # era Fornecedor.buscar_por_id(fornecedor_id)
+        dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)
         if not dados_pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
@@ -993,29 +994,80 @@ def atualizar_pedido(pedido_id):
         flash(f"Erro ao buscar pedido: {str(e)}", "danger")
         return redirect(url_for("pedido"))
 
-    fornecedor = Fornecedor.buscar_todos()
+    forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
+    produtos = Produto.buscar_tudo(order_by="produto_nome")
+    itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
 
     if request.method == "POST":
-        dados = get_pedido_form()
-        atualizar = Pedido(**dados)
-        erros = atualizar.validar_fornecedor(current_app.config['SECRET_KEY'])
+        dados = get_pedido_entrada_form()
+        atualizar = Pedido_entrada(**dados)
+        erros = atualizar.validar_pedido_entrada()
 
         try:
             if erros:
                 for erro in erros:
                     flash(erro, "danger")
-                return render_template("editar_pedido.html", pedido=dados, fornecedor=fornecedor)
+                return render_template(
+                    "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                     produtos=produtos, itens=itens,
+                    tipo_pedido="entrada", fornecedor=[]
+                )
 
-            atualizar.atualizar_fornecedor(pedido_id)  # confirma se o método espera pedido_id ou fornecedor_id aqui
+            atualizar.atualizar_pedido_entrada(pedido_id)
+            
+
+            # -------- Atualizar itens --------
+            # -------- Atualizar itens --------
+            ids = request.form.getlist("item_pedido_entrada_id")
+            produto_ids = request.form.getlist("item_pedido_entrada_produto")  # confira o name= no HTML do select
+            lotes = request.form.getlist("item_pedido_entrada_lote")
+            quantidades = request.form.getlist("item_pedido_entrada_quantidade")
+            valores = request.form.getlist("item_pedido_entrada_valor_unitario")
+            validades = request.form.getlist("item_pedido_entrada_validade")
+
+            for i in range(len(produto_ids)):
+                if not produto_ids[i]:
+                    continue
+
+                produto_id_convertido = int(produto_ids[i])
+                nome_produto = Produto.buscar_nome_produto(produto_id_convertido)
+
+                item = Item_pedido_entrada(
+                    item_pedido_entrada_nome=nome_produto,
+                    item_pedido_entrada_quantidade=quantidades[i],
+                    item_pedido_entrada_lote=lotes[i],
+                    item_pedido_entrada_valor_unitario=valores[i] if i < len(valores) else None,
+                    item_pedido_entrada_validade=validades[i] if i < len(validades) else None,
+                    pedido_entrada_pedido_entrada_id=pedido_id,
+                    produto_produto_id=produto_id_convertido
+                )
+
+                item_id = ids[i] if i < len(ids) else ""
+                if item_id:
+                    item.item_pedido_entrada_id = int(item_id)
+                    item.atualizar_item_pedido_entrada(item.item_pedido_entrada_id)
+                else:
+                    item.gravar_item_pedido_entrada(pedido_id)
 
             flash("Dados atualizados com sucesso.", "success")
-            return redirect(url_for("editar_pedido", pedido_id=pedido_id))
+            return redirect(url_for("atualizar_pedido_entrada", pedido_id=pedido_id))
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             flash(f"Erro ao atualizar dados: {str(e)}", "danger")
-            return render_template("editar_pedido.html", pedido=dados, pedido_id=pedido_id, fornecedor=fornecedor)
+            return render_template(
+                "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
+                 produtos=produtos, itens=itens,
+                tipo_pedido="entrada", fornecedor=[]
+            )
 
-    return render_template("editar_pedido.html", pedido=dados_pedido, fornecedor=fornecedor)
+    return render_template(
+        "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
+         produtos=produtos, itens=itens,
+        tipo_pedido="entrada", fornecedor=forncedor
+    )
+
 
 #============ Endpoint tela de editar pedido de saida =========#
 @app.route("/pedido_saida/editar/<int:pedido_id>", methods=["GET", "POST"])
@@ -1328,7 +1380,7 @@ def pedidos_cadastrados():
 
 
 
-@app.route("/pedido")
+@app.route("/pedido", methods=['POST', 'GET'])
 def pedido():
     try:
         fornecedor = Fornecedor.buscar_fornecedor()

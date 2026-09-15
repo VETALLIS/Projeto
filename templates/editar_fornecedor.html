@@ -14,50 +14,53 @@
     class="form-sensor " style="width: 100%;">
 
 
-    <div class="divisao-form" style="width: 100%;">
+    <div class="row mb-4">
 
-        <div class="row mb-4">
-            <div class="col-md-6 text-start">
-                <div class="input-group">
-                    <input type="text" name="fornecedor_nome" class="form-control"
-                        value="{{fornecedor.fornecedor_nome}}" required>
-                </div>
-            </div>
-            <div class="col-md-6 text-start">
-                <div class="input-group">
-                    <input type="text" name="fornecedor_endereço" class="form-control"
-                        value="{{fornecedor.fornecedor_endereço}}" required>
-                </div>
+        <div class="col-md-6 text-start">
+            <div class="input-group">
+                <input type="text" name="fornecedor_nome" value="{{fornecedor.fornecedor_nome}}" class="form-control"
+                    required>
             </div>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-md-6 text-start">
-                <div class="input-group">
-                    <input type="text" name="fornecedor_cnpj" class="form-control"
-                        value="{{fornecedor.fornecedor_cnpj}}" required>
-                </div>
-            </div>
-            <div class="col-md-6 text-start">
-                <div class="input-group">
-                    <input type="text" name="fornecedor_tipo_produtos" value="{{fornecedor.fornecedor_tipos_produtos}}"
-                        class="form-control" required>
-                </div>
+        <div class="col-md-6 text-start">
+            <div class="input-group">
+                <input type="text" name="fornecedor_tipo_produtos" value="{{fornecedor.fornecedor_tipo_produtos}}"
+                    class="form-control" required>
             </div>
         </div>
+    </div>
 
-        <div class="row mb-4">
-            <div class="col-md-6 text-start">
-                <div class="input-group">
-                    <input type="number" name="fornecedor_pedido_minimo" value="{{fornecedor.fornecedor_pedido_minimo}}"
-                        class="form-control" required>
-                </div>
+    <div class="row mb-4">
+        <div class="col-md-6 text-start">
+            <div class="input-group">
+                <input type="number" name="fornecedor_pedido_minimo" value="{{fornecedor.fornecedor_pedido_minimo}}"
+                    class="form-control" required>
             </div>
-            <div class="col-md-6 text-center">
-                <button class="btn btn-login text-white" style="background: #03c356; border-radius: 15px; width: 100%;"
-                    type="submit">Salvar alterações</button>
+
+        </div>
+        <div class="col-md-6 text-start">
+            <div class="input-group">
+
+                <input type="text" name="fornecedor_endereco" class="form-control"
+                    value="{{fornecedor.fornecedor_endereco}}" required>
             </div>
         </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6 text-start">
+            <div class="input-group">
+                <input type="text" name="fornecedor_cnpj" class="form-control" value="{{fornecedor.fornecedor_cnpj}}"
+                    required>
+            </div>
+
+        </div>
+        <div class="col-md-6 text-center">
+            <button class="btn btn-login text-white" style="background: #03c356; border-radius: 15px; width: 100%;"
+                type="submit">Salvar alterações</button>
+        </div>
+    </div>
 
     </div>
 
