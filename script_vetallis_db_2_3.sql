@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `fornecedor` (
   `fornecedor_id` INT NOT NULL AUTO_INCREMENT,
   `fornecedor_nome` VARCHAR(100) NOT NULL,
   `fornecedor_cnpj` VARCHAR(14) NOT NULL,
-  `fornecedor_endereço` VARCHAR(100) NOT NULL,
+  `fornecedor_endereco` VARCHAR(100) NOT NULL,
   `fornecedor_pedido_minimo` FLOAT NOT NULL,
   `fornecedor_tipo_produtos` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`fornecedor_id`))
