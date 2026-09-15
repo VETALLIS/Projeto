@@ -45,9 +45,15 @@ export default function LeitorScreen() {
     try {
       const res = await fetch(`${API_URL}/api/fornecedores`);
       const data = await res.json();
-      setFornecedores(data);
+      if (Array.isArray(data)) {
+        setFornecedores(data);
+      } else {
+        console.log('Resposta inesperada de /api/fornecedores:', data);
+        setFornecedores([]);
+      }
     } catch (err) {
       console.log('Erro ao carregar fornecedores:', err);
+      setFornecedores([]);
     }
   }
 
@@ -55,9 +61,15 @@ export default function LeitorScreen() {
     try {
       const res = await fetch(`${API_URL}/api/animais`);
       const data = await res.json();
-      setAnimais(data);
+      if (Array.isArray(data)) {
+        setAnimais(data);
+      } else {
+        console.log('Resposta inesperada de /api/animais:', data);
+        setAnimais([]);
+      }
     } catch (err) {
       console.log('Erro ao carregar animais:', err);
+      setAnimais([]);
     }
   }
 
