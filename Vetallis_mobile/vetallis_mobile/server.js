@@ -467,3 +467,52 @@ app.delete('/api/usuarios/:id', async (req, res) => {
 
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`Servidor rodando em http://localhost:${PORTA}`));
+
+
+// 13. Verificar se o email existe (Esqueci a senha - passo 1)
+app.post('/api/esqueci-senha', async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ sucesso: false, mensagem: 'Informe o email.' });
+  }
+
+  try {
+    const [linhas] = await db.query(
+      `SELECT usuario_id AS id FROM usuario WHERE usuario_email = ?`,
+      [email]
+    );
+
+    if (linhas.length === 0) {
+      return res.status(404).json({ sucesso: false, mensagem: 'Email não cadastrado.' });
+    }
+
+    res.json({ sucesso: true, mensagem: 'Email encontrado.' });
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
+// 14. Redefinir a senha (Esqueci a senha - passo 2)
+app.post('/api/redefinir-senha', async (req, res) => {
+  const { email, novaSenha } = req.body;
+
+  if (!email || !novaSenha) {
+    return res.status(400).json({ sucesso: false, mensagem: 'Dados incompletos.' });
+  }
+
+  try {
+    const [resultado] = await db.query(
+      `UPDATE usuario SET usuario_senha = ? WHERE usuario_email = ?`,
+      [novaSenha, email]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ sucesso: false, mensagem: 'Email não encontrado.' });
+    }
+
+    res.json({ sucesso: true, mensagem: 'Senha redefinida com sucesso!' });
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
