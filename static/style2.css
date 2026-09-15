@@ -1717,3 +1717,146 @@ body {
 #form-recuperar-senha{
     max-width: 400px;
 }
+
+/*-----------Tela Relatório----------*/
+
+#texto_inicial{
+    color: white;
+    padding: 10px;
+    border-bottom: solid 1px #fff;
+}
+
+#tabela{
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+
+#card-animal{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-animal{
+    font-size: 3rem;
+}
+
+#espaco-animal{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-animal{
+    font-size: 3rem;
+}
+
+
+
+
+#card-produto{
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+
+#detalhe-produto{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-produto{
+    font-size: 3rem;
+}
+
+#espaco-produto{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-produto{
+    font-size: 3rem;
+}
+
+
+
+
+#card-pvencido{
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+
+#detalhe-pvencido{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-pvencido{
+    font-size: 3rem;
+}
+
+#espaco-pvencido{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-pvencido{
+    font-size: 3rem;
+}
+
+
+
+#card-sensor{
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    height: 160px;
+    width: 317px;
+}
+
+#detalhe-sensor{
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+#icone-sensor{
+    font-size: 3rem;
+}
+
+#espaco-sensor{
+    margin-left: 35px;
+}
+
+#tamanho-fonte-sensor{
+    font-size: 3rem;
+}
+
+#filtro-e-tabela{
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 5px;
+    min-height: 450px;
+}
+
+#filtro-quantidade{
+    width: 150px;
+}
+
+#tabela-texto-produto{
+    width: 39%;
+}
+
+#tabela-texto-categoria{
+    width: 38%;
+}
+
+#tabela-texto-quantidade{
+    width: 12%;
+}
