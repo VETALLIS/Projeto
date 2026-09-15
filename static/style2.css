@@ -997,6 +997,12 @@ body {
 }
 
 
+.titulo-estoque{
+    color: rgba(255, 255, 255, 0.722);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+
+}
+
 .card-categoria {
     top: 20%;
     left: 50%;
@@ -1059,9 +1065,7 @@ body {
 .card-sensores-container {
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.15);
-    padding: 5px;
-    width: 98%;
-    height: 350px;
+    width: 100%;
 }
 
 .label-sensores {
@@ -1070,33 +1074,27 @@ body {
 }
 
 .card-luminosidade {
+    width: 53%;
     border-radius: 15px;
     background: #03c35677;
-    padding: 5px;
     max-width: 360px !important;
-    width: 100% !important;
 }
 
 .card-umidade {
+    width: 47%;
     border-radius: 15px;
     background: #85d26475;
-    padding: 5px;
-    width: 52% !important;
-    height: 90%;
+    height: 100%;
 }
 
 .card-temperatura {
     border-radius: 15px;
     background: #1c9e8677;
-    padding: 5px;
-    width: 95% !important;
+    width: 96% !important;
     height: 30%;
 }
 
-.temperatura-label {
-    top: 15px;
-    left: 15px;
-}
+
 
 .temperatura-valor {
     bottom: 10px;
