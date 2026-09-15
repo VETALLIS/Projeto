@@ -107,13 +107,16 @@ class Crud_base:
         cursor = conexao.cursor(dictionary=True)
 
         try:
-            sql = "SELECT * FROM usuario WHERE usuario_email = %s "
+            sql = "SELECT * FROM usuario WHERE LOWER(TRIM(usuario_email)) = LOWER(TRIM(%s))"
             cursor.execute(sql, (email,))
-            resultados = cursor.fetchall()
-            if resultados:
+            resultado = cursor.fetchone()
+
+            # Retorna True se o usuário foi encontrado, ou False se não existir
+            if resultado:
+                return True
+            else:
                 return False
-            else: 
-                return None
+
         finally:
             cursor.close()
             conexao.close()

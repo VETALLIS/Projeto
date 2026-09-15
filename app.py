@@ -1652,14 +1652,17 @@ def pegar_email():
 def pegar_email_salvar():
 
     email  = get_recuperar_form()
-    email = email["email"]
+    email = email.get("email", "").strip().lower()
     redefinir = Redefinir()
 
-    usuario_email = redefinir.buscar_email_redefinir(email)
+    print(f"DEBUG - E-mail recebido: '{email}'")
 
-    if not usuario_email:
+    usuario_existe = redefinir.buscar_email_redefinir(email)
+    print(f"DEBUG - Retorno do banco: {usuario_existe}")
+
+    if not usuario_existe:
         flash("Esse email não possui conta")
-        return redirect(url_for('login'))
+        return redirect(url_for('novo_login'))
 
     
     enviar_email = redefinir.enviar_email(email)

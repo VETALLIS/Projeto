@@ -10,7 +10,7 @@ class Redefinir(Crud_base):
             numero = random.randint(1, 9)
             numeros.append(numero)
 
-        print(numeros)
+        return numeros
 
     def enviar_email(self, email):
         codigo = self.gerar_codigo()
@@ -21,7 +21,7 @@ class Redefinir(Crud_base):
 
             remetente = 'vetalisge@gmail.com'
             destinatario = email
-            conteudo = f'Olá, este é um email de teste. {codigo}'
+            conteudo = f'Ola, este e um email de teste. {codigo}'
 
             servidor_email.sendmail(remetente, destinatario, conteudo)
         except Exception as e:
@@ -35,4 +35,4 @@ class Redefinir(Crud_base):
         if not buscar:
             return False
 
-        return None
+        return buscar
