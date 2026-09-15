@@ -66,58 +66,58 @@ export default function Login() {
       <Text style={styles.titulo}>VETALLIS</Text>
       <Text style={styles.subtitulo}>Acesse sua conta</Text>
       <View style={styles.card}>
-          <Text style={styles.escrita}>Email</Text> 
-          <View style={styles.inputContainer}>
-            <MaterialCommunityIcons name="email-outline" size={22} color="#999" style={styles.icone} /> 
-            <TextInput 
-              style={styles.input} 
-              placeholder='Digite seu email' 
-              placeholderTextColor="#999" 
-              value={Email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              editable={!carregando}
-            />
-          </View>
-          <Text style={styles.escrita}>Senha</Text>
-          <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed-outline" size={22} color="#999" style={styles.icone} />
-            <TextInput 
-              style={styles.input} 
-              placeholder='Digite sua senha' 
-              placeholderTextColor="#999" 
-              value={Senha}
-              onChangeText={setSenha}
-              secureTextEntry
-              editable={!carregando}
-            />
-          </View>
-          <View style={styles.checkrow}>
-            <Checkbox
-              style={styles.checkbox}
-              value={isChecked}
-              onValueChange={setChecked}
-              color={isChecked ? '#4630EB' : undefined}
-            />
-            <Text style={styles.label}>Lembrar-me</Text>
-          </View>
-          <TouchableOpacity style={styles.botao} onPress={fazerLogin} disabled={carregando}>
-            {carregando ? (
-              <ActivityIndicator color="#ffff" />
-            ) : (
-              <Text style={styles.textoBotao}>Entrar</Text>
-            )}
-          </TouchableOpacity>
-          {mensagem !== '' && (
-            <Text style={[
-              styles.mensagem,
-              {color:sucesso ? '#2e7d32' : '#d32f2f'}
-            ]}>{mensagem}</Text>
+        <Text style={styles.escrita}>Email</Text>
+        <View style={styles.inputContainer}>
+          <MaterialCommunityIcons name="email-outline" size={22} color="#999" style={styles.icone} />
+          <TextInput
+            style={styles.input}
+            placeholder='Digite seu email'
+            placeholderTextColor="#999"
+            value={Email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            editable={!carregando}
+          />
+        </View>
+        <Text style={styles.escrita}>Senha</Text>
+        <View style={styles.inputContainer}>
+          <Ionicons name="lock-closed-outline" size={22} color="#999" style={styles.icone} />
+          <TextInput
+            style={styles.input}
+            placeholder='Digite sua senha'
+            placeholderTextColor="#999"
+            value={Senha}
+            onChangeText={setSenha}
+            secureTextEntry
+            editable={!carregando}
+          />
+        </View>
+        <View style={styles.checkrow}>
+          <Checkbox
+            style={styles.checkbox}
+            value={isChecked}
+            onValueChange={setChecked}
+            color={isChecked ? '#4630EB' : undefined}
+          />
+          <Text style={styles.label}>Lembrar-me</Text>
+        </View>
+        <TouchableOpacity style={styles.botao} onPress={fazerLogin} disabled={carregando}>
+          {carregando ? (
+            <ActivityIndicator color="#ffff" />
+          ) : (
+            <Text style={styles.textoBotao}>Entrar</Text>
           )}
+        </TouchableOpacity>
+        {mensagem !== '' && (
+          <Text style={[
+            styles.mensagem,
+            { color: sucesso ? '#2e7d32' : '#d32f2f' }
+          ]}>{mensagem}</Text>
+        )}
       </View>
       <View style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('EsqueceuSenha')}>
           <Text style={styles.textoBotao}>Esqueceu sua senha</Text>
         </TouchableOpacity>
       </View>
@@ -127,25 +127,27 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     padding: 20,
 
   },
-  card:{
+  card: {
     backgroundColor: '#ffff',
-    borderRadius:16,
-    padding:25,
-    elevation:8,
+    borderRadius: 16,
+    padding: 25,
+    marginTop: 35,
+    elevation: 8,
     shadowColor: '#000',
-    shadowOffset: {width:0, height:5},
+    shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
-    height:600,
-    width:500,
-    alignSelf:'center',
+    height: 600,
+    width: 500,
+    alignSelf: 'center',
   },
   titulo: {
     alignSelf: 'center',
     fontSize: 50,
+    marginTop: 20,
     fontWeight: 'bold',
     color: '#fff',
   },
@@ -158,10 +160,10 @@ const styles = StyleSheet.create({
   escrita: {
     fontSize: 25,
     marginBottom: 20,
-    color: '#11686F',
+    color: '#116f22',
   },
   logo: {
-    width:  175,
+    width: 175,
     height: 175,
     resizeMode: 'contain',
     alignSelf: 'center',
@@ -179,13 +181,13 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   input: {
-  fontSize: 15,
-  flex: 1,
-  padding: 15,
+    fontSize: 15,
+    flex: 1,
+    padding: 15,
 
   },
   checkrow: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 62,
   },
@@ -194,8 +196,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    margin:8,
-    color: '#11686F',
+    margin: 8,
+    color: '#116f13',
   },
   botao: {
     backgroundColor: "#03A64A",

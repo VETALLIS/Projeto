@@ -1,10 +1,10 @@
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
-import { View, Alert } from 'react-native'; 
+import { View, Alert } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { logOut } from './screens/LogOut'; 
+import { logOut } from './screens/LogOut';
 import DashScreen from './screens/DashboardScreen';
 import PerfilScreen from './screens/GerenciarPerfilScreen';
 import LeitorScreen from './screens/LeitorQRCodeScreen';
@@ -12,6 +12,7 @@ import MovimentacaoScreen from './screens/MovimentacaoScreen';
 import ProdutosScreen from './screens/ProdutosScreen';
 import LoginScreen from './screens/LoginScrenn';
 import { AuthProvider } from './screens/AuthContext';
+import EsqueceuSenha from './screens/EsqueceuSenha';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -109,6 +110,7 @@ export default function App() {
       <NavigationContainer theme={DarkTheme}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="EsqueceuSenha" component={EsqueceuSenha} />
           <Stack.Screen name="App" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
