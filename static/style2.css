@@ -406,6 +406,7 @@ body {
     display: flex;
     justify-content: center;
     height: 100px;
+    align-items: center;
 }
 
 #lista-menu {
@@ -1170,7 +1171,7 @@ body {
 
 .modal-filtro-content {
     border-radius: 16px;
-    background: #089068 !important;
+    background: #498C79 !important;
     padding: 8px;
 }
 
@@ -1203,10 +1204,13 @@ body {
 
 .botao-aplicar-filtro {
     background: #fff;
-    color: #089068;
     border-radius: 10px;
     padding: 12px;
 }
+
+
+
+
 
 /* Página Gerenciar Perfil */
 
@@ -1609,7 +1613,7 @@ body {
 
 /* ===== Estilo do modal de notificações, no padrão dark/glass do site ===== */
 #notificacoes .modal-content {
-    background: rgba(28, 74, 63, 0.92);
+    background: #498C79;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1644,7 +1648,7 @@ body {
 }
 
 .notificacao-item small {
-    color: rgba(230, 239, 233, 0.5);
+    color: rgba(230, 239, 233, 0.788);
     white-space: nowrap;
 }
 
@@ -1719,12 +1723,12 @@ body {
 #texto_inicial{
     color: white;
     padding: 10px;
-    border-bottom: solid 1px #fff;
 }
 
 #tabela{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1752,8 +1756,9 @@ body {
 
 
 #card-produto{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background:#1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1781,8 +1786,9 @@ body {
 
 
 #card-pvencido{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1809,8 +1815,9 @@ body {
 
 
 #card-sensor{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;

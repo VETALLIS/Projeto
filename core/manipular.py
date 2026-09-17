@@ -2,9 +2,6 @@ import requests
 import urllib
 
 class Manipular:
-    def preparar_banco(dados):
-        pass
-
     def comparar_criacao_senha(campo1, campo2):
         if campo1 != campo2:
             return f"As senhas não condizem uma com a outra."
@@ -15,10 +12,10 @@ class Manipular:
         try:
             for caractere in dados:
                 if caractere in special:
-                    return None
+                    return True
         except(TypeError, ValueError):
             return f"O campo {field_name} está faltando um caracter especial"
-        return f"O campo {field_name} não contem caracteres especiais"
+        return False
     
     def validar_vazio(dados, field_name):
         if dados is None or str(dados).strip() == "":
