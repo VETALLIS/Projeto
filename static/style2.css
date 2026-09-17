@@ -1174,7 +1174,7 @@ body {
 
 .modal-filtro-content {
     border-radius: 16px;
-    background: #498C79 !important;
+    background: #089068 !important;
     padding: 8px;
 }
 
@@ -1206,7 +1206,7 @@ body {
 }
 
 .botao-aplicar-filtro {
-
+    background: #fff;
     color: #089068;
     border-radius: 10px;
     padding: 12px;
@@ -1613,7 +1613,7 @@ body {
 
 /* ===== Estilo do modal de notificações, no padrão dark/glass do site ===== */
 #notificacoes .modal-content {
-    background: #498C79;
+    background: rgba(28, 74, 63, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1648,7 +1648,7 @@ body {
 }
 
 .notificacao-item small {
-    color: rgba(230, 239, 233, 0.641);
+    color: rgba(230, 239, 233, 0.5);
     white-space: nowrap;
 }
 
@@ -1727,14 +1727,12 @@ body {
 }
 
 #tabela{
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: #1c9e8677;;
+    background: rgba(255, 255, 255, 0.15);
     padding: 5px;
     height: 160px;
     width: 317px;
 }
-
 
 #card-animal{
     width: 80px;
@@ -1758,9 +1756,8 @@ body {
 
 
 #card-produto{
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: #1c9e8677;
+    background: rgba(255, 255, 255, 0.15);
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1788,9 +1785,8 @@ body {
 
 
 #card-pvencido{
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: #1c9e8677;
+    background: rgba(255, 255, 255, 0.15);
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1817,9 +1813,8 @@ body {
 
 
 #card-sensor{
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background:#1c9e8677;
+    background: rgba(255, 255, 255, 0.15);
     padding: 5px;
     height: 160px;
     width: 317px;

@@ -376,10 +376,9 @@ app.get('/api/fornecedores', async (req, res) => {
 // ==========================================
 // ROTA 9: LISTAR ANIMAIS
 // ==========================================
-// Busca os animais no banco de dados
 app.get('/api/animais', async (req, res) => {
   try {
-    const [animais] = await db.query(` 
+    const [animais] = await db.query(`
       SELECT animal_id,
              animal_especie,
              animal_sexo,
