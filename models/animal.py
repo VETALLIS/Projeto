@@ -85,13 +85,14 @@ class Animal(Crud_base):
         return "Animal autualizado com sucesso!" # retorna se os dados foram atualizados
 
     # ===== Método para buscar animal pelo id ===== #
-    def buscar_animal_por_id(self, id):
-        animal = self.buscar_por_id(id) # chama o método para de buscar por id do Crud_base
+    @classmethod
+    def buscar_animal_por_id(self,animal_id):
+        animal = self.buscar_por_id(animal_id) # chama o método para de buscar por id do Crud_base
 
         if not animal: # verifica se foi encontrado
             raise ValueError("Animal não encontrado.") # retorna se tiver erro
 
-        return Animal(**animal)# retorna os dados encontrado
+        return animal# retorna os dados encontrado
 
 
     @classmethod
