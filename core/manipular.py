@@ -15,10 +15,10 @@ class Manipular:
         try:
             for caractere in dados:
                 if caractere in special:
-                    return None
+                    return True
         except(TypeError, ValueError):
             return f"O campo {field_name} está faltando um caracter especial"
-        return f"O campo {field_name} não contem caracteres especiais"
+        return False
     
     def validar_vazio(dados, field_name):
         if dados is None or str(dados).strip() == "":
