@@ -1864,3 +1864,10 @@ body {
 #tabela-texto-quantidade{
     width: 12%;
 }
+
+#botao_cadastro_produto{
+    margin-top: 5.5%;
+}
+#imagem_cadastro_produto{
+    height: 400px;
+}

@@ -9,7 +9,7 @@
 <form method="POST" action="{{url_for('salvar_produto')}}" enctype="multipart/form-data" class="form-sensor gap-4">
     <div class="mt-4 ">
         <div class="d-flex justify-content-start ">
-            <div class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4">
+            <div id="imagem_cadastro_produto" class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4">
                 <label for="imagem_produto"
                     class="upload-box w-100 h-100 d-flex align-items-center justify-content-center">
                     <img id="preview_imagem" src="" alt="" class="uploaded-image position-absolute top-0 start-0">
@@ -29,18 +29,21 @@
 
             <div class="divisao-form w-100">
                 <div class="mb-3 text-start">
+                    <label class="texto-a mb-1 d-block">Nome do produto:</label>
                     <div class="input-group">
-                        <input type="name" name="nome" class="form-control" placeholder="Nome do produto:" required>
+                        <input type="name" name="nome" class="form-control" placeholder="Digite o nome do produto" required>
                     </div>
                 </div>
                 <div class="mb-3 text-start">
+                    <label class="texto-a mb-1 d-block">Descrição do produto:</label>
                     <div>
-                        <textarea name="descricao" placeholder="Descrição do produto:"
+                        <textarea name="descricao" placeholder="Digite uma descrição para o produto"
                             class="form-control textarea-tamanho" required></textarea>
                     </div>
                 </div>
                 <div class="d-flex gap-3">
                     <div class="text-start w-100">
+                        <label class="texto-a mb-1 d-block">Categorias de produto:</label>
                         <select class="form-select" name="categoria">
                             <option value=""> Selecione uma categoria</option>
                             <option value="Vacina">
@@ -64,8 +67,9 @@
 
                         </select>
                     </div>
+                    
                     <div class="justify-content-center w-100">
-                        <button class="btn w-100 text-white background-verde-medio border-radius-menor"
+                        <button id="botao_cadastro_produto" class=" btn w-100 text-white background-verde-medio border-radius-menor"
                             type="submit">Cadastrar</button>
                     </div>
                 </div>

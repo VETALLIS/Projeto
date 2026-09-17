@@ -11,7 +11,7 @@
 <div class="d-flex flex-wrap justify-content-start gap-3 mt-3">
     {%if produtos %}
     {% for produto in produtos %}
-    <div class="card card-produto mb-3 text-white backgroud-glass border-radius-menor">
+    <div class="card card-produto  text-white backgroud-glass border-radius-menor">
         <div class="row g-0">
             <label for="imagem_produto" class="col-4 p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if produto.imagem_base64 %}
@@ -21,7 +21,7 @@
                 <img src="/static/imagens/medicamento.jpg" class="border-radius-menor img-sensor" aria-label="imagem do produto">
                 {%endif%}
             </label>
-            <div class="col-8 p-0">
+            <div class="col-8 p-0 ">
                 <div class="card-body d-flex gap-1 text-start pe-0 pb-0">
                     <h5 class="fs-5 titulo-h3">Nome:</h5>
                     <h5 class="card-title fs-6 mt-1">{{produto.produto_nome}}</h5>
