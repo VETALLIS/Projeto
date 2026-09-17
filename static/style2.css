@@ -1071,24 +1071,24 @@ body {
 }
 
 .card-luminosidade {
-    width: 53%;
+    width: 50%;
     border-radius: 15px;
     background: #03c35677;
-    max-width: 360px !important;
+
 }
 
 .card-umidade {
-    width: 47%;
+    width: 50%;
     border-radius: 15px;
     background: #85d26475;
-    height: 100%;
+
 }
 
 .card-temperatura {
     border-radius: 15px;
     background: #1c9e8677;
-    width: 95% !important;
-    height: 30%;
+    width: 100% !important;
+    height: 58%;
 }
 
 
