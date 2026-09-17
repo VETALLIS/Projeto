@@ -2,9 +2,6 @@ import requests
 import urllib
 
 class Manipular:
-    def preparar_banco(dados):
-        pass
-
     def comparar_criacao_senha(campo1, campo2):
         if campo1 != campo2:
             return f"As senhas não condizem uma com a outra."
