@@ -10,14 +10,16 @@
 
     <div class="divisao-form d-flex w-100 gap-3 mb-3">
         <div class="text-start w-50">
-            <div class="input-group">
-                <input type="text" name="fornecedor_nome" class="form-control" placeholder="Nome do fornecedor:"
+            <div class="col-12">
+                <label for="nome_fornecedor" class="text-light text-start d-block">Nome do Fornecedor:</label>
+                <input type="text" name="fornecedor_nome" class="form-control" placeholder="Digite o nome do fornecedor:"
                     required>
             </div>
         </div>
         <div class="text-start w-50">
-            <div class="input-group">
-                <input type="text" name="fornecedor_tipo_produtos" class="form-control" placeholder="Tipo de Produto:"
+            <div class="col-12">
+                <label for="tipo_produto" class="text-light text-start d-block">Tipo de Produto:</label>
+                <input type="text" name="fornecedor_tipo_produtos" class="form-control" placeholder="Digite o tipo de produto:"
                     required>
             </div>
         </div>
@@ -25,26 +27,29 @@
 
     <div class="divisao-form d-flex w-100 gap-3 mb-3">
         <div class="text-start w-50">
-            <div class="input-group">
-                <input type="number" name="fornecedor_pedido_minimo" class="form-control" placeholder="Pedido Mínimo:"
+            <div class="col-12">
+                <label for="pedido_minimo" class="text-light text-start d-block">Pedido Mínimo:</label>
+                <input type="number" name="fornecedor_pedido_minimo" class="form-control" placeholder="Digite o pedido mínimo:"
                     required>
             </div>
         </div>
         <div class="text-start w-50">
-            <div class="input-group">
-                <input type="text" name="fornecedor_endereco" class="form-control" placeholder="Endereço:" required>
+            <div class="col-12">
+                <label for="endereco_fornecedor" class="text-light text-start d-block">Endereço:</label>
+                <input type="text" name="fornecedor_endereco" class="form-control" placeholder="Digite o endereço:" required>
             </div>
         </div>
     </div>
 
     <div class="divisao-form d-flex w-100 gap-3 mb-3">
         <div class="text-start w-50">
-            <div class="input-group">
-                <input type="text" name="fornecedor_cnpj" class="form-control" placeholder="CNPJ:" required>
+            <div class="col-12">
+                <label for="cnpj_fornecedor" class="text-light text-start d-block">CNPJ:</label>
+                <input type="text" name="fornecedor_cnpj" class="form-control" placeholder="Digite o CNPJ:" required>
             </div>
         </div>
         <div class="text-start w-50">
-            <button class="btn btn-login text-white background-verde-medio border-radius-menor w-100" type="submit">
+            <button class="btn btn-login text-white background-verde-medio border-radius-menor w-100 mt-4" type="submit">
                 Cadastrar
             </button>
         </div>
