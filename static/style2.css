@@ -1719,12 +1719,12 @@ body {
 #texto_inicial{
     color: white;
     padding: 10px;
-    border-bottom: solid 1px #fff;
 }
 
 #tabela{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1752,8 +1752,9 @@ body {
 
 
 #card-produto{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background:#1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1781,8 +1782,9 @@ body {
 
 
 #card-pvencido{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;
@@ -1809,8 +1811,9 @@ body {
 
 
 #card-sensor{
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
-    background: rgba(255, 255, 255, 0.15);
+    background: #1c9e8677;
     padding: 5px;
     height: 160px;
     width: 317px;
