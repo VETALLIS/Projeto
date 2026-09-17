@@ -19,13 +19,12 @@
 
         <table class="table">
             <tr>
-                <th class="texto-p text-start pe-5">Nome</th>
-                <th class="texto-p text-start pe-5">Data</th>
-                <th class="texto-p pe-5">Fornecedor</th>
-                <th class="texto-p pe-5">status</th>
-                <th class="texto-p pe-5"> Detalhes</th>
-                <th class="texto-p pe-5"> Deletar</th>
-                
+                <th class="texto-p text-start ps-4 fw-bold">Nome</th>
+                <th class="texto-p text-start ps-4 fw-bold">Data</th>
+                <th class="texto-p ps-3 fw-bold">Fornecedor</th>
+                <th class="texto-p pe-3 fw-bold">Status</th>
+                <th class="texto-p pe-7 fw-bold">Ações</th>
+
 
             </tr>
             {% for pedido_entrada in Pedidos_ent %}
@@ -34,10 +33,12 @@
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td>
                 <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td>
                 <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td>
-                <td class="texto-p"><a role="img" aria-label="Botão ver detalhes do pedido de entrada"
+
+
+                <td class="texto-p" >
+                    <a role="img" aria-label="Botão ver detalhes do pedido de entrada"
                         href="/pedido/editar/{{pedido_entrada.pedido_entrada_id}}"
-                        class="bi bi-arrow-bar-right text-white texto-a"></a></td>
-                <td class="texto-p">
+                        class="bi bi-arrow-bar-right text-white texto-a"></a>
                     <a role="button" aria-label="Excluir pedido" class="btn btn-sm btn-link text-danger fs-5 p-0"
                         href="{{url_for('excluir_pedido_entrada', pedido_id=pedido_entrada.pedido_entrada_id)}}">
                         <i role="img" aria-label="Botão de excluir" class="bi bi-trash"></i>
@@ -57,26 +58,24 @@
         </h4>
         <table class="table">
             <tr>
-                <th class="texto-p text-start pe-5">Nome</th>
-                <th class="texto-p text-start pe-5">Data</th>
-                <th class="texto-p pe-5">Animal</th>
-                <th class="texto-p pe-5">status</th>
-                <th class="texto-p pe-5"> Ver Detalhes</th>
-                <th class="texto-p pe-5"> Deletar</th>
+                <th class="texto-p text-start ps-5 fw-bold">Nome</th>
+                <th class="texto-p text-start ps-5 fw-bold">Data</th>
+                <th class="texto-p ps-3 fw-bold">Animal</th>
+                <th class="texto-p ps-4 fw-bold">Status</th>
+                <th class="texto-p ps-4 fw-bold">Ações</th>
 
             </tr>
             {% for pedido_saida in Pedidos_saida %}
             <tr>
-                <td class="texto-p text-start">{{ pedido_saida.pedido_saida_nome }}</td>
-                <td class="texto-p text-start">{{ pedido_saida.pedido_saida_data }}</td>
+                <td class="texto-p text-start ps-5">{{ pedido_saida.pedido_saida_nome }}</td>
+                <td class="texto-p text-start ps-4">{{ pedido_saida.pedido_saida_data }}</td>
                 <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
                 <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
-                <td class="texto-p">
+
+                <td class="texto-p ps-4">
                     <a href="{{ url_for('editar_pedido_saida', pedido_id=pedido_saida.pedido_saida_id) }}" role="img"
                         aria-label="Botão ver detalhes do pedido de saída"
                         class="bi bi-arrow-bar-right text-white texto-a"></a>
-                </td>
-                <td class="texto-p">
                     <a role="button" aria-label="Excluir pedido" class="btn btn-sm btn-link text-danger fs-5 p-0"
                         href="{{url_for('excluir_pedido_saida', pedido_id=pedido_saida.pedido_saida_id)}}">
                         <i role="img" aria-label="Botão de excluir" class="bi bi-trash"></i>

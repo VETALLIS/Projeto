@@ -100,7 +100,7 @@ export default function Perfil() {
 
     setCarregando(true);
     setMensagem('');
-    // Após clicar no botão de excluir conta essa função de deletar enviando o id usuário para a deletar a conta
+
     try {
       const resposta = await fetch(`${API_URL}/api/usuarios/${usuario.id}`, {
         method: 'DELETE',
