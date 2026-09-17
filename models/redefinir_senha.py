@@ -2,6 +2,7 @@ import random
 import smtplib
 from core.crud_base import Crud_base
 from core.conectar import Database
+from core.manipular import Manipular
 
 class Redefinir(Crud_base):
 
@@ -75,4 +76,43 @@ class Redefinir(Crud_base):
         if not buscar["recuperar_codigo"] == numeros:
             return None
 
-        return "Codigos validos"     
+        return "Codigos validos"   
+
+    def alterar_senha(self, senha, email):
+        senha_validar = Manipular.validar_caracter(senha, "senha")
+
+        if not senha_validar:
+            return False, "A senha deve conter pelo menos um caractere especial (!, @, #, $, etc.)"
+
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+
+        try:
+            coluna = "usuario_senha"
+            sql = f"UPDATE usuario SET {coluna} = %s WHERE usuario_email = %s"  
+            cursor.execute(sql, (senha, email))
+            conexao.commit()
+
+            return True, "Senha alterada com sucesso!"
+        except Exception:
+            conexao.rollback()
+            return False, "Erro ao atualizar a senha no banco de dados."
+        finally:
+            cursor.close()
+            conexao.close()
+
+    def apagar_codigo(self):
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+
+        try:
+            sql = f"DELETE FROM {self.tabela}"
+            cursor.execute(sql)
+            conexao.commit()
+            return cursor.rowcount
+        except Exception as e:
+            conexao.rollback()
+            raise e
+        finally:
+            cursor.close()
+            conexao.close()
