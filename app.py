@@ -1439,7 +1439,6 @@ def pedido_salvar():
 
         try:
             animal = Animal.buscar_animal()
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
         except ValueError:
             flash("Nenhum animal cadastrado")
             animal = []

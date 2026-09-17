@@ -13,7 +13,12 @@
 <body>
     <section class="container d-flex align-items-center justify-content-center height-maior">
 
-        <div class="login-card position-relative backgroud-glass text-center border-radius-menor d-flex justify-content-center alaing-items-center flex-column ">
+        <div
+            class="login-card position-relative backgroud-glass text-center border-radius-menor d-flex justify-content-center alaing-items-center flex-column ">
+            <div class="text-start mb-3">
+                <a href="{{url_for('novo_login')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+            </div>
+
             <div class="container ">
                 <h3 class="d-flex text-white justify-content-center alaing-items-center ">
                     REDEFINIR SENHA
