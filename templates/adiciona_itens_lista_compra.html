@@ -11,23 +11,27 @@
 <form method="POST" action="{{ url_for('salvar_lista_compra') }}">
     <div class="mt-4 h-100">
 
-        <div class="d-flex gap-3 mb-4">
-            <input type="text" name="nome_produto" placeholder="Nome do item:" class=" form-control borda-none"
-                required>
-            <input type="text" name="custo_compra" placeholder="preço unitário:" class=" form-control borda-none"
-                required>
-            <input type="text" name="quantidade" placeholder="Quantidade:" class=" form-control borda-none" required>
-
+        <div class="row gx-3 mb-4">
+            <div class="col-6">
+                <label for="nome_produto" class="text-light text-start d-block fw-bold fs-6 mb-2">Nome do item:</label>
+                <input type="text" id="nome_produto" name="nome_produto" placeholder="Digite o nome do item:" class="form-control borda-none" required>
+            </div>
+            <div class="col-6">
+                <label for="custo_compra" class="text-light text-start d-block fw-bold fs-6 mb-2">Preço unitário:</label>
+                <input type="text" id="custo_compra" name="custo_compra" placeholder="Digite o preço unitário:" class="form-control borda-none" required>
+            </div>
         </div>
 
-
-
-        <!-- Botões lado a lado -->
-        <div class="d-flex gap-3">
-            <button class="btn w-100 text-white background-vermelho border-radius-menor"
-                type="button">Cancelar</button>
-            <button class="btn w-100 text-white background-verde-medio border-radius-menor"
-                type="submit">Salvar</button>
+        <!-- Quantidade + Botão -->
+        <div class="row gx-3 mb-4">
+            <div class="col-6">
+                <label for="quantidade" class="text-light text-start d-block fw-bold fs-6 mb-2">Quantidade:</label>
+                <input type="text" id="quantidade" name="quantidade" placeholder="Digite a quantidade:" class="form-control borda-none" required>
+            </div>
+            <div class="col-6">
+                <label class="text-light text-start d-block invisible fw-bold fs-6 mb-2">Salvar</label>
+                <button class="btn w-100 text-white background-verde-medio border-radius-menor" type="submit">Salvar</button>
+            </div>
         </div>
 
     </div>
