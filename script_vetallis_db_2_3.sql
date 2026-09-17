@@ -29,9 +29,11 @@ CREATE TABLE IF NOT EXISTS `animal` (
   `animal_raca` VARCHAR(45) NOT NULL,
   `animal_identificacao` VARCHAR(45) NOT NULL,
   `animal_idade` VARCHAR(45) NOT NULL,
+  `animal_peso` VARCHAR(45) NOT NULL,
+  `animal_observacao` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`animal_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -53,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `sensor` (
   `imagem_blob` LONGBLOB NULL DEFAULT NULL,
   PRIMARY KEY (`sensor_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -93,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `imagem_blob` LONGBLOB NULL DEFAULT NULL,
   PRIMARY KEY (`usuario_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -116,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `produto` (
     FOREIGN KEY (`usuario_usuario_id`)
     REFERENCES `usuario` (`usuario_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
+AUTO_INCREMENT = 24
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -136,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `estoque` (
     FOREIGN KEY (`produto_produto_id` , `produto_usuario_usuario_id`)
     REFERENCES `produto` (`produto_id` , `usuario_usuario_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -153,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `fornecedor` (
   `fornecedor_tipo_produtos` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`fornecedor_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -173,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `pedido_entrada` (
     FOREIGN KEY (`fornecedor_fornecedor_id`)
     REFERENCES `fornecedor` (`fornecedor_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -200,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `item_pedido_entrada` (
     FOREIGN KEY (`produto_produto_id`)
     REFERENCES `produto` (`produto_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -261,21 +263,25 @@ CREATE TABLE IF NOT EXISTS `lista_compra` (
   `lista_compra_status` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`lista_compra_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
 
---------------------------------------------------
--- Table 'notificacao'
--------------------------------------------------
-CREATE TABLE IF NOT EXISTS 'notificacao'(
-  'notificacao_id' INT NOT NULL AUTO_INCREMENT,
-  'notificacao_status' VARCHAR(15) NOT NULL,
-  'notificacao_data' DATE,
-  'notificacao_descricao' VARCHAR(150) NOT NULL,
-  PRIMARY KEY (notificacao_id))
-  
+-- -----------------------------------------------------
+-- Table `notificacao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `notificacao` (
+  `notificacao_id` INT NOT NULL AUTO_INCREMENT,
+  `notificacao_status` VARCHAR(15) NOT NULL,
+  `notificacao_data` DATE NULL DEFAULT NULL,
+  `notificacao_descricao` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`notificacao_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
