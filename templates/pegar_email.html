@@ -11,22 +11,27 @@
 </head>
 
 <body>
-    <section class="d-flex justify-content-center align-items-center flex-column min-vh-100">
-        <div class="container mt-5">
-            <h3 class="d-flex text-white justify-content-center alaing-items-center mb-3">
-                REDEFINIR SENHA
-            </h3>
+    <section class="container d-flex align-items-center justify-content-center height-maior">
+
+        <div class="login-card position-relative backgroud-glass text-center border-radius-menor d-flex justify-content-center alaing-items-center flex-column ">
+            <div class="container ">
+                <h3 class="d-flex text-white justify-content-center alaing-items-center ">
+                    REDEFINIR SENHA
+                </h3>
+                <p class="text-white-50 fs-8">Digite seu email para enviarmos um código de verificação</p>
+            </div>
+            <form action="/redefinir-senha/email/salvar" method="POST" class="w-100 mx-auto" id="form-recuperar-senha">
+                <div class="otp-container  mb-4 w-100">
+                    <input type="text" placeholder="Digite seu email:" class="form-control w-100 border-radius-menor"
+                        name="email">
+                </div>
+                <div>
+                    <button class="btn background-verde-medio text-white w-100 border-radius-maior">
+                        Enviar
+                    </button>
+                </div>
+            </form>
         </div>
-        <form action="/redefinir-senha/email/salvar" method="POST" class="w-50" id="form-recuperar-senha">
-            <div class="otp-container d-flex justify-content-center mb-4 w-100">
-               <input type="text" placeholder="Digite seu email:" class="form-control w-100 border-radius-menor" name="email">
-            </div>
-            <div>
-                <button class="btn background-verde-medio text-white w-100 border-radius-maior">
-                    Enviar
-                </button>
-            </div>
-        </form>
     </section>
 </body>
 
