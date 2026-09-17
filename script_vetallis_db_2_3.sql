@@ -282,6 +282,16 @@ DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
 
+-- -----------------------------------------------------
+-- Table `recuperar`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `recuperar` (
+  `recuperar_id` INT NOT NULL AUTO_INCREMENT,
+  `recuperar_codigo` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`recuperar_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

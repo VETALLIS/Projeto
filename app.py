@@ -474,7 +474,7 @@ def salvar_usuario():
 
         usuario.gravar_usuario()
         flash("Usuario cadastrado com sucesso.", "success")
-        return redirect(url_for("novo_login"))
+        return redirect(url_for("funcionarios"))
         
     except Exception as e:
         flash(f"Erro ao cadastrar usuario {e}", "danger")
@@ -1436,7 +1436,13 @@ def pedido_salvar():
     if "pedido_entrada_nome" in request.form:
         entrada = Pedido_entrada(**dados_entrada)
         erros_entrada = entrada.validar_pedido_entrada()
-        animal = Animal.buscar_animal()
+
+        try:
+            animal = Animal.buscar_animal()
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+        except ValueError:
+            flash("Nenhum animal cadastrado")
+            animal = []
 
         data_convertida = entrada.converter_data(entrada.pedido_entrada_data)
         if data_convertida:
@@ -1519,6 +1525,11 @@ def pedido_salvar():
             flash(f"Erro ao cadastrar entrada: {e}", "danger")
             print(e)
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+        except ValueError as e:
+            flash(f"Erro ao cadastrar entrada: {e}", "danger")
+            print(e)
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
 
     else:
         animal = Animal.contar_animal()
@@ -1597,6 +1608,10 @@ def pedido_salvar():
 
         except Exception as e:
             flash(f"Erro ao cadastrar saída: {e}", "danger")
+            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+        except ValueError as e:
+            flash(f"Erro ao cadastrar entrada: {e}", "danger")
+            print(e)
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
 # ======= Relatorio ======= #  
@@ -1765,7 +1780,6 @@ def verifi_codigo():
         flash("Erro ao excluir codigo do banco de dados", "danger")
         return render_template("redefinir_senha.html")
 
-    flash("Certo", "success")
     return render_template("atualizar_senha.html")
 
 

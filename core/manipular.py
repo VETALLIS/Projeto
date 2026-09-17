@@ -7,12 +7,22 @@ class Manipular:
             return f"As senhas não condizem uma com a outra."
         return None
 
-    def validar_caracter(dados, field_name):
+    def validar_caracter_recuperar_senha(dados, field_name):
         special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
         try:
             for caractere in dados:
                 if caractere in special:
                     return True
+        except(TypeError, ValueError):
+            return f"O campo {field_name} está faltando um caracter especial"
+        return False
+
+    def validar_caracter(dados, field_name):
+        special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
+        try:
+            for caractere in dados:
+                if caractere in special:
+                    return None
         except(TypeError, ValueError):
             return f"O campo {field_name} está faltando um caracter especial"
         return False

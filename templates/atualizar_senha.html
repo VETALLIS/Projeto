@@ -11,44 +11,50 @@
 </head>
 
 <body>
-    <section class="d-flex justify-content-center align-items-center flex-column min-vh-100">
+    <section class="container d-flex align-items-center justify-content-center height-maior">
+        <div
+            class="login-card position-relative backgroud-glass text-center border-radius-menor d-flex justify-content-center alaing-items-center flex-column ">
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for categoria, mensagem in messages %}
-        <div class="alert alert-primary alert-{{categoria}} alert-dismissible fade show border border-{{categoria}}-subtle border-2"
-            role="alert">
-            <i class="bi bi-info-circle-fill"></i>
-            <strong>{{ mensagem }}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-
-
-        <div class="container mt-5">
-            <h3 class="d-flex text-white justify-content-center alaing-items-center mb-3">
-                Nova senha
-            </h3>
-        </div>
-        <form action="/redefinir-senha/nova-senha/salvar" method="POST">
-            <div class="otp-container d-flex justify-content-center mb-4">
-                <div class="input-group">
-                    <input type="password" class="form-control" name="senha" placeholder="Digite a nova senha:">
-                </div>
-                <div class="input-group">
-                    <input type="password" class="form-control" name="confirmar" placeholder="Digite a senha novamente">
-                </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for categoria, mensagem in messages %}
+            <div class="alert alert-primary alert-{{categoria}} alert-dismissible fade show border border-{{categoria}}-subtle border-2"
+                role="alert">
+                <i class="bi bi-info-circle-fill"></i>
+                <strong>{{ mensagem }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <div>
-                <button class="btn background-verde-medio text-white w-100 border-radius-maior">
-                    Enviar
-                </button>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+
+            <div class="container ">
+                <h3 class="d-flex text-white justify-content-center alaing-items-center ">
+                    Nova senha
+                </h3>
+                <p class="text-white-50 fs-8">Digite a sua nova senha</p>
             </div>
-        </form>
+            <form action="/redefinir-senha/nova-senha/salvar" method="POST">
+                <div class="otp-container d-flex justify-content-center mb-4">
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="senha" placeholder="Digite a nova senha:">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="confirmar"
+                            placeholder="Digite a senha novamente">
+                    </div>
+                </div>
+                <div>
+                    <button class="btn background-verde-medio text-white w-100 border-radius-maior">
+                        Enviar
+                    </button>
+                </div>
+            </form>
+        </div>
     </section>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </html>

@@ -79,7 +79,7 @@ class Redefinir(Crud_base):
         return "Codigos validos"   
 
     def alterar_senha(self, senha, email):
-        senha_validar = Manipular.validar_caracter(senha, "senha")
+        senha_validar = Manipular.validar_caracter_recuperar_senha(senha, "senha")
 
         if not senha_validar:
             return False, "A senha deve conter pelo menos um caractere especial (!, @, #, $, etc.)"
