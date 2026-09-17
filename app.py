@@ -889,6 +889,20 @@ def excluir_animal(animal_id):
         flash(f"Erro ao excluir Animal: {e}", "danger")
     return redirect(url_for("animal"))
 
+@app.route("/informacao_animal/<int:animal_id>")
+def informacao_animal(animal_id):
+
+    try :
+        animal = Animal.buscar_animal_por_id(animal_id)
+        if not animal:
+            flash("Animal não encontrado", "danger")
+            return redirect(url_for("animal"))
+        
+        return render_template("informacao_animal.html", animal=animal)
+    except ValueError as e:
+        flash(e, "danger")
+        return  redirect(url_for("produtos"))
+
 
 
 
