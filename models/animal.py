@@ -9,7 +9,7 @@ class Animal(Crud_base):
     # Define a tabela e os campos do banco
     tabela = "animal"
     pk = "animal_id"
-    fields = ["animal_especie","animal_sexo", "animal_raca", "animal_identificacao", "animal_idade", "animal_observacao", "aniaml_peso"]
+    fields = ["animal_especie","animal_sexo", "animal_raca", "animal_identificacao", "animal_idade", "animal_observacao", "animal_peso"]
 
     # Define os atributos 
     def __init__(self, animal_especie, animal_sexo, animal_raca, animal_identificacao, animal_idade, animal_observacao, animal_peso):

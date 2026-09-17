@@ -24,16 +24,16 @@ class Manipular:
 
         
     def validar_letra(dados, field_name):
-    for char in str(dados):
-        if char.isdigit():
-            return False
-    return True
+        for char in str(dados):
+            if char.isdigit():
+                return f"O campo {field_name} não pode conter números."
+        return None
 
     def validar_numero(dados, field_name):
-    for char in str(dados):
-        if char.isnumeric():
-            return True
-    return False
+        for char in str(dados):
+            if char.isnumeric():
+                return None
+        return f"O campo {field_name} deve conter números."
 
 
     def validar_numero_negativo(dados, field_name):

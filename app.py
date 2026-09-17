@@ -54,6 +54,8 @@ def get_animal_form():
         "animal_idade": request.form.get("faixa_etaria", "").strip(),  
         "animal_raca": request.form.get("raca", "").strip(),
         "animal_identificacao": request.form.get("identificacao_animal", "").strip(),
+        "animal_peso": request.form.get("peso","").strip(),
+        "animal_observacao": request.form.get("observacao","").strip(),
     }
 
 
