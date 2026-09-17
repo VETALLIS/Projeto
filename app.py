@@ -1707,20 +1707,21 @@ def pegar_email_salvar():
     email = email.get("email", "").strip().lower()
     redefinir = Redefinir()
 
-    print(f"DEBUG - E-mail recebido: '{email}'")
+
 
     usuario_existe = redefinir.buscar_email_redefinir(email)
-    print(f"DEBUG - Retorno do banco: {usuario_existe}")
 
     if not usuario_existe:
         flash("Esse email não possui conta")
         return redirect(url_for('novo_login'))
 
+    session["email_redefinicao"] = email
+
     codigo = redefinir.gerar_codigo()
     enviar_email = redefinir.enviar_email(email, codigo)
 
     if not enviar_email:
-        flash("Erro ao enviar email de verificação")
+        flash("Erro ao enviar email de verificação", "danger")
 
     gravar_codigo = redefinir.gravar_codigo(codigo)
 
@@ -1741,8 +1742,39 @@ def verifi_codigo():
         flash("Codigo invalido", "danger")
         return render_template("redefinir_senha.html")
 
+    apagar = redefinir.apagar_codigo()
+
+    if not apagar:
+        flash("Erro ao excluir codigo do banco de dados", "danger")
+        return render_template("redefinir_senha.html")
+
     flash("Certo", "success")
-    return render_template("redefinir_senha.html")
+    return render_template("atualizar_senha.html")
+
+
+@app.route("/redefinir-senha/nova-senha/salvar", methods=["GET", "POST"])
+def atualizar_senha():
+    redefinir = Redefinir()
+
+    senha = request.form.get("senha", "").strip()
+    confirmar = request.form.get("confirmar", "").strip()
+
+    if not senha == confirmar:
+        flash("As senhas não conferem", "danger")
+        return render_template("atualizar_senha.html")
+
+    email = session.get("email_redefinicao")
+
+    sucesso, mensagem = redefinir.alterar_senha(senha, email)
+
+    if not sucesso:
+        flash(mensagem, "danger")
+        return render_template("atualizar_senha.html")
+
+    
+    
+    flash("Senha alterada com sucesso", "success")
+    return render_template("login.html")
 
 
 # ====== Executar codigo ======#
