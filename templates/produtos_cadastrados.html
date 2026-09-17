@@ -22,17 +22,17 @@
                 {%endif%}
             </label>
             <div class="col-8 p-0">
-                <div class="card-body d-flex gap-1 text-start pb-0">
+                <div class="card-body d-flex gap-1 text-start pe-0 pb-0">
                     <h5 class="fs-5 titulo-h3">Nome:</h5>
                     <h5 class="card-title fs-6 mt-1">{{produto.produto_nome}}</h5>
                 </div>
-                <div class="card-body text-start pb-0 pt-0">
+                <div class="card-body text-start pb-0 pe-0 pt-0">
                     <a role="button" aria-label="Ver detalhes do produto" href="/informacao_produto/{{produto.produto_id}}"
                         class="bi bi-arrow-bar-right text-white texto-a">
                         Ver Detalhes
                     </a>
                 </div>
-                <div class="card-body d-flex align-items-center gap-3 pt-0">
+                <div class="card-body d-flex align-items-center gap-3 pe-0 pt-0">
                     <a role="button" aria-label="Excluir produto" class="btn btn-sm btn-link text-danger fs-5 p-0"
                         href="{{url_for('excluir_produto', produto_id=produto.produto_id)}}" >
                         <i role="img" aria-label="Botão de excluir" class="bi bi-trash" ></i>

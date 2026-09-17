@@ -24,22 +24,20 @@
 <div class="table-responsive mt-5">
     <table class="table">
         <tr>
-            <th class="texto-p text-start">N° Identificação</th>
-            <th class="texto-p text-start">Espécie</th>
-            <th class="texto-p ">Sexo</th>
-            <th class="texto-p">Raça</th>
-            <th class="texto-p">Identificação</th>
-            <th class="texto-p">Idade</th>
-            <th class="texto-p">Ações</th>
+            <th class="texto-p fw-bold">Identificação</th>
+            <th class="texto-p fw-bold">Espécie</th>
+            <th class="texto-p fw-bold ">Sexo</th>
+            <th class="texto-p fw-bold">Raça</th>
+            <th class="texto-p  fw-bold">Idade</th>
+            <th class="texto-p fw-bold">Ações</th>
 
         </tr>
         {% for animal in animais %}
         <tr>
-            <td class="texto-p text-start">{{ animal.animal_id or animal['animal_id'] }}</td>
-            <td class="texto-p text-start">{{ animal.animal_especie or animal['animal_especie'] }}</td>
+            <td class="texto-p px-0">{{ animal.animal_identificacao or animal['animal_identificacao'] }}</td>
+            <td class="texto-p ">{{ animal.animal_especie or animal['animal_especie'] }}</td>
             <td class="texto-p">{{ animal.animal_sexo or animal['animal_sexo'] }}</td>
             <td class="texto-p">{{ animal.animal_raca or animal['animal_raca'] }}</td>
-            <td class="texto-p">{{ animal.animal_identificacao or animal['animal_identificacao'] }}</td>
             <td class="texto-p">{{ animal.animal_idade or animal['animal_idade'] }}</td>
             <td class="texto-p dl-flex "><a title="Botão de excluir animal" class="btn btn-sm btn-link text-danger fs-5 p-0"
                     href="{{url_for('excluir_animal', animal_id=animal.animal_id)}}">
@@ -47,7 +45,7 @@
                 </a>
                 <a role="img" aria-label="Botão ver detalhes do pedido de entrada"
                     href="/animal/buscar/{{animal.animal_id}}"
-                    class="bi bi-arrow-bar-right text-white texto-a ps-3"></a>
+                    class="bi bi-arrow-bar-right text-white texto-a "></a>
             </td>
 
             {% endfor %}
