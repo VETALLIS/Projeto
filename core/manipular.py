@@ -21,7 +21,21 @@ class Manipular:
         if dados is None or str(dados).strip() == "":
             return f"O campo {field_name} é obrigatório."
         return None
-    
+
+        
+    def validar_letra(dados, field_name):
+    for char in str(dados):
+        if char.isdigit():
+            return False
+    return True
+
+    def validar_numero(dados, field_name):
+    for char in str(dados):
+        if char.isnumeric():
+            return True
+    return False
+
+
     def validar_numero_negativo(dados, field_name):
         try:
             if float(dados) < 0:

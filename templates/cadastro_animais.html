@@ -10,13 +10,15 @@
     <div class="cadastro-sensor d-flex mt-4">
         <div class="divisao-form me-4 w-100" >
             <div class="mb-3 text-start">
+                <label class="texto-a mb-1 d-block">Espécie:</label>
                 <div class="input-group">
-                    <input type="name" name="especie" class="form-control" placeholder="Espécie:" required>
+                    <input type="text" name="especie" class="form-control" placeholder="Digite a espécie:" required>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-12">
+                <div class="col-12 text-start">
+                    <label class="texto-a mb-1 d-block">Sexo:</label>
                     <select class="form-select" name="sexo">
                             <option value=""> Selecione o sexo</option>
                             <option value="Macho">
@@ -29,38 +31,47 @@
                 </div>
             </div>
 
-            <div class=" row mb-3 text-start">
-                <div class="input-group col-12">
-                    <input type="text" name="faixa_etaria" class="form-control" placeholder="Idade:" required>
+            <div class="row mb-3 text-start">
+                <div class="col-12">
+                    <label class="texto-a mb-1 d-block">Idade:</label>
+                    <div class="input-group">
+                        <input type="text" name="faixa_etaria" class="form-control" placeholder="Digite a idade:" required>
+                    </div>
                 </div>
             </div>
-            <div class=" row mb-3 text-start">
-                <div class="input-group col-12">
-                    <input type="text" name="observacoes_medicas" class="form-control" placeholder="Idade:" required>
+            <div class="row mb-3 text-start">
+                <div class="col-12">
+                    <label class="texto-a mb-1 d-block">Observações médicas:</label>
+                    <div class="input-group">
+                        <input type="text" name="observacao" class="form-control" placeholder="Digite as observações:" required>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="w-100">
             <div class="mb-3 text-start">
+                <label class="texto-a mb-1 d-block">Raça:</label>
                 <div class="input-group">
-                    <input type="text" name="raca" class="form-control" placeholder="Raça:" required>
+                    <input type="text" name="raca" class="form-control" placeholder="Digite a raça:" required>
                 </div>
             </div>
 
             <div class="mb-3 text-start">
+                <label class="texto-a mb-1 d-block">Identificação do animal:</label>
                 <div class="input-group">
                     <input type="text" name="identificacao_animal" class="form-control"
-                        placeholder="Identificação do animal:" required>
+                        placeholder="Digite a identificação:" required>
                 </div>
             </div>
             <div class="mb-3 text-start">
+                <label class="texto-a mb-1 d-block">Peso do animal:</label>
                 <div class="input-group">
-                    <input type="text" name="pesol" class="form-control"
-                        placeholder="Peso do animal:" required>
+                    <input type="text" name="peso" class="form-control"
+                        placeholder="Digite o peso:" required>
                 </div>
             </div>
-            <div class="text-center ">
-                <button aria-label="Cadastrar animal" class="btn w-100  texto-a  background-verde-medio border-radius-menor" type="submit">Cadastrar</button>
+            <div class="text-center mt-5 ">
+                <button aria-label="Cadastrar animal" class="btn w-100  texto-a  background-verde-medio border-radius-menor " type="submit">Cadastrar</button>
             </div>
 
         </div>

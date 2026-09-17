@@ -263,6 +263,7 @@ def inicial():
         Alertas.contar_baixo_estoque()
         Alertas.contar_vencidos()
         Alertas.contar_data_relativa()
+        Alertas.limpar_notificacoes_antigas()
     except Exception as e:
         print(f"Erro ao verificar notificações: {e}")
     try:

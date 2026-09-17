@@ -9,24 +9,33 @@ class Animal(Crud_base):
     # Define a tabela e os campos do banco
     tabela = "animal"
     pk = "animal_id"
-    fields = ["animal_especie","animal_sexo", "animal_raca", "animal_identificacao", "animal_idade"]
+    fields = ["animal_especie","animal_sexo", "animal_raca", "animal_identificacao", "animal_idade", "animal_observacao", "aniaml_peso"]
 
     # Define os atributos 
-    def __init__(self, animal_especie, animal_sexo, animal_raca, animal_identificacao, animal_idade):
+    def __init__(self, animal_especie, animal_sexo, animal_raca, animal_identificacao, animal_idade, animal_observacao, animal_peso):
         self.animal_especie = animal_especie
         self.animal_sexo = animal_sexo
         self.animal_raca = animal_raca
         self.animal_identificacao = animal_identificacao
         self.animal_idade = animal_idade
+        self.animal_observacao = animal_observacao
+        self.animal_peso = animal_peso
+        
+
 
     # Faz a validação dos dados para a gravação com o banco
     def validar_animal(self):
         erros = [
             Manipular.validar_vazio(self.animal_especie, "especie"), # verifica se os dados estão vazio
+            Manipular.validar_letra(self.animal_especie, "especie"), # verifica se os dados não estão com número
             Manipular.validar_vazio(self.animal_sexo, "sexo"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_raca, "raca"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_identificacao, "identificacao"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_idade, "idade"), # verifica se os dados estão vazio
+            Manipular.validar_numero(self.animal_idade, "idade"), # verifica se os dados estão com número
+            Manipular.validar_vazio(self.animal_observacao, "observacao"), # verifica se os dados estão vazio
+            Manipular.validar_vazio(self.animal_peso, "peso"), # verifica se os dados estão vazio
+            Manipular.validar_numero(self.animal_peso, "peso"), # verifica se os dados estão com número
         ]
 
         return [ erro for erro in erros if erro] # Retorna  os erros 
