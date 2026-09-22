@@ -1727,6 +1727,17 @@ def verificar_notificacoes():
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
 
+@app.route('/api/notificacoes/<int:id>', methods=['DELETE'])
+def deletar_notificacao(id):
+    try:
+        alertas = Alertas()
+        alertas.deletar_alerta(id)
+        return jsonify({"sucesso": True})
+    except ValueError as e:
+        return jsonify({"sucesso": False, "erro": str(e)}), 404
+    except Exception as e:
+        return jsonify({"sucesso": False, "erro": str(e)}), 500
+
 
 @app.route("/redefinir-senha/email", methods=["GET"])
 def pegar_email():
