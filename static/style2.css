@@ -1650,6 +1650,7 @@ body {
 .notificacao-item small {
     color: rgba(230, 239, 233, 0.788);
     white-space: nowrap;
+    font-size: 0.9rem;
 }
 
 .notificacoes-vazio {
