@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
+const cron = require('node-cron');
 
 const app = express();
 app.use(cors());
@@ -513,6 +514,173 @@ app.post('/api/redefinir-senha', async (req, res) => {
     res.json({ sucesso: true, mensagem: 'Senha redefinida com sucesso!' });
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
+  }
+});
+
+// 15. Cadastrar/Atualizar Push Token do dispositivo
+app.post('/api/push-token', async (req, res) => {
+  const { usuarioId, token } = req.body;
+
+  if (!usuarioId || !token) {
+    return res.status(400).json({ sucesso: false, mensagem: 'usuarioId e token são obrigatórios.' });
+  }
+
+  try {
+    await db.query(
+      `INSERT INTO push_token (push_token_valor, usuario_usuario_id)
+       VALUES (?, ?)
+       ON DUPLICATE KEY UPDATE usuario_usuario_id = VALUES(usuario_usuario_id)`,
+      [token, usuarioId]
+    );
+
+    res.json({ sucesso: true, mensagem: 'Token registrado com sucesso.' });
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
+// Envia o push pra todos os tokens cadastrados (broadcast simples).
+async function enviarPushParaTodos(titulo, corpo) {
+  const [tokens] = await db.query(`SELECT push_token_valor FROM push_token`);
+
+  if (tokens.length === 0) return;
+
+  const mensagens = tokens.map((t) => ({
+    to: t.push_token_valor,
+    sound: 'default',
+    title: titulo,
+    body: corpo,
+  }));
+
+  try {
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(mensagens),
+    });
+  } catch (erro) {
+    console.log('⚠️ Erro ao enviar push:', erro.message);
+  }
+}
+// Evita duplicar notificação já pendente
+async function registrarNotificacao(descricao) {
+  const [existentes] = await db.query(
+    `SELECT notificacao_id FROM notificacao
+     WHERE notificacao_descricao = ? AND notificacao_status = 'pendente'`,
+    [descricao]
+  );
+  if (existentes.length > 0) return null; // já existe, não duplica
+
+  const [resultado] = await db.query(
+    `INSERT INTO notificacao (notificacao_status, notificacao_data, notificacao_descricao)
+     VALUES ('pendente', CURDATE(), ?)`,
+    [descricao]
+  );
+
+  // Só dispara push quando a notificação é realmente nova
+  await enviarPushParaTodos('Vetallis', descricao);
+
+  return resultado.insertId;
+}
+
+// 16. Verificar estoque baixo e registrar notificações
+app.get('/api/notificacoes/estoque-baixo', async (req, res) => {
+  try {
+    const [itens] = await db.query(`
+      SELECT p.produto_id, p.produto_nome, p.produto_categoria,
+             CAST(e.estoque_quantidade AS UNSIGNED) AS estoque_quantidade
+      FROM produto p
+      INNER JOIN estoque e ON e.produto_produto_id = p.produto_id
+      WHERE CAST(e.estoque_quantidade AS UNSIGNED) < 5
+    `);
+
+    for (const item of itens) {
+      const descricao = `Estoque baixo: ${item.produto_nome} (${item.estoque_quantidade} unidades restantes)`;
+      await registrarNotificacao(descricao);
+    }
+
+    res.json(itens);
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
+// 17. Verificar produtos vencidos e registrar notificações
+app.get('/api/notificacoes/vencidos', async (req, res) => {
+  try {
+    const [itens] = await db.query(`
+      SELECT p.produto_id, p.produto_nome, p.produto_categoria,
+             ipe.item_pedido_entrada_validade
+      FROM produto p
+      INNER JOIN item_pedido_entrada ipe
+        ON p.produto_id = ipe.produto_produto_id
+      WHERE (
+        STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d') < CURDATE()
+        OR STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
+      )
+    `);
+
+    for (const item of itens) {
+      const descricao = `Produto vencido: ${item.produto_nome} (validade ${item.item_pedido_entrada_validade})`;
+      await registrarNotificacao(descricao);
+    }
+
+    res.json(itens);
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
+// 18. Listar notificações pendentes (já salvas na tabela)
+app.get('/api/notificacoes/pendentes', async (req, res) => {
+  try {
+    const [linhas] = await db.query(`
+      SELECT notificacao_id, notificacao_status, notificacao_data, notificacao_descricao
+      FROM notificacao
+      WHERE notificacao_status = 'pendente'
+      ORDER BY notificacao_data DESC
+    `);
+    res.json(linhas);
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
+// Roda a cada 15 minutos, chamando as mesmas checagens das rotas 16 e 17
+cron.schedule('*/1 * * * *', async () => {
+  console.log('⏰ Verificando alertas automaticamente...');
+  try {
+    const [baixoEstoque] = await db.query(`
+      SELECT p.produto_nome, CAST(e.estoque_quantidade AS UNSIGNED) AS estoque_quantidade
+      FROM produto p
+      INNER JOIN estoque e ON e.produto_produto_id = p.produto_id
+      WHERE CAST(e.estoque_quantidade AS UNSIGNED) < 5
+    `);
+    for (const item of baixoEstoque) {
+      await registrarNotificacao(
+        `Estoque baixo: ${item.produto_nome} (${item.estoque_quantidade} unidades restantes)`
+      );
+    }
+
+    const [vencidos] = await db.query(`
+      SELECT p.produto_nome, ipe.item_pedido_entrada_validade
+      FROM produto p
+      INNER JOIN item_pedido_entrada ipe ON p.produto_id = ipe.produto_produto_id
+      WHERE (
+        STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d') < CURDATE()
+        OR STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
+      )
+    `);
+    for (const item of vencidos) {
+      await registrarNotificacao(
+        `Produto vencido: ${item.produto_nome} (validade ${item.item_pedido_entrada_validade})`
+      );
+    }
+  } catch (erro) {
+    console.log('⚠️ Erro na verificação automática:', erro.message);
   }
 });
 
