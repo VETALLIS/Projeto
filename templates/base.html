@@ -77,8 +77,7 @@
                     <i role="img" title="Botão de configurações de perfil" class="bi bi-gear"></i>
                 </a>
                 <a href="{{ url_for('logout') }}"
-                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor"
-                   >
+                    class="topbar-btn topbar-btn-icon texto-a backgroud-glass border-radius-menor">
                     <i role="img" title="Botão para sair do site" class="bi bi-box-arrow-right"></i>
                 </a>
             </div>
@@ -235,11 +234,40 @@
             }
 
             container.innerHTML = notificacoesCache.map(n => `
-                <div class="notificacao-item">
-                    <span>${n.notificacao_descricao}</span>
-                    <small>${new Date(n.notificacao_data).toLocaleDateString('pt-BR')}</small>
-                </div>
-            `).join("");
+        <div class="notificacao-item" style="cursor:pointer;"">
+            <span>${n.notificacao_descricao}</span>
+            <small>${new Date(n.notificacao_data).toLocaleDateString('pt-BR')}</small>
+            <i class="bi bi-trash text-danger" role="button" title="Apagar notificação"
+               onclick="apagarNotificacao(${n.notificacao_id})"></i>
+        </div>
+    `).join("");
+        }
+
+        async function apagarNotificacao(id) {
+            try {
+                const resp = await fetch(`/api/notificacoes/${id}`, { method: 'DELETE' });
+                const data = await resp.json();
+
+                if (data.sucesso) {
+                    // Remove do cache local sem precisar buscar tudo de novo
+                    notificacoesCache = notificacoesCache.filter(n => n.notificacao_id !== id);
+
+                    // Redesenha o modal e o badge
+                    renderizarModal();
+
+                    const badge = document.getElementById("notificacoes-badge");
+                    if (notificacoesCache.length > 0) {
+                        badge.textContent = notificacoesCache.length;
+                        badge.style.display = "inline-block";
+                    } else {
+                        badge.style.display = "none";
+                    }
+                } else {
+                    console.error("Erro ao apagar notificação:", data.erro);
+                }
+            } catch (erro) {
+                console.error("Erro ao apagar notificação:", erro);
+            }
         }
 
         // Carrega ao abrir a página

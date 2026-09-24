@@ -12,11 +12,16 @@ class Alertas(Crud_base):
     pk = "notificacao_id"
     fields = ["notificacao_status","notificacao_data", "notificacao_descricao" ]
 
-    # Define os atributos 
-    def __init__(self,notificacao_data, notificacao_status, notificacao_descricao):
-        self.notificacao_status = notificacao_status
-        self.notificacao_data = notificacao_data
-        self.notificacao_descricao = notificacao_descricao
+
+    
+    def deletar_alerta(self, id):
+        alerta = self.buscar_por_id(id)
+
+        if not alerta:
+            raise ValueError("Alerta não encontrado")
+
+        self.deletar(id)
+        return "Alerta deletado com sucesso!"
 
     @staticmethod
     def limpar_notificacoes_antigas(dias=7):

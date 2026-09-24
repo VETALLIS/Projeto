@@ -29,7 +29,9 @@
             {% endif %}
             {% endwith %}
 
-
+            <div class="text-start mb-3">
+                <a href="{{url_for('pegar_email_salvar')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+            </div>
 
             <div class="container ">
                 <h3 class="d-flex text-white justify-content-center alaing-items-center ">
@@ -49,7 +51,7 @@
                         <input type="text" maxlength="1" class="otp-box" pattern="[0-9]*" inputmode="numeric" />
                         <input type="text" maxlength="1" class="otp-box" pattern="[0-9]*" inputmode="numeric" />
                     </div>
-                    <a href="#" class="resend-link text-white">Reenviar código</a>
+                    <a href="{{(url_for('pegar_email'))}}" class="resend-link text-white">Reenviar código</a>
                 </div>
                 <div>
                     <button class="btn background-verde-medio text-white w-100 border-radius-maior">

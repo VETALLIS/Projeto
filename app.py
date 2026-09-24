@@ -1439,7 +1439,6 @@ def pedido_salvar():
 
         try:
             animal = Animal.buscar_animal()
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
         except ValueError:
             flash("Nenhum animal cadastrado")
             animal = []
@@ -1453,7 +1452,6 @@ def pedido_salvar():
                 flash(erro, "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
-        # Valida pelo ID retornado do formulário
         produtos_entrada = [p for p in item_dados.get("produto_produto_id", []) if p.strip()]
         if not produtos_entrada:
             flash("Adicione pelo menos um item válido ao pedido.", "danger")
@@ -1465,15 +1463,10 @@ def pedido_salvar():
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
         try:
-            numero = entrada.gravar_pedido_entrada()
-
-            if not numero:
-                flash("Erro ao cadastrar entrada", "danger")
-                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-
             itens_validados = []
             erros_itens = []
 
+            # 1. Valida todos os itens em memória
             for i in range(len(item_dados["produto_produto_id"])):
                 prod_id_raw = item_dados["produto_produto_id"][i]
                 qtd_raw = item_dados["item_pedido_entrada_quantidade"][i]
@@ -1500,7 +1493,7 @@ def pedido_salvar():
                     "item_pedido_entrada_quantidade": quantidade_convertida,
                     "item_pedido_entrada_validade": item_dados["item_pedido_entrada_validade"][i],
                     "item_pedido_entrada_valor_unitario": valor_convertido,
-                    "pedido_entrada_pedido_entrada_id": numero
+                    "pedido_entrada_pedido_entrada_id": None
                 }
 
                 item_instanciado = Item_pedido_entrada(**dados_do_item)
@@ -1511,12 +1504,24 @@ def pedido_salvar():
                     continue
 
                 itens_validados.append(item_instanciado)
-                item_instanciado.gravar_item_pedido_entrada(numero)
 
+            # 2. Interrompe se houver erro de validação em qualquer item
             if erros_itens:
                 for erro in erros_itens:
                     flash(erro, "danger")
                 return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+            # 3. Grava o pedido apenas após a validação completa
+            numero = entrada.gravar_pedido_entrada()
+
+            if not numero:
+                flash("Erro ao cadastrar entrada", "danger")
+                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+            # 4. Grava os itens validados
+            for item in itens_validados:
+                item.pedido_entrada_pedido_entrada_id = numero
+                item.gravar_item_pedido_entrada(numero)
 
             flash("Entrada cadastrada.", "success")
             return redirect(url_for("pedido"))
@@ -1525,11 +1530,6 @@ def pedido_salvar():
             flash(f"Erro ao cadastrar entrada: {e}", "danger")
             print(e)
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-        except ValueError as e:
-            flash(f"Erro ao cadastrar entrada: {e}", "danger")
-            print(e)
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-
 
     else:
         animal = Animal.contar_animal()
@@ -1541,7 +1541,6 @@ def pedido_salvar():
                 flash(erro, "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
-        # Valida pelos IDs de produtos da saída
         produtos_saida = [p for p in item_dados_saida.get("produto_produto_id", []) if p.strip()]
         if not produtos_saida:
             flash("Adicione pelo menos um item válido ao pedido.", "danger")
@@ -1553,15 +1552,10 @@ def pedido_salvar():
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
         try:
-            numero_saida = saida.gravar_pedido_saida()
-
-            if not numero_saida:
-                flash("Erro ao cadastrar saída", "danger")
-                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-
             itens_validados_saida = []
             erros_itens_saida = []
 
+            # 1. Valida todos os itens em memória
             for i in range(len(item_dados_saida["produto_produto_id"])):
                 qtd_raw = item_dados_saida["item_pedido_saida_quantidade"][i]
                 prod_id_raw = item_dados_saida["produto_produto_id"][i]
@@ -1583,9 +1577,8 @@ def pedido_salvar():
                     "item_pedido_saida_nome": nome_produto,
                     "item_pedido_saida_lote": item_dados_saida["item_pedido_saida_lote"][i],
                     "item_pedido_saida_quantidade": quantidade_convertida,
-                    "pedido_saida_pedido_saida_id": numero_saida,
+                    "pedido_saida_pedido_saida_id": None,
                     "produto_produto_id": produto_id_convertido
-                    
                 }
 
                 item_instanciado_saida = Item_pedido_saida(**dados_do_item_saida)
@@ -1596,22 +1589,30 @@ def pedido_salvar():
                     continue
 
                 itens_validados_saida.append(item_instanciado_saida)
-                item_instanciado_saida.gravar_item_pedido_saida(numero_saida)
 
+            # 2. Interrompe se houver erro de validação em qualquer item
             if erros_itens_saida:
                 for erro in erros_itens_saida:
                     flash(erro, "danger")
                 return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+            # 3. Grava o pedido de saída
+            numero_saida = saida.gravar_pedido_saida()
+
+            if not numero_saida:
+                flash("Erro ao cadastrar saída", "danger")
+                return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
+
+            # 4. Grava os itens validados
+            for item in itens_validados_saida:
+                item.pedido_saida_pedido_saida_id = numero_saida
+                item.gravar_item_pedido_saida(numero_saida)
 
             flash("Saída cadastrada.", "success")
             return redirect(url_for("pedido"))
 
         except Exception as e:
             flash(f"Erro ao cadastrar saída: {e}", "danger")
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-        except ValueError as e:
-            flash(f"Erro ao cadastrar entrada: {e}", "danger")
-            print(e)
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
 # ======= Relatorio ======= #  
@@ -1725,6 +1726,17 @@ def verificar_notificacoes():
         return jsonify({"sucesso": True})
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
+
+@app.route('/api/notificacoes/<int:id>', methods=['DELETE'])
+def deletar_notificacao(id):
+    try:
+        alertas = Alertas()
+        alertas.deletar_alerta(id)
+        return jsonify({"sucesso": True})
+    except ValueError as e:
+        return jsonify({"sucesso": False, "erro": str(e)}), 404
+    except Exception as e:
+        return jsonify({"sucesso": False, "erro": str(e)}), 500
 
 
 @app.route("/redefinir-senha/email", methods=["GET"])
