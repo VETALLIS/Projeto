@@ -234,9 +234,11 @@
             }
 
             container.innerHTML = notificacoesCache.map(n => `
-        <div class="notificacao-item" style="cursor:pointer;" title="Clique para remover" onclick="apagarNotificacao(${n.notificacao_id})">
+        <div class="notificacao-item" style="cursor:pointer;"">
             <span>${n.notificacao_descricao}</span>
             <small>${new Date(n.notificacao_data).toLocaleDateString('pt-BR')}</small>
+            <i class="bi bi-trash text-danger" role="button" title="Apagar notificação"
+               onclick="apagarNotificacao(${n.notificacao_id})"></i>
         </div>
     `).join("");
         }
