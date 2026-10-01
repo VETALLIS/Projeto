@@ -23,7 +23,7 @@ class Usuario(Crud_base):
         erros = [
             Manipular.validar_vazio(self.usuario_senha, "senha"),
             Manipular.validar_vazio(self.usuario_nome, "nome"),
-            Manipular.validar_vazio(self.usuario_email, "email"),
+            Manipular.validar_vazio(self.usuario_email, "email"),    
             Manipular.validar_vazio(self.usuario_cpf, "cpf"),
             Manipular.validar_vazio(self.usuario_cargo, "cargo"),
             Manipular.validar_vazio(self.usuario_confirmar_senha, "confirmar_senha"),
@@ -32,7 +32,8 @@ class Usuario(Crud_base):
             Manipular.validar_caracter(self.usuario_senha, "senha"),
             Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha),
             Manipular.validar_not_caracter(self.usuario_nome, "nome"),
-            Manipular.validar_letra(self.usuario_nome, "nome")
+            Manipular.validar_letra(self.usuario_nome, "nome"),
+            Manipular.validar_min_caracter(self.usuario_senha, "senha")
         ] #chamando as validações que serão usadas nessa tela, elas veem do manipular.py
 
         return [ erro for erro in erros if erro]
