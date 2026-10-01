@@ -33,10 +33,11 @@ class Usuario(Crud_base):
             Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha),
             Manipular.validar_not_caracter(self.usuario_nome, "nome"),
             Manipular.validar_letra(self.usuario_nome, "nome"),
-            Manipular.validar_min_caracter(self.usuario_senha, "senha   ")
+            Manipular.validar_min_caracter(self.usuario_senha, "senha"),
+            Manipular.validar_numero(self.usuario_senha, "senha")
         ] #chamando as validações que serão usadas nessa tela, elas veem do manipular.py
 
-        return [ erro for erro in erros if erro]
+        return [ erro for erro in erros if erro] #retorna o erro
 
     def gravar_usuario(self):  #def para criar o usuário e armazena-lo no banco
         usuario = self.gravar()
@@ -99,7 +100,7 @@ class Usuario(Crud_base):
         return usuarios
     
 
-    @classmethod
+    @classmethod #procurando os campos, e atribuindo 
     def inserir_usuario_adm(cls, dados):
         usuario = cls(
             usuario_senha=dados.get("usuario_senha"),
