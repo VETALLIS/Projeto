@@ -23,14 +23,17 @@ class Usuario(Crud_base):
         erros = [
             Manipular.validar_vazio(self.usuario_senha, "senha"),
             Manipular.validar_vazio(self.usuario_nome, "nome"),
-            Manipular.validar_vazio(self.usuario_email, "email"),
+            Manipular.validar_vazio(self.usuario_email, "email"),    
             Manipular.validar_vazio(self.usuario_cpf, "cpf"),
             Manipular.validar_vazio(self.usuario_cargo, "cargo"),
             Manipular.validar_vazio(self.usuario_confirmar_senha, "confirmar_senha"),
             Manipular.validar_cpf(self.usuario_cpf, "cpf", secret_key),
             Manipular.validar_email(self.usuario_email, "email", secret_key),
             Manipular.validar_caracter(self.usuario_senha, "senha"),
-            Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha)
+            Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha),
+            Manipular.validar_not_caracter(self.usuario_nome, "nome"),
+            Manipular.validar_letra(self.usuario_nome, "nome"),
+            Manipular.validar_min_caracter(self.usuario_senha, "senha   ")
         ] #chamando as validações que serão usadas nessa tela, elas veem do manipular.py
 
         return [ erro for erro in erros if erro]
@@ -43,7 +46,7 @@ class Usuario(Crud_base):
 
         return "Usuário cadastrado com sucesso!"
 
-    @classmethod #
+    @classmethod #def para excluir usuario no editar usuario
     def deletar_usuario(cls, id):
         usuario = cls.buscar_por_id(id)
 
@@ -52,7 +55,7 @@ class Usuario(Crud_base):
 
         cls.deletar(id)
 
-    def atualizar_usuario(self, id):
+    def atualizar_usuario(self, id): #atualizando usuario no editar
         usuario = self.buscar_por_id(id)
 
         if not usuario:
@@ -62,7 +65,7 @@ class Usuario(Crud_base):
         return "Usuario atualizado com sucesso!"
 
 
-    @classmethod
+    @classmethod #mostrando usuario na tela de funcionários cadastrados
     def buscar_usuario_por_id(cls, id):
         usuario  = cls.buscar_por_id(id)
 
@@ -72,7 +75,7 @@ class Usuario(Crud_base):
 
         return usuario
 
-    def buscar_email_existe(self):
+    def buscar_email_existe(self): #se já tem um email cadastrado, não se pode cadastrar um outro funcionario
         usuario = self.buscar_email(self.usuario_email)
 
         if usuario:
@@ -80,7 +83,7 @@ class Usuario(Crud_base):
 
         return None
     
-    @classmethod
+    @classmethod 
     def buscar_usuario(cls):
         usuarios = cls.buscar_tudo(cls.pk)
 
@@ -121,7 +124,7 @@ class Usuario(Crud_base):
 
         return inserir
     
-    @classmethod
+    @classmethod #analisa os dados cadastrados, com o banco
     def has_related_records(cls, id):
         conexao = Database.connect()
         cursor = conexao.cursor()
@@ -139,7 +142,7 @@ class Usuario(Crud_base):
             conexao.close()
 
     
-    @classmethod
+    @classmethod #buscando usuario por id
     def safe_delete(cls, id):
         usuario = cls.buscar_por_id(id)
         if not usuario:
