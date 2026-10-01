@@ -31,7 +31,7 @@ class Sensor(Crud_base):
             Manipular.validar_numero(self.sensor_n_serie, "Numero de serie")
         ]  #chamando as validações que serão usadas nessa tela, elas veem do manipular.py   
             
-        return [ erro for erro in erros if erro]
+        return [ erro for erro in erros if erro] #retorna o erro
 
     def gravar_sensor(self): #def para gravar sensor no banco
         sensor = self.gravar()
