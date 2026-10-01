@@ -38,11 +38,11 @@
                     <div class="d-flex w-100 gap-3">
 
                         <div class="mb-4 w-100">
-                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:">
+                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:" required>
                         </div>
                         <div class="mb-4 w-100">
                             <select name="fornecedor_fornecedor_id" class="form-select">
-                                <option value=""> Selecione um fornecedor</option>
+                                <option value="" > Selecione um fornecedor</option>
                                 {% for f in fornecedor%}
                                 <option value="{{ f.fornecedor_id }}" class="text-black">{{ f.fornecedor_nome }}
                                 </option>
@@ -50,7 +50,7 @@
                             </select>
                         </div>
                         <div class="mb-4 w-100">
-                            <input type="date" name="pedido_entrada_data" class="form-control" placeholder="Data:">
+                            <input type="date" name="pedido_entrada_data" class="form-control" placeholder="Data:" required>
                         </div>
                     </div>
 
