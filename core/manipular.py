@@ -1,13 +1,13 @@
-import requests
-import urllib
+import requests #importação de biblioteca requisições http e consumir API´s 
+import urllib  #importação de biblioteca requisições http
 
-class Manipular:
+class Manipular: #vai comparar a senha inserida com a senha criada para acessar a tela desejada.
     def comparar_criacao_senha(campo1, campo2):
         if campo1 != campo2:
             return f"As senhas não condizem uma com a outra."
         return None
 
-    def validar_caracter_recuperar_senha(dados, field_name):
+    def validar_caracter_recuperar_senha(dados, field_name): #na tela recuperar senha, no campo senha ele  
         special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
         try:
             for caractere in dados:
@@ -16,16 +16,36 @@ class Manipular:
         except(TypeError, ValueError):
             return f"O campo {field_name} está faltando um caracter especial"
         return False
+    
+    def validar_min_caracter(dados,field_name): #valida se há no mínimo 3 caracteres pela variável min_carac, pelo len 
+        min_carac= 3
+        if len(dados) >= min_carac:
+            return None
+        else:
+            return f"O campo {field_name} está muito curto"
+
 
     def validar_caracter(dados, field_name):
-        special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
-        try:
+        """Retorna mensagem de erro se NÃO houver caractere especial, senão None."""
+        special = set("!@#$%&*-+=¨/;?°()§£¢¬^`|_")
+
+        if not isinstance(dados, str):
+            return f"O campo {field_name} deve ser um texto"
+
+        if any(c in special for c in dados):
+            return None
+
+        return f"O campo {field_name} está faltando um caractere especial"
+
+    def validar_not_caracter(dados, field_name):
+            if not isinstance(dados, str):
+                return f"O campo {field_name} deve ser um texto"
+
             for caractere in dados:
-                if caractere in special:
-                    return None
-        except(TypeError, ValueError):
-            return f"O campo {field_name} está faltando um caracter especial"
-        return False
+                if not (caractere.isalnum() or caractere.isspace()):
+                    return f"O campo {field_name} não pode conter caractere especial: '{caractere}'"
+
+            return None
     
     def validar_vazio(dados, field_name):
         if dados is None or str(dados).strip() == "":

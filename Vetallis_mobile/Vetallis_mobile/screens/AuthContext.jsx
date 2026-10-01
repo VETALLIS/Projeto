@@ -7,13 +7,13 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
-
+  /*
   useEffect(() => {
     if (usuario?.id) {
       registrarPushToken(usuario.id);
     }
   }, [usuario]);
-
+  */
   return (
     <AuthContext.Provider value={{ usuario, setUsuario }}>
       {children}

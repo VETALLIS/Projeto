@@ -9,14 +9,15 @@
 
 <form method="POST" class="d-flex" action="/usuario/salvar" enctype="multipart/form-data">
     <div class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4 ">
-        <label for="imagem_usuario"
-            class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative">
-            <img id="preview_imagem" src="" alt="" class="upload-imagem position-absolute t-0 l-0">
-            <span id="texto_upload" class="text-white z-index-1 text-center ps-4">
-                        Clique para adicionar imagem
-                    </span>
-            
-        </label>
+       <label for="imagem_produto"
+                class="w-100 h-100 d-flex align-items-center justify-content-center cursor-pointer position-relative p-3">
+                <img id="preview" src="" alt=""
+                    class="upload-imagem position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+                    style="display: none;">
+                <span class="text-white text-center z-index-1" id="label_texto">
+                    Clique para adicionar imagem
+                </span>
+            </label>
 
         <input type="file" id="imagem_produto" name="imagem" accept="image/*" class="d-none">
         <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="" >
@@ -87,6 +88,22 @@
             };
 
             reader.readAsDataURL(arquivo);
+        }
+    });
+</script>
+
+<script>
+    document.getElementById("imagem_produto").addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const preview = document.getElementById("preview");
+                preview.src = e.target.result;
+                preview.style.display = "block";
+                document.getElementById("label_texto").style.display = "none";
+            };
+            reader.readAsDataURL(file);
         }
     });
 </script>

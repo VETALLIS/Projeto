@@ -5,9 +5,9 @@ import base64
 class Sensor(Crud_base):
     tabela = "sensor"
     pk = "sensor_id"
-    fields = ["sensor_nome", "sensor_descricao", "sensor_n_serie", "sensor_modelo", "sensor_voltagem", "sensor_tipo_conexao", "sensor_localizacao", "sensor_imagem", "imagem_blob",  "imagem_tipo"]
+    fields = ["sensor_nome", "sensor_descricao", "sensor_n_serie", "sensor_modelo", "sensor_voltagem", "sensor_tipo_conexao", "sensor_localizacao", "sensor_imagem", "imagem_blob",  "imagem_tipo"] #campos que temos na tela
 
-    def __init__(self, sensor_nome, sensor_descricao, sensor_n_serie, sensor_modelo, sensor_voltagem, sensor_tipo_conexao, sensor_localizacao, sensor_imagem, imagem_tipo, imagem_blob):
+    def __init__(self, sensor_nome, sensor_descricao, sensor_n_serie, sensor_modelo, sensor_voltagem, sensor_tipo_conexao, sensor_localizacao, sensor_imagem, imagem_tipo, imagem_blob): #definição de campos
         self.sensor_nome = sensor_nome
         self.sensor_descricao = sensor_descricao
         self.sensor_n_serie = sensor_n_serie
@@ -27,12 +27,13 @@ class Sensor(Crud_base):
             Manipular.validar_vazio(self.sensor_modelo, "Modelo"),
             Manipular.validar_vazio(self.sensor_voltagem, "voltagem"),
             Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"),
-            Manipular.validar_vazio(self.sensor_localizacao, "Localização")
-        ]     
+            Manipular.validar_vazio(self.sensor_localizacao, "Localização"),
+            Manipular.validar_numero(self.sensor_n_serie, "Numero de serie")
+        ]  #chamando as validações que serão usadas nessa tela, elas veem do manipular.py   
             
         return [ erro for erro in erros if erro]
 
-    def gravar_sensor(self):
+    def gravar_sensor(self): #def para gravar sensor no banco
         sensor = self.gravar()
 
         if not sensor:
@@ -40,7 +41,7 @@ class Sensor(Crud_base):
 
         return "Sensor cadastrado com sucesso"
 
-    @classmethod
+    @classmethod #deletar sensor 
     def deletar_sensor(cls, id):
         sensor = cls.buscar_por_id(id)
 
@@ -49,7 +50,7 @@ class Sensor(Crud_base):
         cls.deletar(id)
         return "Sensor deletado com sucesso" 
 
-    def atualizar_sensor(self, id):
+    def atualizar_sensor(self, id): #def para salvar atualização do sensor
         sensor = self.buscar_por_id(id)
 
         if not sensor:
@@ -58,7 +59,7 @@ class Sensor(Crud_base):
         self.atualizar(id)
         return "Sensor atualizado com sucesso!"
 
-    @classmethod
+    @classmethod #buscando po id
     def buscar_sensor_id(cls, id):
         sensor = cls.buscar_por_id(id)
 
@@ -75,7 +76,7 @@ class Sensor(Crud_base):
             obj.imagem_base64 = ""
         return obj
     
-    @classmethod
+    @classmethod #buscando imagem para sensor
     def buscar_sensores(cls, order_by=pk):
         sensores = cls.buscar_tudo(order_by)
 
@@ -90,7 +91,7 @@ class Sensor(Crud_base):
                 sensor["imagem_base64"] = None
         return sensores
     
-    @classmethod
+    @classmethod #analisa os dados cadastrados, com o banco
     def contar_sensores(cls, order_by="sensor_id"):
         sensor = cls.buscar_tudo(order_by)
         if not sensor:
