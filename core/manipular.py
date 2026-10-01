@@ -35,7 +35,7 @@ class Manipular: #
             return f"O campo {field_name} está faltando um caracter especial"
         return False
 
-        def validar_not_caracter(dados, field_name):
+    def validar_not_caracter(dados, field_name):
             if not isinstance(dados, str):
                 return f"O campo {field_name} deve ser um texto"
 
