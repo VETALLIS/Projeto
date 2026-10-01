@@ -22,6 +22,8 @@ class GerenciamentoPerfil(Crud_base):
             Manipular.validar_vazio(self.usuario_email, "email"),
             Manipular.validar_vazio(self.usuario_cargo, "cargo"),
             Manipular.validar_email(self.usuario_email, "email", secret_key),
+            Manupular.validar_min_caracter(self.usuario_nome, "nome"),
+            Manipular.validar_letra
         ]
 
         return [ erro for erro in erros if erro]
