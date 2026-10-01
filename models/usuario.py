@@ -6,7 +6,7 @@ class Usuario(Crud_base):
     tabela = "usuario"
     pk = "usuario_id"
 
-    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo", "usuario_imagem", "imagem_blob",  "imagem_tipo" ]
+    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo", "usuario_imagem", "imagem_blob",  "imagem_tipo" ] #campos que temos na tela
 
     def __init__(self, usuario_senha, usuario_nome, usuario_email, usuario_cpf, usuario_cargo, usuario_confirmar_senha, usuario_imagem, imagem_tipo, imagem_blob):
         self.usuario_senha = usuario_senha
