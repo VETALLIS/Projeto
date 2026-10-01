@@ -20,7 +20,11 @@ class Fornecedor(Crud_base):
             Manipular.validar_vazio(self.fornecedor_cnpj, "cnpj"),
             Manipular.validar_cnpj(self.fornecedor_cnpj, "cnpj", secret_key),
             Manipular.validar_vazio(self.fornecedor_endereco, "endereco"),
-            Manipular.validar_vazio(self.fornecedor_pedido_minimo, "pedido_minimo")
+            Manipular.validar_vazio(self.fornecedor_pedido_minimo, "pedido_minimo"),
+            Manipular.validar_not_caracter(self.fornecedor_nome, "nome"),
+            Manipular.validar_min_caracter(self.fornecedor_nome, "nome"),
+            Manipular.validar_letra(self.fornecedor_nome, "nome"),
+            
             
         ]          
     
