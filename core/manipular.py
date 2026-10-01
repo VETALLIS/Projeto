@@ -1,5 +1,5 @@
-import requests
-import urllib
+import requests #importação de biblioteca requisições http
+import urllib  #importação de biblioteca requisições http
 
 class Manipular:
     def comparar_criacao_senha(campo1, campo2):
@@ -17,12 +17,12 @@ class Manipular:
             return f"O campo {field_name} está faltando um caracter especial"
         return False
     
-    def validar_min_caracter(dados,field_name)
+    def validar_min_caracter(dados,field_name): #valida se há no mínimo 3 caracteres pela variável min_carac, pelo len 
         min_carac= 3
         if len(dados) < min_carac:
             return None
         else:
-            return f"o campo {field name} está muito curto"
+            return f"o campo {field_name} está muito curto"
 
 
     def validar_caracter(dados, field_name):
@@ -35,7 +35,7 @@ class Manipular:
             return f"O campo {field_name} está faltando um caracter especial"
         return False
 
-        def validar_not_caracter(dados, field_name): #valida se não ha 
+        def validar_not_caracter(dados, field_name): #valida se não ha caractere em campos pelo if not e mensagem de erro mostrando o campo errado.
             special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
             try:
                 for caractere in dados:

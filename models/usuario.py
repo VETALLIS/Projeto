@@ -6,9 +6,9 @@ class Usuario(Crud_base):
     tabela = "usuario"
     pk = "usuario_id"
 
-    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo", "usuario_imagem", "imagem_blob",  "imagem_tipo" ]
+    fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo", "usuario_imagem", "imagem_blob",  "imagem_tipo" ] #campos que temos na tela
 
-    def __init__(self, usuario_senha, usuario_nome, usuario_email, usuario_cpf, usuario_cargo, usuario_confirmar_senha, usuario_imagem, imagem_tipo, imagem_blob):
+    def __init__(self, usuario_senha, usuario_nome, usuario_email, usuario_cpf, usuario_cargo, usuario_confirmar_senha, usuario_imagem, imagem_tipo, imagem_blob): #definição de campos
         self.usuario_senha = usuario_senha
         self.usuario_nome = usuario_nome
         self.usuario_email = usuario_email
@@ -31,11 +31,11 @@ class Usuario(Crud_base):
             Manipular.validar_email(self.usuario_email, "email", secret_key),
             Manipular.validar_caracter(self.usuario_senha, "senha"),
             Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha)
-        ]
+        ] #chamando as validações que serão usadas nessa tela, elas veem do manipular.py
 
         return [ erro for erro in erros if erro]
 
-    def gravar_usuario(self):
+    def gravar_usuario(self):  #def para criar o usuário e armazena-lo no banco
         usuario = self.gravar()
 
         if not usuario:
@@ -43,7 +43,7 @@ class Usuario(Crud_base):
 
         return "Usuário cadastrado com sucesso!"
 
-    @classmethod
+    @classmethod #
     def deletar_usuario(cls, id):
         usuario = cls.buscar_por_id(id)
 
