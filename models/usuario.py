@@ -33,7 +33,7 @@ class Usuario(Crud_base):
             Manipular.comparar_criacao_senha(self.usuario_senha, self.usuario_confirmar_senha),
             Manipular.validar_not_caracter(self.usuario_nome, "nome"),
             Manipular.validar_letra(self.usuario_nome, "nome"),
-            Manipular.validar_min_caracter(self.usuario_senha, "senha")
+            Manipular.validar_min_caracter(self.usuario_senha, "senha   ")
         ] #chamando as validações que serão usadas nessa tela, elas veem do manipular.py
 
         return [ erro for erro in erros if erro]
@@ -124,7 +124,7 @@ class Usuario(Crud_base):
 
         return inserir
     
-    @classmethod
+    @classmethod #analisa os dados cadastrados, com o banco
     def has_related_records(cls, id):
         conexao = Database.connect()
         cursor = conexao.cursor()
@@ -142,7 +142,7 @@ class Usuario(Crud_base):
             conexao.close()
 
     
-    @classmethod
+    @classmethod #buscando usuario por id
     def safe_delete(cls, id):
         usuario = cls.buscar_por_id(id)
         if not usuario:
