@@ -35,15 +35,15 @@ class Manipular: #
             return f"O campo {field_name} está faltando um caracter especial"
         return False
 
-    def validar_not_caracter(dados, field_name): #valida se não ha caractere em campos pelo if not e mensagem de erro mostrando o campo errado.
-        special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
-        try:
+        def validar_not_caracter(dados, field_name):
+            if not isinstance(dados, str):
+                return f"O campo {field_name} deve ser um texto"
+
             for caractere in dados:
-                if not caractere in special:
-                    return None
-        except(TypeError, ValueError):
-                return f"O campo {field_name} não pode aceitar caractere especial"
-        return False
+                if not (caractere.isalnum() or caractere.isspace()):
+                    return f"O campo {field_name} não pode conter caractere especial: '{caractere}'"
+
+            return None
     
     def validar_vazio(dados, field_name):
         if dados is None or str(dados).strip() == "":
