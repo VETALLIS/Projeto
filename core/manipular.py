@@ -16,6 +16,14 @@ class Manipular:
         except(TypeError, ValueError):
             return f"O campo {field_name} está faltando um caracter especial"
         return False
+    
+    def validar_min_caracter(dados,field_name)
+        min_carac= 3
+        if len(dados) < min_carac:
+            return None
+        else:
+            return f"o campo {field name} está muito curto"
+
 
     def validar_caracter(dados, field_name):
         special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
@@ -26,6 +34,16 @@ class Manipular:
         except(TypeError, ValueError):
             return f"O campo {field_name} está faltando um caracter especial"
         return False
+
+        def validar_not_caracter(dados, field_name): #valida se não ha 
+            special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
+            try:
+                for caractere in dados:
+                    if not caractere in special:
+                        return None
+            except(TypeError, ValueError):
+                return f"O campo {field_name} não pode aceitar caractere especial"
+            return False
     
     def validar_vazio(dados, field_name):
         if dados is None or str(dados).strip() == "":
