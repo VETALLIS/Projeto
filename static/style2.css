@@ -5,7 +5,7 @@
     font-family: "Poppins", sans-serif !important;
 
 }
-
+/*Todo body e html vai ter o background definido e em todo a tela*/
 html,
 body {
     min-height: 100vh;
@@ -26,11 +26,11 @@ body {
 .backgroud-branco {
     background-color: #fff0ff;
 }
-
+/*A cor do background vai ser verde*/
 .background-verde-medio {
     background-color: #03c356 !important;
 }
-
+/*A cor do background vai ser vermelho*/
 .background-vermelho {
     background-color: #e31818 !important;
 }
@@ -48,6 +48,7 @@ body {
     text-transform: uppercase;
 }
 
+
 .backgroud-glass {
     background: rgba(255, 255, 255, 0.08) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -62,7 +63,7 @@ body {
 }
 
 
-/* Textos */
+/* Textos, modifica o tamanho dos textos */
 
 .titulo-h3 {
     color: #fff0ff;
@@ -100,7 +101,7 @@ body {
 }
 
 
-/* Position */
+/* Position, muda a posição do item que for pareado */
 .position-fixed {
     position: fixed;
 }
@@ -114,7 +115,7 @@ body {
 }
 
 
-/* Bordas*/
+/* Bordas, mudar cor, tamanho e curvatura*/
 
 .border-radius-maior {
     border-radius: 60px !important;
@@ -162,6 +163,7 @@ body {
 }
 
 /* Base.html */
+/*Define o tamanho menu superior, alterando espaçamento, disposição, sobreposição, curvatura*/
 .topbar {
     width: 89%;
     margin: 15px 25px 0 auto;
@@ -173,19 +175,19 @@ body {
     z-index: 100;
     justify-content: space-between !important;
 }
-
+/*Define como a logo vai ser disposta e o espaçamento*/
 .topbar-logo {
     display: flex;
     align-items: start !important;
     gap: 8px;
 }
-
+/*Define como o botão de funcionários vai ser disposto e seu espaçamento*/
 .topbar-actions {
     display: flex;
     gap: 8px;
     margin-right: 2%;
 }
-
+/*Define o espaçamento, disposição(display, align-items) dos botões de gerenciamento, notificação, logout e funcionários */
 .topbar-btn {
     padding: 6px 12px;
     cursor: pointer;
@@ -193,14 +195,14 @@ body {
     align-items: center;
     gap: 10px;
 }
-
+/*Modifica o tamanho dos icones dos botões*/
 .topbar-btn-icon {
     width: 50px;
     height: 50px;
     padding: 0;
     justify-content: center;
 }
-
+/*Define o tamanho e disposição do menu lateral*/
 .sidebar {
     top: 45px;
     left: 25px;
@@ -209,25 +211,25 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
+/*Define a forma como os botões vão ser dispostos em coluna no menu lateral*/
 .sidebar-nav {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: -10px;
 }
-
+/*Define o tamanho da logo*/
 .logo-menu {
     width: 100px;
     height: 70px;
 }
-
+/*Define o tamanho do botão ou o link*/
 .sidebar-link {
     width: 63px;
     height: 63px;
     margin-top: 8px;
 }
-
+/*Define a disposição da barra de pesquisa*/
 .topbar-search {
     flex: 4;
     display: flex;
@@ -249,40 +251,20 @@ body {
 #titulo-animal-cadastrado{
     width: 30%;
 }
-.div-com-csv{
-    width: 100%;
-}
-
-
-.titulo-csv {
-    display: none;
-    height: 50px;
-    align-items: center;
-
-}
-.titulo-csv2 {
-    background-color: rgba(255, 255, 255, 0.08);
-    text-decoration: none;
-    border: none;
-    height: 40%;
-    align-items: center;
-
-}
 
 .table> :not(caption)>*>* {
     background-color: transparent !important;
 }
 
-
 /* Login */
-
+/*Define as proporções da logo*/
 .logo-login {
     width: 75%;
     margin-bottom: 20px;
     opacity: 30%;
     margin-top: 117px;
 }
-
+/*Define o tamanho do card de login*/
 .login-card {
     padding: 40px;
     width: 100%;
@@ -290,26 +272,26 @@ body {
 
 }
 
-/* Sensores cadstrados*/
+/* Sensores cadastrados*/
 
 .entrada-container {
     max-width: 900px;
     margin: 0 auto;
 }
-
+/*Define o tamanho que a imagem pode aparecer*/
 .sensor-cont-img {
     width: 170px;
     height: 120px;
     max-width: 100%;
     overflow: hidden;
 }
-
+/*Define o tamanho da imagem do sensor para ser mostrada no card*/
 .img-sensor {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
+/*Define como a parte da imagem vai ser mostrada*/
 .upload-box {
     flex-direction: column;
     cursor: pointer;
@@ -325,7 +307,7 @@ body {
 }
 
 /* Adicionar Imagem Campo */
-
+/* define o espaçamento e o tamanho do card que serve para adicionar a imagem */
 .uploaded-image {
     cursor: pointer !important;
     overflow: hidden !important;
@@ -360,12 +342,13 @@ body {
 }
 
 /* Landing Page */
-
+/*Define o tamanho que o body vai pegar*/
 #body-landing-page {
     width: 100%;
     height: 100%;
 }
 
+/*Define as proporções da logo*/
 #logo-menu-lp {
     width: 100%;
     height: 100%;
@@ -378,6 +361,7 @@ body {
     display: none;
 }
 
+/*Define como vai ser o botão de login no menu da landing page*/
 #botao-login-menu {
     background: #FFFFF0;
     opacity: 85%;
@@ -397,6 +381,7 @@ body {
 }
 
 
+/*Define a forma que o menu vai aparecer, em formato de linha e no centro, por exemplo*/
 #menu-nav {
     position: fixed;
     right: 0;
@@ -409,12 +394,13 @@ body {
     align-items: center;
 }
 
+/*Muda a cor de fundo do menu*/
 #lista-menu {
     background: rgba(255, 255, 255, 0.2);
     gap: 20px;
 }
 
-
+/*Define o tamanho e disposição do slogan no meio do video*/
 #slogan-content {
     z-index: 3;
     top: 40%;
@@ -425,7 +411,7 @@ body {
     font-size: 4.5rem;
     font-weight: 550px;
 }
-
+/*Define a animação do slogan, para aparecer de forma digitada*/
 #slogan {
     white-space: nowrap;
     overflow: hidden;
@@ -435,14 +421,14 @@ body {
     font-weight: 700;
     font-size: rem;
 }
-
+/*Define até qual largura a animação vai chegar*/
 @keyframes digitar {
     to {
         width: 100%;
     }
 }
 
-
+/*Define proporções e disposição do vídeo na landing page*/
 #video-menu {
     border-radius: 15px;
     position: absolute;
@@ -458,7 +444,7 @@ body {
 #sobre-nos-section {
     height: 10%;
 }
-
+/*Defini a cor de fundo das partes da landing page*/
 #header-lp {
     background-color: #0000006a;
 }
@@ -471,6 +457,9 @@ body {
     background-color: #0000006a;
 }
 
+/*======================= Cards Produtos========================*/
+
+/*Defini as proporções dos card de produto*/
 #cards-produto {
     padding: 80px 50px 40px 50px;
     color: #FFFFF0;
@@ -485,6 +474,12 @@ body {
     height: 100%;
 }
 
+
+/*Várias seções agora explicitando como card de produto funciona e se parece, ou seja,
+o tamnho, espaçamento e também como vai funcionar a animação de aparecer na tela e se expandir */
+
+/*Card Oferecemos*/
+
 #card-oferecemos {
     grid-area: a;
     transition: 0.5s;
@@ -496,7 +491,6 @@ body {
     position: relative;
 
 }
-
 
 #card-oferecemos:hover>#texto-oferecemos {
     opacity: 1;
@@ -555,6 +549,8 @@ body {
     object-fit: cover;
     margin: 15px;
 }*/
+
+/*Card Tecnologia*/
 
 #card-tecnologia-utilizada {
     grid-area: d;
@@ -616,6 +612,9 @@ body {
     opacity: 1;
 }
 
+
+/*Card Inovação*/
+
 #card-inovacao {
     grid-area: f;
     flex-direction: column;
@@ -674,6 +673,9 @@ body {
     margin-top: 1rem;
     margin-left: 1rem;
 }
+
+/*Card Solução*/
+
 
 #card-solucao {
     overflow: hidden;
@@ -746,6 +748,8 @@ body {
     left: 40%;
 }
 
+
+/*Card Planos futuros*/
 #card-planos-futuros {
     grid-area: e;
     transition: 0.2s ease-in-out;
@@ -794,6 +798,9 @@ body {
 #card-planos-futuros:hover>#texto-planos-futuros {
     opacity: 1;
 }
+
+
+/*Card Dados Mercado*/
 
 #card-dados-mercado {
     grid-area: c;
@@ -851,6 +858,8 @@ body {
     pointer-events: none;
 }
 
+
+/* =================== Sobre Nós- Landing Page==================*/
 #sobre-nos-section {
     padding-bottom: 120px;
     padding-top: 120px;
@@ -869,14 +878,14 @@ body {
     /* Mudado de 450px para auto, assim ele não fica com espaço sobrando */
 
 }
-
+/*Define o tamanho da imagem*/
 #img-sobre img {
     max-width: 465px;
     height: 350px;
     object-fit: cover;
     margin: 15px;
 }
-
+/*Define as prporções do texto*/
 #texto-sobre {
     text-align: justify;
     line-height: 1.6;
@@ -888,12 +897,13 @@ body {
     box-sizing: border-box;
 }
 
+/*Define cor, tamanho e espaçamento do texto*/
 #titulo-sobre {
     color: #FFFFF0;
     font-size: 2.5rem;
     padding-bottom: 10px;
 }
-
+/*Tamanho das ondas do fundo*/
 #canvas-ondas-front {
     position: absolute;
     top: 0;
@@ -904,12 +914,15 @@ body {
     pointer-events: none;
 }
 
+
+/*===========================Contato =========================*/
+/*Define o tamanho da imagem*/
 #img-contato {
     width: 45%;
     display: flex;
     justify-content: center;
 }
-
+/*Defini os tamanhos dos campos*/
 .dados-contato {
     height: 40px;
     backdrop-filter: blur(10px);
@@ -925,7 +938,7 @@ body {
     display: flex;
     justify-content: center;
 }
-
+/*A imagem posta no contato vai ser desse jeito*/
 #img-contato img {
     max-width: 100%;
     max-height: 100%;
@@ -945,18 +958,20 @@ body {
     color: #FFFFF0;
 }
 
+/*================= Footer - Landing Page=============*/
+/*Defini as proporções da parte do footer*/
 #rodape-container {
     display: flex;
     padding-left: 10px;
     gap: 80px;
 }
-
+/*Os links vão ter essa cor e a estilização padrão*/
 #rodape-container a {
     text-decoration: none;
     color: #fff;
     list-style: none !important;
 }
-
+/*Defini cor, tamanho e disposição*/
 .rodape-titulo {
     margin-bottom: 20px;
     font-size: 20px;
@@ -967,13 +982,13 @@ body {
 #informacao-rodape a {
     font-size: 18px;
 }
-
+/*Tamanho dos ícones de redes sociais*/
 .social_icon {
     width: 35px;
     height: 35px;
     margin: 10px;
 }
-
+/*Defini como vai ser o titulo que está no radapé*/
 #vetallis-rodape {
     font-size: 17rem;
     font-weight: 700;
@@ -1000,6 +1015,7 @@ body {
 
 }
 
+/*Defini o tamanho, cor e disposição do card de categoria*/
 .card-categoria {
     top: 20%;
     left: 50%;
@@ -1058,7 +1074,7 @@ body {
     z-index: 1000;
 }
 
-/* Container dos sensores (Luminosidade / Umidade / Temperatura) */
+/* Container dos sensores (Luminosidade / Umidade / Temperatura), definindo cor, tamanho e curvatura */
 .card-sensores-container {
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.15);
@@ -1117,14 +1133,14 @@ body {
     overflow: hidden;
 }
 
-
+/*Ícone de novo no carrossel, defini cor e tamanho*/
 .badge-novo {
     background: #2abfb0;
     font-size: 1rem;
     padding: 8px 16px;
     border-radius: 8px;
 }
-
+/*Ícone de destaque, defini cor e tamanho*/
 .badge-destaque {
     background: #089068;
     font-size: 1rem;
@@ -1138,7 +1154,7 @@ body {
     padding: 8px 16px;
     border-radius: 8px;
 }
-
+/*Defini como vai ser o espaço que vai abrigar a imagem*/
 .produto-imagem-container {
     background: white;
     border-radius: 15px;
@@ -1149,14 +1165,14 @@ body {
     align-items: center;
     justify-content: center;
 }
-
+/*Defini o tamanho da imagem que vai ficar no carrossel*/
 .produto-imagem {
     border-radius: 10px;
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
-
+/*Defini o espaço que as informações do produto vão ser abrigadas*/
 .produto-info-box {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 12px;
@@ -1168,7 +1184,7 @@ body {
 .modal-filtro-dialog {
     max-width: 360px;
 }
-
+/*Defini o backgroundo do filtro */
 .modal-filtro-content {
     border-radius: 16px;
     background: #498C79 !important;
@@ -1179,7 +1195,7 @@ body {
     flex-direction: row-reverse;
     justify-content: space-between;
 }
-
+/*Defini tamanho, cor e disposição do botão de fechar do filtro */
 .botao-fechar-modal {
     background: rgba(255, 255, 255, 0.2);
     border: none;
@@ -1202,22 +1218,12 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.botao-aplicar-filtro {
-    background: #fff;
-    border-radius: 10px;
-    padding: 12px;
-}
-
-
-
-
-
 /* Página Gerenciar Perfil */
 
 .perfil-container {
     max-width: 1400px;
 }
-
+/*Defini tamanho e disposição da região que vai abrigar a imagem*/
 .perfil-upload-box {
     position: relative;
     width: 200px;
@@ -1314,6 +1320,10 @@ body {
     color: #000 !important
 }
 
+/*============ Design Responsivo================*/
+
+/*Modifica toda a landing page para um design responsivo, ou seja, 
+alterar todas as div e botões para um tamanho que caiba em um aparelho mobile */
 @media (max-width: 768px) {
 
     .texto-a {
@@ -1326,8 +1336,8 @@ body {
         height: auto;
         justify-content: flex-end;
     }
-
-    #mobile-topbar {
+    /*Altera o menu, no caso a altura quando está no menu hamburguer*/
+    #mobile-topbar { 
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -1340,13 +1350,13 @@ body {
         background: rgba(0, 0, 0, 0.35);
         z-index: 1001;
     }
-
+    /*Altera o tamanho da logo*/
     #logo-mobile-topbar {
         height: 40px;
         width: auto;
         object-fit: contain;
     }
-
+    /*Modifica o botão de hamburguer que esconde o menu*/
     #botao-hamburguer {
         width: 32px;
         height: 24px;
@@ -1355,7 +1365,7 @@ body {
         justify-content: space-between;
         cursor: pointer;
     }
-
+    /*Altera o ícone que fica no hamburguer, ou seja, a cor e tamanho*/
     #botao-hamburguer span {
         display: block;
         height: 3px;
@@ -1363,7 +1373,7 @@ body {
         background: #fff;
         border-radius: 2px;
     }
-
+    /*Modifica os itens da lista que aparece após clicar no botão de hamburguer, no caso o tamanho, direção, altura e entre outros de cada item */
     #lista-menu {
         display: none !important;
         position: fixed !important;
@@ -1410,12 +1420,12 @@ body {
         height: auto;
         min-height: 100vh;
     }
-
+    /*Modfifica o tamanho do vídeo e como ele aparece*/
     #video-menu {
         top: 64px;
         height: calc(100% - 74px);
     }
-
+    /*Essas duas modificam o tamanho da slogan e como ele aparece, sem animação*/
     #slogan-content {
         font-size: 1.9rem;
         width: 90%;
@@ -1427,7 +1437,7 @@ body {
         width: auto;
         animation: none;
     }
-
+    /*Modifica os cards de produto, alterando a direção e o display, para aparecer em coluna*/
     #cards-produto {
         display: flex;
         flex-direction: column;
@@ -1435,7 +1445,7 @@ body {
         padding: 84px 20px 40px 20px;
         gap: 14px;
     }
-
+    /*Modifica o tamanho de cada card */
     #card-oferecemos,
     #card-tecnologia-utilizada,
     #card-inovacao,
@@ -1456,7 +1466,7 @@ body {
         transform: none !important;
         background-color: rgba(255, 255, 255, 0.08) !important;
     }
-
+    /*Modifica os ícones da landing page, para diminuir o tamanho*/
     .icone-cards-lp {
         grid-column: 1;
         grid-row: 1 / span 2;
@@ -1468,7 +1478,7 @@ body {
         filter: brightness(0) invert(1) !important;
         animation: none !important;
     }
-
+    /*Modfica a posição de cada título de cada card*/
     #titulo-oferecemos,
     #titulo-tecnologia,
     #titulo-inovacao,
@@ -1487,7 +1497,7 @@ body {
         font-size: 1rem;
     }
 
-
+    /*Modifica o texto de cada card*/
     #texto-oferecemos,
     #texto-tecnologia,
     #texto-inovacao,
@@ -1504,7 +1514,7 @@ body {
         padding: 0;
         margin: 0;
     }
-
+    /*Modifica o texto(p) de cada card, no caso o tamanho*/
     #texto-oferecemos p,
     #texto-tecnologia p,
     #texto-inovacao p,
@@ -1514,7 +1524,7 @@ body {
         font-size: 0.8rem;
         line-height: 1.4;
     }
-
+    /*Modifica o tamanho para cada card*/
     #texto-oferecemos h2,
     #texto-tecnologia h2,
     #texto-inovacao h2,
@@ -1533,26 +1543,26 @@ body {
     }
 
     /* ---------- Sobre nós ---------- */
-
+    /*Altera o espaçamento e altura*/
     #sobre-nos-section {
         height: auto;
         padding: 80px 0 40px 0;
     }
-
+    /*Altera a forma que aparece em formato de coluna e espaçamento*/
     .sobre-nos-container {
         flex-direction: column;
         margin: 20px;
         margin-top: 20px;
         padding: 20px;
     }
-
+    /*Reduz o tamanho da imagem do sobre-nós*/
     #img-sobre img {
         max-width: 100%;
         width: 100%;
         height: 220px;
         margin: 0 0 15px 0;
     }
-
+    /*Altera o tamanho do texto e do título*/
     #texto-sobre {
         margin: 0;
         font-size: 0.95rem;
@@ -1568,32 +1578,32 @@ body {
         height: auto;
         padding: 40px 0;
     }
-
+    /*Altera o contato para ser em coluna e muda o espaçamento*/
     #contato-container {
         flex-direction: column !important;
         gap: 20px !important;
         padding: 0 20px;
     }
-
+    /*Reduz o tamanho da imagem*/
     #img-contato {
         max-width: 55% !important;
         width: 55% !important;
         margin: 0 auto;
     }
-
+    /*Modifica os campos para pegarem toda a largura da tela*/
     #campos-contato {
         width: 100% !important;
         max-width: 100% !important;
     }
 
     /* ---------- Rodapé ---------- */
-
+    /*Tornar em coluna*/
     #rodape-container {
         flex-direction: column;
         gap: 30px;
         padding: 30px 20px 0 20px;
     }
-
+    /*Muda o tamanho damletra e espaçamento*/
     #vetallis-rodape {
         font-size: 3.2rem;
         letter-spacing: 6px;
@@ -1612,6 +1622,8 @@ body {
 }
 
 /* ===== Estilo do modal de notificações, no padrão dark/glass do site ===== */
+
+/*Isso vai estilizar o modal de notificação, por meio da cor de fundo(background),cor das letras(color) e pela borda*/
 #notificacoes .modal-content {
     background: #498C79;
     backdrop-filter: blur(12px);
@@ -1625,11 +1637,14 @@ body {
     border-color: rgba(255, 255, 255, 0.253);
 }
 
+/*Modifica o tamanho do modal para alcançar o máximo de 400px*/
 #notificacoes .modal-body {
     max-height: 400px;
     overflow-y: auto;
 }
 
+/*Modifica cada notificação que aparece, ou seja , a borda lateral que aparece, 
+os espaçamentos e como os itens vão ser distribuidos */
 .notificacao-item {
     border-left: 3px solid #f0b429;
     background: rgba(255, 255, 255, 0.05);
@@ -1642,34 +1657,24 @@ body {
     gap: 10px;
 }
 
+/*Modifica a cor e o tamanho da escrita da notificação, no caso a parte referente aos itens e datas do mesmo*/
 .notificacao-item span {
     color: #e6efe9;
     font-size: 0.9rem;
 }
 
+/*Modifica a cor, tamanho e como aparece a data em que notificação foi criada*/
 .notificacao-item small {
     color: rgba(230, 239, 233, 0.788);
     white-space: nowrap;
     font-size: 0.9rem;
 }
-
+/*Modifica a cor da escrita referente a falta de notificações*/
 .notificacoes-vazio {
     color: rgba(230, 239, 233, 0.6);
 }
 
-#notificacoes .btn-fechar-notificacoes {
-    background: rgba(255, 255, 255, 0.247);
-    color: #e6efe9;
-    border: none;
-    width: 50%;
-    border-radius: 5px;
-}
-
-#notificacoes .btn-fechar-notificacoes:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #e6efe9;
-}
-
+/*Define o espaço que se encontrar o form de esqueci sua senha*/
 .otp-container {
     display: flex;
     flex-direction: column;
@@ -1682,7 +1687,7 @@ body {
     display: flex;
     gap: 12px;
 }
-
+/*Defini o espaço que vai ser os número do código de recuperar senha vão ficar */
 .otp-box {
     width: 50px;
     height: 55px;
@@ -1702,7 +1707,7 @@ body {
     background-color: #ffffff;
     box-shadow: 0 0 6px rgba(128, 203, 211, 0.4);
 }
-
+/*Define cor e como vai ficar o link de reenviar o código */
 .resend-link {
     font-size: 13px;
     color: #555;
@@ -1714,18 +1719,19 @@ body {
     text-decoration: underline;
     color: #000;
 }
-
+/*Define o tamanho do formulário*/
 #form-recuperar-senha{
     max-width: 400px;
 }
 
 /*-----------Tela Relatório----------*/
 
+
 #texto_inicial{
     color: white;
     padding: 10px;
 }
-
+/*Defina como vai se parecer a tabela */
 #tabela{
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
@@ -1734,7 +1740,7 @@ body {
     height: 160px;
     width: 317px;
 }
-
+/*Define o tamanho do card de animal e que o possui dentro dele*/
 #card-animal{
     width: 80px;
     height: 80px;
@@ -1755,7 +1761,7 @@ body {
 
 
 
-
+/*Define o card de produtos e o que vai ficar dentro dele*/
 #card-produto{
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
@@ -1785,7 +1791,7 @@ body {
 
 
 
-
+/*Define o como vai ser o card de produtos vencidos e o que possui dentro dele*/
 #card-pvencido{
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
@@ -1814,7 +1820,7 @@ body {
 }
 
 
-
+/*Define o card de sensor e o que tem dentro dele */
 #card-sensor{
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 15px;
@@ -1843,6 +1849,8 @@ body {
     font-size: 3rem;
 }
 
+
+/*Define o filtro com curvatura e tamanho*/
 #filtro-e-tabela{
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.15);
@@ -1854,6 +1862,7 @@ body {
     width: 150px;
 }
 
+/*Define o tamanho dos textos presentes*/
 #tabela-texto-produto{
     width: 39%;
 }
@@ -1865,10 +1874,11 @@ body {
 #tabela-texto-quantidade{
     width: 12%;
 }
-
+/*Define a margin do botão*/
 #botao_cadastro_produto{
     margin-top: 5.5%;
 }
+/*Define a altura*/
 #imagem_cadastro_produto{
     height: 400px;
 }
