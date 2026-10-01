@@ -13,8 +13,8 @@ import ProdutosScreen from './screens/ProdutosScreen';
 import LoginScreen from './screens/LoginScrenn';
 import { AuthProvider } from './screens/AuthContext';
 import EsqueceuSenha from './screens/EsqueceuSenha';
-import * as Notifications from 'expo-notifications';
 
+/*
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -22,7 +22,7 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-
+*/
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 

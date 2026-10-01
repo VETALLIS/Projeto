@@ -1,3 +1,4 @@
+/*
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
@@ -45,3 +46,4 @@ export async function registrarPushToken(usuarioId) {
     console.log('Erro ao registrar push token:', erro.message);
   }
 }
+*/

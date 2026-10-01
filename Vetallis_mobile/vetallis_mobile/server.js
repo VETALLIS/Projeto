@@ -516,8 +516,8 @@ app.post('/api/redefinir-senha', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-
-// 15. Cadastrar/Atualizar Push Token do dispositivo
+/*
+15. Cadastrar/Atualizar Push Token do dispositivo
 app.post('/api/push-token', async (req, res) => {
   const { usuarioId, token } = req.body;
 
@@ -538,8 +538,9 @@ app.post('/api/push-token', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-
+*/
 // Envia o push pra todos os tokens cadastrados (broadcast simples).
+/*
 async function enviarPushParaTodos(titulo, corpo) {
   const [tokens] = await db.query(`SELECT push_token_valor FROM push_token`);
 
@@ -565,7 +566,9 @@ async function enviarPushParaTodos(titulo, corpo) {
     console.log('⚠️ Erro ao enviar push:', erro.message);
   }
 }
+*/
 // Evita duplicar notificação já pendente
+/*
 async function registrarNotificacao(descricao) {
   const [existentes] = await db.query(
     `SELECT notificacao_id FROM notificacao
@@ -585,8 +588,9 @@ async function registrarNotificacao(descricao) {
 
   return resultado.insertId;
 }
-
+*/
 // 16. Verificar estoque baixo e registrar notificações
+/*
 app.get('/api/notificacoes/estoque-baixo', async (req, res) => {
   try {
     const [itens] = await db.query(`
@@ -607,8 +611,9 @@ app.get('/api/notificacoes/estoque-baixo', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-
+*/
 // 17. Verificar produtos vencidos e registrar notificações
+/*
 app.get('/api/notificacoes/vencidos', async (req, res) => {
   try {
     const [itens] = await db.query(`
@@ -633,8 +638,9 @@ app.get('/api/notificacoes/vencidos', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-
+*/
 // 18. Listar notificações pendentes (já salvas na tabela)
+/*
 app.get('/api/notificacoes/pendentes', async (req, res) => {
   try {
     const [linhas] = await db.query(`
@@ -648,10 +654,11 @@ app.get('/api/notificacoes/pendentes', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-
+*/
 // Roda a cada 15 minutos, chamando as mesmas checagens das rotas 16 e 17
-cron.schedule('*/1 * * * *', async () => {
-  console.log('⏰ Verificando alertas automaticamente...');
+
+//cron.schedule('*/1 * * * *', async () => {
+ /* console.log('⏰ Verificando alertas automaticamente...');
   try {
     const [baixoEstoque] = await db.query(`
       SELECT p.produto_nome, CAST(e.estoque_quantidade AS UNSIGNED) AS estoque_quantidade
@@ -683,6 +690,8 @@ cron.schedule('*/1 * * * *', async () => {
     console.log('⚠️ Erro na verificação automática:', erro.message);
   }
 });
+*/
+
 
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`Servidor rodando em http://localhost:${PORTA}`));
