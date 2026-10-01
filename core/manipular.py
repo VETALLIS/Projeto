@@ -19,7 +19,7 @@ class Manipular: #
     
     def validar_min_caracter(dados,field_name): #valida se há no mínimo 3 caracteres pela variável min_carac, pelo len 
         min_carac= 3
-        if len(dados) <= min_carac:
+        if len(dados) >= min_carac:
             return None
         else:
             return f"O campo {field_name} está muito curto"
