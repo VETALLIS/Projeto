@@ -295,3 +295,21 @@ DEFAULT CHARACTER SET = utf8mb3;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- ----------------------------------------------------
+-- Table 'push_token' 
+-- ----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `push_token` (
+  `push_token_id` INT NOT NULL AUTO_INCREMENT,
+  `push_token_valor` VARCHAR(255) NOT NULL,
+  `push_token_criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `usuario_usuario_id` INT NOT NULL,
+  PRIMARY KEY (`push_token_id`),
+  UNIQUE INDEX `uq_push_token_valor` (`push_token_valor` ASC) VISIBLE,
+  INDEX `fk_push_token_usuario1` (`usuario_usuario_id` ASC) VISIBLE,
+  CONSTRAINT `fk_push_token_usuario1`
+    FOREIGN KEY (`usuario_usuario_id`)
+    REFERENCES `usuario` (`usuario_id`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
