@@ -26,6 +26,7 @@ from models.redefinir_senha import Redefinir
 # definição da variavel app
 app = Flask(__name__)
 
+
 # Chave secreta usada na validação com api's externas, no caso o invertexto
 app.secret_key = "27718|LE7dR7xbHO2ygaaOzq2Hh8W07kOle1Mt"
 
@@ -37,6 +38,7 @@ def to_int(value, default=0):
     except (TypeError, ValueError):
         return default
 
+
 # ====== função para converter o valor para decimal ====== #
 def to_float(value, default=0.0): 
     try:
@@ -46,7 +48,6 @@ def to_float(value, default=0.0):
     
 
 # ====== Função de pega os dados do formulário de cadastro de animal do Front End ====== #
-
 def get_animal_form():
     return{
         "animal_especie": request.form.get("especie", "").strip(),
@@ -67,11 +68,13 @@ def get_contato_form():
         "contato_mensagem": request.form.get("texto", "").strip(), 
     }
 
+
 # ====== Função de pega os dados do formulário de email para recuperar a senha ====== #
 def get_recuperar_form():
     return{
         "email": request.form.get("email", "").strip()
     }
+
 
 # ====== Pegando os dados de produto do html para cadastra-lo ====== #
 def get_produto_form():
@@ -106,6 +109,7 @@ def get_pedido_saida_form():
         "animal_animal_id": to_int(request.form.get("animal_animal_id", ""))
     }
 
+
 # ====== Pegando os dados do pedido de entrada do html para cadastra-lo ==== #
 def get_pedido_entrada_form():
     return {
@@ -115,8 +119,8 @@ def get_pedido_entrada_form():
         "fornecedor_fornecedor_id": request.form.get('fornecedor_fornecedor_id')
     }
 
-# ====== Pegando os dados dos itens de pedido de entrada do html para cadastra-lo ==== #
 
+# ====== Pegando os dados dos itens de pedido de entrada do html para cadastra-lo ==== #
 def get_item_entrada_form():
     return {
         "produto_produto_id": request.form.getlist("produto_produto_id"),
@@ -126,6 +130,7 @@ def get_item_entrada_form():
         "item_pedido_entrada_validade": request.form.getlist("item_pedido_entrada_validade"),
     }
 
+
 # ====== Pegando os dados dos itens do pedido de saida do html para cadastra-lo ====== #
 def get_item_saida_form():
     return {
@@ -133,6 +138,7 @@ def get_item_saida_form():
         "item_pedido_saida_lote": request.form.getlist("item_pedido_saida_lote"),
         "item_pedido_saida_quantidade": request.form.getlist("item_pedido_saida_quantidade"),
     }
+
 
 # ====== Pegando os dados html de cadastro de funcionários para poder cadastra-lo ====== #
 def get_usuario_form():
@@ -158,12 +164,14 @@ def get_usuario_form():
         "imagem_blob": imagem_blob
     }
 
+
 # ====== Pegando os dados do formulário de login para ====== #
 def get_login_form():
     return{
         "login_email": request.form.get("email", "").strip(),
         "login_senha":request.form.get("senha", "").strip(),
     }
+
 
 # ====== Pegando os dados do formulário de html de sensores para o cadastro de sensores ====== #
 def get_sensor_form():
@@ -201,6 +209,7 @@ def get_fornecedor_form():
         "pedido_minimo": to_float( request.form.get("fornecedor_pedido_minimo")),
         "tipo_produtos": request.form.get("fornecedor_tipo_produtos", "").strip(),
     }
+
 
 #====== Pegando os dados do html para adicionar item na lista de compra ======#
 def get_lista_compra_form():
@@ -244,21 +253,21 @@ def get_pesquisa_item_form():
 
 
 # ========= DEFINIÇÃO DAS ROTASE ENDPOINTS ========= #
-
 # ====== Rota inicial que leva á landingpage====== #
 @app.route("/")
 def index():
     
     return render_template("landingpage.html")
 
-# ====== Tela inicial ====== #
 
+# ====== Tela inicial ====== #
 # ====== Função para buscar a categoria selecionada no models ====== #
 def get_categoria_form():
 
     if request.method == "POST":
         return request.form.get("categoria")
     return None
+
 
 # ====== Rota que mostra a tela inicial, busca para apresentar as notificações, quantidade de itens no estoque, dados do sensor com metodos de POST E GET ====== #
 @app.route("/inicial", methods=["GET", "POST"])
@@ -308,6 +317,7 @@ def inicial():
         flash(e, "danger")
         return render_template("tela_inicial.html")
 
+
 # ====== Rota para pegar os dados da sessão de contato da landing page contato ====== #
 @app.route("/contato/enviar", methods=["POST"])
 def contato_enviar():
@@ -338,6 +348,7 @@ def produtos():
     except ValueError as e:
         flash(e, "danger")
         return render_template("produtos_cadastrados.html", produtos=[])
+
 
 # ======= Rota para a tela de cadastro de produtos =======#
 @app.route("/produto/novo")
@@ -375,14 +386,11 @@ def salvar_produto():
 def editar_produto(produto_id):
 
     try:
-
         produto = Produto.buscar_produto_id(produto_id)
 
         if not produto:
             flash("Produto não encontrado",  "danger")
             return redirect(url_for('produtos'))
-        
-        
         return render_template("editar_produtos.html", produto=produto, produto_id=produto_id)
     except ValueError as e :
         flash(e, "danger")
@@ -460,6 +468,7 @@ def informacao_produto_ver(produto_id):
 def novo_usuario():
     return render_template("cadastro_usuario.html", usuario=None)
 
+
 # ====== Rota para executar o cadastro de novos funcionários ====== #
 @app.route("/usuario/salvar", methods=["POST"])
 def salvar_usuario():
@@ -503,6 +512,7 @@ def buscar_usuario(id):
         flash(e, "danger")
         return render_template("cadastro_usuario.html")
 
+
 # ====== Executando a atualização dos dados de usuario ====== #
 @app.route("/usuario/atualizar/<int:id>", methods=["PUT"])
 def atualizar_usuario(id):
@@ -529,6 +539,7 @@ def atualizar_usuario(id):
         flash(f"Erro ao atualizar usuario: {e}", "erro")
         return render_template("cadastro_usuario.html", usuario=dados)
 
+
 # Executando a exclusão do usuário
 @app.route("/funcionarios/excluir/<int:usuario_id>", methods=["GET"])
 def excluir_usuario_funcionario(usuario_id):
@@ -544,6 +555,7 @@ def excluir_usuario_funcionario(usuario_id):
     except Exception as e:
         flash(f"Erro ao excluir Usuario: {e}", "danger")
         return redirect(url_for("funcionarios", usuario_id=usuario_id))
+
 
 #======= Renderização da tela de Funcionários cadastrados ====== #
 @app.route("/funcionarios")
@@ -573,10 +585,12 @@ def sensor():
         flash(e, "danger")
         return render_template("sensores_cadastrados.html")
 
+
 # ====== Mostrando a tela com o formulário de cadastro de sensor ======= #
 @app.route("/sensor/novo", methods=['GET', 'POST'])
 def novo_sensor():
     return render_template("cadastro_sensor.html", sensor=None)
+
 
 # ====== Executando o cadastro de novos sensores ====== #
 @app.route("/sensor/salvar", methods=['POST'])
@@ -600,7 +614,8 @@ def salvar_sensor():
     except ValueError as e:
         flash(f"Erro ao cadastrar sensor: {e}", "danger")
         return render_template("Cadastro_sensor.html", sensor=dados)
-    
+
+
 # ====== Mostrando a tela de informação de sensor ======= #
 @app.route("/sensor/informacao/<int:sensor_id>")
 def informacao_sensor(sensor_id):
@@ -616,6 +631,7 @@ def informacao_sensor(sensor_id):
     except ValueError as e :
         flash(e, "danger")
         return render_template("sensores_cadastrados.html")
+
 
 # ====== Mostrando a tela com formulário editar dados de sensores ====== #
 @app.route("/sensor/editar/<int:sensor_id>" ,methods=["GET", "POST"])
@@ -634,6 +650,7 @@ def editar_sensor(sensor_id):
     except ValueError as e:
         flash(e, "danger")
         return render_template("sensores_cadastrados.html")
+
 
 # ====== Rota para executar a Atualização dados de sensores ====== #
 @app.route("/sensor/atualizar/<int:sensor_id>", methods=["POST"])
@@ -657,7 +674,8 @@ def atualizar_sensor(sensor_id):
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")  
         return render_template("editar_sensores.html", sensor=dados_sensor)
-    
+
+
 # ====== Rota que exclui os dados sensores ====== #
 @app.route("/sensor/excluir/<int:sensor_id>")
 def excluir_sensor(sensor_id):
@@ -695,6 +713,7 @@ def novo_lista_compra():
         flash(e, "danger")
         return render_template("lista_compra.html")
 
+
 # ======= Rota para adicionar um novo item na lista de compras ====== #
 @app.route("/lista_compra/salvar", methods=["POST"])
 def salvar_lista_compra():
@@ -714,6 +733,7 @@ def salvar_lista_compra():
     except Exception as e:
         flash(f"Erro ao criar lista de compras: {e}", "danger")
         return render_template("adiciona_itens_lista_compra.html", lista_compra=dados)
+
 
 # Rota para executar a atualização da lista de compra
 @app.route("/listar_compra/atualizar/<int:lista_compra_id>", methods=["POST"])
@@ -741,6 +761,7 @@ def atualizar_lista_compra(id):
         flash(f"Erro ao atualizar Produto: {e}", "danger")
         return render_template("lista_compra.html", lista=dados)   
 
+
 # ====== Excluindo itens da lista de compra ======#
 @app.route("/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
 def excluir_lista_compra(lista_compra_id):
@@ -756,7 +777,6 @@ def excluir_lista_compra(lista_compra_id):
 
 
 # ====== Endpoints de pesquisas ====== #
-
 # ====== Rota para executar o campo de pesquisa de produtos dentro do site ====== #
 @app.route("/pesquisa_item/")
 def pesquisa():
@@ -813,6 +833,7 @@ def salvar_login():
         flash(f"Erro ao fazer login", "danger")
         return render_template("login.html", login=dados)
 
+
 # ======= Rota para deslogar do site ======= #
 @app.route("/logout")
 def logout():
@@ -822,8 +843,8 @@ def logout():
     flash("Você saiu do sistema.", "info")
     return redirect(url_for("novo_login"))
 
-# ======== Endpoint animal ======= #
 
+# ======== Endpoint animal ======= #
 # ========= Rota para mostrar a tela de animais cadastrados =====#
 @app.route("/animal")
 def animal():
@@ -838,10 +859,12 @@ def animal():
         flash(str(e), "danger")
         return redirect(url_for("novo_animal"))
 
+
 # ======== Rota para mostrar a tela para cadastro de animais ======= #
 @app.route("/animal/novo", methods=['GET', 'POST'])
 def novo_animal():
     return render_template("cadastro_animais.html", usuario=None)
+
 
 # ======= Executando o comando de salvar os dados para a cadastro de animais =======#
 @app.route("/animal/salvar", methods=["POST"])
@@ -874,6 +897,7 @@ def buscar_animal(id):
         return redirect(url_for("animal"))
     return render_template("cadastro_usuario.html", animal=animal)
 
+
 # ====== Rota que exclui animais cadstrados no sistema ======#
 @app.route("/animal/excluir/<int:animal_id>", methods=["GET", "POST"])
 def excluir_animal(animal_id):
@@ -885,6 +909,7 @@ def excluir_animal(animal_id):
     except Exception as e:
         flash(f"Erro ao excluir Animal: {e}", "danger")
     return redirect(url_for("animal"))
+
 
 # Rota para mostrar a tela de infmações de cada animal #
 @app.route("/informacao_animal/<int:animal_id>")
@@ -903,7 +928,6 @@ def informacao_animal(animal_id):
 
 
 # ======= Endpoints fornecedor ====== #
-
 # ======= Renderizando a tela com todos os fornecedores cadastrados, caso nao tenha, renderiza a tela para cadastrar fornecedores===== #
 @app.route("/fornecedor")
 def fornecedor_novo():
@@ -916,6 +940,7 @@ def fornecedor_novo():
         flash(str(e), "danger")
         return redirect(url_for("fornecedor_criar"))
 
+
 # Renderizando a tela para cadastrar novos fornecedores #
 @app.route("/fornecedor/novo")
 def fornecedor_criar():
@@ -924,6 +949,7 @@ def fornecedor_criar():
     except ValueError as e:
         flash(str(e), "danger")
         return redirect(url_for("gravar_fornecedor"))
+
 
 # ======= Rota que executa o salvar dados do fornecedor ===== #
 @app.route("/fornecedor/salvar", methods=["POST"])
@@ -947,6 +973,7 @@ def gravar_fornecedor():
         flash(f"Erro ao cadastrar fornecedor", "danger")
         return render_template("cadastro_fornecedor.html", login=dados)
 
+
 # Rota que executa a exclusão do fornecedor cadastrado #
 @app.route("/fornecedor/excluir/<int:fornecedor_id>", methods=["GET", "POST"])
 def excluir_fornecedor(fornecedor_id):
@@ -959,6 +986,7 @@ def excluir_fornecedor(fornecedor_id):
     except Exception as e:
         flash(f"Erro ao excluir fornecedor: {e}", "danger")
     return redirect(url_for("fornecedor_novo"))
+
 
 # Rota para execução da edição do fornecedor #
 @app.route("/fornecedor/editar/<int:fornecedor_id>" ,methods=["GET", "POST"])
@@ -973,6 +1001,7 @@ def editar_fornecedor(fornecedor_id):
     except ValueError as e:
         flash(e, "danger")
         return render_template("fornecedor_cadastrado.html")  
+
 
 # Rota que executa a atualização dos dados do fornecedor #
 @app.route("/fornecedor/atualizar/<int:fornecedor_id>", methods=["GET", "POST"])
@@ -1012,6 +1041,7 @@ def atualizar_fornecedor(fornecedor_id):
     # 3. Se for GET, apenas exibe a página com os dados salvos no banco
     return render_template("editar_fornecedor.html", fornecedor=dados_fornecedor)
 
+
 # Renderizando a tela para editar o pedido de saída #
 @app.route("/pedido/editar/<int:pedido_id>", methods=["GET", "POST"])
 def editar_pedido(pedido_id):
@@ -1031,6 +1061,7 @@ def editar_pedido(pedido_id):
     except ValueError as e:
         flash(e, "danger")
         return render_template("pedidos_cadastrado.html")
+
 
 # Rota que vai executar a edição dos dados do pedido de entrada #
 @app.route("/pedido/entrada/atualizar/<int:pedido_id>", methods=["GET", "POST"])
@@ -1066,8 +1097,6 @@ def atualizar_pedido_entrada(pedido_id):
 
             atualizar.atualizar_pedido_entrada(pedido_id)
             
-
-            # -------- Atualizar itens --------
             # -------- Atualizar itens --------
             ids = request.form.getlist("item_pedido_entrada_id")
             produto_ids = request.form.getlist("item_pedido_entrada_produto")  # confira o name= no HTML do select
@@ -1137,6 +1166,7 @@ def editar_pedido_saida(pedido_id):
     except ValueError as e:
         flash(str(e), "danger")
         return render_template("pedidos_cadastrado.html")
+
 
 # Rota que vai executar a edição dos dados do pedido de entrada #
 @app.route("/pedido/saida/atualizar/<int:pedido_id>", methods=["GET", "POST"])
@@ -1216,6 +1246,7 @@ def atualizar_pedido_saida(pedido_id):
         tipo_pedido="saida", fornecedor=[]
     )
 
+
 #================ Endpoint deletar pedido =================#
 @app.route("/pedido/excluir/saida/<int:pedido_id>")
 def excluir_pedido_saida(pedido_id):
@@ -1257,174 +1288,15 @@ def excluir_pedido_entrada(pedido_id):
     except Exception as e:
         flash(f"Erro ao excluir pedido de entrada: {e}", "danger")
         return redirect(url_for("pedidos_cadastrados"))
-    
-
-@app.template_filter('data_input')
-def data_input(valor):
-    
-    if not valor:
-        return ''
-    if isinstance(valor, (date, datetime)):
-        return valor.strftime('%Y-%m-%d')
-    if isinstance(valor, str):
-        
-        for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y-%m-%d %H:%M:%S'):
-            try:
-                return datetime.strptime(valor, fmt).strftime('%Y-%m-%d')
-            except ValueError:
-                continue
-        return '' 
-    return ''
 
 
-#========== Endpoint de erro ======== #
-@app.errorhandler(404)
-def pagina_nao_encontrado(error):
-    return render_template("404.html"), 404
-
-    
-# ========= Endpoint gerenciamento de perfil ======= #
-
-# ===== Formulário atualizar dados do usuario ====== #
-@app.route("/gerenciar_perfil/<int:usuario_id>", methods=["GET"])
-def gerenciar_perfil_atualizar(usuario_id):
-
-    try:
-        dados_usuario = GerenciamentoPerfil.buscar_usuario_por_id(usuario_id)
-
-        if dados_usuario.get("imagem_blob"):
-            dados_usuario["imagem_base64"] = base64.b64encode(
-                dados_usuario["imagem_blob"]
-            ).decode("utf-8")
-
-        if not dados_usuario:
-            flash("Usuario não encontrdo", "danger")
-            return redirect(url_for("novo_usuario"))
-        
-
-        return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
-    except ValueError as e:
-        flash(e, "danger")
-        return render_template("tela_inicial.html")
-
-# ======= Salva a atualização ====== #
-@app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
-def gerenciar_perfil_salvar():
-    dados = get_gerenciar_perfil_form()
-    atualizar = GerenciamentoPerfil(**dados)
-    erros = atualizar.validar_perfil(app.secret_key)
-
-    usuario_id = dados.get("usuario_id") or session.get("usuario_id")
-    dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id) if usuario_id else None
-
-    if not dados_usuario:
-        session.clear()
-        flash("Usuário não encontrado. Faça login novamente.", "warning")
-        return redirect(url_for("novo_login"))  
-
-    try:
-        if erros:
-            flash(erros, "danger")
-            return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
-
-        atualizar.atualizar_usuario(usuario_id)
-        flash("Dados atualizados.", "success")
-
-        dados_usuario["imagem_base64"] = (
-            base64.b64encode(dados_usuario["imagem_blob"]).decode("utf-8")
-            if dados_usuario.get("imagem_blob") else None
-        )
-        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
-
-    except Exception as e:
-        flash(f"Erro ao atualizar dados: {str(e)}", "danger")
-        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
-    
-# ====== Excluindo usuario ======#
-@app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
-def excluir_usuario(usuario_id):
-    try:
-        Usuario.safe_delete(usuario_id)
-        session.clear()  
-        flash("Usuário excluído com sucesso!", "success")
-        return redirect(url_for("novo_login"))  
-            
-    except ValueError as e:
-        flash(str(e), "danger") 
-        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
-        
-    except Exception as e:
-        flash(f"Erro ao excluir Usuario: {e}", "danger")
-        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
-
-
-# ======== Endpoint entrada produto ====== #
-@app.route("/pedidos_cadastrados")
-def pedidos_cadastrados():
-    pedido_entrada = []
-    pedido_saida = []
-    
-    # 1. Tenta buscar pedidos de entrada
-    try:
-        pedido_entrada = Pedido_entrada.buscar_todo_pedido_entrada(order_by="pedido_entrada_nome") or []
-    except ValueError as e:
-        if "não encontrado" in str(e).lower():
-            pedido_entrada = [] # Banco vazio para entradas
-        else:
-            flash(f"Erro nas entradas: {str(e)}", "danger")
-
-    # 2. Tenta buscar pedidos de saída
-    try:
-        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome") or []
-    except ValueError as e:
-        if "não encontrado" in str(e).lower():
-            pedido_saida = [] # Banco vazio para saídas
-        else:
-            flash(f"Erro nas saídas: {str(e)}", "danger")
-
-    # 3. Notifica se ambos estiverem zerados de forma amigável (sem quebrar a tela)
-    if not pedido_entrada and not pedido_saida:
-        flash("Nenhum pedido de entrada ou saída localizado.", "warning")
-
-    return render_template(
-        "pedidos_cadastrados.html", 
-        Pedidos_ent=pedido_entrada, 
-        Pedidos_saida=pedido_saida
-    )
-
-
-
-@app.route("/pedido", methods=['POST', 'GET'])
-def pedido():
-    try:
-        fornecedor = Fornecedor.buscar_fornecedor()
-    except ValueError:
-        fornecedor = []
-
-    try:
-        produtos = Produto.buscar_todo_produto()
-    except ValueError:
-        produtos = []
-
-    try:
-        animal = Animal.contar_animal()
-    except ValueError:
-        animal = []
-
-    try:
-        lote = Item_pedido_entrada.buscar_item_pedido_entrada()
-    except ValueError:
-        lote = []
-
-    return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal, lote=lote)
-
-
+# SALVANDO AS ENTRADAS DE PEDIDOS, SE FOR ENTRADA EXECUTARÁ UM E SE FOR SAÍDA EXECUTARÁ OUTRO #
 # ===== salvar entrada de pedidos ===== #
 @app.route("/pedido/salvar", methods=["GET", "POST"])
 def pedido_salvar():
     fornecedor = Fornecedor.buscar_fornecedor()
     produtos = Produto.buscar_todo_produto()
-
+    
     dados_entrada = get_pedido_entrada_form()
     dados_saida = get_pedido_saida_form()
     item_dados = get_item_entrada_form()
@@ -1612,7 +1484,171 @@ def pedido_salvar():
             flash(f"Erro ao cadastrar saída: {e}", "danger")
             return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
 
-# ======= Relatorio ======= #  
+
+# Rota para padronizar data no formato americano ano-mês-dia #
+@app.template_filter('data_input')
+def data_input(valor):
+    # retorna valor vazio se nao encontrar, para nao erro
+    if not valor:
+        return ''
+        # retorna a data para o padrão ano-mes-dia
+    if isinstance(valor, (date, datetime)):
+        return valor.strftime('%Y-%m-%d')
+    if isinstance(valor, str):
+        for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%Y-%m-%d %H:%M:%S'):
+            try:
+                return datetime.strptime(valor, fmt).strftime('%Y-%m-%d')
+            except ValueError:
+                continue
+        return '' 
+    return ''
+
+
+#========== Endpoint de erro (Retorna a tela de erro) ======== #
+@app.errorhandler(404)
+def pagina_nao_encontrado(error):
+    return render_template("404.html"), 404
+
+    
+# ========= Endpoint gerenciamento de perfil ======= #
+# ===== Formulário atualizar dados do usuario (renderiza a tela para atualizar os dados do usuário) ====== #
+@app.route("/gerenciar_perfil/<int:usuario_id>", methods=["GET"])
+def gerenciar_perfil_atualizar(usuario_id):
+
+    #Tenta achar o usuario pelo id, caso não for encontrado mostra a tela inicial#
+    try:
+        dados_usuario = GerenciamentoPerfil.buscar_usuario_por_id(usuario_id)
+
+        if dados_usuario.get("imagem_blob"):
+            dados_usuario["imagem_base64"] = base64.b64encode(
+                dados_usuario["imagem_blob"]
+            ).decode("utf-8")
+
+        if not dados_usuario:
+            flash("Usuario não encontrdo", "danger")
+            return redirect(url_for("novo_usuario"))
+        
+
+        return render_template("gerenciamento_perfil.html", usuario=dados_usuario)
+    except ValueError as e:
+        flash(e, "danger")
+        return render_template("tela_inicial.html")
+
+
+# ======= Rota para executar realmente a atualização do gerenciamento de perfil ====== #
+@app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
+def gerenciar_perfil_salvar():
+    dados = get_gerenciar_perfil_form()
+    atualizar = GerenciamentoPerfil(**dados)
+    erros = atualizar.validar_perfil(app.secret_key)
+
+    usuario_id = dados.get("usuario_id") or session.get("usuario_id")
+    dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id) if usuario_id else None
+
+    if not dados_usuario:
+        session.clear()
+        flash("Usuário não encontrado. Faça login novamente.", "warning")
+        return redirect(url_for("novo_login"))  
+
+    try:
+        if erros:
+            flash(erros, "danger")
+            return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
+
+        atualizar.atualizar_usuario(usuario_id)
+        flash("Dados atualizados.", "success")
+
+        dados_usuario["imagem_base64"] = (
+            base64.b64encode(dados_usuario["imagem_blob"]).decode("utf-8")
+            if dados_usuario.get("imagem_blob") else None
+        )
+        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
+
+    except Exception as e:
+        flash(f"Erro ao atualizar dados: {str(e)}", "danger")
+        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
+
+
+# ====== Rota que exclui o usuario cadastrado no sistema, se der errado leva para o gerenciamento de perfil ======#
+@app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
+def excluir_usuario(usuario_id):
+    try:
+        Usuario.safe_delete(usuario_id)
+        session.clear()  
+        flash("Usuário excluído com sucesso!", "success")
+        return redirect(url_for("novo_login"))  
+            
+    except ValueError as e:
+        flash(str(e), "danger") 
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
+        
+    except Exception as e:
+        flash(f"Erro ao excluir Usuario: {e}", "danger")
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
+
+
+# ======== Rota para listar todos os pedidos de entrada e saída numa tela ====== #
+@app.route("/pedidos_cadastrados")
+def pedidos_cadastrados():
+    pedido_entrada = []
+    pedido_saida = []
+    
+    # 1. Tenta buscar pedidos de entrada
+    try:
+        pedido_entrada = Pedido_entrada.buscar_todo_pedido_entrada(order_by="pedido_entrada_nome") or []
+    except ValueError as e:
+        if "não encontrado" in str(e).lower():
+            pedido_entrada = [] # Banco vazio para entradas
+        else:
+            flash(f"Erro nas entradas: {str(e)}", "danger")
+
+    # 2. Tenta buscar pedidos de saída
+    try:
+        pedido_saida = Pedido_saida.buscar_todos_pedidos_saida(order_by="pedido_saida_nome") or []
+    except ValueError as e:
+        if "não encontrado" in str(e).lower():
+            pedido_saida = [] # Banco vazio para saídas
+        else:
+            flash(f"Erro nas saídas: {str(e)}", "danger")
+
+    # 3. Notifica se ambos estiverem zerados de forma amigável (sem quebrar a tela)
+    if not pedido_entrada and not pedido_saida:
+        flash("Nenhum pedido de entrada ou saída localizado.", "warning")
+
+    return render_template(
+        "pedidos_cadastrados.html", 
+        Pedidos_ent=pedido_entrada, 
+        Pedidos_saida=pedido_saida
+    )
+
+
+# Verifica se há fornecedor relacionado ao pedido #
+@app.route("/pedido", methods=['POST', 'GET'])
+def pedido():
+    try:
+        fornecedor = Fornecedor.buscar_fornecedor()
+    except ValueError:
+        fornecedor = []
+
+    try:
+        produtos = Produto.buscar_todo_produto()
+    except ValueError:
+        produtos = []
+
+    try:
+        animal = Animal.contar_animal()
+    except ValueError:
+        animal = []
+
+    try:
+        lote = Item_pedido_entrada.buscar_item_pedido_entrada()
+    except ValueError:
+        lote = []
+
+    return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal, lote=lote)
+
+
+# ======= Parte que renderiza a tabela de baixo da tela de indicadores com os filtros ======= #  
 @app.route("/api/relatorio", methods=["GET"])
 def api_relatorio():
 
@@ -1658,6 +1694,7 @@ def api_relatorio():
         }), 500
 
 
+# ======= Parte que renderiza os cards de cima da tela de indicadores com os filtros ======= #  
 @app.route("/relatorio", methods=["GET"])
 def relatorio():
 
@@ -1688,20 +1725,9 @@ def relatorio():
         produto=produtos,
         vencido=vencidos
     )
-    
-@app.route("/relatorio/lista_compra/excluir/<int:lista_compra_id>", methods=["GET"])
-def excluir_lista_compra_relatorio(lista_compra_id):
-    try:
-        lista_compra = Lista_compra()
-        lista_compra.deletar_lista_compra(lista_compra_id)
-        flash("Item excluído com sucesso.", "success")
-    except ValueError as e:
-        flash(str(e), "erro")
-    except Exception as e:
-        flash(f"Erro ao excluir lista de compra: {e}", "danger")
-    return redirect(url_for("relatorio"))
 
-#====== Rotas Noficicacoes ========#
+
+#====== Rotas para mostrar as notificações Noficicacoes ========#
 @app.route("/api/notificacoes")
 def api_notificacoes():
     try:
@@ -1714,6 +1740,7 @@ def api_notificacoes():
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
 
+# Rota que busca no site as informações para herar as notificações #
 @app.route("/api/notificacoes/verificar", methods=["POST"])
 def verificar_notificacoes():
     try:
@@ -1724,6 +1751,7 @@ def verificar_notificacoes():
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
 
+# Rota para exclusão das notificações geradas #
 @app.route('/api/notificacoes/<int:id>', methods=['DELETE'])
 def deletar_notificacao(id):
     try:
@@ -1736,19 +1764,20 @@ def deletar_notificacao(id):
         return jsonify({"sucesso": False, "erro": str(e)}), 500
 
 
+# Rota para renderizar e tela para pegar o email e nviar o código para modificar a senha #
 @app.route("/redefinir-senha/email", methods=["GET"])
 def pegar_email():
 
     return render_template("pegar_email.html")
 
+
+# Rota para validar se o email existe e se enviou o código de verificação #
 @app.route("/redefinir-senha/email/salvar", methods=["GET", "POST"])
 def pegar_email_salvar():
 
     email  = get_recuperar_form()
     email = email.get("email", "").strip().lower()
     redefinir = Redefinir()
-
-
 
     usuario_existe = redefinir.buscar_email_redefinir(email)
 
@@ -1768,9 +1797,7 @@ def pegar_email_salvar():
 
     return render_template("redefinir_senha.html")
 
-
-
-
+# Renderiza a tela para digitar o código de verificação e modificar a senha #
 @app.route("/redefinir-senha/codigo", methods=["GET", "POST"])
 def verifi_codigo():
     redefinir = Redefinir()
@@ -1792,6 +1819,7 @@ def verifi_codigo():
     return render_template("atualizar_senha.html")
 
 
+# Rota para realmente executar a redefinição de senha #
 @app.route("/redefinir-senha/nova-senha/salvar", methods=["GET", "POST"])
 def atualizar_senha():
     redefinir = Redefinir()
@@ -1810,12 +1838,9 @@ def atualizar_senha():
     if not sucesso:
         flash(mensagem, "danger")
         return render_template("atualizar_senha.html")
-
-    
-    
+   
     flash("Senha alterada com sucesso", "success")
     return render_template("login.html")
-
 
 # ====== Executar codigo ======#
 if __name__ == "__main__":
