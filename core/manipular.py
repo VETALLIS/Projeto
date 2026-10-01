@@ -23,8 +23,8 @@ class Manipular:
             return None
         else:
             return f"o campo {field name} está muito curto"
-            
-    print("Texto válido e aprovado!")
+
+
     def validar_caracter(dados, field_name):
         special= ["!", "@", "#", "$","%", "&", "*", "-", "+", "=", "¨", "/", ";" "?", "°", "()", "§", "£", "¢", "¬", "^" "`", "|", "_"]
         try:
