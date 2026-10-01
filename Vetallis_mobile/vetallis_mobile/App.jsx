@@ -14,6 +14,15 @@ import LoginScreen from './screens/LoginScrenn';
 import { AuthProvider } from './screens/AuthContext';
 import EsqueceuSenha from './screens/EsqueceuSenha';
 
+/*
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+*/
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
