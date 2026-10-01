@@ -195,44 +195,49 @@ class Produto(Crud_base):
             resultados = cursor.fetchall() #pega o resultado da busca
 
            
-            if resultados:
-                return resultados
+            if resultados: #verifica que algo foi encontrado
+                return resultados #retorna os dados encontrados
             else:
-                return []  
+                return []  #retorna lista vazia se não encontrou
                 
         except Exception as e:
-            print(f"Erro na busca por categoria: {e}")
-            return [] 
+            print(f"Erro na busca por categoria: {e}") #mostra o erro no trminal
+            return [] # retorna lista vazia se der erro
             
         finally:
             cursor.close()
             conexao.close()
     
+
+    # ===== Método para contar produto por quantidade ===== #
     @classmethod
     def contar_produtos(cls, order_by="produto_id"):
-        produto = cls.buscar_tudo(order_by)
-        if not produto:
-            raise ValueError("Produto não encontrato")
-        produtos = 0
-        for i in produto:
-            produtos = produtos + 1
-        return produtos
+        produto = cls.buscar_tudo(order_by) # chama o método para de buscar tudo do Crud_base
+        if not produto: # verifica se foi encontrado
+            raise ValueError("Produto não encontrato") # retorna se tiver erro
+        produtos = 0 #conta os produtos
+        for i in produto: #percorre cada produto
+            produtos = produtos + 1 #soma 1 cada produto
+        return produtos #retorna o total de produtos
 
 
 # produto.py
 
+    # ===== Método para buscar os produtos vencidos ===== #
     @staticmethod
     def buscar_vencidos_db(nome=None, quantidade=None):
         """
         Busca produtos vencidos tratando o campo VARCHAR de validade
         e agrupa por produto.
         """
-        conexao = None
-        cursor = None
+        conexao = None 
+        cursor = None 
 
+
+        #busca o produto com validade menos que a data de hoje 
         try:
-            conexao = Database.connect()
-            cursor = conexao.cursor(dictionary=True)
+            conexao = Database.connect() #conexão com o banco
+            cursor = conexao.cursor(dictionary=True) #retorna como dicionario
 
             query = """
                 SELECT 
@@ -257,13 +262,13 @@ class Produto(Crud_base):
                     )
             """
 
-            parametros = []
+            parametros = [] #lista com os valores do filtro 
 
-            if nome:
+            if nome: #se informou o nome, filtra por ele
                 query += " AND p.produto_nome LIKE %s"
                 parametros.append(f"%{nome}%")
 
-            if quantidade is not None:
+            if quantidade is not None: # se informou quantidade, filtra por ele
                 query += " AND e.estoque_quantidade = %s"
                 parametros.append(quantidade)
 
@@ -277,43 +282,48 @@ class Produto(Crud_base):
             """
 
             cursor.execute(query, tuple(parametros))
-            return cursor.fetchall()
+            return cursor.fetchall() #retorna os produtos vencidos 
 
         finally:
             if cursor is not None:
                 cursor.close()
             if conexao is not None:
                 conexao.close()
-                
+    
+
+    # ====== Método para somar o estoque total ==== #
     @classmethod
     def total_estoque(cls):
-        conexao = Database.connect()
-        cursor = conexao.cursor(dictionary=True)
+        conexao = Database.connect() #conexão com o banco
+        cursor = conexao.cursor(dictionary=True) #retorna com dicionario
         try:
+            #soma a quantidade de todo o estoque 
             sql = """
             SELECT SUM(e.estoque_quantidade) AS total
             FROM estoque e;
             """
             cursor.execute(sql)
-            resultado = cursor.fetchone()
+            resultado = cursor.fetchone() # pega o resultado da soma
 
-            if not resultado:
-                return ValueError("Nenhum produto encontrado")
+            if not resultado: # verifica se encontrou alguma coisa
+                return ValueError("Nenhum produto encontrado") 
 
-            return resultado['total'] if resultado and resultado['total'] else 0
+            return resultado['total'] if resultado and resultado['total'] else 0 #retorna o total
         except Exception as e:
-            print(f"Erro ao buscar total de estoque: {e}")
+            print(f"Erro ao buscar total de estoque: {e}") #mostra o erro no terminal 
             return 0
         finally:
             cursor.close()
             conexao.close()
 
+
+    # ===== Método para buscar o nome do produto pelo id ===== #
     @classmethod
     def buscar_nome_produto(cls, produto_id):
         # Exemplo utilizando consulta ao banco (ajuste conforme o seu banco/ORM)
-        conexao = Database.connect()
-        cursor = conexao.cursor()
+        conexao = Database.connect() #conexão com o banco
+        cursor = conexao.cursor() 
         cursor.execute("SELECT produto_nome FROM produto WHERE produto_id = %s", (produto_id,))
-        resultado = cursor.fetchone()
-        return resultado[0] if resultado else ""
+        resultado = cursor.fetchone() # pega o resultado da busca 
+        return resultado[0] if resultado else "" #retorna o nome ou vazio se não encontro
 

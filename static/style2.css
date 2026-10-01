@@ -1882,3 +1882,24 @@ os espaçamentos e como os itens vão ser distribuidos */
 #imagem_cadastro_produto{
     height: 400px;
 }
+
+/*Botão de animal*/
+.div-com-csv{
+    width: 100%;
+}
+
+
+.titulo-csv {
+    display: none;
+    height: 50px;
+    align-items: center;
+
+}
+.titulo-csv2 {
+    background-color: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    border: none;
+    height: 40%;
+    align-items: center;
+
+}
