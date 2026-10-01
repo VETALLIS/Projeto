@@ -3,7 +3,7 @@ from core.manipular import Manipular
 from core.conectar import Database
 import base64
 class Usuario(Crud_base):
-    tabela = "usuario"
+    tabela = "usuario" #nome 
     pk = "usuario_id"
 
     fields = ["usuario_senha", "usuario_nome", "usuario_email", "usuario_cpf", "usuario_cargo", "usuario_imagem", "imagem_blob",  "imagem_tipo" ] #campos que temos na tela
@@ -34,7 +34,8 @@ class Usuario(Crud_base):
             Manipular.validar_not_caracter(self.usuario_nome, "nome"),
             Manipular.validar_letra(self.usuario_nome, "nome"),
             Manipular.validar_min_caracter(self.usuario_senha, "senha"),
-            Manipular.validar_numero(self.usuario_senha, "senha")
+            Manipular.validar_numero(self.usuario_senha, "senha"),
+            Manipular.validar_min_caracter(self.usuario_nome, "nome")
         ] #chamando as validações que serão usadas nessa tela, elas veem do manipular.py
 
         return [ erro for erro in erros if erro] #retorna o erro
