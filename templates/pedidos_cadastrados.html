@@ -61,14 +61,14 @@
                 <th class="texto-p text-start ps-5 fw-bold">Nome</th>
                 <th class="texto-p text-start ps-5 fw-bold">Data</th>
                 <th class="texto-p ps-3 fw-bold">Animal</th>
-                <th class="texto-p ps-4 fw-bold">Status</th>
-                <th class="texto-p ps-4 fw-bold">Ações</th>
+                <th class="texto-p ps-3 fw-bold">Status</th>
+                <th class="texto-p ps-7 fw-bold">Ações</th>
 
             </tr>
             {% for pedido_saida in Pedidos_saida %}
             <tr>
-                <td class="texto-p text-start ps-5">{{ pedido_saida.pedido_saida_nome }}</td>
-                <td class="texto-p text-start ps-4">{{ pedido_saida.pedido_saida_data }}</td>
+                <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_nome }}</td>
+                <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_data }}</td>
                 <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
                 <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
 
