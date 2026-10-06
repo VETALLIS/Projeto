@@ -14,19 +14,19 @@ class Alertas(Crud_base):
 
 
     
-    def deletar_alerta(self, id):
-        alerta = self.buscar_por_id(id)
+    def deletar_alerta(self, id): #def para deletar notificação de alerta
+        alerta = self.buscar_por_id(id) #verifica se tem alerta
 
         if not alerta:
-            raise ValueError("Alerta não encontrado")
+            raise ValueError("Alerta não encontrado") #se não há alerta, retorna essa mensagem
 
         self.deletar(id)
-        return "Alerta deletado com sucesso!"
+        return "Alerta deletado com sucesso!" #se o alerta for deltado, retorna essa mensagem
 
     @staticmethod
-    def limpar_notificacoes_antigas(dias=7):
+    def limpar_notificacoes_antigas(dias=7): 
         """
-        Deleta automaticamente as notificações do banco com mais de X dias.
+        Deleta automaticamente as notificações do banco com mais de 7 dias.
         """
         conexao = Database.connect()
         cursor = conexao.cursor()
@@ -41,12 +41,12 @@ class Alertas(Crud_base):
             
             # Retorna a quantidade de registros deletados
             return cursor.rowcount  
-        finally:
+        finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()
     
     @staticmethod
-    def registrar_notificacao(cursor, descricao):
+    def registrar_notificacao(cursor, descricao): #verifica se já existe uma notificação pendente igual
         sql_check = """
         SELECT notificacao_id FROM notificacao
         WHERE notificacao_descricao = %s AND notificacao_status = 'pendente'
@@ -55,6 +55,7 @@ class Alertas(Crud_base):
         if cursor.fetchone():
             return  # já existe, não duplica
 
+        #se não existe, cria a notificação como "pendente" com a data de hoje
         sql_insert = """
         INSERT INTO notificacao (notificacao_status, notificacao_data, notificacao_descricao)
         VALUES (%s, %s, %s)
@@ -63,9 +64,9 @@ class Alertas(Crud_base):
 
     @staticmethod    
     def contar_baixo_estoque():
-        conexao = Database.connect()
-        cursor = conexao.cursor(dictionary=True)
-        try:
+        conexao = Database.connect() #abre conexão com o banco
+        cursor = conexao.cursor(dictionary=True) #linhas voltam como dicionário
+        try:#busca produtos com estoque entre 1 e 9 unidades
             sql = """
             SELECT 
                 p.produto_id, p.produto_nome, p.produto_categoria,
@@ -83,17 +84,19 @@ class Alertas(Crud_base):
                 Alertas.registrar_notificacao(cursor, descricao)
             conexao.commit()
 
-            return baixo_estoque
-        finally:
+            return baixo_estoque #retorna os q estão abaixo de estoque
+        finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()
 
     @staticmethod
     def contar_vencidos():
         try:
-            conexao = Database.connect()
-            cursor = conexao.cursor(dictionary=True)
+            conexao = Database.connect() #abre conexão com o banco
+            cursor = conexao.cursor(dictionary=True) #linhas voltam como dicionário
 
+            #busca itens com validade anterior a hoje
+            #converte o texto em data
             sql = """   
             SELECT 
             p.produto_id, p.produto_nome, p.produto_categoria,
@@ -110,7 +113,7 @@ class Alertas(Crud_base):
 
             cursor.execute(sql)
             vencidos = cursor.fetchall()
-            for item in vencidos:
+            for item in vencidos: #para cada produto vencido é criado uma notificação
                 descricao = (
                     f"Produto vencido: {item['produto_nome']} "
                     f"(validade {item['item_pedido_entrada_validade']})"
@@ -118,17 +121,19 @@ class Alertas(Crud_base):
                 Alertas.registrar_notificacao(cursor, descricao)
 
             conexao.commit()
-            return vencidos
-        finally:
+            return vencidos #retorna os vencidos
+        finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()
     
     @staticmethod
-    def contar_data_relativa():
+    def contar_data_relativa(): #def para contar dats relativas
         try:
-            conexao = Database.connect()
-            cursor = conexao.cursor(dictionary=True)
+            conexao = Database.connect() #abre conexão com o banco
+            cursor = conexao.cursor(dictionary=True) #linhas voltam como dicionário
 
+            #busca itens que vencem nos próximos 7 dias
+            #também testa os formatos de data
             sql = """
                 SELECT 
                 p.produto_id, 
@@ -148,7 +153,7 @@ class Alertas(Crud_base):
             """
 
             cursor.execute(sql)
-            perto_vencimento = cursor.fetchall()
+            perto_vencimento = cursor.fetchall() #cria uma notificação "vence em breve" para cada item que está perto do vencimento
             for item in perto_vencimento:
                 descricao = (
                     f"Vence em breve: {item['produto_nome']} "
@@ -158,15 +163,15 @@ class Alertas(Crud_base):
 
             conexao.commit()
             return perto_vencimento
-        finally:
-            cursor.close()
+        finally: #fechamento de cursor e conexão
+            cursor.close() 
             conexao.close()
         
     @staticmethod
     def buscar_pendentes():
-        conexao = Database.connect()
-        cursor = conexao.cursor(dictionary=True)
-        try:
+        conexao = Database.connect() #abre conexão com o banco
+        cursor = conexao.cursor(dictionary=True) #linhas voltam como dicionário
+        try: #lista as notificações pendentes, da mais recente para a mais antiga
             sql = """
             SELECT notificacao_id, notificacao_status, notificacao_data, notificacao_descricao
             FROM notificacao
@@ -175,7 +180,7 @@ class Alertas(Crud_base):
             """
             cursor.execute(sql)
             return cursor.fetchall()
-        finally:
+        finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()
     

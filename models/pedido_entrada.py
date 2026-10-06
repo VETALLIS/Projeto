@@ -184,8 +184,8 @@ class Item_pedido_entrada(Crud_base):
         self.atualizar(id) #grava os novos dados do item
 
         if diferenca != 0:
-            conexao = Database.connect()
-            cursor = conexao.cursor()
+            conexao = Database.connect() #abre conexão com o banco
+            cursor = conexao.cursor() #cria o cursor para executar SQL
             try: #a função só pode ser realizada se a quantia no estoque realmente tiver mudado
                 sql = """
                     UPDATE estoque
@@ -204,26 +204,26 @@ class Item_pedido_entrada(Crud_base):
         return "Item de pedido de entrada atualizado com sucesso!" #mensagem de sucesso
 
     @classmethod
-    def buscar_item_pedido_entrada(cls, order_by="item_pedido_entrada_id"):
+    def buscar_item_pedido_entrada(cls, order_by="item_pedido_entrada_id"): #busca pedido
         item_pedido_entrada = cls.buscar_tudo(order_by)
 
         if not item_pedido_entrada:
-            raise ValueError("item_pedido_entrada não encontrado.") 
+            raise ValueError("item_pedido_entrada não encontrado.") #mensagem caso não seja encontrado
 
-        return item_pedido_entrada
+        return item_pedido_entrada #retorno de item pedido entrada
 
 
     @classmethod
     def buscar_por_pedido_entrada(cls, pedido_entrada_id):
-        conexao = Database.connect()
-        cursor = conexao.cursor()
-        try:
+        conexao = Database.connect()#abre conexão com o banco
+        cursor = conexao.cursor() #cria o cursor para executar SQL
+        try: #busca os itens que pertencem ao pedido
             sql = f"SELECT * FROM {cls.tabela} WHERE pedido_entrada_pedido_entrada_id = %s"
             cursor.execute(sql, (pedido_entrada_id,))
-            colunas = [desc[0] for desc in cursor.description]
-            linhas = cursor.fetchall()
-            return [dict(zip(colunas, linha)) for linha in linhas]
-        finally:
+            colunas = [desc[0] for desc in cursor.description] #nomes das colunas
+            linhas = cursor.fetchall() #odas as linhas retornadas
+            return [dict(zip(colunas, linha)) for linha in linhas] #transforma cada linha em dicionário
+        finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()
    
