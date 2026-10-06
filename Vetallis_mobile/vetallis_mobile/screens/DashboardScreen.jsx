@@ -54,18 +54,13 @@ export default function DashScreen() {
         >
             <View style={styles.menu}>
                 <View style={styles.menuEsquerda}>
-                    <View style={styles.iconCircle}>
-                        <MaterialCommunityIcons name="calendar-today" size={30} color="#fefefe" />
-                    </View>
+                    
                     <Image
                         source={require('../assets/vetallis.png')}
                         style={styles.logo}
                     />
                 </View>
                 <View style={styles.menuDireita}>
-                    <View style={styles.iconCircle}>
-                        <MaterialCommunityIcons name="magnify" size={30} color="#fefefe" />
-                    </View>
                     <TouchableOpacity style={styles.iconCircle} onPress={carregarDados}>
                         <MaterialCommunityIcons name="refresh" size={30} color="#fefefe" />
                     </TouchableOpacity>
@@ -249,7 +244,7 @@ const styles = StyleSheet.create({
     },
     header: {
         marginTop: 20,
-        marginBottom: 15,
+        marginBottom: 10,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -341,7 +336,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         backgroundColor: '#0ab82798',
         borderRadius: 5,
-        marginLeft: 3
+        marginLeft: 3,
+        padding: 2
 
     },
     mensagemErro: {
@@ -353,9 +349,10 @@ const styles = StyleSheet.create({
     card_produto: {
         backgroundColor: '#ffffff',
         borderRadius: 15,
-        padding: 15,
-        margin: 15,
-        width: '30%',
+        padding: 10,
+        margin: 20,
+        width: '25%',
         alignItems: 'center'
     },
+
 });
