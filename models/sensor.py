@@ -52,63 +52,55 @@ class Sensor(Crud_base):
         return "Sensor deletado com sucesso" #se encontrar deleta e retorna essa mensagem
 
 
-
-
-
-
-
-
-
-
-
     def atualizar_sensor(self, id): #def para salvar atualização do sensor
-        sensor = self.buscar_por_id(id)
+        sensor = self.buscar_por_id(id) #busca sensor por id
 
         if not sensor:
-            raise ValueError("Sensor não encontrado")
+            raise ValueError("Sensor não encontrado") #se o sensor não for encontrado, ele retorna a mensagem 
 
-        self.atualizar(id)
-        return "Sensor atualizado com sucesso!"
+        self.atualizar(id) #atualiza sensor se encontrar
+        return "Sensor atualizado com sucesso!" #mensagem de retorno se encontrar
 
     @classmethod #buscando po id
-    def buscar_sensor_id(cls, id):
-        sensor = cls.buscar_por_id(id)
+    def buscar_sensor_id(cls, id): 
+        sensor = cls.buscar_por_id(id) #busca sensor por id
 
         if not sensor:
-            raise ValueError("Sensor não encontrado")
+            raise ValueError("Sensor não encontrado") #se não encontrar o sensor, retorna essa mensagem
             
-        sid = sensor["sensor_id"]      
+        sid = sensor["sensor_id"]   #armazena o id 
         del sensor["sensor_id"]        
-        obj = Sensor(**sensor)         
-        obj.sensor_id = sid
-        if obj.imagem_blob:
+        obj = Sensor(**sensor)   #transforma o dicionaria em um objeto sensor      
+        obj.sensor_id = sid #devolve o id ao objeto
+        
+        if obj.imagem_blob: #converte a imagem para base64
             obj.imagem_base64 = base64.b64encode(obj.imagem_blob).decode("utf-8")
         else:
-            obj.imagem_base64 = ""
+            obj.imagem_base64 = "" #sem imagem
         return obj
     
     @classmethod #buscando imagem para sensor
     def buscar_sensores(cls, order_by=pk):
-        sensores = cls.buscar_tudo(order_by)
+        sensores = cls.buscar_tudo(order_by) #busca todos os sensores
 
         if not sensores:
             raise ValueError("Sensor não encontrato")
         
-        for sensor in sensores:
-            sensor["imagem_base64"] = None
+        for sensor in sensores: #percorre cada sensor e prepara imagem 
+            sensor["imagem_base64"] = None 
             if sensor.get("imagem_blob"):
                 sensor["imagem_base64"] = base64.b64encode(sensor["imagem_blob"]).decode("utf-8")
             else:
-                sensor["imagem_base64"] = None
+                sensor["imagem_base64"] = None #sensor sem foto
         return sensores
     
     @classmethod #analisa os dados cadastrados, com o banco
     def contar_sensores(cls, order_by="sensor_id"):
-        sensor = cls.buscar_tudo(order_by)
+        sensor = cls.buscar_tudo(order_by) #busca todos os sensores
         if not sensor:
             raise ValueError("Sensor não encontrato")
         
         sensores = 0
-        for i in sensor:
+        for i in sensor: #conta os sensores para exibi-los na tela de relatório
             sensores = sensores + 1
         return sensores
