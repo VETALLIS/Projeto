@@ -4,13 +4,13 @@ from core.crud_base import Crud_base
 from core.conectar import Database
 from core.manipular import Manipular
 
-class Redefinir(Crud_base):
+class Redefinir(Crud_base): #Depois de importar e definir a classe para redefinir senha definimos a tabela e seus campos no banco de dados
 
     tabela = "recuperar"
     fields = ["recuperar_codigo"]
     pk = "recuperar_id"
 
-    def gerar_codigo(self):
+    def gerar_codigo(self): # Esse função gera um número aleatório de 5 caracteres com números entre  e 
         numeros = []
         for i in range(5):
             numero = random.randint(1, 9)
@@ -18,7 +18,7 @@ class Redefinir(Crud_base):
 
         return numeros
 
-    def enviar_email(self, email, codigo):
+    def enviar_email(self, email, codigo): # essa função localiza o email que enviará e onde será enviado para que a pessoa receba o código de verificação
 
         try:
             servidor_email = smtplib.SMTP('smtp.gmail.com', 587)
@@ -36,7 +36,7 @@ class Redefinir(Crud_base):
         finally:
             servidor_email.quit()
 
-    def buscar_email_redefinir(self, email):
+    def buscar_email_redefinir(self, email): # 
         buscar = self.buscar_email(email)
 
         if not buscar:
@@ -44,7 +44,7 @@ class Redefinir(Crud_base):
 
         return buscar
 
-    def gravar_codigo(self, numeros):
+    def gravar_codigo(self, numeros): # Essa funçaõ grava o códifo que foi gerado
         self.recuperar_codigo = "".join(str(n) for n in numeros)
         gravar = self.gravar()
 
