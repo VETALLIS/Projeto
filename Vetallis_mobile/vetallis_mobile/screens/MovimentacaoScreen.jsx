@@ -70,18 +70,12 @@ export default function MovimentacaoScreen() {
         {/* HEADER */}
         <View style={styles.menu}>
           <View style={styles.menuEsquerda}>
-            <View style={styles.iconCircle}>
-              <MaterialCommunityIcons name="calendar-today" size={30} color="#fefefe" />
-            </View>
             <Image
               source={require('../assets/vetallis.png')}
               style={styles.logo}
             />
           </View>
           <View style={styles.menuDireita}>
-            <View style={styles.iconCircle}>
-              <MaterialCommunityIcons name="magnify" size={30} color="#fefefe" />
-            </View>
             <View style={styles.iconCircle}>
               <MaterialCommunityIcons name="cog-outline" size={30} color="#fefefe" />
             </View>
