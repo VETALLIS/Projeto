@@ -156,31 +156,30 @@ class Manipular: #vai comparar a senha inserida com a senha criada para acessar 
 
             return False
         
-    def validar_data(dados, field_name):#API externa invertexto valida A DATA
+    def validar_data(dados, field_name):
         meses = ['01', '02', '03', '04', '05', '06',
-            '07', '08', '09', '10', '11', '12',] #lista de meses válidos
-        if len(dados) == 10: #caracteres da data 
+            '07', '08', '09', '10', '11', '12',]
+        if len(dados) == 10:
             try:
-                if int(dados[0:5]) >= 2026: #compara com 2026 e não aceita se a data for apos 2026
-                    if dados[3:5] in meses: #pega as posicoes 3 e 4  e confere se esta dentre os numeros da lista de meses
-                        if dados[4:6] in ['01', '03', '05', '07', '08', '10', '12']: #confere se o mês tem 31 dias                            if 0 < int(dados[0:2]) <= 31:
+                if int(dados[0:5]) >= 2025:
+                    if dados[3:5] in meses:
+                        if dados[4:6] in ['01', '03', '05', '07', '08', '10', '12']:
+                            if 0 < int(dados[0:2]) <= 31:
                                 return None
-                            else: 
+                            else:
                                 return f"O campo {field_name} está incorreto"
-                        elif dados[4:6] in ['04', '06', '09', '11']: #se não, ve se tem 30 dias
-                            if 0 < int(dados[0:2]) <= 30: 
+                        elif dados[4:6] in ['04', '06', '09', '11']:
+                            if 0 < int(dados[0:2]) <= 30:
                                 return None
                             else:
                                 return False
-                        else: #fevereiro
+                        else:
                             if int(dados[8:]) == 28:
                                 return None
                             else:
                                 return False
-                    else: # se o mês não está na lista de meses
+                    else:
                         return f"A {field_name} está com o mês incorreto"
             except ValueError as e:
                     (f"A {field_name} está com o ano incorreto")
-        else:
-            return f"O {field_name} não está de acordo com essa validação"
-        return False
+
