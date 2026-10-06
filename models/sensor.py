@@ -1,10 +1,11 @@
-from core.crud_base import Crud_base
-from core.manipular import Manipular
-import base64
+from core.crud_base import Crud_base #importação
+from core.manipular import Manipular #importação
+import base64 #importação
 
 class Sensor(Crud_base):
-    tabela = "sensor"
-    pk = "sensor_id"
+    tabela = "sensor" #nome da tabela
+    pk = "sensor_id" #chave primaria da tabela
+
     fields = ["sensor_nome", "sensor_descricao", "sensor_n_serie", "sensor_modelo", "sensor_voltagem", "sensor_tipo_conexao", "sensor_localizacao", "sensor_imagem", "imagem_blob",  "imagem_tipo"] #campos que temos na tela
 
     def __init__(self, sensor_nome, sensor_descricao, sensor_n_serie, sensor_modelo, sensor_voltagem, sensor_tipo_conexao, sensor_localizacao, sensor_imagem, imagem_tipo, imagem_blob): #definição de campos
@@ -19,36 +20,46 @@ class Sensor(Crud_base):
         self.imagem_tipo = imagem_tipo
         self.imagem_blob = imagem_blob
 
-    def validar_sensor(self):
+    def validar_sensor(self): #executa as validações e retorna o erro
         erros = [
-            Manipular.validar_vazio(self.sensor_nome, "nome"),
-            Manipular.validar_vazio(self.sensor_descricao, "descrição"),
-            Manipular.validar_vazio(self.sensor_n_serie, "Numero de serie"),
-            Manipular.validar_vazio(self.sensor_modelo, "Modelo"),
-            Manipular.validar_vazio(self.sensor_voltagem, "voltagem"),
-            Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"),
-            Manipular.validar_vazio(self.sensor_localizacao, "Localização"),
-            Manipular.validar_numero(self.sensor_n_serie, "Numero de serie")
+            Manipular.validar_vazio(self.sensor_nome, "nome"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_descricao, "descrição"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_n_serie, "Numero de serie"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_modelo, "Modelo"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_voltagem, "voltagem"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"), #campo não pode ser vazio
+            Manipular.validar_vazio(self.sensor_localizacao, "Localização"), #campo não pode ser vazio
+            Manipular.validar_numero(self.sensor_n_serie, "Numero de serie") #o campo nuemro de serie precisa tem numero
         ]  #chamando as validações que serão usadas nessa tela, elas veem do manipular.py   
             
-        return [ erro for erro in erros if erro]
+        return [ erro for erro in erros if erro] #retorna o erro
 
     def gravar_sensor(self): #def para gravar sensor no banco
-        sensor = self.gravar()
+        sensor = self.gravar() 
 
         if not sensor:
             raise ValueError("Erro ao cadastrar sensor")
 
-        return "Sensor cadastrado com sucesso"
+        return "Sensor cadastrado com sucesso" #mensagem de retorno
 
-    @classmethod #deletar sensor 
-    def deletar_sensor(cls, id):
-        sensor = cls.buscar_por_id(id)
+    @classmethod 
+    def deletar_sensor(cls, id): #deletar sensor 
+        sensor = cls.buscar_por_id(id) #busca sesnor por id
 
         if not sensor:
-            raise ValueError("Sensor não encontrado")
-        cls.deletar(id)
-        return "Sensor deletado com sucesso" 
+            raise ValueError("Sensor não encontrado") #se o sensor não for encontrado, ele retorna a mensagem
+        cls.deletar(id) #deleta sensor se encontrar
+        return "Sensor deletado com sucesso" #se encontrar deleta e retorna essa mensagem
+
+
+
+
+
+
+
+
+
+
 
     def atualizar_sensor(self, id): #def para salvar atualização do sensor
         sensor = self.buscar_por_id(id)

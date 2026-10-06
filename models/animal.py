@@ -101,7 +101,7 @@ class Animal(Crud_base):
         if not animal: # verifica se foi encontrado
             raise ValueError("Animal não encontrado.") # retorna se tiver erro
 
-        return animal# retorna os dados encontrado
+        return animal # retorna os dados encontrado
 
 
     @classmethod
