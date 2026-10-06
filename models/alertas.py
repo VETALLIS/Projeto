@@ -73,7 +73,7 @@ class Alertas(Crud_base):
             FROM produto p
             INNER JOIN estoque e
                 ON e.produto_produto_id = p.produto_id
-            WHERE e.estoque_quantidade < 5
+            WHERE e.estoque_quantidade < 10 and e.estoque_quantidade >= 1
             """
             cursor.execute(sql)
             baixo_estoque = cursor.fetchall()
