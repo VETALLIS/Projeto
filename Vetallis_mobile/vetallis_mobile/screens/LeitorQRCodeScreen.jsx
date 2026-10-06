@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
@@ -150,14 +150,12 @@ export default function LeitorScreen() {
     >
       <View style={styles.menu}>
         <View style={styles.menuEsquerda}>
-          <View style={styles.iconCircle}>
-            <MaterialCommunityIcons name="calendar-today" size={30} color="#fefefe" />
-          </View>
+          <Image
+            source={require('../assets/vetallis.png')}
+            style={styles.logo}
+          />
         </View>
         <View style={styles.menuDireita}>
-          <View style={styles.iconCircle}>
-            <MaterialCommunityIcons name="magnify" size={30} color="#fefefe" />
-          </View>
           <View style={styles.iconCircle}>
             <MaterialCommunityIcons name="cog-outline" size={30} color="#fefefe" />
           </View>

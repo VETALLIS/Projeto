@@ -133,18 +133,12 @@ export default function Perfil() {
       {/* HEADER / BARRA SUPERIOR */}
       <View style={styles.menu}>
         <View style={styles.menuEsquerda}>
-          <View style={styles.iconCircle}>
-            <MaterialCommunityIcons name="calendar-today" size={26} color="#fefefe" />
-          </View>
           <Image
             source={require('../assets/vetallis.png')}
             style={styles.logo}
           />
         </View>
         <View style={styles.menuDireita}>
-          <View style={styles.iconCircle}>
-            <MaterialCommunityIcons name="magnify" size={40} color="#fefefe" />
-          </View>
           <View style={styles.iconCircle}>
             <MaterialCommunityIcons name="cog-outline" size={26} color="#fefefe" />
           </View>

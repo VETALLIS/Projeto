@@ -24,9 +24,15 @@ class Lista_compra(Crud_base):
     def validar_lista_compra(self):
         erros = [
             Manipular.validar_vazio(self.lista_compra_nome, "nome"),
+            Manipular.validar_min_caracter(self.lista_compra_nome, "nome"),
+            Manipular.validar_not_caracter(self.lista_compra_nome, "nome"),
+            Manipular.validar_letra(self.lista_compra_nome, "nome"),
             Manipular.validar_vazio(self.lista_compra_quantidade, "quantidade"),
+            Manipular.validar_numero(self.lista_compra_quantidade, "quantidade"),
             Manipular.validar_vazio(self.lista_compra_valor, "valor"),
+            Manipular.validar_numero(self.lista_compra_valor, "valor"),
             Manipular.validar_vazio(self.lista_compra_status, "status")
+
             
         ]          
     
