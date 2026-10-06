@@ -1,23 +1,24 @@
+# Importamos o crud base e o manipular, além do conectar para que possamso fazer a integração e manipulação de dados do pedido saíida
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
 import datetime
 from core.conectar import Database
 
 
-
+# Criamos a classe de pedido saída definindo sua chave primária, nome da tabela e campos
 class Pedido_saida(Crud_base):
     pk = "pedido_saida_id"
     tabela = "pedido_saida"
     fields = [ "pedido_saida_nome", "pedido_saida_data", "pedido_entrada_status", "animal_animal_id"]
 
-    def __init__(self, pedido_saida_nome,pedido_saida_data, animal_animal_id, pedido_entrada_status = "PENDENTE" ):
+    def __init__(self, pedido_saida_nome,pedido_saida_data, animal_animal_id, pedido_entrada_status = "PENDENTE" ): #Aqui definimos os dados para cada uma das variáveis
         self.pedido_saida_id = None
         self.pedido_saida_nome = pedido_saida_nome
         self.pedido_saida_data = pedido_saida_data 
         self.pedido_entrada_status = pedido_entrada_status
         self.animal_animal_id = animal_animal_id
 
-    def validar_pedido_saida(self):
+    def validar_pedido_saida(self): # Aqui pegamos cada dado e com as funções do manipular validamos eles 
         erros = [
             Manipular.validar_vazio(self.pedido_saida_nome, "nome"),
             Manipular.validar_vazio(self.pedido_saida_data, "data"),
@@ -27,7 +28,7 @@ class Pedido_saida(Crud_base):
     
         return [ erro for erro in erros if erro]
 
-    def converter_data_saida(data_str):
+    def converter_data_saida(data_str): # Pega a data em formato de ano, mes e dia e converte para dia, mes e ano
             formatos = ['%d/%m/%Y', '%d-%m-%Y', '%Y-%m-%d']
             for formato in formatos:
                 try:
@@ -36,7 +37,7 @@ class Pedido_saida(Crud_base):
                     continue
             return None
 
-    def gravar_pedido_saida(self):
+    def gravar_pedido_saida(self): # Depois de passar pelas validações ele grava os dados no banco senão dá uma mensagem de erro
         pedido_saida = self.gravar()
 
         if not pedido_saida:
@@ -44,7 +45,7 @@ class Pedido_saida(Crud_base):
 
         return pedido_saida
 
-    def deletar_pedido_saida(self, id):
+    def deletar_pedido_saida(self, id): #Caso queira deletar o pedido essa função fara isso buscando o id do pedido
         pedido_saida = self.buscar_por_id(id)
 
         if not pedido_saida:
@@ -53,7 +54,7 @@ class Pedido_saida(Crud_base):
         self.deletar()
         return "Pedido deletado com sucesso!"
 
-    def atualizar_pedido_saida(self, id):
+    def atualizar_pedido_saida(self, id): #Caso queira atualizar o pedido essa função fara isso buscando o id do pedido
         pedido_saida = self.buscar_por_id(id)
 
         if not pedido_saida:
@@ -63,7 +64,7 @@ class Pedido_saida(Crud_base):
         return "Pedido atualizado com sucesso!"
     
     @classmethod
-    def buscar_todos_pedidos_saida(cls, order_by="pedido_saida_nome"):
+    def buscar_todos_pedidos_saida(cls, order_by="pedido_saida_nome"): # Caso queria listar todos os pedidos essa função listará ordenando com o order by
         pedido_saida  = cls.buscar_tudo(order_by)
 
         if not pedido_saida:
@@ -74,6 +75,7 @@ class Pedido_saida(Crud_base):
 from core.crud_base import Crud_base
 from core.manipular import Manipular 
 
+# Nessa parte fazemos outra classe para a segunda parte do pedido, onde se localizam os itens
 class Item_pedido_saida(Crud_base):
     pk = "item_pedido_saida_id"
     tabela = "item_pedido_saida"
@@ -97,7 +99,7 @@ class Item_pedido_saida(Crud_base):
     
         return [ erro for erro in erros if erro]
 
-    def gravar_item_pedido_saida(self, numero):
+    def gravar_item_pedido_saida(self, numero): #Depois de seguir a mesma estrutura do cabeçalho do pedido ele grava no banco de dados na tabela estoque com a quantidade de itens removidos, senão ele dá como estoque inválido
         self.pedido_saida_pedido_saida_id = numero
         pedido_saida = self.gravar()
 
@@ -139,7 +141,7 @@ class Item_pedido_saida(Crud_base):
             cursor.close()
             conexao.close()
     
-    def _validar_quantidade(self, cursor, id_produto, quantidade):
+    def _validar_quantidade(self, cursor, id_produto, quantidade): # Aqui a função selecionará para verificar se a quantidade removida condiz com o quanto há no estoque, e se há o produto no estoque
         sql = """
             SELECT estoque_quantidade
             FROM estoque
@@ -158,7 +160,7 @@ class Item_pedido_saida(Crud_base):
         if quantidade_atual < quantidade:
             raise Exception("Saldo insuficiente em estoque.")
 
-    def _atualizar_estoque_saida(self, cursor, id_produto, id_localizacao, quantidade):
+    def _atualizar_estoque_saida(self, cursor, id_produto, id_localizacao, quantidade): # Aqui atualiza a quantidade de estoque de saída
         sql = """
             UPDATE estoque
             SET estoque_quantidade = estoque_quantidade - %s
@@ -171,7 +173,7 @@ class Item_pedido_saida(Crud_base):
             (quantidade, id_produto)
         )
 
-    def deletar_item_pedido_saida(self, id):
+    def deletar_item_pedido_saida(self, id): # essa função deleta o item do pedido buscando por id
         pedido_saida = self.buscar_por_id(id)
 
         if not pedido_saida:
@@ -180,7 +182,7 @@ class Item_pedido_saida(Crud_base):
         self.deletar()
         return "Pedido deletado com sucesso!"
 
-    def atualizar_item_pedido_saida(self, id):
+    def atualizar_item_pedido_saida(self, id): #essa função atualiza o item do pedido buscando por id
         pedido_saida = self.buscar_por_id(id)
 
         if not pedido_saida:
@@ -189,7 +191,7 @@ class Item_pedido_saida(Crud_base):
         self.atualizar(id)
         return "Pedido atualizado com sucesso!"
 
-    def buscar_item_pedido_saida(self):
+    def buscar_item_pedido_saida(self): #essa função busca o item do pedido buscando por id
         item_pedido_saida  = self.buscar_por_id(id)
 
         if not item_pedido_saida:
@@ -199,7 +201,7 @@ class Item_pedido_saida(Crud_base):
         return Item_pedido_saida(**item_pedido_saida)
 
     @classmethod
-    def buscar_todo_item_pedido_saida(cls, order_by=pk):
+    def buscar_todo_item_pedido_saida(cls, order_by=pk): #essa função lista todos os itens do pedido ordenando com o ordem by
         item_pedido_saida = cls.buscar_tudo(order_by) 
 
         if not item_pedido_saida: 
@@ -208,7 +210,7 @@ class Item_pedido_saida(Crud_base):
         return item_pedido_saida
 
     @staticmethod
-    def buscar_estoque_por_produto(produto_id):
+    def buscar_estoque_por_produto(produto_id): # Essa função busca no estoque por produto específico
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
         try:
@@ -222,7 +224,7 @@ class Item_pedido_saida(Crud_base):
             conexao.close()
     
     @classmethod
-    def buscar_por_pedido(cls, pedido_saida_id):
+    def buscar_por_pedido(cls, pedido_saida_id): # Esse busca o pedido pelo id dele
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
         try:
