@@ -55,8 +55,6 @@ class Sensor(Crud_base):
 
 
 
-                      CONTINUAR AQUI 
-
 
 
 
