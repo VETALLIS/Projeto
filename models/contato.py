@@ -36,4 +36,3 @@ class Contato(Crud_base):
             print(f"Erro ao enviar: {e}")
 
             return "Erro {e}"
-
