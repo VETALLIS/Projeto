@@ -53,17 +53,17 @@ class Lista_compra(Crud_base):
 
 
 
-    def deletar_lista_compra(self, id): #deletar sensor 
-        lista_compra = self.buscar_por_id(id) #busca sesnor por id
+    def deletar_lista_compra(self, id): #deletar lista
+        lista_compra = self.buscar_por_id(id) #busca lista por id
 
         if not lista_compra:
-            raise ValueError("Lista de compra não encontrada") #se o sensor não for encontrado, ele retorna a mensagem
+            raise ValueError("Lista de compra não encontrada") #se o lista não for encontrado, ele retorna a mensagem
 
         self.deletar(id)
         return "Lista de compra deletada com sucesso!"#se encontrar deleta e retorna essa mensagem
 
 
-     # ====== Método para atualizar os dados do produto ===== #
+     # ====== Método para atualizar os dados da lista ===== #
     def atualizar_lista_compra(self, id):
         lista_compra = self.buscar_por_id(id) # chama o método para de buscar por id do Crud_base
 

@@ -9,6 +9,8 @@ def buscar_estoque_db(nome=None, categoria=None, quantidade=None):
     try:
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
+
+        #Seleciona os dados do produto e a quantidade do estoque
         query = """
             SELECT
                 p.produto_id,
@@ -24,11 +26,11 @@ def buscar_estoque_db(nome=None, categoria=None, quantidade=None):
             WHERE 1 = 1
         """
 
-
+        # Lista dos valores que substituirão os %s da query, na ordem em que aparecem
         parametros = []
 
         if nome:
-
+            # LIKE permite busca parcial 
             query += """
                 AND p.produto_nome LIKE %s
             """
@@ -40,7 +42,7 @@ def buscar_estoque_db(nome=None, categoria=None, quantidade=None):
 
 
         if categoria:
-
+            #Comparação exata
             query += """
                 AND p.produto_categoria = %s
             """
@@ -55,7 +57,7 @@ def buscar_estoque_db(nome=None, categoria=None, quantidade=None):
         # ==========================================
 
         if quantidade is not None:
-
+            # Adiciona na busca: "quantidade exatamente igual a essa"
             query += """
                 AND e.estoque_quantidade = %s
             """
@@ -65,12 +67,12 @@ def buscar_estoque_db(nome=None, categoria=None, quantidade=None):
             )
 
 
-
+     # Coloca o resultado em ordem alfabética (A até Z)
         query += """
             ORDER BY p.produto_nome ASC
         """
 
-
+    # Manda o comando para o banco.
         cursor.execute(
             query,
             tuple(parametros)
@@ -78,12 +80,12 @@ def buscar_estoque_db(nome=None, categoria=None, quantidade=None):
 
 
 
-
+    # Pega todas as linhas retornadas como uma lista de dicionários
         produtos = cursor.fetchall()
 
 
 
-        return produtos
+        return produtos #Retorna o que foi encontrado
 
 
     except Exception as erro:
@@ -96,9 +98,9 @@ def buscar_estoque_db(nome=None, categoria=None, quantidade=None):
 
         if cursor is not None:
 
-            cursor.close()
+            cursor.close() #fecha o cursor se estiver aberto
 
 
         if conexao is not None:
 
-            conexao.close()
+            conexao.close() #fecha a conexao se estiver aberta

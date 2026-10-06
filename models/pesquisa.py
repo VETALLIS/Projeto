@@ -8,7 +8,7 @@ class Pesquisa(Crud_base):
 
     def __init__(self, produto_nome):
         self.produto_nome = produto_nome
-
+    #Valida se não está vazio o nome e a categoria
     def validar_produto(self):
         erros = [
             Manipular.validar_vazio(self.produto_nome, "nome"),
@@ -20,17 +20,17 @@ class Pesquisa(Crud_base):
     
     from core.conectar import Database
 
-
+    # Busca o produto
     @classmethod
-    def buscar_tudo_pesquisa(cls, termo):
+    def buscar_tudo_pesquisa(cls, termo): #termo escrito pelo usuário na barra de pesquisa
         conexao = Database.connect()
         cursor = conexao.cursor(dictionary=True)
 
-        sql = "SELECT * FROM produto WHERE produto_nome LIKE %s"
-        cursor.execute(sql, (f"%{termo}%",))
-        resultados = cursor.fetchall()
+        sql = "SELECT * FROM produto WHERE produto_nome LIKE %s" #armazena o código usado para ser usado no banco, nesse a busca
+        cursor.execute(sql, (f"%{termo}%",)) # Executa o código sql, junto do termo digitado pelo usuário na barra de pesquisa
+        resultados = cursor.fetchall() #retorna todos os resultados encontrados
 
         cursor.close()
         conexao.close()
 
-        return resultados
+        return resultados #retorna os resultado obtidos do select do banco, ou seja, o produto encontrado ou a fala dele
