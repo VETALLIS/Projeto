@@ -28,6 +28,7 @@ class Lista_compra(Crud_base):
             Manipular.validar_vazio(self.lista_compra_valor, "valor"),
             Manipular.validar_vazio(self.lista_compra_status, "status")
             
+            
         ]          
     
         return [ erro for erro in erros if erro]
