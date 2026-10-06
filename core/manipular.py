@@ -165,7 +165,7 @@ class Manipular: #vai comparar a senha inserida com a senha criada para acessar 
                     if dados[3:5] in meses: #pega as posicoes 3 e 4  e confere se esta dentre os numeros da lista de meses
                         if dados[4:6] in ['01', '03', '05', '07', '08', '10', '12']: #confere se o mês tem 31 dias                            if 0 < int(dados[0:2]) <= 31:
                                 return None
-                            else: #o dia não está entre 1 e 31
+                            else: 
                                 return f"O campo {field_name} está incorreto"
                         elif dados[4:6] in ['04', '06', '09', '11']: #se não, ve se tem 30 dias
                             if 0 < int(dados[0:2]) <= 30: 
