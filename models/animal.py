@@ -28,8 +28,11 @@ class Animal(Crud_base):
         erros = [
             Manipular.validar_vazio(self.animal_especie, "especie"), # verifica se os dados estão vazio
             Manipular.validar_letra(self.animal_especie, "especie"), # verifica se os dados não estão com número
+            Manipular.validar_not_caracter(self.animal_especie, "especie"),# verifica se os dados estão aceitando caractere especial
+            Manipular.validar__min_caracter(self.animal_especie, "especie"),# verifica se os dados estão aceitando menos que 3 caracteres
             Manipular.validar_vazio(self.animal_sexo, "sexo"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_raca, "raca"), # verifica se os dados estão vazio
+            Manipular.validar
             Manipular.validar_vazio(self.animal_identificacao, "identificacao"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_idade, "idade"), # verifica se os dados estão vazio
             Manipular.validar_numero(self.animal_idade, "idade"), # verifica se os dados estão com número
