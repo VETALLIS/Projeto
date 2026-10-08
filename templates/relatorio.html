@@ -2,27 +2,21 @@
 
 {% block conteudo %}
 
-<!-- =====================================================
-     TÍTULO
-===================================================== -->
+<!-- TÍTULO -->
 
 <h3 class="mb-4 text-start titulo-h3 w-100" id="texto_inicial">
     Indicadores
 </h3>
 
 
-<!-- =====================================================
-     CARDS DOS INDICADORES
-===================================================== -->
+<!-- CARDS DOS INDICADORES -->
 
 <div class="d-flex justify-content-between">
 
     <div class="d-flex">
 
 
-        <!-- =================================================
-             CARD ANIMAIS
-        ================================================== -->
+        <!--CARD ANIMAIS-->
 
         <div class="me-4 card-dash" id="tabela">
 
@@ -61,9 +55,7 @@
         </div>
 
 
-        <!-- =================================================
-             CARD PRODUTOS EM ESTOQUE
-        ================================================== -->
+        <!-- CARD PRODUTOS EM ESTOQUE -->
 
         <div class="me-4 card-dash" id="card-produto"
             >
@@ -102,9 +94,7 @@
         </div>
 
 
-        <!-- =================================================
-             CARD PRODUTOS VENCIDOS
-        ================================================== -->
+        <!-- CARD PRODUTOS VENCIDOS -->
 
         <div class="me-4 card-dash" id="card-pvencido"
             >
@@ -144,9 +134,7 @@
         </div>
 
 
-        <!-- =================================================
-             CARD SENSOR
-        ================================================== -->
+        <!-- CARD SENSOR-->
 
         <div class="me-4 card-dash" id="card-sensor"
             >
@@ -190,17 +178,13 @@
 </div>
 
 
-<!-- =====================================================
-     ÁREA DE FILTROS E TABELA
-===================================================== -->
+<!-- ÁREA DE FILTROS E TABELA -->
 
 <div class="mt-4" id="filtro-e-tabela"
     >
 
 
-    <!-- =================================================
-         FILTROS
-    ================================================== -->
+    <!-- FILTROS -->
 
     <form id="form-filtros">
 
@@ -209,9 +193,7 @@
             <div class="row g-3 align-items-end">
 
 
-                <!-- =================================================
-                     FILTRO NOME
-                ================================================== -->
+                <!-- FILTRO NOME-->
 
                 <div class="col">
 
@@ -230,9 +212,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     FILTRO CATEGORIA
-                ================================================== -->
+                <!-- FILTRO CATEGORIA -->
 
                 <div class="col">
 
@@ -278,9 +258,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     FILTRO QUANTIDADE
-                ================================================== -->
+                <!-- FILTRO QUANTIDADE-->
 
                 <div class="col-auto">
 
@@ -299,9 +277,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     BOTÃO FILTRAR
-                ================================================== -->
+                <!-- BOTÃO FILTRAR -->
 
                 <div class="col-auto ">
 
@@ -315,9 +291,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     BOTÃO LIMPAR
-                ================================================== -->
+                <!-- BOTÃO LIMPAR-->
 
                 <div class="col-auto">
 
@@ -338,9 +312,7 @@
     </form>
 
 
-    <!-- =====================================================
-         TABELA
-    ===================================================== -->
+    <!-- TABELA -->
 
     <div class="table-responsive mt-4 px-4">
 
@@ -395,17 +367,14 @@
 </div>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
+<!--JAVASCRIPT -->
 
 <script>
 
 async function buscarProdutos() {
 
-    // -------------------------------------------------
+    
     // PEGAR VALORES DOS FILTROS
-    // -------------------------------------------------
 
     const nome =
         document.getElementById("filtro-nome").value.trim();
@@ -417,10 +386,9 @@ async function buscarProdutos() {
         document.getElementById("filtro-quantidade").value;
 
 
-    // -------------------------------------------------
+    
     // MONTAR URL DA API
-    // -------------------------------------------------
-
+    
     const parametros = new URLSearchParams();
 
 
@@ -452,10 +420,9 @@ async function buscarProdutos() {
     console.log("URL chamada:", url);
 
 
-    // -------------------------------------------------
+    
     // MOSTRAR CARREGANDO
-    // -------------------------------------------------
-
+    
     const tabela =
         document.getElementById("tabela-produtos");
 
@@ -478,17 +445,16 @@ async function buscarProdutos() {
 
     try {
 
-        // -------------------------------------------------
+        
         // CHAMAR API
-        // -------------------------------------------------
+        
 
         const resposta = await fetch(url);
 
 
-        // -------------------------------------------------
+        
         // VERIFICAR ERRO HTTP
-        // -------------------------------------------------
-
+       
         if (!resposta.ok) {
 
             throw new Error(
@@ -498,9 +464,9 @@ async function buscarProdutos() {
         }
 
 
-        // -------------------------------------------------
+        
         // CONVERTER PARA JSON
-        // -------------------------------------------------
+        
 
         const dados = await resposta.json();
 
@@ -508,10 +474,9 @@ async function buscarProdutos() {
         console.log("Resposta da API:", dados);
 
 
-        // -------------------------------------------------
+        
         // VERIFICAR SUCESSO
-        // -------------------------------------------------
-
+        
         if (!dados.sucesso) {
 
             throw new Error(
@@ -521,16 +486,16 @@ async function buscarProdutos() {
         }
 
 
-        // -------------------------------------------------
+        
         // LIMPAR TABELA
-        // -------------------------------------------------
+        
 
         tabela.innerHTML = "";
 
 
-        // -------------------------------------------------
+
         // NENHUM PRODUTO
-        // -------------------------------------------------
+        
 
         if (
             !dados.produtos ||
@@ -557,9 +522,9 @@ async function buscarProdutos() {
         }
 
 
-        // -------------------------------------------------
+        
         // PREENCHER TABELA
-        // -------------------------------------------------
+        
 
         dados.produtos.forEach(function(produto) {
 
@@ -618,9 +583,7 @@ async function buscarProdutos() {
 }
 
 
-// =====================================================
 // FORMULÁRIO
-// =====================================================
 
 document
     .getElementById("form-filtros")
@@ -633,9 +596,9 @@ document
     });
 
 
-// =====================================================
+
 // BOTÃO LIMPAR
-// =====================================================
+
 
 document
     .getElementById("btn-limpar")
@@ -652,9 +615,9 @@ document
     });
 
 
-// =====================================================
+
 // CARREGAR PRODUTOS AO ABRIR
-// =====================================================
+
 
 document.addEventListener("DOMContentLoaded", function() {
 
