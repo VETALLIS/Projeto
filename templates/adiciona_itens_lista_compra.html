@@ -5,13 +5,13 @@
     <a href="{{url_for('lista_compra')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
 <h3 class="mb-4 mt-3 text-start titulo-h3">Adicionar item à
-    lista de compras</h3>
+    lista de compras</h3> <!-- Mostra um tírulo na tela apresentando a função dela -->
 
 
-<form method="POST" action="{{ url_for('salvar_lista_compra') }}">
+<form method="POST" action="{{ url_for('salvar_lista_compra') }}"> <!-- Todo o html fica dentro de um form para o usuário preencher e adicionar o item -->
     <div class="mt-4 h-100">
 
-        <div class="row gx-3 mb-4">
+        <div class="row gx-3 mb-4"> <!-- Div que divide o nome do item e seu preço unitário -->
             <div class="col-6">
                 <label for="nome_produto" class="text-light text-start d-block">Nome do item:</label>
                 <input type="text" id="nome_produto" name="nome_produto" placeholder="Digite o nome do item:" class="form-control borda-none" required>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <!-- Quantidade + Botão -->
+        <!-- Div que divide a quantidade + Botão para dar um submit nas informações inseridas -->
         <div class="row gx-3 mb-4">
             <div class="col-6">
                 <label for="quantidade" class="text-light text-start d-block">Quantidade:</label>
