@@ -7,11 +7,11 @@
         Lista de compra</h3>
     <a role="button" aria-label="Adicionar item na lista de compra" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('novo_lista_compra')}}">Adicionar
-        Item</a>
+        Item</a> <!--Botão quenvia o usuário para a função do app.py-->
 </div>
 <div class="table-responsive mt-5">
-    <table class="table">
-        <tr>
+    <table class="table"> <!--Tag semantica para tabela-->
+        <tr><!--Cabeçalho da tabela-->
             <th class="text-white text-start">Nome</th>
             <th class="text-white fw-bold"> R$ unitário</th>
             <th class="text-white">Quantidade</th>
@@ -19,16 +19,17 @@
             <th class="text-white">Ação</th>
 
         </tr>
-        {% for produto in lista_compra %}
+        {% for produto in lista_compra %} <!--Faz um for  nas informações da lista de compra recebidas, 
+        fazendo várias linhas com os itens da lista de compra até acabar-->
         <tr>
-            <th class="text-white fw-normal align-items-start text-start">{{ produto.lista_compra_nome }}</th>
-            <th class="text-white fw-normal">R$ {{ produto.lista_compra_valor }}</th>
-            <th class="text-white fw-normal">{{ produto.lista_compra_quantidade }}</th>
+            <th class="text-white fw-normal align-items-start text-start">{{ produto.lista_compra_nome }}</th> <!--Mostra o nome -->
+            <th class="text-white fw-normal">R$ {{ produto.lista_compra_valor }}</th> <!--Mostra o valor-->
+            <th class="text-white fw-normal">{{ produto.lista_compra_quantidade }}</th> <!-- Mostra a quantidade -->
             <th class="text-white fw-normal">R$ {{ "%.2f"|format(produto.lista_compra_valor *
-                produto.lista_compra_quantidade) }}</th>
+                produto.lista_compra_quantidade) }}</th> <!-- Multiplica o valor e a quantidade e mostra na tela-->
             <td>
                 <a class="btn btn-sm btn-link text-danger"
-                    href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}">
+                    href="{{url_for('excluir_lista_compra', lista_compra_id=produto.lista_compra_id)}}"> <!--Ancora que guarda o link que leva para a função de exclusão no app.py, junto do id-->
                     <i role="img" aria-label="Botão de excluir item da lista de compra" class="bi bi-trash"></i>
                 </a>
             </td>
@@ -37,6 +38,7 @@
         {% endfor %}
     </table>
 </div>
+<!--Guarda o id da lista de compra e o seu nome-->
 <script>
     localStorage.setItem("lista_compra", JSON.stringify({
         id: "{{ lista_compra.lista_compra_id}}",

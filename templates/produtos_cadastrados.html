@@ -4,51 +4,53 @@
     <h3 class=" text-start titulo-h3 w-100">Produtos</h3>
     <a role="button" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('novo_produto')}}">Adicionar
-        Produto</a>
+        Produto</a> <!--Botão que leva para a função no app.py que leva para A tela de cadastro de produto-->
 </div>
 
 
 <div class="d-flex flex-wrap justify-content-start gap-3 mt-3">
-    {%if produtos %}
-    {% for produto in produtos %}
+    {%if produtos %} <!--Se tiver produtos-->
+    {% for produto in produtos %} <!--Faz um for dentro de tdos os produtos recebidos e repete os cards que vão conter as informações
+    até não ter mais produtos-->
     <div class="card card-produto  text-white backgroud-glass border-radius-menor">
         <div class="row g-0">
             <label for="imagem_produto" class="col-4 p-0 upload-box border-radius-menor sensor-cont-img">
-                {% if produto.imagem_base64 %}
+                {% if produto.imagem_base64 %} <!--Se tiver imagem aparece-->
                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
                     class="border-radius-menor img-sensor" aria-label="imagem do produto">
-                {%else%}
+                {%else%} <!--Se não uma imagem padrão aparece-->
                 <img src="/static/imagens/medicamento.jpg" class="border-radius-menor img-sensor" aria-label="imagem do produto">
-                {%endif%}
+                {%endif%} <!--finaliza o if-->
             </label>
-            <div class="col-8 p-0 ">
+            <div class="col-8 p-0 "> <!--Organiza as div que vão conter as informações-->
                 <div class="card-body d-flex gap-1 text-start pe-0 pb-0">
                     <h5 class="fs-5 titulo-h3">Nome:</h5>
-                    <h5 class="card-title fs-6 mt-1">{{produto.produto_nome}}</h5>
+                    <h5 class="card-title fs-6 mt-1">{{produto.produto_nome}}</h5> <!--Mostra o nome-->
                 </div>
                 <div class="card-body text-start pb-0 pe-0 pt-0">
                     <a role="button" aria-label="Ver detalhes do produto" href="/informacao_produto/{{produto.produto_id}}"
                         class="bi bi-arrow-bar-right text-white texto-a">
                         Ver Detalhes
-                    </a>
+                    </a><!--Ancora que leva para a rota de ver detalhes do produto, junto com o id do produto-->
                 </div>
                 <div class="card-body d-flex align-items-center gap-3 pe-0 pt-0">
                     <a role="button" aria-label="Excluir produto" class="btn btn-sm btn-link text-danger fs-5 p-0"
                         href="{{url_for('excluir_produto', produto_id=produto.produto_id)}}" >
                         <i role="img" aria-label="Botão de excluir" class="bi bi-trash" ></i>
-                    </a>
+                    </a> <!--Ancora que leva para a função de excluir produto, junto com o id do mesmo-->
                     <a role="button" aria-label="Editar Produto" href="/produto/editar/{{produto.produto_id}}" class="bi bi-pencil text-white texto-a">
                         Editar
-                    </a>
+                    </a> <!--Leva para a rota de editar produto, junto do id do produto-->
                 </div>
             </div>
         </div>
     </div>
-    {% endfor %}
-    {% else %}
+    {% endfor %} <!--finaliza o for -->
+    {% else %}<!--Se não tem produto, aparece a mensagem-->
     <p class="text-white text-center mt-4">Nenhum produto cadastrado</p>
     {%endif%}
 </div>
+<!--Grarda o id e o nome do produto-->
 <script>
     localStorage.setItem("produtos", JSON.stringify({
         id: "{{ produtos.produto_id}}",

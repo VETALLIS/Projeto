@@ -6,7 +6,7 @@
     <a role="button" aria-label="Adicionar pedido"
         class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('pedido')}}">Adicionar
-        Pedido</a>
+        Pedido</a><!--Leva para a função de pedido no app.py-->
 </div>
 <div class="d-flex table-responsive mt-5 lista_pedidos gap-5">
 
@@ -17,8 +17,8 @@
             Entradas
         </h4>
 
-        <table class="table">
-            <tr>
+        <table class="table"> <!--Tag semântica para tabela-->
+            <tr> <!--Cabeçalho -->
                 <th class="texto-p text-start ps-4 fw-bold">Nome</th>
                 <th class="texto-p text-start ps-4 fw-bold">Data</th>
                 <th class="texto-p ps-3 fw-bold">Fornecedor</th>
@@ -27,21 +27,21 @@
 
 
             </tr>
-            {% for pedido_entrada in Pedidos_ent %}
+            {% for pedido_entrada in Pedidos_ent %} <!--Faz um for dentro dos pedidos de entrada recolhidos e entregues pela função do app.py-->
             <tr>
-                <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_nome }}</td>
-                <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td>
-                <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td>
-                <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td>
+                <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_nome }}</td> <!--Mostra o nome do pedido de entrada-->
+                <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td> <!--Mostra a data do pedido de entrada-->
+                <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td> <!--Mostra o id do fornecedor-->
+                <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td> <!--Mostra o status do pedido-->
 
 
                 <td class="texto-p" >
                     <a role="img" aria-label="Botão ver detalhes do pedido de entrada"
                         href="/pedido/editar/{{pedido_entrada.pedido_entrada_id}}"
-                        class="bi bi-arrow-bar-right text-white texto-a"></a>
+                        class="bi bi-arrow-bar-right text-white texto-a"></a> <!--Ancora que leva para a tela de editar pedido-->
                     <a role="button" aria-label="Excluir pedido" class="btn btn-sm btn-link text-danger fs-5 p-0"
                         href="{{url_for('excluir_pedido_entrada', pedido_id=pedido_entrada.pedido_entrada_id)}}">
-                        <i role="img" aria-label="Botão de excluir" class="bi bi-trash"></i>
+                        <i role="img" aria-label="Botão de excluir" class="bi bi-trash"></i> <!--Ancora que leva para a função de exclusão no app.py, junto com o id-->
                     </a>
                 </td>
 
@@ -56,8 +56,8 @@
             <i role="img" title="ícone de saídas" class="bi bi-arrow-up-right-circle-fill text-danger"></i>
             Saídas
         </h4>
-        <table class="table">
-            <tr>
+        <table class="table"> <!--Tag semântica para tabela-->
+            <tr> <!--Cabeçalho-->
                 <th class="texto-p text-start ps-5 fw-bold">Nome</th>
                 <th class="texto-p text-start ps-5 fw-bold">Data</th>
                 <th class="texto-p ps-3 fw-bold">Animal</th>
@@ -65,19 +65,19 @@
                 <th class="texto-p ps-7 fw-bold">Ações</th>
 
             </tr>
-            {% for pedido_saida in Pedidos_saida %}
+            {% for pedido_saida in Pedidos_saida %} <!--Faz um for dentro dos pedidos de saida recolhidos e entregues pela função do app.py-->
             <tr>
-                <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_nome }}</td>
-                <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_data }}</td>
-                <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>
-                <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>
+                <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_nome }}</td> <!--Mostra o nome do pedido de saida-->
+                <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_data }}</td>  <!--Mostra a data do pedido de saida-->
+                <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>  <!--Mostra o id do pedido de saida-->
+                <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>  <!--Mostra o status do pedido de saida-->
 
                 <td class="texto-p ps-4">
                     <a href="{{ url_for('editar_pedido_saida', pedido_id=pedido_saida.pedido_saida_id) }}" role="img"
                         aria-label="Botão ver detalhes do pedido de saída"
-                        class="bi bi-arrow-bar-right text-white texto-a"></a>
+                        class="bi bi-arrow-bar-right text-white texto-a"></a><!--Ancora que leva para a tela de editar pedido-->
                     <a role="button" aria-label="Excluir pedido" class="btn btn-sm btn-link text-danger fs-5 p-0"
-                        href="{{url_for('excluir_pedido_saida', pedido_id=pedido_saida.pedido_saida_id)}}">
+                        href="{{url_for('excluir_pedido_saida', pedido_id=pedido_saida.pedido_saida_id)}}"> <!--Ancora que leva para a função de exclusão no app.py, junto com o id-->
                         <i role="img" aria-label="Botão de excluir" class="bi bi-trash"></i>
                     </a>
                 </td>

@@ -2,7 +2,7 @@
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('animal')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+    <a href="{{url_for('animal')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a> <!--Faz o usuário voltar para a tela de animais cadastrados-->
 </div>
 
 
@@ -11,19 +11,19 @@
 </h3>
 <div class="mt-4 w-100">
 
-    <!-- Nome -->
+    <!-- Nome - Busca o nome do animal e adiciona na tela, por meio da função do app.py que retorna essas informações -->
     <div class="p-3 mb-3 border-radius-menor backgroud-glass">
         <label class="cinza-texto texto-maiusculo">Idade</label>
         <label class="texto-p d-flex justify-content-center">{{animal.animal_idade}}</label>
     </div>
 
-    <!-- Espécie -->
+    <!-- Espécie - Busca a espécie do animal e mostra na tela -->
     <div class="p-3 mb-3 border-radius-menor backgroud-glass">
         <label class="cinza-texto texto-maiusculo">Espécie</label>
         <label class="texto-p d-flex justify-content-center">{{animal.animal_especie}}</label>
     </div>
 
-    <!-- Sexo + Identificação -->
+    <!-- Sexo + Identificação - essa div organiza o sexo e a identificação -->
     <div class="row g-3">
         <div class="col-6">
             <div class="p-3 mb-3 border-radius-menor backgroud-glass">
@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <!-- Peso + Observação -->
+    <!-- Peso + Observação - Mostra na tela as informações encontradas pelo função no app.py -->
     <div class="row g-3 mb-3">
         <div class="col-6">
             <div class="p-3 mb-3 border-radius-menor backgroud-glass">
