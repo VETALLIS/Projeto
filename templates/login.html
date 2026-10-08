@@ -1,3 +1,4 @@
+<!--Tela de login-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +26,7 @@
                 <h3 class="mb-3 titulo-h3">Sistema de Estoque</h3>
                 <h5 class="mb-4 texto-p">Acesse sua conta</h5>
 
+                <!--Alertas-->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                 {% for categoria, mensagem in messages %}
@@ -38,6 +40,7 @@
                 {% endif %}
                 {% endwith %}
 
+                <!--Formulário para login-->
                 <form method="POST" action="/login/salvar">
                     <div class="mb-3 text-start">
                         <label class="form-label texto-p fs-5">Email</label>
@@ -60,7 +63,9 @@
                                 required>
                         </div>
                     </div>
+                    <!--Redirecionamento para redefinir senha-->
                     <a href="{{(url_for('pegar_email'))}}" class="texto-a">Redefinir Senha</a>
+                    <!--Botão de enviar dados para login-->
                     <button
                         class="btn btn-login w-100 text-white mt-2 mb-2 fs-5 background-verde-medio border-radius-maior"
                         type="submit">Entrar</button>
@@ -75,6 +80,7 @@
     </main>
 </body>
 <script>
+    //Limpa o localstorage
     localStorage.removeItem("usuario");
 </script>
 

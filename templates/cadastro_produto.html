@@ -1,14 +1,21 @@
 {% extends 'base.html'%}
 {% block conteudo%}
+<!--Tela para cadastro de novos produtos-->
+
+<!--Botão de volatar para a tela de listagem de produtos-->
 <div class="d-flex justify-content-start">
    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
 </div>
 
+<!--Título da tela-->
 <h3 class="mb-4 text-start titulo-h3">Cadastro de Produto</h3>
- 
+
+<!--Formulário--> 
 <form method="POST" action="{{url_for('salvar_produto')}}" enctype="multipart/form-data" class="form-sensor gap-4">
     <div class="mt-4 ">
         <div class="d-flex justify-content-start ">
+
+            <!--Campo de adicionar imagem-->
             <div id="imagem_cadastro_produto" class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4">
                 <label for="imagem_produto"
                     class="upload-box w-100 h-100 d-flex align-items-center justify-content-center">
@@ -27,6 +34,7 @@
                 <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="">
             </div>
 
+            <!--Outros campos-->
             <div class="divisao-form w-100">
                 <div class="mb-3 text-start">
                     <label class="texto-a mb-1 d-block">Nome do produto:</label>
@@ -68,6 +76,7 @@
                         </select>
                     </div>
                     
+                    <!--Botão de enviar os dados para cadastro-->
                     <div class="justify-content-center w-100">
                         <button id="botao_cadastro_produto" class=" btn w-100 text-white background-verde-medio border-radius-menor"
                             type="submit">Cadastrar</button>
@@ -81,11 +90,13 @@
     </div>
 </form>
 <script>
+    //Criação do local storage salvando o id e o nome de usuário
     localStorage.setItem("usuario", JSON.stringify({
         id: "{{ session.get('usuario_id')}}",
         nome: "{{ session.get('usuario_nome')}}"
     }))
 
+    // Manipulação da imagem para aparecer na tela quando selecionado
     document.getElementById("imagem_produto").addEventListener("change", function () {
         const arquivo = this.files[0];
 

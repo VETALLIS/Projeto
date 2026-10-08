@@ -1,13 +1,17 @@
 {%extends 'base.html'%}
 {%block conteudo%}
+
+<!--Botão de voltar para a tela de listagem de funcionários-->
 <div class="text-start">
     <a href="{{url_for('funcionarios')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
-<h3 class="mb-4 text-start titulo-h3">Cadastro de funcionarios
-</h3>
 
+<!--Título -->
+<h3 class="mb-4 text-start titulo-h3">Cadastro de funcionarios </h3>
 
+<!--Fomulário de cadastro-->
 <form method="POST" class="d-flex" action="/usuario/salvar" enctype="multipart/form-data">
+    <!--Campo de adicionar imagem -->
     <div class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4 ">
        <label for="imagem_produto"
                 class="w-100 h-100 d-flex align-items-center justify-content-center cursor-pointer position-relative p-3">
@@ -23,6 +27,7 @@
         <input type="hidden" id="usuario_id" name="usuario_usuario_id" value="" >
     </div>
 
+    <!--Outros campos de cadastro-->
     <div class="w-100 mt-4">
         <div class="d-flex gap-3 mb-3">
             <div class="mb-2 text-start w-100 ">
@@ -65,11 +70,13 @@
             </div>
         </div>
 
+        <!--Botão de enviar os dados para castro-->
         <button class="btn w-100 text-white background-verde-medio border-radius-menor"
             type="submit" id="botao-cadastro">Cadastrar</button>
     </div>
 </form>
 <script>
+    // Manipulação de imagem
     document.getElementById("imagem_produto").addEventListener("change", function () {
         const arquivo = this.files[0];
 
@@ -90,9 +97,7 @@
             reader.readAsDataURL(arquivo);
         }
     });
-</script>
 
-<script>
     document.getElementById("imagem_produto").addEventListener("change", function () {
         const file = this.files[0];
         if (file) {

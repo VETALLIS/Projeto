@@ -2,16 +2,16 @@
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('sensor')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
-</div>
+    <a href="{{url_for('sensor')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a> <!--Envia o usuário para a tela de sensores cadastrados-->
+</div> 
 <h3 class="text-start mt-4 mb-4 titulo-h3">
     Cadastro de Sensor
 </h3>
-
+<!--Tag semântica para formulário,, coleta as informações envia para a função para salvar sensor-->
 <form method="POST" action="{{ url_for('salvar_sensor') }}" enctype="multipart/form-data" class="mt-4">
     <div class="d-flex gap-4">
 
-
+        <!--INPUT específco (file) para adicionar uma imagem, com um escrito para evidenciar o que deve ser feito -->
         <div class="borda-dashed border-radius-menor position-relative d-flex w-25">
             <label for="imagem_produto"
                 class="w-100 h-100 d-flex align-items-center justify-content-center cursor-pointer position-relative p-3">
@@ -23,14 +23,15 @@
                 </span>
             </label>
             <input type="file" id="imagem_produto" name="imagem_sensor"
-                accept="image/png, image/jpeg, image/jpg, image/webp" class="d-none">
+                accept="image/png, image/jpeg, image/jpg, image/webp" class="d-none"> <!--INPUT específico para imagem-->
             <input type="hidden" name="usuario_usuario_id" value="">
         </div>
-
+        <!--Div que divide os inputs e os organizam em coluna -->
         <div class=" flex-column justify-content-center w-100">
+            <!--Div que vai organizar outras div contendo os inputs-->
             <div class="d-flex mb-2 gap-3 w-100">
-                <div class="w-50">
-                    <label for="tipo_produto" class="text-light text-start d-block">Nome do Sensor:</label>
+                <div class="w-50"><!--Div que contem o input-->
+                    <label for="tipo_produto" class="text-light text-start d-block">Nome do Sensor:</label> 
                     <input type="text" name="sensor_nome" class="form-control w-100" placeholder="Nome do sensor:"
                         required>
                 </div>
@@ -81,7 +82,7 @@
 
     </div>
 </form>
-
+<!--Após adicionar a imagem, a mesma vai aparecer no campo de imagem-->
 <script>
     document.getElementById("imagem_produto").addEventListener("change", function () {
         const file = this.files[0];

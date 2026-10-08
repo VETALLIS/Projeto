@@ -2,7 +2,7 @@
 {% block conteudo%}
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a> <!--Retorna para a tela de produtos cadastrados-->
 </div>
 
 
@@ -11,21 +11,23 @@
 </h3>
 
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
+    <!--Div onde vai abrigar a imagem do produto-->
     <div class="upload-imagem me-4 mt-3">
         <label for="imagem_produto"
             class="ms-0 uploaded-image border-radius-menor align-items-center justify-content-center d-flex position-relative overflow-hidden"
             style="max-height: 250px;">
-            {% if produto.imagem_base64 %}
+            {% if produto.imagem_base64 %} <!--Se uma imagem estiver cadastrada, ela aparece na tela-->
             <img role="img" aria-label="imagem do produto" src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
                     class="w-100 h-100 object-fit-cover position-absolute top-0 start-0">
-                {% else %}
+                {% else %}<!--Se não tiver a imagem, uma imagem padrão vai aparecer-->
                 <img role="img" aria-label="imagem do produto" src="/static/imagens/medicamento.jpg" class="w-100 h-100" style="object-fit: cover; z-index:1;">
                 {% endif %}
         </label>
     </div>
 
     <div class="mt-4 w-100">
-
+        <!-- Mostra as informações que vão ser mostradas na tela , através da coleta realizada na rota do app.py 
+        que vai retornar essas informações para essa tela-->
         <!-- Nome -->
         <div class="p-3 mb-3 border-radius-menor backgroud-glass">
             <label class="cinza-texto texto-maiusculo">Nome do produto</label>
@@ -38,7 +40,7 @@
             <label class="texto-p d-flex justify-content-center">{{produto.produto_descricao}}</label>
         </div>
 
-        <!-- Localização + Modelo -->
+        <!-- Quantidade + Categoria -->
         <div class="row g-3 mb-3">
             <div class="col-6">
                 <div class="p-3 mb-3 border-radius-menor backgroud-glass">

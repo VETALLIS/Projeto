@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
+
+
+<!--Tela para resultados da pesquisa-->
+
+<!--Mostra título com o termo pesquisado-->
 <h3 class="mb-4 text-start titulo-h3">
     Resultados para: {{ q }}
 </h3>
 
 
 <div class="d-flex flex-wrap justify-content-start gap-4 mt-3">
+    <!--Verifica se algum item foi encontrado-->
     {% if pesquisa_item %}
     {% for produto in pesquisa_item %}
+    <!--Mostra em formatos de card os itens encontrados-->
     <div class="card card-produto mb-3 text-white backgroud-glass border-radius-menor ">
 
         <div class="row">
@@ -43,6 +50,7 @@
         </div>
 
     </div>
+    <!--Caso não foi encontrado mostra essa mensagem-->
     {% endfor %}
     {% else %}
     <p class="text-white text-center mt-4">Nenhum produto cadastrado</p>

@@ -5,28 +5,31 @@
     <h3 class="text-start titulo-h3">Fornecedores</h3>
     <a role="button" aria-label="Adicionar fornecedor" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         type="submit" href="{{url_for('fornecedor_criar')}}">Adicionar
-        Fornecedor</a>
+        Fornecedor</a> <!--Botão que redireciona o usuário para a rota do app.py-->
 </div>
-<div class="table-responsive mt-5">
+<div class="table-responsive mt-5"> <!--Tag semântica de tabela-->
     <table class="table">
         <tr>
-            <th class="texto-p ">Nome</th>
+            <th class="texto-p ">Nome</th> <!--Item do cabeçalho de cima da tabela-->
             <th class="texto-p">Tipo de produto</th>
             <th class="texto-p">Pedido mínimo</th>
             <th class="texto-p">Ações</th>
 
 
         </tr>
+        <!--Faz o for na informações coletadas de fornecedores recebidas pelo função do app.py, assim repetindo uma linha da tabela
+        até acabar todos os fornecedores-->
         {% for fornecedor in fornecedores %}
         <tr>
-            <td class="texto-p ">{{ fornecedor.fornecedor_nome or fornecedor['fornecedor_nome'] }}</td>
-            <td class="texto-p">{{ fornecedor.fornecedor_tipo_produtos or fornecedor['fornecedor_tipo_produtos'] }}</td>
-            <td class="texto-p">{{ fornecedor.fornecedor_pedido_minimo or fornecedor['fornecedor_pedido_minimo'] }}</td>
+            <td class="texto-p ">{{ fornecedor.fornecedor_nome or fornecedor['fornecedor_nome'] }}</td><!--Adiciona o nome do fornecedor-->
+            <td class="texto-p">{{ fornecedor.fornecedor_tipo_produtos or fornecedor['fornecedor_tipo_produtos'] }}</td> <!--Adiciona o tipo de produtos do fornecedr-->
+            <td class="texto-p">{{ fornecedor.fornecedor_pedido_minimo or fornecedor['fornecedor_pedido_minimo'] }}</td><!--Adiciona o pedido mínimo do fornecedor-->
             <td class="texto-p"   >
                 <a role="img" aria-label="Botão editar fornecedor " href="{{ url_for('editar_fornecedor', fornecedor_id=fornecedor.fornecedor_id) }}"
-                    class="bi bi-pencil text-white texto-a"> </a>
+                    class="bi bi-pencil text-white texto-a"> </a> <!--Ancora que segura um link que ao ser clicado leva o usuário para a função do app.py, junto com o id do fornecedor-->
                 <a role="button" aria-label="Excluir produto" class="btn btn-sm btn-link text-danger fs-5 p-0"
-                    href="{{ url_for('excluir_fornecedor', fornecedor_id=fornecedor.fornecedor_id) }}">
+                    href="{{ url_for('excluir_fornecedor', fornecedor_id=fornecedor.fornecedor_id) }}"> <!--Ancora que segura um link que ao ser clicado leva para a rota de exclusão no app.py,
+                     junto do fornecedor id-->
                     <i role="img" aria-label="Botão de excluir produto" class="bi bi-trash"></i>
                 </a>
             </td>
