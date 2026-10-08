@@ -9,8 +9,7 @@ class Pedido_entrada(Crud_base):
     fields = ["pedido_entrada_nome", "pedido_entrada_data", "pedido_entrada_status", "fornecedor_fornecedor_id"] #campos que temos na tela
 
     def __init__(self, pedido_entrada_nome, pedido_entrada_data, pedido_entrada_status, fornecedor_fornecedor_id=None): #definição de campos
-        self.usuario_senha = usuario_senha
-        self.usuario_nome = usuario_nome
+
         self.pedido_entrada_nome = pedido_entrada_nome
         self.pedido_entrada_data = pedido_entrada_data
         self.pedido_entrada_status = pedido_entrada_status
@@ -100,7 +99,7 @@ class Item_pedido_entrada(Crud_base):
     fields = ["item_pedido_entrada_nome" ,"item_pedido_entrada_lote", "item_pedido_entrada_quantidade","item_pedido_entrada_validade", "item_pedido_entrada_valor_unitario", "pedido_entrada_pedido_entrada_id", "produto_produto_id"]
 
     def __init__(self, item_pedido_entrada_lote,item_pedido_entrada_quantidade,item_pedido_entrada_validade,item_pedido_entrada_valor_unitario, item_pedido_entrada_nome, pedido_entrada_pedido_entrada_id, produto_produto_id): #definição de campos
-        self.usuario_senha = usuario_senha
+
         self.item_pedido_entrada_lote = item_pedido_entrada_lote
         self.item_pedido_entrada_quantidade = item_pedido_entrada_quantidade
         self.item_pedido_entrada_validade = item_pedido_entrada_validade
