@@ -1,3 +1,5 @@
+<!--Tela para verificar o código para recuperar senha-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +18,7 @@
         <div
             class="login-card position-relative backgroud-glass text-center border-radius-menor d-flex justify-content-center alaing-items-center flex-column ">
 
+            <!--Alertas-->
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for categoria, mensagem in messages %}
@@ -29,16 +32,19 @@
             {% endif %}
             {% endwith %}
 
+            <!--Botão para voltar para pegar e-mail novamente-->
             <div class="text-start mb-3">
                 <a href="{{url_for('pegar_email_salvar')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
             </div>
 
             <div class="container ">
+                <!--Título e subtítulo-->
                 <h3 class="d-flex text-white justify-content-center alaing-items-center ">
                     REDEFINIR SENHA
                 </h3>
                 <p class="text-white-50 fs-8">Insira o código recebido no seu email</p>
             </div>
+            <!--Formulário para verificar código-->
             <form action="/redefinir-senha/codigo" method="POST">
                 <div class="otp-container d-flex justify-content-center mb-4">
                     <div class="otp-inputs">
@@ -54,6 +60,7 @@
                     <a href="{{(url_for('pegar_email'))}}" class="resend-link text-white">Reenviar código</a>
                 </div>
                 <div>
+                    <!--Botão para voltar para pegar e-mail novamente-->
                     <button class="btn background-verde-medio text-white w-100 border-radius-maior">
                         Enviar
                     </button>
@@ -63,6 +70,7 @@
     </section>
 </body>
 <script>
+    // Js para mudar de input automaticamente quando for digitando o código
     const inputs = document.querySelectorAll('.otp-box');
 
     inputs.forEach((input, index) => {

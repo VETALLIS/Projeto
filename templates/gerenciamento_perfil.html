@@ -1,20 +1,25 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 
+<!--Botão de voltar para a tela de funcionários cadstrados-->
 <div class="text-start">
     <a href="{{url_for('funcionarios')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
 
 <div class="perfil-container">
 
+    <!--Título-->
     <h3 class="mb-4 text-start titulo-h3">
         Gerenciamento de Perfil
     </h3>
 
+    <!--Formulário-->
     <form method="POST" action="{{ url_for('gerenciar_perfil_salvar') }}" enctype="multipart/form-data" id="form-salvar" class="w-100">
 
+        <!--Campo para armazenar o id do usuário-->
         <input type="hidden" name="usuario_id" value="{{ usuario.usuario_id }}">
 
+        <!--Div ver dados cadastrados-->
         <div class="d-flex w-100 gap-4">
 
             <div>
@@ -63,6 +68,7 @@
 
             <div class="perfil-divisor-vertical"></div>
 
+            <!--Campos para editar os dados-->
             <div class="flex-grow-1">
                 <h4 class="mb-4 text-start texto-branco perfil-titulo-editar">Editar</h4>
 
@@ -85,11 +91,13 @@
                     </div>
                 </div>
 
+                <!--Botão para salvar alterações -->
                 <div class="mt-3 d-flex gap-3 align-items-center justify-content-center">
                     <button class="btn text-white btn-salvar-perfil background-verde-medio border-radius-menor" type="submit">
                         Salvar alterações
                     </button>
                     
+                    <!--Botão de excluir conta-->
                     <button type="button" class="btn-salvar-perfil background-vermelho border-radius-menor text-white borda-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Excluir Conta
                     </button>

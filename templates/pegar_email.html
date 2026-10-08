@@ -1,3 +1,4 @@
+<!--Tela para pegar e-mail para recuperar senha-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,22 +16,26 @@
 
         <div
             class="login-card position-relative backgroud-glass text-center border-radius-menor d-flex justify-content-center alaing-items-center flex-column ">
+            <!--Botão para voltar para tela de login-->
             <div class="text-start mb-3">
                 <a href="{{url_for('novo_login')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
             </div>
 
             <div class="container ">
+                <!--Título e subtítulo-->
                 <h3 class="d-flex text-white justify-content-center alaing-items-center ">
                     REDEFINIR SENHA
                 </h3>
                 <p class="text-white-50 fs-8">Digite seu email para enviarmos um código de verificação</p>
             </div>
+            <!--Formulário para pegar e-mail-->
             <form action="/redefinir-senha/email/salvar" method="POST" class="w-100 mx-auto" id="form-recuperar-senha">
                 <div class="otp-container  mb-4 w-100">
                     <input type="text" placeholder="Digite seu email:" class="form-control w-100 border-radius-menor"
                         name="email">
                 </div>
                 <div>
+                    <!--Botão para enviar dados-->
                     <button class="btn background-verde-medio text-white w-100 border-radius-maior">
                         Enviar
                     </button>
