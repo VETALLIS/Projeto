@@ -1,25 +1,27 @@
 {%extends 'base.html'%}
 {%block conteudo%}
 <div class="text-start">
-    <a href="{{url_for('animal')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
+    <a href="{{url_for('animal')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a> <!--O botão faz voltar para a tela de animais cadastrados-->
 </div>
 <h3 class="mb-4 text-start titulo-h3 mt-4">Cadastro de
     Animais</h3>
-
-<form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor">
+<!--Tag semântica para formulário,, coleta as informações envia para a função para salvar animal-->
+<form method="POST" action="{{ url_for('salvar_animal') }}" class="form-sensor"> 
     <div class="cadastro-sensor d-flex mt-4">
         <div class="divisao-form me-4 w-100" >
             <div class="mb-3 text-start">
-                <label class="texto-a mb-1 d-block">Espécie:</label>
+                <label class="texto-a mb-1 d-block">Espécie:</label> <!--Adiciona um titulo ou escrito, paramelhor entendimento-->
                 <div class="input-group">
-                    <input type="text" name="especie" class="form-control" placeholder="Digite a espécie:" required>
+                    <input type="text" name="especie" class="form-control" placeholder="Digite a espécie:" required> <!--Input -
+                    coleta as informações para ser enviadas-->
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-12 text-start">
                     <label class="texto-a mb-1 d-block">Sexo:</label>
-                    <select class="form-select" name="sexo">
+                    <select class="form-select" name="sexo"> <!--O select é responsável por criar uma lista de infomações, 
+                        que podem ser escolhidas pelo usuário e também vão ser enviada para a função-->
                             <option value=""> Selecione o sexo</option>
                             <option value="Macho">
                                 Macho
@@ -67,10 +69,10 @@
                 <label class="texto-a mb-1 d-block">Peso do animal:</label>
                 <div class="input-group">
                     <input type="text" name="peso" class="form-control"
-                        placeholder="Digite o peso:" required>
+                        placeholder="Digite o peso:" required> <!--O required garante que os campos devem ser preenchidos-->
                 </div>
             </div>
-            <div class="text-center mt-5 ">
+            <div class="text-center mt-5 "> <!--o Botão envia as informações para a função-->
                 <button aria-label="Cadastrar animal" class="btn w-100  texto-a  background-verde-medio border-radius-menor " type="submit">Cadastrar</button>
             </div>
 

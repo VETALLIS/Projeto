@@ -6,30 +6,30 @@
             <div class="d-flex gap-3 w-100 primeira_linha_res p-0">
                 <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-50 h-100">
 
-                    {% if categoria_selecionada %}
+                    {% if categoria_selecionada %} <!--Se a categoria foi escolhida-->
                     <span
                         class="position-absolute card-categoria fw-bold mb-0 display-6 text-center titulo-h3 z-index-10">
-                        {{ categoria_selecionada }}
+                        {{ categoria_selecionada }} <!--Aparece a categoria-->
                     </span>
 
                     <h5
                         class="fw-bold mb-0 ps-2 display-5 text-center position-relative titulo-h2 z-index-1 card-estoque-valor">
-                        {{ total_categoria }}
+                        {{ total_categoria }} <!--Aparece o total ou quantidade de produtos que tem a categoria escolhida-->
                     </h5>
                     <p class="text-center text-white-50 z-index-1 texto-unidade-estoque">
                         Unidades em Estoque
                     </p>
-                    {% else %}
+                    {% else %} <!--Se nenhuma categoria foi escolhida a mensagem aparece-->
                     <h5
                         class="fw-bold mb-0 ps-2 fs-4 text-center texto z-index-1 position-relative titulo-h2 card-estoque-vazio">
                         Nenhum filtro aplicado
                     </h5>
-                    {% endif %}
+                    {% endif %} <!--Finaliza o if-->
 
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalFiltro"
                         class="rounded-circle border-0 d-flex backgroud-glass align-items-center justify-content-center position-absolute top-0 end-0 m-2 z-index-1 back4 botao-filtro-icone">
                         <i class="bi bi-sliders text-white"></i>
-                    </button>
+                    </button> <!--Botão para o filtro-->
                 </div>
 
                 <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-50 h-100">
@@ -38,11 +38,11 @@
                         class="text-start fw-bold mb-0 ms-3 ps-2 display-5 position-relative z-index-1 titulo-h3 titulo-estoque">
                         Estoque
                     </h5>
-                    {%if total_estoque >1%}
+                    {%if total_estoque >1%} <!--Se o total em estoque for maior que 1-->
                     <h5 class="fw-bold ps-2 display-3 text-end me-5 position-relative titulo-h2 mt-2 z-index-1 ">
-                        {{total_estoque | int}}
+                        {{total_estoque | int}} <!--Aparece a quantidade em estoque em valores inteiros-->
                     </h5>
-                    {%else%}
+                    {%else%}<!--Se não tem estoque maior que 1 aparece a mensagem-->
                     <h5 class=" ps-2 display-5 fs-2 text-end me-4 position-relative titulo-h2 mt-2 z-index-1 ">
                         Nada em <br> estoque!
                     </h5>
@@ -50,7 +50,7 @@
                 </div>
 
             </div>
-
+            <!--Div que vai organizar as divs que vão conter as informações dos sensores-->
             <div class="mt-3  w-100 card-sensores-container backgroud-glass">
                 <label class="label-sensores"></label>
 
@@ -84,56 +84,57 @@
             </div>
         </div>
     </div>
-
+    <!--Div que guardar o carrossel de produtos-->
     <div class="card-destaque position-relative backgroud-glass ">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <p class="mb-0 ms-2 fs-2 texto-branco">Destaques</p>
         </div>
 
-        {% if produtos %}
+        {% if produtos %} <!--Se tem produtos acontece o que está em baixo-->
 
         <div id="card-fantasma-1" class="position-absolute border-radius-menor"></div>
         <div class="position-absolute"></div>
         <div id="carouselVertical" class="carousel slide carousel-vertical border-radius-menor" data-bs-ride="carousel">
             <div class="carousel-inner">
-                {%for produto in produtos%}
+                {%for produto in produtos%} <!--Faz um for nos produtos recebidos pelo app.py-->
                 <div class="carousel-item {% if loop.first %}active{% endif %}" data-bs-interval="2000">
                     <div class=" bg-dark p-4">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <span
                                     class="badge bg-info p-2 d-flex justify-content-center text-dark mb-2 fs-6">{{produto.produto_categoria}}</span>
-                                <h3 class="text-white fw-bold text-start  text-capitalize">{{produto.produto_nome}}</h3>
+                                    <!--Mostra a categoria do produto-->
+                                <h3 class="text-white fw-bold text-start  text-capitalize">{{produto.produto_nome}}</h3> <!--Mostra o nome do produto-->
                                 <p class="text-secondary text-start">Em estoque</p>
                             </div>
                             <div class="produto-imagem-container">
-                                {%if produto.imagem_base64%}
+                                {%if produto.imagem_base64%} <!--Se tem imagem cadastrada aparece na tela-->
                                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
                                     class="produto-imagem" alt="imagem do produto">
-                                {%else%}
+                                {%else%} <!--Se não tem, aparece uma imagem padrão-->
                                 <img src="/static/imagens/medicamento.jpg" class="produto-imagem">
-                                {%endif%}
+                                {%endif%} <!--finaliza o if-->
                             </div>
                         </div>
                         <div class="produto-info-box p-4 text-start">
                             <p class="text-secondary  mb-1">Id</p>
-                            <p class="text-white mb-4">{{produto.produto_id}}</p>
+                            <p class="text-white mb-4">{{produto.produto_id}}</p> <!--Mostra o id do produtp-->
                             <p class="text-secondary mb-1">Quantidade</p>
-                            <p class="text-white mb-4">{{ produto.estoque_quantidade | int }}</p>
+                            <p class="text-white mb-4">{{ produto.estoque_quantidade | int }}</p> <!--Mostra a quantidade em estoque do produto-->
                             <p class="text-secondary mb-1">Descrição</p>
-                            <p class="text-white mb-0">{{produto.produto_descricao}}</p>
+                            <p class="text-white mb-0">{{produto.produto_descricao}}</p><!--Mostra a descrição do produto-->
                         </div>
                     </div>
                 </div>
-                {%endfor%}
+                {%endfor%}<!--Finalza o for-->
             </div>
         </div>
-        {%else%}
+        {%else%}<!--Se não tem produtos, aparece a mensagem-->
         <h1 class="titulo-h2 text-center">Nenhum produto cadastrado</h1>
         {%endif%}
 
     </div>
-
+    <!--Form que vai coletar a categoria escolhida para ser usada anteriormente-->
     <form method="POST" action="{{ url_for('inicial') }}">
         <div class="modal fade" id="modalFiltro" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-filtro-dialog">
