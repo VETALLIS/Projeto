@@ -3,17 +3,18 @@
 
 
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left text-white"
-        style="text-decoration: none;">Voltar</a>
+    <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left text-white" 
+        style="text-decoration: none;">Voltar</a> <!--icone de edição-->
 </div>
 <h3 class="mb-4 mt-3 text-start" style="color: white; padding:5px; border-bottom:solid 1px #fff;">Editar Fornecedor
-</h3>
+</h3> <!--definindo cor, borda, tamanho e titulo-->
 
-<form method="POST"
+<!--atualiza o fornecedor-->
+<form method="POST"  
     action="{{ url_for('atualizar_fornecedor', fornecedor_id=fornecedor_id or fornecedor.get('fornecedor_id')) }}"
     class="form-sensor " style="width: 100%;">
 
-
+<!--tamanho, coluna e campo de nome-->
     <div class="row mb-4">
 
         <div class="col-md-6 text-start">
@@ -22,7 +23,7 @@
                     required>
             </div>
         </div>
-
+<!--tamanho, coluna e campo de tipo de produto-->
         <div class="col-md-6 text-start">
             <div class="input-group">
                 <input type="text" name="fornecedor_tipo_produtos" value="{{fornecedor.fornecedor_tipo_produtos}}"
@@ -30,15 +31,16 @@
             </div>
         </div>
     </div>
-
+<!--tamanho, coluna e campo de pedido minimo-->
     <div class="row mb-4">
         <div class="col-md-6 text-start">
             <div class="input-group">
                 <input type="number" name="fornecedor_pedido_minimo" value="{{fornecedor.fornecedor_pedido_minimo}}"
                     class="form-control" required>
             </div>
-
         </div>
+
+<!--tamanho, coluna e campo de endereço-->
         <div class="col-md-6 text-start">
             <div class="input-group">
 
@@ -48,13 +50,14 @@
         </div>
     </div>
 
+<!--tamanho, coluna e campo de cnpj-->
     <div class="row mb-4">
         <div class="col-md-6 text-start">
             <div class="input-group">
                 <input type="text" name="fornecedor_cnpj" class="form-control" value="{{fornecedor.fornecedor_cnpj}}"
                     required>
             </div>
-
+<!--botão de salvar alterações-->
         </div>
         <div class="col-md-6 text-center">
             <button class="btn btn-login text-white" style="background: #03c356; border-radius: 15px; width: 100%;"
@@ -66,6 +69,7 @@
 
 </form>
 
+<!--fechamento-->
 
 
 {% endblock %}
