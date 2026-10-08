@@ -3,17 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vetallis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--pagina responsiva-->
+    <title>Vetallis</title> <!--título da aba -->
     <link rel="stylesheet" href="./static/style2.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"> <!--css do projetoç-->
 </head>
 
-
+<!--rolagem automática-->
 <body class="height-maior overflow-auto" id="body-landing-page">
     <header id="header-lp" class="height-maior position-relative">
         <div id="home">
+            <!--menu de navegação-->
             <nav id="menu-nav">
                 <input type="checkbox" id="menu-input" class="menu-input-checkbox">
 
@@ -25,6 +26,7 @@
                     </label>
                 </div>
 
+                <!--menu com os links de cada área-->
                 <ul class="list-style-none d-flex align-items-center justify-content-start border-radius-maior mt-4 h-50 p-0 "
                     id="lista-menu">
                     <li><img src="/static/imagens/vetalis_branca_sem_fundo.png" class="ms-1" alt="logo"
@@ -33,6 +35,8 @@
                     <li><a href="#produtos-container" class="texto-a position-relative">Produto</a></li>
                     <li><a href="#sobre-nos-section" class="texto-a position-relative">Sobre nós</a></li>
                     <li><a href="#contato-section" class="texto-a position-relative">Contato</a></li>
+
+                    <!--botão de login, redireciona para outra tela, para entrar no sistema-->
                     <a id="botao-login-menu" href="{{ url_for('novo_login') }}" role="button" aria-label="login"
                         class="verde-primario-texto  borda-none border-radius-maior align-items-center d-flex justify-content-center me-3">Login</a>
                 </ul>
@@ -40,16 +44,22 @@
 
             </nav>
         </div>
+
+        <!--video de fundo da LadingPage-->
         <video id="video-menu" src="/static/imagens/videomain.mp4" autoplay loop muted>
         </video>
+        <!--título do video da LadingPage-->
         <aside id="slogan-content" class="position-absolute">
             <h1 id="slogan">INOVAÇÃO <br> QUE CUIDA DA PECUÁRIA </h1>
         </aside>
     </header>
     <main>
+
+        <!--cards com informações sobre o sistema e problemas que solucionamos-->
         <section id="produtos-container">
             <div id="cards-produto" >
                 <div id="card-oferecemos" class="backgroud-glass border-radius-menor">
+                    <!--icone caixa de um card-->
                     <img src="/static/imagens/box-iso.svg" alt="oq_oferecemos" id="icone-oferecemos"
                         class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-oferecemos">O que <br> oferecemos
@@ -61,7 +71,9 @@
                             preciso, organização eficiente e maior segurança no armazenamento.</p>
                     </div>
                 </div>
+
                 <div id="card-tecnologia-utilizada" class="position-relative border-radius-menor backgroud-glass">
+                    <!--icone notebook de um card-->
                     <img src="/static/imagens/computer.svg" alt="tecnologia_utilizada" id="icone-tecnologia"
                         class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-tecnologia">Tecnologia <br> Utilizada</h1>
@@ -72,7 +84,9 @@
                             irregularidades.</p>
                     </div>
                 </div>
+
                 <div id="card-inovacao" class="position-relative border-radius-menor backgroud-glass">
+                    <!--icone lampada de um card-->
                     <img src="/static/imagens/light-bulb-on.svg" alt="inovacao" id="icone-inovacao"
                         class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-inovacao">Inovação</h1>
@@ -83,7 +97,9 @@
                             inteligente e sustentável.</p>
                     </div>
                 </div>
+
                 <div id="card-solucao" class="position-relative border-radius-menor backgroud-glass">
+                    <!--icone alerta de um card-->
                     <img src="/static/imagens/warning-triangle.svg" alt="solucao" id="icone-solucao"
                         class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-solucao">Problema <br>Solucionado</h1>
@@ -92,8 +108,11 @@
                         <p>Nosso sistema elimina prejuízos causados por controle inadequado, vencimentos e armazenamento
                             incorreto, garantindo maior segurança e eficiência na gestão dos medicamentos.</p>
                     </div>
+                    <!--imagem de um card-->
                     <img src="/static/imagens/Spreadsheets-pana.svg" alt="img_animais_solucao" id="img-solucao">
                 </div>
+
+                <!--icone calendario de um card-->
                 <div id="card-planos-futuros" class="position-relative border-radius-menor backgroud-glass">
                     <img src="/static/imagens/calendar.svg" alt="planos_futuros" id="icone-planos-futuros"
                         class="icone-cards-lp titulo-cards-lp">
@@ -105,7 +124,9 @@
                             onde cada medicamento está armazenado, tornando a gestão ágil e precisa.</p>
                     </div>
                 </div>
+
                 <div id="card-dados-mercado" class="position-relative border-radius-menor backgroud-glass">
+                    <!--icone grafico de um card-->
                     <img src="/static/imagens/graph-up.svg" alt="dados_mercado" id="icone-mercado"
                         class="icone-cards-lp titulo-cards-lp">
                     <h1 id="titulo-mercado">Dados do <br>Mercado</h1>
@@ -118,15 +139,20 @@
                 </div>
             </div>
         </section>
+
+        <!--seleção sobre nós-->
         <section id="sobre-nos-section"
             class="height-maior  position-relative overflow-hidden d-flex justify-content-center align-items-flex-start">
             <canvas id="canvas-ondas-back" class="position-absolute w-100 h-100"></canvas>
             <div
                 class="sobre-nos-container d-flex justify-content-between align-items-center border-radius-maior backgroud-glass ">
                 <div id="img-sobre">
+                    <!--cimagem sobre nós-->
                     <img role="img" aria-label="Imagem dos desenvolvedores do site Vetallis "
                         src="/static/imagens/Imagem_correta.jpg" alt="" class="border-radius-maior ">
                 </div>
+
+                <!--parágrafo sobre nós-->
                 <div id="texto-sobre">
                     <h1 id="titulo-sobre">Sobre Nós</h1>
                     <p>Nós somos a equipe Vetallis e desenvolvemos um software que tem como objetivo erradicar as perdas
@@ -148,11 +174,14 @@
             <canvas id="canvas-ondas-front"></canvas>
         </section>
 
+        <!--card de contato-->
         <section id="contato-section" class="height-maior d-flex justify-content-center align-items-center ">
             <div id="contato-container" class="d-flex aling-items-center justify-content-center w-100 gap-5">
                 <div id="img-contato" class="w-100">
+                    <!--imagem da logo vetallis -->
                     <img src="/static/imagens/vetalis_branca_sem_fundo.png" alt="logo Vetallis">
                 </div>
+                <!--definição de campos-->
                 <div id="campos-contato"
                     class="w-25 p-4 backgroud-glass border-radius-menor d-flex flex-column gap-3 align-items-center justify-content-center">
                     <h1 id="titulo-contato" class="titulo-h3 mb-2">Contato</h1>
@@ -173,9 +202,12 @@
             </div>
         </section>
     </main>
+
+    <!--footer-->
     <footer class="mt-5">
         <section id="rodape-container">
             <div class="footer-container d-flex flex-column" id="footer-menu">
+                <!--footer links, redirecionam para outros campos-->
                 <nav class="links-rodape ml-2">
                     <h6 class="rodape-titulo">Menu</h6>
                     <ul class="escrito_footer ">
@@ -194,6 +226,8 @@
                     </ul>
                 </nav>
             </div>
+
+            <!--informações footer-->
             <div class="footer-container">
                 <nav id="informacao-rodape" class="links_rodape ml-4">
                     <h6 class="rodape-titulo">Informações</h6>
@@ -210,6 +244,8 @@
                     </ul>
                 </nav>
             </div>
+
+            <!--onde nosso projeto pode ser aplicado, footer-->
             <div class="footer-container ml-2" id="aplicacao_footer">
                 <nav class="links_rodape">
                     <h6 class="rodape-titulo">Aplicações</h6>
@@ -229,6 +265,8 @@
                     </ul>
                 </nav>
             </div>
+
+            <!--redes sociais-->
             <div>
                 <ul id="redes_sociais" class="d-flex">
                     <li class="list-style-none"><a aria-label="Link para o Facebook"
@@ -249,6 +287,8 @@
                 </ul>
             </div>
         </section>
+
+        <!--título de VETALLIS-->
         <h1 role="img" aria-label="Rodapé da Landing Page da Vetallis" id="vetallis-rodape">VETALLIS</h1>
     </footer>
     <script src="/static/script.js"></script>

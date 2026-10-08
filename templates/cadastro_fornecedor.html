@@ -1,13 +1,16 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 
+<!-- Divs iniciais fora do form, contendo o titulo e um a que leva para uma outra tela-->
 <div class="d-flex justify-content-start">
     <a href="{{url_for('fornecedor_novo')}}" class="bi bi-arrow-bar-left texto-a">Voltar</a>
 </div>
 <h3 class="mb-4 mt-3 text-start titulo-h3">Cadastro de Fornecedor</h3>
 
+<!-- Form com o método POST já que é um formulário de cadastro de fornecedor, levando para a função que executa a rota do app.py -->
 <form method="POST" action="{{ url_for('gravar_fornecedor') }}" class="form-sensor w-100">
 
+        <!-- Três divs que auxiliam na divisão em blocos do formulário no design -->
     <div class="divisao-form d-flex w-100 gap-3 mb-3">
         <div class="text-start w-50">
             <div class="col-12">

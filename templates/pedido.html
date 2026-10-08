@@ -1,13 +1,18 @@
 {% extends 'base.html'%}
 {%block conteudo%}
 
+<!-- Fora da lista ordenada há a ancoragem de voltar para outras telas além da titulagem da tela como tela de Pedidos -->
 <div class="d-flex justify-content-start">
     <a href="{{url_for('pedidos_cadastrados')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
 </div>
 <h3 class="text-start titulo-h3 mb-3">
     Pedidos</h3>
+
+
+    <!-- Container que cria a barra de abas do Bootstrap -->
 <ul class="nav nav-tabs mb-3 w-100" id="tipoPedido" role="tablist">
     <li class="nav-item" role="presentation">
+        <!-- Botão que exibe o conteúdo da div #entrada -->
         <button class="nav-link active text-black" data-bs-toggle="tab" data-bs-target="#entrada" type="button "
             onclick="
                 this.style.color='#074040';
@@ -26,11 +31,13 @@
     </li>
 </ul>
 
+<!-- Div feita para colocar o html das duas abas, mesmo que haja a possibilidade de selecionar qual aba (entrada ou saída) será utilizada -->
 <div class="w-100">
     <div class="tab-content">
 
-        <!-- ABA ENTRADA -->
+        <!-- ABA ENTRADA- html da aba da parte de pedido de entrada com o método POST já que é um "cadastro" de um novo pedido-->
         <div class="tab-pane fade show active w-100" id="entrada">
+            <!-- formulário que usa o método POST com a função -->
             <form method="POST" action="{{url_for('pedido_salvar')}}">
                 <input type="hidden" name="tipo_movimentacao" value="entrada">
                 <input type="hidden" name="pedido_entrada_status" value="Concluido">
@@ -82,7 +89,7 @@
                 </div>
 
 
-
+                <!-- Template separada para a parte de itens do pedido de entrada , com selects ara seleção de produtos ja cadastrados -->
                 <template id="templateItemEntrada">
                     <tr>
                         <td>
@@ -123,8 +130,9 @@
             </form>
         </div>
 
-        <!-- ABA SAÍDA -->
+        <!-- ABA saída- html da aba da parte de pedido de entrada com o método POST já que é um "cadastro" de um novo pedido-->
         <div class="tab-pane fade" id="saida">
+            <!-- formulário que usa o método POST com a função -->
             <form method="POST" action="{{url_for('pedido_salvar')}}" class="w-100">
                 <input type="hidden" name="tipo_movimentacao" value="saida">
                 <input type="hidden" name="pedido_saida_status" value="Concluido">
@@ -174,6 +182,7 @@
                     </table>
                 </div>
 
+                <!-- Template separada para a parte de itens do pedido de saída , com selects ara seleção de produtos ja cadastrados -->
                 <template id="templateItemSaida">
                     <tr>
                         <td>
@@ -217,6 +226,7 @@
     </div>
 </div>
 <script>
+    // Clona e adiciona um novo item a partir de um <template> HTML
     function adicionarItem(templateId, corpoId) {
         const template = document.getElementById(templateId);
         const corpo = document.getElementById(corpoId);
@@ -224,14 +234,18 @@
         corpo.appendChild(novaLinha);
     }
 
+    // Remove a linha (<tr>) correspondente ao botão de exclusão clicado
     function removerLinha(botao) {
         botao.closest("tr").remove();
     }
 
+    // Inicializa o comportamento da página após o carregamento completo do HTML
     document.addEventListener("DOMContentLoaded", function () {
+        // Insere automaticamente a primeira linha padrão tanto na Entrada quanto na Saída
         adicionarItem("templateItemEntrada", "corpoItensEntrada");
         adicionarItem("templateItemSaida", "corpoItensSaida");
 
+        // Vincula o evento de clique em todos os botões de adicionar itens da tela
         document.querySelectorAll(".btn-adicionar-item").forEach(function (botao) {
             botao.addEventListener("click", function () {
                 const templateId = this.dataset.template;

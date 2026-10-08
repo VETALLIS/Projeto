@@ -1,12 +1,16 @@
 {% extends 'base.html'%}
 {%block conteudo%}
 
+<!-- Div h3 fora da lista ordenada para titular e inserir um link para voltar para tela anterior -->
 <div class="d-flex justify-content-start">
     <a href="{{url_for('pedidos_cadastrados')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
 </div>
 <h3 class="text-start titulo-h3 mb-3">
     Pedidos</h3>
+
+<!-- Lista ordenada que contém as seleções dos pedidos já existentes apresentando eles na tela para que possam ser editados -->
 <ul class="nav nav-tabs mb-3 w-100" id="tipoPedido" role="tablist">
+        <!-- Dois itens dessa lista ordenada que apresentam as informações das telas dos dois pedidos entrada e saída -->
     <li class="nav-item" role="presentation">
         <button class="nav-link {% if tipo_pedido != 'saida' %}active{% endif %}  text-black" data-bs-toggle="tab"
             data-bs-target="#entrada" type="button " onclick="
@@ -30,7 +34,7 @@
 <div class="w-100">
     <div class="tab-content">
 
-        <!-- Editar entrada -->
+        <!-- Editar entrada, form com método post pois irá adicionar novas informações , depois chama as funções das rotas do app.py de atualizar pedido de entrada-->
         <div class="tab-pane fade {% if tipo_pedido != 'saida' %}show active{% endif %} w-100" id="entrada">
             <form method="POST" action="{% if tipo_pedido == 'entrada'  %}{{ url_for('atualizar_pedido_entrada', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}">
                 <input type="hidden" name="tipo_movimentacao" value="entrada">
@@ -117,7 +121,7 @@
                     </table>
                 </div>
 
-
+                <!-- Faz um for na parte de itens do pedido de entrada par listalos e ser possível atualizar -->
                 {% for p in produtos%}
                 <template id="templateItemEntrada">
                     <tr>
@@ -162,7 +166,7 @@
             </form>
         </div>
         
-        <!-- Editar saida -->
+        <!-- Editar saída, form com método post pois irá adicionar novas informações , depois chama as funções das rotas do app.py de atualizar pedido de saída-->
         <div class="tab-pane fade  {% if tipo_pedido == 'saida' %}show active{% endif %}" id="saida">
             <form method="POST"
                 action="{% if tipo_pedido == 'saida' %}{{ url_for('atualizar_pedido_saida', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}"
@@ -210,6 +214,7 @@
                             </tr>
                         </thead>
                         <tbody id="corpoItensSaida">
+                            <!-- Faz um for na parte de itens do pedido de entrada par listalos e ser possível atualizar -->
                             {% for item in itens %}
                             <tr>
                                 <td>
@@ -289,18 +294,28 @@
     </div>
 </div>
 
+
+<!--Adiciona uma nova linha (item) a uma tabela ou container usando um <template> HTML.
+@param {string} templateId - O ID do elemento <template> que contém o esqueleto da linha.
+@param {string} corpoId - O ID do elemento (ex: <tbody>) onde a nova linha será inserida.-->
+ 
 <script>
     function adicionarItem(templateId, corpoId) {
+        //Busca o elemento template que serve de modelo oculto no HTML
         const template = document.getElementById(templateId);
+        // Busca o container/corpo da tabela onde o item deve entrar
         const corpo = document.getElementById(corpoId);
+        // Clona o conteúdo de dentro do template (o 'true' garante que copia todos os filhos e textos)
         const novaLinha = template.content.cloneNode(true);
+        // Adiciona uma nova linha 
         corpo.appendChild(novaLinha);
     }
-
+    //Função que remove uma linha utilizando o botão que dispara a ação
     function removerLinha(botao) {
         botao.closest("tr").remove();
     }
 
+    // Adiciona o evento de clique em cada botão de adicionar item
     document.addEventListener("DOMContentLoaded", function () {
 
         document.querySelectorAll(".btn-adicionar-item").forEach(function (botao) {
@@ -312,9 +327,11 @@
         });
     });
 
+    // Dados dos fornecedores colocados no backend
     const fornecedores = {{ fornecedor | tojson }};
     const fornecedorAtual = {{ (pedido.fornecedor_fornecedor_id | default (none)) | tojson }}
 
+    // Preenche o dropdown (<select>) com os fornecedores e marca o atual como selecionado
     document.addEventListener("DOMContentLoaded", function () {
         const select = document.getElementById("selectFornecedor");
         fornecedores.forEach(function (f) {
