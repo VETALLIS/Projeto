@@ -4,14 +4,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { logOut } from './screens/LogOut';
 import DashScreen from './screens/DashboardScreen';
 import PerfilScreen from './screens/GerenciarPerfilScreen';
 import LeitorScreen from './screens/LeitorQRCodeScreen';
 import MovimentacaoScreen from './screens/MovimentacaoScreen';
 import ProdutosScreen from './screens/ProdutosScreen';
 import LoginScreen from './screens/LoginScrenn';
-import { AuthProvider } from './screens/AuthContext';
+import { AuthProvider, useAuth } from './screens/AuthContext';
 import EsqueceuSenha from './screens/EsqueceuSenha';
 
 /*
@@ -27,6 +26,8 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function TabNavigator() {
+  const { sair } = useAuth();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -55,7 +56,6 @@ function TabNavigator() {
         }}
       />
 
-
       <Tab.Screen
         name="Histórico"
         component={MovimentacaoScreen}
@@ -75,6 +75,7 @@ function TabNavigator() {
           ),
         }}
       />
+
       <Tab.Screen
         name="Perfil"
         component={PerfilScreen}
@@ -84,9 +85,10 @@ function TabNavigator() {
           ),
         }}
       />
+
       <Tab.Screen
         name="Logout"
-        component={View} // Coloque um componente vazio qualquer (não será renderizado)
+        component={View} // Componente vazio (não será renderizado)
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="arrow-right-circle-outline" size={size} color={color} />
@@ -94,25 +96,28 @@ function TabNavigator() {
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
-            // 1. Impede a navegação padrão (não abre uma tela de logout)
+            // 1. Impede a navegação padrão
             e.preventDefault();
 
-            // 2. Pergunta ao usuário se ele realmente quer sair
+            // 2. Pergunta se o usuário quer realmente sair
             Alert.alert('Sair', 'Deseja realmente sair da conta?', [
               { text: 'Cancelar', style: 'cancel' },
               {
                 text: 'Sair',
                 style: 'destructive',
-                onPress: () => logOut(navigation) // Executa a sua função de logout
+                onPress: async () => {
+                  await sair();
+                  navigation.replace('Login');
+                },
               },
             ]);
           },
         })}
       />
     </Tab.Navigator>
-
   );
 }
+
 export default function App() {
   return (
     <AuthProvider>
