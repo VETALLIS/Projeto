@@ -7,10 +7,12 @@
     <title>Vetallis</title> <!--título da aba -->
     <link rel="stylesheet" href="./static/style2.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"> <!--css do projetoç-->
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!--css do projetoç-->
 </head>
 
 <!--rolagem automática-->
+
 <body class="height-maior overflow-auto" id="body-landing-page">
     <header id="header-lp" class="height-maior position-relative">
         <div id="home">
@@ -57,7 +59,7 @@
 
         <!--cards com informações sobre o sistema e problemas que solucionamos-->
         <section id="produtos-container">
-            <div id="cards-produto" >
+            <div id="cards-produto">
                 <div id="card-oferecemos" class="backgroud-glass border-radius-menor">
                     <!--icone caixa de um card-->
                     <img src="/static/imagens/box-iso.svg" alt="oq_oferecemos" id="icone-oferecemos"
@@ -185,6 +187,15 @@
                 <div id="campos-contato"
                     class="w-25 p-4 backgroud-glass border-radius-menor d-flex flex-column gap-3 align-items-center justify-content-center">
                     <h1 id="titulo-contato" class="titulo-h3 mb-2">Contato</h1>
+                    {% with mensagens = get_flashed_messages(with_categories=true) %}
+                    {% for categoria, mensagem in mensagens %}
+                    <div class="alert alert-{{ categoria }} alert-dismissible w-100 mb-0 py-2 texto-p" role="alert">
+                        {{ mensagem }}
+                        <button type="button" class="btn-close" aria-label="Fechar"
+                            onclick="this.parentElement.remove()"></button>
+                    </div>
+                    {% endfor %}
+                    {% endwith %}
                     <form method="POST" action="{{ url_for('contato_enviar') }}" class="form-sensor "
                         style="width: 100%;">
                         <input type="text" aria-label="Digite seu nome completo" name="nome" placeholder="Nome Completo"

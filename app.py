@@ -323,15 +323,21 @@ def inicial():
 def contato_enviar():
     dados = get_contato_form()
     novo_contato = Contato(**dados)
+    erros = novo_contato.validar_contato(app.secret_key)
 
     try:
+        if erros:
+            for erro in erros:
+                flash(erro, "danger")
+            return redirect(url_for("index"))
+
         novo_contato.enviar_email(dados)
-        flash("Mensagem enviada com sucesso", "success")
-        return redirect(url_for("index"))
+        flash("Email enviado.", "success")
+        return redirect(url_for("index") )
+
     except Exception as e:
         flash(f"Erro ao enviar mensagem: {e}", "danger")
-        return redirect(url_for('home'))
-
+        return redirect(url_for("index"))
 
 # ====== ENDPOINTS PARA CADASTRO DE PRODUTOS ====== #
 # ===== Rotas para a tela de produtos cadastrados ====== #

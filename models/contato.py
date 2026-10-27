@@ -1,6 +1,7 @@
 import smtplib
 from email.message import EmailMessage
 from core.crud_base import Crud_base
+from core.manipular import Manipular 
 
 class Contato(Crud_base):
 
@@ -8,6 +9,20 @@ class Contato(Crud_base):
         self.contato_nome = contato_nome
         self.contato_email = contato_email
         self.contato_mensagem = contato_mensagem
+
+    def validar_contato(self, secret_key):
+        erros = [
+            Manipular.validar_vazio(self.contato_nome, "nome"),# verifica se os dados estão vazio
+            Manipular.validar_vazio(self.contato_email, "email"),# verifica se os dados estão vazio
+            Manipular.validar_email(self.contato_email, "email", secret_key),# verifica se o cnpj é valido
+            Manipular.validar_vazio(self.contato_mensagem, "mensagem"),# verifica se os dados estão vazio
+            Manipular.validar_not_caracter(self.contato_nome, "nome"),# verifica se os dados estão aceitando caractere especial
+            Manipular.validar_min_caracter(self.contato_nome, "nome"),# verifica se os dados estão aceitando menos que 3 caracteres
+            Manipular.validar_letra(self.contato_nome, "nome"),# verifica se os dados estão aceitando numeros
+            
+        ]          
+    
+        return [ erro for erro in erros if erro]
 
     @classmethod
     def enviar_email(cls, dados):
