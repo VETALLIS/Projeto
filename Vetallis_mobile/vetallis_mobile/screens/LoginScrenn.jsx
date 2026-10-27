@@ -2,10 +2,12 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityInd
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../screens/AuthContext';
 import { API_URL } from '../src/services/api';
+import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -18,6 +20,40 @@ export default function Login() {
   const [isChecked, setChecked] = useState(false);
   const navigation = useNavigation();
   const { setUsuario } = useAuth();
+
+  useEffect(() => {
+    async function carregarDadosSalvos() {
+      try {
+        const lembrar = await AsyncStorage.getItem('lembrar');
+        if (lembrar === 'true') {
+          const emailSalvo = await AsyncStorage.getItem('emailSalvo');
+          const senhaSalva = await SecureStore.getItemAsync('senhaSalva');
+          if (emailSalvo) setEmail(emailSalvo);
+          if (senhaSalva) setSenha(senhaSalva);
+          setChecked(true);
+        }
+      } catch (e) {
+        console.log('Erro ao carregar dados salvos:', e);
+      }
+    }
+    carregarDadosSalvos();
+  }, []);
+
+  async function salvarLembrar() {
+    try {
+      if (isChecked) {
+        await AsyncStorage.setItem('lembrar', 'true');
+        await AsyncStorage.setItem('emailSalvo', Email);
+        await SecureStore.setItemAsync('senhaSalva', Senha);
+        console.log('Lembrar-me salvo:', Email);
+      } else {
+        await AsyncStorage.multiRemove(['lembrar', 'emailSalvo']);
+        await SecureStore.deleteItemAsync('senhaSalva');
+      }
+    } catch (e) {
+      console.log('Erro ao salvar Lembrar-me:', e);
+    }
+  }
 
   async function fazerLogin() {
     if (!Email || !Senha) {
@@ -39,6 +75,8 @@ export default function Login() {
       const dados = await resposta.json();
 
       if (resposta.ok && dados.sucesso) {
+        await salvarLembrar();   // 👈 salva ANTES de navegar
+
         setMensagem('Login realizado com sucesso!');
         setSucesso(true);
         setUsuario(dados.usuario);
