@@ -106,7 +106,7 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `produto` (
   `produto_id` INT NOT NULL AUTO_INCREMENT,
   `produto_nome` VARCHAR(100) NOT NULL,
-  `produto_descricao` VARCHAR(100) NULL DEFAULT NULL,
+  `produto_descricao` VARCHAR(1000) NULL DEFAULT NULL,
   `produto_categoria` VARCHAR(20) NOT NULL,
   `usuario_usuario_id` INT NOT NULL,
   `produto_imagem` VARCHAR(255) NULL DEFAULT NULL,
