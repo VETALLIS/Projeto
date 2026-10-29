@@ -8,12 +8,12 @@
 </div>
 
 
-<div class="d-flex flex-wrap justify-content-start gap-3 mt-3">
+<div class="d-flex flex-wrap justify-content-start gap-4 mt-3">
     {%if produtos %} <!--Se tiver produtos-->
     {% for produto in produtos %} <!--Faz um for dentro de tdos os produtos recebidos e repete os cards que vão conter as informações
     até não ter mais produtos-->
     <div class="card card-produto  text-white backgroud-glass border-radius-menor">
-        <div class="row g-0">
+        <div class="dentro_card_produto row g-0">
             <label for="imagem_produto" class="col-4 p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if produto.imagem_base64 %} <!--Se tiver imagem aparece-->
                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"

@@ -1174,10 +1174,18 @@ o tamnho, espaçamento e também como vai funcionar a animação de aparecer na 
 }
 /*Defini o espaço que as informações do produto vão ser abrigadas*/
 .produto-info-box {
+    max-width: 385px;
+    width: 100%;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     padding: 15px;
     margin-top: 20px;
+}
+
+.carrossel_inicial{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Modal de filtro por categoria */
@@ -1738,7 +1746,7 @@ os espaçamentos e como os itens vão ser distribuidos */
     background: #1c9e8677;
     padding: 5px;
     height: 160px;
-    width: 317px;
+    width: 320px;
 }
 /*Define o tamanho do card de animal e que o possui dentro dele*/
 #card-animal{
@@ -1768,7 +1776,12 @@ os espaçamentos e como os itens vão ser distribuidos */
     background:#1c9e8677;
     padding: 5px;
     height: 160px;
-    width: 317px;
+    width: 320px;
+}
+
+.dentro_card_produto{
+    max-width: 250px;
+    width: 100%;
 }
 
 #detalhe-produto{
@@ -1827,9 +1840,13 @@ os espaçamentos e como os itens vão ser distribuidos */
     background: #1c9e8677;
     padding: 5px;
     height: 160px;
-    width: 317px;
+    width: 320px;
 }
 
+.dentro_card_sensor{
+    max-width: 250px;
+    width: 100%;
+}
 
 #detalhe-sensor{
     width: 80px;
@@ -1906,33 +1923,41 @@ os espaçamentos e como os itens vão ser distribuidos */
 
 /* ===== GRÁFICOS ===== */
 .painel-graficos {
+    --gap: 20px;
+    --pad: 20px;
+
     display: grid;
     grid-template-columns: 1.7fr 1fr 1fr;
-    gap: 24px;
-    padding: 0 4px;
+    gap: var(--gap);
+    margin: var(--gap) 0;   
+    padding: 0;
 }
 
 .painel-grafico {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 16px;
-    padding: 18px 20px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;           
+    padding: var(--pad);
     min-width: 0;
     display: flex;
     flex-direction: column;
 }
 
+
 .painel-grafico h5 {
     color: #fff;
-    font-weight: 700;
-    font-size: 1.05rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
     margin: 0;
+    text-align: left;
 }
 
 .painel-grafico p {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 0.82rem;
-    margin: 2px 0 12px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.78rem;
+    margin: 4px 0 var(--pad);
+    text-align: left;
 }
 
 .cv-wrap {
@@ -1946,8 +1971,8 @@ os espaçamentos e como os itens vão ser distribuidos */
     height: 100%;
 }
 
-.cv-barras { height: 250px; }
-.cv-rosca  { height: 190px; }
+.cv-barras { flex: 1; min-height: 240px; }  
+.cv-rosca  { height: 180px; flex: none; }
 
 .cv-tooltip {
     position: absolute;
@@ -1956,41 +1981,49 @@ os espaçamentos e como os itens vão ser distribuidos */
     transition: opacity .12s;
     background: rgba(6, 30, 28, 0.96);
     color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 6px;
     padding: 6px 10px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     line-height: 1.35;
     white-space: nowrap;
     z-index: 5;
 }
 
+
 .cv-legenda {
     list-style: none;
-    margin: 12px 0 0;
-    padding: 0;
+    margin: auto 0 0;
+    padding: 14px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: grid;
-    gap: 6px;
+    gap: 8px;
+    min-height: 88px;               
+    align-content: start;
 }
+
+.cv-rosca + .cv-legenda { margin-top: var(--pad); }
 
 .cv-legenda li {
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.82rem;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
 }
 
 .cv-legenda .ponto {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;            
     flex: none;
 }
 
 .cv-legenda b {
     margin-left: auto;
     color: #fff;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums; 
 }
 
 @media (max-width: 1200px) {
@@ -2001,3 +2034,4 @@ os espaçamentos e como os itens vão ser distribuidos */
 @media (max-width: 720px) {
     .painel-graficos { grid-template-columns: 1fr; }
 }
+
