@@ -137,3 +137,20 @@ class Animal(Crud_base):
             animais = animais + 1
         return animais
 
+    @classmethod #analisa os dados cadastrados, com o banco
+    def has_related_records(cls, id):
+        conexao = Database.connect() #conectando com o banco
+        cursor = conexao.cursor()
+        try:
+            queries = [
+                "SELECT COUNT(*) FROM pedido_saida WHERE animal_animal_id = %s",
+            ]
+            total = 0
+            for sql in queries:
+                cursor.execute(sql, (id,))
+                total += cursor.fetchone()[0] #verifica se tem relação com outras tabelas, não pode ter
+            return total > 0
+        finally:
+            cursor.close()
+            conexao.close()
+
