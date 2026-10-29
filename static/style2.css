@@ -2035,3 +2035,203 @@ os espaçamentos e como os itens vão ser distribuidos */
     .painel-graficos { grid-template-columns: 1fr; }
 }
 
+/* ===== VIDRO LÍQUIDO: filtro igual aos gráficos ===== */
+#filtro-e-tabela,
+.painel-grafico {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ===== Cards dos indicadores: novo design ===== */
+
+#tabela        { --rgb: 148, 163, 184; }  /* Animais: cinza-azulado */
+#card-produto  { --rgb: 52, 211, 153; }   /* Produtos: verde-menta */
+#card-pvencido { --rgb: 96, 165, 250; }   /* Itens vencidos: azul */
+#card-sensor   { --rgb: 45, 212, 191; }   /* Sensor: verde-água */
+
+#tabela,
+#card-produto,
+#card-pvencido,
+#card-sensor {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important; /* remove a faixa lateral */
+    background:
+        radial-gradient(circle at 100% 0%, rgba(var(--rgb), 0.22), transparent 60%),
+        rgba(16, 90, 82, 0.22) !important;
+}
+
+/* Título: pequeno, maiúsculo e alinhado à esquerda */
+#tabela h5,
+#card-produto h5,
+#card-pvencido h5,
+#card-sensor h5 {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6) !important;
+    text-align: left !important;
+    margin: 0 0 14px 0 !important;
+}
+
+/* Linha: número à esquerda, ícone à direita */
+#tabela > div,
+#card-produto > div,
+#card-pvencido > div,
+#card-sensor > div {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Número */
+#espaco-animal,
+#espaco-produto,
+#espaco-pvencido,
+#espaco-sensor {
+    order: 1;
+    margin-left: 0 !important;
+}
+
+#tamanho-fonte-animal,
+#tamanho-fonte-produto,
+#tamanho-fonte-pvencido,
+#tamanho-fonte-sensor {
+    color: #fff !important;
+    font-size: 4rem !important;
+}
+
+/* Ícone: quadrado arredondado com a cor do card */
+#card-animal,
+#detalhe-produto,
+#detalhe-pvencido,
+#detalhe-sensor {
+    order: 2;
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 16px !important;
+    background: rgba(var(--rgb), 0.15) !important;
+    border: 1px solid rgba(var(--rgb), 0.30) !important;
+}
+
+#icone-animal,
+#icone-produto,
+#icone-pvencido,
+#icone-sensor {
+    font-size: 2rem !important;
+    color: rgb(var(--rgb)) !important;
+}
+
+/* ===== Ajuste de espaçamento dos cards ===== */
+
+#tabela,
+#card-produto,
+#card-pvencido,
+#card-sensor {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    min-width: 0;
+    height: auto !important;
+    min-height: 170px;
+    padding: 20px 24px !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Título alinhado com o número */
+#tabela h5,
+#card-produto h5,
+#card-pvencido h5,
+#card-sensor h5 {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0.78rem !important;
+}
+
+/* Linha número + ícone: sem recuos extras */
+#tabela > div,
+#card-produto > div,
+#card-pvencido > div,
+#card-sensor > div {
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 12px;
+}
+
+/* Número alinhado à esquerda, junto do título */
+#espaco-animal,
+#espaco-produto,
+#espaco-pvencido,
+#espaco-sensor {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left;
+}
+
+#tamanho-fonte-animal,
+#tamanho-fonte-produto,
+#tamanho-fonte-pvencido,
+#tamanho-fonte-sensor {
+    line-height: 1;
+    font-weight: 600 !important;
+    font-size: 3.6rem !important;
+}
+
+/* ===== Títulos padronizados (gráficos + cards) ===== */
+
+.painel-grafico h5,
+#tabela h5,
+#card-produto h5,
+#card-pvencido h5,
+#card-sensor h5 {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+    text-transform: none !important;
+    line-height: 1.2;
+    color: #fff !important;
+    text-align: left !important;
+    text-shadow: none !important;
+}
+
+/* Subtítulo dos gráficos, um pouco maior para acompanhar */
+.painel-grafico p {
+    font-size: 0.85rem;
+}
+
+/* ===== Filtro e tabela padronizados com o resto da tela ===== */
+
+/* ===== Filtro e tabela ===== */
+
+#filtro-e-tabela .form-control,
+#filtro-e-tabela .form-select {
+    height: 46px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    color: #fff;
+}
+
+#filtro-e-tabela .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+#filtro-e-tabela .form-control:focus,
+#filtro-e-tabela .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #34D399;
+    box-shadow: none;
+    color: #fff;
+}

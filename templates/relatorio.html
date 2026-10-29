@@ -3,23 +3,73 @@
 {% block conteudo %}
 
 
-<!-- TÍTULO -->
 
-<h3 class="mb-4 text-start titulo-h3 w-100" id="texto_inicial">
-    Indicadores
-</h3>
+<!-- GRÁFICOS (Canvas) -->
+
+<section class="painel-graficos mt-1 mb-4" aria-label="Gráficos de estoque">
+
+    <!-- Barras: quantidade por produto -->
+    <article class="painel-grafico painel-grafico--largo">
+
+        <h5>Estoque por produto</h5>
+        <p>Vermelho indica produto sem estoque</p>
+
+        <div class="cv-wrap cv-barras">
+            <canvas id="grafico-barras" role="img"
+                aria-label="Gráfico de barras com a quantidade em estoque de cada produto"></canvas>
+            <div class="cv-tooltip"></div>
+        </div>
+
+    </article>
+
+
+    <!-- Rosca: quantidade por categoria -->
+    <article class="painel-grafico">
+
+        <h5>Unidades por categoria</h5>
+        <p>Total de itens em cada categoria</p>
+
+        <div class="cv-wrap cv-rosca">
+            <canvas id="grafico-categorias" role="img"
+                aria-label="Gráfico de rosca com as unidades em estoque por categoria"></canvas>
+            <div class="cv-tooltip"></div>
+        </div>
+
+        <ul class="cv-legenda" id="legenda-categorias"></ul>
+
+    </article>
+
+
+    <!-- Rosca: situação do estoque -->
+    <article class="painel-grafico">
+
+        <h5>Situação do estoque</h5>
+        <p>Produtos agrupados pelo nível atual</p>
+
+        <div class="cv-wrap cv-rosca">
+            <canvas id="grafico-situacao" role="img"
+                aria-label="Gráfico de rosca com a situação do estoque dos produtos"></canvas>
+            <div class="cv-tooltip"></div>
+        </div>
+
+        <ul class="cv-legenda" id="legenda-situacao"></ul>
+
+    </article>
+
+</section>
+
 
 
 <!-- CARDS DOS INDICADORES -->
 
-<div class="d-flex justify-content-between ">
+<div class="d-flex w-100">
 
-    <div class="d-flex ">
+    <div class="d-flex w-100 gap-4">
 
 
         <!--CARD ANIMAIS-->
 
-        <div class="me-4 card-dash" id="tabela">
+        <div class="flex-fill card-dash" id="tabela">
 
             <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">
                 Animais
@@ -29,8 +79,7 @@
 
                 <div class="border border-white rounded-circle
                             d-flex align-items-center justify-content-center
-                            border-5 mt-2"
-                    id="card-animal">
+                            border-5 mt-2" id="card-animal">
 
                     <i class="bi bi-feather text-white" id="icone-animal"></i>
 
@@ -51,7 +100,7 @@
 
         <!-- CARD PRODUTOS EM ESTOQUE -->
 
-        <div class="me-4 card-dash" id="card-produto">
+        <div class="flex-fill card-dash" id="card-produto">
 
             <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">
                 Produtos em estoque
@@ -61,8 +110,7 @@
 
                 <div class="border border-white rounded-circle
                             d-flex align-items-center justify-content-center
-                            border-5 mt-2"
-                    id="detalhe-produto">
+                            border-5 mt-2" id="detalhe-produto">
 
                     <i class="bi bi-box-seam text-white" id="icone-produto"></i>
 
@@ -83,7 +131,7 @@
 
         <!-- CARD PRODUTOS VENCIDOS -->
 
-        <div class="me-4 card-dash" id="card-pvencido">
+        <div class="flex-fill card-dash" id="card-pvencido">
 
             <h5 class="text-white fw-bold mb-0 fs-5 mt-2 text-center">
                 Itens vencidos
@@ -93,8 +141,7 @@
 
                 <div class="border border-white rounded-circle
                             d-flex align-items-center justify-content-center
-                            border-5 mt-2"
-                    id="detalhe-pvencido">
+                            border-5 mt-2" id="detalhe-pvencido">
 
                     <i class="bi bi-capsule-pill text-white" id="icone-pvencido"></i>
 
@@ -115,7 +162,7 @@
 
         <!-- CARD SENSOR-->
 
-        <div class="me-4 card-dash" id="card-sensor">
+        <div class="flex-fill card-dash" id="card-sensor">
 
             <h5 class="text-center text-white fw-bold mb-0 fs-5 mt-2">
                 Sensor
@@ -125,8 +172,7 @@
 
                 <div class="border border-white rounded-circle
                             d-flex align-items-center justify-content-center
-                            border-5 mt-2"
-                    id="detalhe-sensor">
+                            border-5 mt-2" id="detalhe-sensor">
 
                     <i class="bi bi-thermometer-sun text-white" id="icone-sensor"></i>
 
@@ -147,61 +193,6 @@
     </div>
 
 </div>
-
-
-<!-- GRÁFICOS (Canvas) -->
-
-<section class="painel-graficos mt-4" aria-label="Gráficos de estoque">
-
-    <!-- Barras: quantidade por produto -->
-    <article class="painel-grafico painel-grafico--largo">
-
-        <h5>Estoque por produto</h5>
-        <p>Vermelho indica produto sem estoque</p>
-
-        <div class="cv-wrap cv-barras">
-            <canvas id="grafico-barras" role="img"
-                    aria-label="Gráfico de barras com a quantidade em estoque de cada produto"></canvas>
-            <div class="cv-tooltip"></div>
-        </div>
-
-    </article>
-
-
-    <!-- Rosca: quantidade por categoria -->
-    <article class="painel-grafico">
-
-        <h5>Unidades por categoria</h5>
-        <p>Total de itens em cada categoria</p>
-
-        <div class="cv-wrap cv-rosca">
-            <canvas id="grafico-categorias" role="img"
-                    aria-label="Gráfico de rosca com as unidades em estoque por categoria"></canvas>
-            <div class="cv-tooltip"></div>
-        </div>
-
-        <ul class="cv-legenda" id="legenda-categorias"></ul>
-
-    </article>
-
-
-    <!-- Rosca: situação do estoque -->
-    <article class="painel-grafico">
-
-        <h5>Situação do estoque</h5>
-        <p>Produtos agrupados pelo nível atual</p>
-
-        <div class="cv-wrap cv-rosca">
-            <canvas id="grafico-situacao" role="img"
-                    aria-label="Gráfico de rosca com a situação do estoque dos produtos"></canvas>
-            <div class="cv-tooltip"></div>
-        </div>
-
-        <ul class="cv-legenda" id="legenda-situacao"></ul>
-
-    </article>
-
-</section>
 
 
 <!-- ÁREA DE FILTROS E TABELA -->
@@ -226,13 +217,8 @@
                         Nome
                     </label>
 
-                    <input
-                        type="text"
-                        id="filtro-nome"
-                        name="nome"
-                        class="form-control rounded-3"
-                        placeholder="Buscar por nome"
-                    >
+                    <input type="text" id="filtro-nome" name="nome" class="form-control rounded-3"
+                        placeholder="Buscar por nome">
 
                 </div>
 
@@ -245,11 +231,7 @@
                         Categoria
                     </label>
 
-                    <select
-                        id="filtro-categoria"
-                        name="categoria"
-                        class="form-select rounded-3"
-                    >
+                    <select id="filtro-categoria" name="categoria" class="form-select rounded-3">
                         <option value="">Todas as categorias</option>
                         <option value="Vacina">Vacina</option>
                         <option value="Antiparasitários">Antiparasitários</option>
@@ -270,13 +252,8 @@
                         Quantidade
                     </label>
 
-                    <input
-                        type="number"
-                        id="filtro-quantidade"
-                        name="quantidade"
-                        class="form-control rounded-3"
-                        placeholder="Quantidade"
-                    >
+                    <input type="number" id="filtro-quantidade" name="quantidade" class="form-control rounded-3"
+                        placeholder="Quantidade">
 
                 </div>
 
@@ -285,10 +262,7 @@
 
                 <div class="col-auto">
 
-                    <button
-                        type="submit"
-                        class="btn texto-a rounded-3 px-4 fw-bold background-verde-medio"
-                    >
+                    <button type="submit" class="btn texto-a rounded-3 px-4 fw-bold background-verde-medio">
                         Filtrar
                     </button>
 
@@ -299,11 +273,8 @@
 
                 <div class="col-auto">
 
-                    <button
-                        type="button"
-                        id="btn-limpar"
-                        class="btn texto-a rounded-3 px-4 fw-bold background-vermelho"
-                    >
+                    <button type="button" id="btn-limpar"
+                        class="btn texto-a rounded-3 px-4 fw-bold background-vermelho">
                         Limpar
                     </button>
 
@@ -362,562 +333,562 @@
 
 <script>
 
-/* =====================================================
-   CONFIGURAÇÕES
-   ===================================================== */
+    /* =====================================================
+       CONFIGURAÇÕES
+       ===================================================== */
 
-// Produtos com quantidade entre 1 e este valor são "estoque baixo"
-const LIMITE_ESTOQUE_BAIXO = 20;
+    // Produtos com quantidade entre 1 e este valor são "estoque baixo"
+    const LIMITE_ESTOQUE_BAIXO = 20;
 
-const COR_OK      = "#34d399";
-const COR_BAIXO   = "#fbbf24";
-const COR_ZERADO  = "#f87171";
+    const COR_OK = "#34d399";
+    const COR_BAIXO = "#fbbf24";
+    const COR_ZERADO = "#f87171";
 
-const CORES_CATEGORIA = {
-    "Vacina":             "#34d399",
-    "Antiparasitários":   "#60a5fa",
-    "Antibióticos":       "#fbbf24",
-    "Anti-inflamatórios": "#f472b6",
-    "Analgésicos":        "#a78bfa",
-    "Anestésicos":        "#fb923c"
-};
+    const CORES_CATEGORIA = {
+        "Vacina": "#34d399",
+        "Antiparasitários": "#60a5fa",
+        "Antibióticos": "#fbbf24",
+        "Anti-inflamatórios": "#f472b6",
+        "Analgésicos": "#a78bfa",
+        "Anestésicos": "#fb923c"
+    };
 
-const COR_PADRAO = "#94a3b8";
+    const COR_PADRAO = "#94a3b8";
 
-const reduzirMovimento =
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-
-/* =====================================================
-   FUNÇÕES AUXILIARES
-   ===================================================== */
-
-// Evita injeção de HTML vindo da API
-function esc(texto) {
-    const div = document.createElement("div");
-    div.textContent = texto ?? "";
-    return div.innerHTML;
-}
-
-// Passo "redondo" para o eixo Y (1, 2, 5, 10, 20, 50...)
-function passoBonito(maximo) {
-    const bruto = maximo / 4;
-    const potencia = Math.pow(10, Math.floor(Math.log10(bruto)));
-    const f = bruto / potencia;
-    const fator = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
-    return Math.max(1, fator * potencia);
-}
-
-// Corta o texto com reticências para caber na largura
-function cortarTexto(ctx, texto, larguraMax) {
-    if (ctx.measureText(texto).width <= larguraMax) return texto;
-    while (texto.length > 1 &&
-           ctx.measureText(texto + "…").width > larguraMax) {
-        texto = texto.slice(0, -1);
-    }
-    return texto + "…";
-}
+    const reduzirMovimento =
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 
-/* =====================================================
-   CLASSE BASE DO GRÁFICO (Canvas 2D)
-   ===================================================== */
+    /* =====================================================
+       FUNÇÕES AUXILIARES
+       ===================================================== */
 
-class Grafico {
-
-    constructor(idCanvas) {
-
-        this.canvas   = document.getElementById(idCanvas);
-        this.ctx      = this.canvas.getContext("2d");
-        this.tooltip  = this.canvas.parentElement.querySelector(".cv-tooltip");
-
-        this.dados     = [];
-        this.areas     = [];
-        this.hover     = -1;
-        this.progresso = 1;
-        this.w = 0;
-        this.h = 0;
-
-        new ResizeObserver(() => this.redimensionar())
-            .observe(this.canvas.parentElement);
-
-        this.canvas.addEventListener("mousemove", e => this.aoMover(e));
-        this.canvas.addEventListener("mouseleave", () => this.aoSair());
+    // Evita injeção de HTML vindo da API
+    function esc(texto) {
+        const div = document.createElement("div");
+        div.textContent = texto ?? "";
+        return div.innerHTML;
     }
 
-    // Ajusta a resolução para telas retina
-    redimensionar() {
-
-        const dpr  = window.devicePixelRatio || 1;
-        const rect = this.canvas.getBoundingClientRect();
-
-        if (!rect.width || !rect.height) return;
-
-        this.w = rect.width;
-        this.h = rect.height;
-
-        this.canvas.width  = Math.round(rect.width  * dpr);
-        this.canvas.height = Math.round(rect.height * dpr);
-
-        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-        this.desenhar();
+    // Passo "redondo" para o eixo Y (1, 2, 5, 10, 20, 50...)
+    function passoBonito(maximo) {
+        const bruto = maximo / 4;
+        const potencia = Math.pow(10, Math.floor(Math.log10(bruto)));
+        const f = bruto / potencia;
+        const fator = f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10;
+        return Math.max(1, fator * potencia);
     }
 
-    // Recebe novos dados e anima a entrada
-    atualizar(dados) {
-
-        this.dados = dados;
-        this.hover = -1;
-        this.esconderTooltip();
-
-        cancelAnimationFrame(this.raf);
-
-        if (reduzirMovimento) {
-            this.progresso = 1;
-            this.desenhar();
-            return;
+    // Corta o texto com reticências para caber na largura
+    function cortarTexto(ctx, texto, larguraMax) {
+        if (ctx.measureText(texto).width <= larguraMax) return texto;
+        while (texto.length > 1 &&
+            ctx.measureText(texto + "…").width > larguraMax) {
+            texto = texto.slice(0, -1);
         }
-
-        const inicio = performance.now();
-
-        const passo = (agora) => {
-
-            const t = Math.min((agora - inicio) / 700, 1);
-
-            this.progresso = 1 - Math.pow(1 - t, 3); // easeOutCubic
-
-            this.desenhar();
-
-            if (t < 1) this.raf = requestAnimationFrame(passo);
-        };
-
-        this.raf = requestAnimationFrame(passo);
+        return texto + "…";
     }
 
-    vazio() {
 
-        const { ctx, w, h } = this;
+    /* =====================================================
+       CLASSE BASE DO GRÁFICO (Canvas 2D)
+       ===================================================== */
 
-        ctx.fillStyle = "rgba(255,255,255,0.6)";
-        ctx.font = "14px system-ui, sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("Nenhum dado para exibir", w / 2, h / 2);
-    }
+    class Grafico {
 
-    // ----- Interação -----
+        constructor(idCanvas) {
 
-    aoMover(e) {
+            this.canvas = document.getElementById(idCanvas);
+            this.ctx = this.canvas.getContext("2d");
+            this.tooltip = this.canvas.parentElement.querySelector(".cv-tooltip");
 
-        const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const i = this.itemEm(x, y);
-
-        if (i !== this.hover) {
-            this.hover = i;
-            this.desenhar();
-        }
-
-        this.canvas.style.cursor = i >= 0 ? "pointer" : "default";
-
-        if (i >= 0) {
-            this.mostrarTooltip(i, x, y);
-        } else {
-            this.esconderTooltip();
-        }
-    }
-
-    aoSair() {
-
-        if (this.hover !== -1) {
+            this.dados = [];
+            this.areas = [];
             this.hover = -1;
+            this.progresso = 1;
+            this.w = 0;
+            this.h = 0;
+
+            new ResizeObserver(() => this.redimensionar())
+                .observe(this.canvas.parentElement);
+
+            this.canvas.addEventListener("mousemove", e => this.aoMover(e));
+            this.canvas.addEventListener("mouseleave", () => this.aoSair());
+        }
+
+        // Ajusta a resolução para telas retina
+        redimensionar() {
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = this.canvas.getBoundingClientRect();
+
+            if (!rect.width || !rect.height) return;
+
+            this.w = rect.width;
+            this.h = rect.height;
+
+            this.canvas.width = Math.round(rect.width * dpr);
+            this.canvas.height = Math.round(rect.height * dpr);
+
+            this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
             this.desenhar();
         }
 
-        this.esconderTooltip();
-    }
+        // Recebe novos dados e anima a entrada
+        atualizar(dados) {
 
-    mostrarTooltip(i, x, y) {
+            this.dados = dados;
+            this.hover = -1;
+            this.esconderTooltip();
 
-        const t = this.tooltip;
+            cancelAnimationFrame(this.raf);
 
-        t.innerHTML = this.textoTooltip(i);
-        t.style.opacity = 1;
+            if (reduzirMovimento) {
+                this.progresso = 1;
+                this.desenhar();
+                return;
+            }
 
-        const esquerda = Math.min(x + 14, this.w - t.offsetWidth - 4);
+            const inicio = performance.now();
 
-        t.style.left = Math.max(4, esquerda) + "px";
-        t.style.top  = Math.max(4, y - t.offsetHeight - 10) + "px";
-    }
+            const passo = (agora) => {
 
-    esconderTooltip() {
-        this.tooltip.style.opacity = 0;
-    }
+                const t = Math.min((agora - inicio) / 700, 1);
 
-    // Implementados nas subclasses
-    desenhar() {}
-    itemEm() { return -1; }
-    textoTooltip() { return ""; }
-}
+                this.progresso = 1 - Math.pow(1 - t, 3); // easeOutCubic
 
+                this.desenhar();
 
-/* =====================================================
-   GRÁFICO DE BARRAS
-   ===================================================== */
+                if (t < 1) this.raf = requestAnimationFrame(passo);
+            };
 
-class GraficoBarras extends Grafico {
-
-    desenhar() {
-
-        const { ctx, w, h } = this;
-
-        if (!w) return;
-
-        ctx.clearRect(0, 0, w, h);
-
-        this.areas = [];
-
-        if (!this.dados.length) {
-            this.vazio();
-            return;
+            this.raf = requestAnimationFrame(passo);
         }
 
-        const margem = { t: 22, r: 8, b: 40, l: 38 };
+        vazio() {
 
-        const maximo = Math.max(...this.dados.map(d => d.valor), 1);
-        const passo  = passoBonito(maximo);
-        const topo   = Math.ceil(maximo / passo) * passo;
-
-        const larguraUtil = w - margem.l - margem.r;
-        const alturaUtil  = h - margem.t - margem.b;
-
-        ctx.font = "12px system-ui, sans-serif";
-
-        // Linhas de grade e eixo Y
-        ctx.textAlign = "right";
-        ctx.textBaseline = "middle";
-        ctx.lineWidth = 1;
-
-        for (let v = 0; v <= topo; v += passo) {
-
-            const y = margem.t + alturaUtil - (v / topo) * alturaUtil;
-
-            ctx.strokeStyle = "rgba(255,255,255,0.12)";
-            ctx.beginPath();
-            ctx.moveTo(margem.l, y + 0.5);
-            ctx.lineTo(w - margem.r, y + 0.5);
-            ctx.stroke();
+            const { ctx, w, h } = this;
 
             ctx.fillStyle = "rgba(255,255,255,0.6)";
-            ctx.fillText(v, margem.l - 8, y);
+            ctx.font = "14px system-ui, sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("Nenhum dado para exibir", w / 2, h / 2);
         }
 
-        // Barras
-        const n    = this.dados.length;
-        const slot = larguraUtil / n;
-        const larg = Math.min(56, slot * 0.6);
+        // ----- Interação -----
 
-        this.dados.forEach((d, i) => {
+        aoMover(e) {
 
-            const x = margem.l + slot * i + (slot - larg) / 2;
+            const rect = this.canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
 
-            let alt = (d.valor / topo) * alturaUtil * this.progresso;
-            if (d.valor === 0) alt = 3 * this.progresso; // marca de "zerado"
+            const i = this.itemEm(x, y);
 
-            const y = margem.t + alturaUtil - alt;
+            if (i !== this.hover) {
+                this.hover = i;
+                this.desenhar();
+            }
 
-            ctx.fillStyle = d.cor;
-            ctx.globalAlpha = (this.hover === -1 || this.hover === i) ? 1 : 0.45;
+            this.canvas.style.cursor = i >= 0 ? "pointer" : "default";
 
-            ctx.beginPath();
-            ctx.roundRect(x, y, larg, alt, [6, 6, 0, 0]);
-            ctx.fill();
+            if (i >= 0) {
+                this.mostrarTooltip(i, x, y);
+            } else {
+                this.esconderTooltip();
+            }
+        }
 
-            ctx.globalAlpha = 1;
+        aoSair() {
 
-            // Valor acima da barra
-            ctx.fillStyle = "#fff";
-            ctx.font = "bold 12px system-ui, sans-serif";
+            if (this.hover !== -1) {
+                this.hover = -1;
+                this.desenhar();
+            }
+
+            this.esconderTooltip();
+        }
+
+        mostrarTooltip(i, x, y) {
+
+            const t = this.tooltip;
+
+            t.innerHTML = this.textoTooltip(i);
+            t.style.opacity = 1;
+
+            const esquerda = Math.min(x + 14, this.w - t.offsetWidth - 4);
+
+            t.style.left = Math.max(4, esquerda) + "px";
+            t.style.top = Math.max(4, y - t.offsetHeight - 10) + "px";
+        }
+
+        esconderTooltip() {
+            this.tooltip.style.opacity = 0;
+        }
+
+        // Implementados nas subclasses
+        desenhar() { }
+        itemEm() { return -1; }
+        textoTooltip() { return ""; }
+    }
+
+
+    /* =====================================================
+       GRÁFICO DE BARRAS
+       ===================================================== */
+
+    class GraficoBarras extends Grafico {
+
+        desenhar() {
+
+            const { ctx, w, h } = this;
+
+            if (!w) return;
+
+            ctx.clearRect(0, 0, w, h);
+
+            this.areas = [];
+
+            if (!this.dados.length) {
+                this.vazio();
+                return;
+            }
+
+            const margem = { t: 22, r: 8, b: 40, l: 38 };
+
+            const maximo = Math.max(...this.dados.map(d => d.valor), 1);
+            const passo = passoBonito(maximo);
+            const topo = Math.ceil(maximo / passo) * passo;
+
+            const larguraUtil = w - margem.l - margem.r;
+            const alturaUtil = h - margem.t - margem.b;
+
+            ctx.font = "12px system-ui, sans-serif";
+
+            // Linhas de grade e eixo Y
+            ctx.textAlign = "right";
+            ctx.textBaseline = "middle";
+            ctx.lineWidth = 1;
+
+            for (let v = 0; v <= topo; v += passo) {
+
+                const y = margem.t + alturaUtil - (v / topo) * alturaUtil;
+
+                ctx.strokeStyle = "rgba(255,255,255,0.12)";
+                ctx.beginPath();
+                ctx.moveTo(margem.l, y + 0.5);
+                ctx.lineTo(w - margem.r, y + 0.5);
+                ctx.stroke();
+
+                ctx.fillStyle = "rgba(255,255,255,0.6)";
+                ctx.fillText(v, margem.l - 8, y);
+            }
+
+            // Barras
+            const n = this.dados.length;
+            const slot = larguraUtil / n;
+            const larg = Math.min(56, slot * 0.6);
+
+            this.dados.forEach((d, i) => {
+
+                const x = margem.l + slot * i + (slot - larg) / 2;
+
+                let alt = (d.valor / topo) * alturaUtil * this.progresso;
+                if (d.valor === 0) alt = 3 * this.progresso; // marca de "zerado"
+
+                const y = margem.t + alturaUtil - alt;
+
+                ctx.fillStyle = d.cor;
+                ctx.globalAlpha = (this.hover === -1 || this.hover === i) ? 1 : 0.45;
+
+                ctx.beginPath();
+                ctx.roundRect(x, y, larg, alt, [6, 6, 0, 0]);
+                ctx.fill();
+
+                ctx.globalAlpha = 1;
+
+                // Valor acima da barra
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 12px system-ui, sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "bottom";
+                ctx.globalAlpha = this.progresso;
+                ctx.fillText(d.valor, x + larg / 2, y - 5);
+                ctx.globalAlpha = 1;
+
+                // Nome abaixo do eixo
+                ctx.fillStyle = "rgba(255,255,255,0.8)";
+                ctx.font = "12px system-ui, sans-serif";
+                ctx.textBaseline = "top";
+                ctx.fillText(
+                    cortarTexto(ctx, d.nome, slot - 6),
+                    x + larg / 2,
+                    margem.t + alturaUtil + 10
+                );
+
+                // Área de hover = coluna inteira
+                this.areas.push({
+                    x0: margem.l + slot * i,
+                    x1: margem.l + slot * (i + 1)
+                });
+            });
+        }
+
+        itemEm(x, y) {
+            return this.areas.findIndex(a => x >= a.x0 && x < a.x1);
+        }
+
+        textoTooltip(i) {
+            const d = this.dados[i];
+            return `<strong>${esc(d.nome)}</strong><br>${d.valor} un. · ${esc(d.categoria)}`;
+        }
+    }
+
+
+    /* =====================================================
+       GRÁFICO DE ROSCA
+       ===================================================== */
+
+    class GraficoRosca extends Grafico {
+
+        constructor(idCanvas, rotuloCentro) {
+            super(idCanvas);
+            this.rotuloCentro = rotuloCentro;
+            this.geo = null;
+        }
+
+        desenhar() {
+
+            const { ctx, w, h } = this;
+
+            if (!w) return;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const total = this.dados.reduce((s, d) => s + d.valor, 0);
+
+            this.areas = [];
+
+            if (!total) {
+                this.vazio();
+                return;
+            }
+
+            const cx = w / 2;
+            const cy = h / 2;
+            const R = Math.min(w, h) / 2 - 8;
+            const r = R * 0.64;
+
+            this.geo = { cx, cy, R, r };
+
+            const visiveis = this.dados.filter(d => d.valor > 0).length;
+            const folga = visiveis > 1 ? 0.03 : 0;
+
+            let inicio = -Math.PI / 2;
+            let acumulado = 0;
+
+            this.dados.forEach((d, i) => {
+
+                const fracao = d.valor / total;
+
+                // ângulos finais (para hover) e animados (para desenho)
+                this.areas.push({
+                    a0: acumulado * Math.PI * 2,
+                    a1: (acumulado + fracao) * Math.PI * 2
+                });
+
+                acumulado += fracao;
+
+                if (d.valor === 0) return;
+
+                const fatia = fracao * Math.PI * 2 * this.progresso;
+                const ini = inicio + folga / 2;
+                const fim = inicio + fatia - folga / 2;
+
+                inicio += fatia;
+
+                if (fim <= ini) return;
+
+                const raio = this.hover === i ? R + 5 : R;
+
+                ctx.fillStyle = d.cor;
+                ctx.globalAlpha = (this.hover === -1 || this.hover === i) ? 1 : 0.45;
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, raio, ini, fim);
+                ctx.arc(cx, cy, r, fim, ini, true);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.globalAlpha = 1;
+            });
+
+            // Texto central
             ctx.textAlign = "center";
-            ctx.textBaseline = "bottom";
-            ctx.globalAlpha = this.progresso;
-            ctx.fillText(d.valor, x + larg / 2, y - 5);
-            ctx.globalAlpha = 1;
+            ctx.fillStyle = "#fff";
+            ctx.textBaseline = "alphabetic";
+            ctx.font = "bold 26px system-ui, sans-serif";
+            ctx.fillText(Math.round(total * this.progresso), cx, cy + 4);
 
-            // Nome abaixo do eixo
-            ctx.fillStyle = "rgba(255,255,255,0.8)";
+            ctx.fillStyle = "rgba(255,255,255,0.65)";
             ctx.font = "12px system-ui, sans-serif";
             ctx.textBaseline = "top";
-            ctx.fillText(
-                cortarTexto(ctx, d.nome, slot - 6),
-                x + larg / 2,
-                margem.t + alturaUtil + 10
-            );
-
-            // Área de hover = coluna inteira
-            this.areas.push({
-                x0: margem.l + slot * i,
-                x1: margem.l + slot * (i + 1)
-            });
-        });
-    }
-
-    itemEm(x, y) {
-        return this.areas.findIndex(a => x >= a.x0 && x < a.x1);
-    }
-
-    textoTooltip(i) {
-        const d = this.dados[i];
-        return `<strong>${esc(d.nome)}</strong><br>${d.valor} un. · ${esc(d.categoria)}`;
-    }
-}
-
-
-/* =====================================================
-   GRÁFICO DE ROSCA
-   ===================================================== */
-
-class GraficoRosca extends Grafico {
-
-    constructor(idCanvas, rotuloCentro) {
-        super(idCanvas);
-        this.rotuloCentro = rotuloCentro;
-        this.geo = null;
-    }
-
-    desenhar() {
-
-        const { ctx, w, h } = this;
-
-        if (!w) return;
-
-        ctx.clearRect(0, 0, w, h);
-
-        const total = this.dados.reduce((s, d) => s + d.valor, 0);
-
-        this.areas = [];
-
-        if (!total) {
-            this.vazio();
-            return;
+            ctx.fillText(this.rotuloCentro, cx, cy + 10);
         }
 
-        const cx = w / 2;
-        const cy = h / 2;
-        const R  = Math.min(w, h) / 2 - 8;
-        const r  = R * 0.64;
+        itemEm(x, y) {
 
-        this.geo = { cx, cy, R, r };
+            if (!this.geo) return -1;
 
-        const visiveis = this.dados.filter(d => d.valor > 0).length;
-        const folga    = visiveis > 1 ? 0.03 : 0;
+            const { cx, cy, R, r } = this.geo;
 
-        let inicio = -Math.PI / 2;
-        let acumulado = 0;
+            const dx = x - cx;
+            const dy = y - cy;
+            const dist = Math.hypot(dx, dy);
 
-        this.dados.forEach((d, i) => {
+            if (dist < r || dist > R + 6) return -1;
 
-            const fracao = d.valor / total;
+            // ângulo a partir do topo, sentido horário
+            let ang = Math.atan2(dy, dx) + Math.PI / 2;
+            if (ang < 0) ang += Math.PI * 2;
 
-            // ângulos finais (para hover) e animados (para desenho)
-            this.areas.push({
-                a0: acumulado * Math.PI * 2,
-                a1: (acumulado + fracao) * Math.PI * 2
-            });
+            return this.areas.findIndex(
+                (a, i) => this.dados[i].valor > 0 && ang >= a.a0 && ang < a.a1
+            );
+        }
 
-            acumulado += fracao;
+        textoTooltip(i) {
 
-            if (d.valor === 0) return;
+            const d = this.dados[i];
+            const total = this.dados.reduce((s, x) => s + x.valor, 0);
+            const pct = ((d.valor / total) * 100).toFixed(1).replace(".", ",");
 
-            const fatia = fracao * Math.PI * 2 * this.progresso;
-            const ini = inicio + folga / 2;
-            const fim = inicio + fatia - folga / 2;
-
-            inicio += fatia;
-
-            if (fim <= ini) return;
-
-            const raio = this.hover === i ? R + 5 : R;
-
-            ctx.fillStyle = d.cor;
-            ctx.globalAlpha = (this.hover === -1 || this.hover === i) ? 1 : 0.45;
-
-            ctx.beginPath();
-            ctx.arc(cx, cy, raio, ini, fim);
-            ctx.arc(cx, cy, r, fim, ini, true);
-            ctx.closePath();
-            ctx.fill();
-
-            ctx.globalAlpha = 1;
-        });
-
-        // Texto central
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#fff";
-        ctx.textBaseline = "alphabetic";
-        ctx.font = "bold 26px system-ui, sans-serif";
-        ctx.fillText(Math.round(total * this.progresso), cx, cy + 4);
-
-        ctx.fillStyle = "rgba(255,255,255,0.65)";
-        ctx.font = "12px system-ui, sans-serif";
-        ctx.textBaseline = "top";
-        ctx.fillText(this.rotuloCentro, cx, cy + 10);
+            return `<strong>${esc(d.nome)}</strong><br>${d.valor} ${esc(this.rotuloCentro)} · ${pct}%`;
+        }
     }
 
-    itemEm(x, y) {
 
-        if (!this.geo) return -1;
+    /* =====================================================
+       INSTÂNCIAS DOS GRÁFICOS
+       ===================================================== */
 
-        const { cx, cy, R, r } = this.geo;
-
-        const dx = x - cx;
-        const dy = y - cy;
-        const dist = Math.hypot(dx, dy);
-
-        if (dist < r || dist > R + 6) return -1;
-
-        // ângulo a partir do topo, sentido horário
-        let ang = Math.atan2(dy, dx) + Math.PI / 2;
-        if (ang < 0) ang += Math.PI * 2;
-
-        return this.areas.findIndex(
-            (a, i) => this.dados[i].valor > 0 && ang >= a.a0 && ang < a.a1
-        );
-    }
-
-    textoTooltip(i) {
-
-        const d = this.dados[i];
-        const total = this.dados.reduce((s, x) => s + x.valor, 0);
-        const pct = ((d.valor / total) * 100).toFixed(1).replace(".", ",");
-
-        return `<strong>${esc(d.nome)}</strong><br>${d.valor} ${esc(this.rotuloCentro)} · ${pct}%`;
-    }
-}
+    const graficoBarras = new GraficoBarras("grafico-barras");
+    const graficoCategorias = new GraficoRosca("grafico-categorias", "unidades");
+    const graficoSituacao = new GraficoRosca("grafico-situacao", "produtos");
 
 
-/* =====================================================
-   INSTÂNCIAS DOS GRÁFICOS
-   ===================================================== */
+    function montarLegenda(idLista, dados) {
 
-const graficoBarras     = new GraficoBarras("grafico-barras");
-const graficoCategorias = new GraficoRosca("grafico-categorias", "unidades");
-const graficoSituacao   = new GraficoRosca("grafico-situacao", "produtos");
+        const lista = document.getElementById(idLista);
 
-
-function montarLegenda(idLista, dados) {
-
-    const lista = document.getElementById(idLista);
-
-    lista.innerHTML = dados.map(d => `
+        lista.innerHTML = dados.map(d => `
         <li>
             <span class="ponto" style="background:${d.cor}"></span>
             ${esc(d.nome)}
             <b>${d.valor}</b>
         </li>
     `).join("");
-}
+    }
 
 
-/* =====================================================
-   TRANSFORMA OS PRODUTOS EM DADOS DOS GRÁFICOS
-   ===================================================== */
+    /* =====================================================
+       TRANSFORMA OS PRODUTOS EM DADOS DOS GRÁFICOS
+       ===================================================== */
 
-function atualizarGraficos(produtos) {
+    function atualizarGraficos(produtos) {
 
-    // ----- Barras: top 10 por quantidade -----
+        // ----- Barras: top 10 por quantidade -----
 
-    const porProduto = produtos
-        .map(p => {
-            const qtd = Number(p.estoque_quantidade) || 0;
-            return {
-                nome: p.produto_nome,
-                categoria: p.produto_categoria,
-                valor: qtd,
-                cor: qtd === 0 ? COR_ZERADO
-                   : qtd <= LIMITE_ESTOQUE_BAIXO ? COR_BAIXO
-                   : COR_OK
-            };
-        })
-        .sort((a, b) => b.valor - a.valor)
-        .slice(0, 10);
+        const porProduto = produtos
+            .map(p => {
+                const qtd = Number(p.estoque_quantidade) || 0;
+                return {
+                    nome: p.produto_nome,
+                    categoria: p.produto_categoria,
+                    valor: qtd,
+                    cor: qtd === 0 ? COR_ZERADO
+                        : qtd <= LIMITE_ESTOQUE_BAIXO ? COR_BAIXO
+                            : COR_OK
+                };
+            })
+            .sort((a, b) => b.valor - a.valor)
+            .slice(0, 10);
 
-    graficoBarras.atualizar(porProduto);
-
-
-    // ----- Rosca: unidades por categoria -----
-
-    const mapa = {};
-
-    produtos.forEach(p => {
-        const cat = p.produto_categoria || "Sem categoria";
-        mapa[cat] = (mapa[cat] || 0) + (Number(p.estoque_quantidade) || 0);
-    });
-
-    const porCategoria = Object.entries(mapa)
-        .map(([nome, valor]) => ({
-            nome,
-            valor,
-            cor: CORES_CATEGORIA[nome] || COR_PADRAO
-        }))
-        .sort((a, b) => b.valor - a.valor);
-
-    graficoCategorias.atualizar(porCategoria);
-    montarLegenda("legenda-categorias", porCategoria);
+        graficoBarras.atualizar(porProduto);
 
 
-    // ----- Rosca: situação do estoque -----
+        // ----- Rosca: unidades por categoria -----
 
-    const zerados = produtos.filter(p => Number(p.estoque_quantidade) === 0).length;
-    const baixos  = produtos.filter(p => {
-        const q = Number(p.estoque_quantidade);
-        return q > 0 && q <= LIMITE_ESTOQUE_BAIXO;
-    }).length;
-    const normais = produtos.length - zerados - baixos;
+        const mapa = {};
 
-    const situacao = [
-        { nome: "Normal",                         valor: normais, cor: COR_OK },
-        { nome: `Baixo (até ${LIMITE_ESTOQUE_BAIXO})`, valor: baixos,  cor: COR_BAIXO },
-        { nome: "Sem estoque",                    valor: zerados, cor: COR_ZERADO }
-    ];
+        produtos.forEach(p => {
+            const cat = p.produto_categoria || "Sem categoria";
+            mapa[cat] = (mapa[cat] || 0) + (Number(p.estoque_quantidade) || 0);
+        });
 
-    graficoSituacao.atualizar(situacao);
-    montarLegenda("legenda-situacao", situacao);
-}
+        const porCategoria = Object.entries(mapa)
+            .map(([nome, valor]) => ({
+                nome,
+                valor,
+                cor: CORES_CATEGORIA[nome] || COR_PADRAO
+            }))
+            .sort((a, b) => b.valor - a.valor);
 
-
-/* =====================================================
-   BUSCAR PRODUTOS (tabela + gráficos)
-   ===================================================== */
-
-async function buscarProdutos() {
-
-    // PEGAR VALORES DOS FILTROS
-
-    const nome       = document.getElementById("filtro-nome").value.trim();
-    const categoria  = document.getElementById("filtro-categoria").value;
-    const quantidade = document.getElementById("filtro-quantidade").value;
+        graficoCategorias.atualizar(porCategoria);
+        montarLegenda("legenda-categorias", porCategoria);
 
 
-    // MONTAR URL DA API
+        // ----- Rosca: situação do estoque -----
 
-    const parametros = new URLSearchParams();
+        const zerados = produtos.filter(p => Number(p.estoque_quantidade) === 0).length;
+        const baixos = produtos.filter(p => {
+            const q = Number(p.estoque_quantidade);
+            return q > 0 && q <= LIMITE_ESTOQUE_BAIXO;
+        }).length;
+        const normais = produtos.length - zerados - baixos;
 
-    if (nome !== "")       parametros.append("nome", nome);
-    if (categoria !== "")  parametros.append("categoria", categoria);
-    if (quantidade !== "") parametros.append("quantidade", quantidade);
+        const situacao = [
+            { nome: "Normal", valor: normais, cor: COR_OK },
+            { nome: `Baixo (até ${LIMITE_ESTOQUE_BAIXO})`, valor: baixos, cor: COR_BAIXO },
+            { nome: "Sem estoque", valor: zerados, cor: COR_ZERADO }
+        ];
 
-    const url = "/api/relatorio?" + parametros.toString();
+        graficoSituacao.atualizar(situacao);
+        montarLegenda("legenda-situacao", situacao);
+    }
 
 
-    // MOSTRAR CARREGANDO
+    /* =====================================================
+       BUSCAR PRODUTOS (tabela + gráficos)
+       ===================================================== */
 
-    const tabela = document.getElementById("tabela-produtos");
+    async function buscarProdutos() {
 
-    tabela.innerHTML = `
+        // PEGAR VALORES DOS FILTROS
+
+        const nome = document.getElementById("filtro-nome").value.trim();
+        const categoria = document.getElementById("filtro-categoria").value;
+        const quantidade = document.getElementById("filtro-quantidade").value;
+
+
+        // MONTAR URL DA API
+
+        const parametros = new URLSearchParams();
+
+        if (nome !== "") parametros.append("nome", nome);
+        if (categoria !== "") parametros.append("categoria", categoria);
+        if (quantidade !== "") parametros.append("quantidade", quantidade);
+
+        const url = "/api/relatorio?" + parametros.toString();
+
+
+        // MOSTRAR CARREGANDO
+
+        const tabela = document.getElementById("tabela-produtos");
+
+        tabela.innerHTML = `
         <tr>
             <td colspan="3" class="text-center text-white py-4">
                 Carregando...
@@ -926,30 +897,30 @@ async function buscarProdutos() {
     `;
 
 
-    try {
+        try {
 
-        const resposta = await fetch(url);
+            const resposta = await fetch(url);
 
-        if (!resposta.ok) {
-            throw new Error("Erro HTTP: " + resposta.status);
-        }
+            if (!resposta.ok) {
+                throw new Error("Erro HTTP: " + resposta.status);
+            }
 
-        const dados = await resposta.json();
+            const dados = await resposta.json();
 
-        if (!dados.sucesso) {
-            throw new Error(dados.mensagem || "Erro na API");
-        }
+            if (!dados.sucesso) {
+                throw new Error(dados.mensagem || "Erro na API");
+            }
 
-        const produtos = dados.produtos || [];
+            const produtos = dados.produtos || [];
 
-        // Atualiza os gráficos com o mesmo resultado da tabela
-        atualizarGraficos(produtos);
+            // Atualiza os gráficos com o mesmo resultado da tabela
+            atualizarGraficos(produtos);
 
-        tabela.innerHTML = "";
+            tabela.innerHTML = "";
 
-        if (produtos.length === 0) {
+            if (produtos.length === 0) {
 
-            tabela.innerHTML = `
+                tabela.innerHTML = `
                 <tr>
                     <td colspan="3" class="text-center text-white py-4">
                         Nenhum produto encontrado.
@@ -957,62 +928,64 @@ async function buscarProdutos() {
                 </tr>
             `;
 
-            return;
-        }
+                return;
+            }
 
-        produtos.forEach(function (produto) {
+            produtos.forEach(function (produto) {
 
-            const linha = document.createElement("tr");
+                const linha = document.createElement("tr");
 
-            linha.innerHTML = `
+                linha.innerHTML = `
                 <td class="texto-p text-start">${esc(produto.produto_nome)}</td>
                 <td class="texto-p text-start">${esc(produto.produto_categoria)}</td>
                 <td class="texto-p text-start">${esc(produto.estoque_quantidade)}</td>
             `;
 
-            tabela.appendChild(linha);
-        });
+                tabela.appendChild(linha);
+            });
 
-    } catch (erro) {
+        } catch (erro) {
 
-        console.error("Erro ao buscar produtos:", erro);
+            console.error("Erro ao buscar produtos:", erro);
 
-        atualizarGraficos([]);
+            atualizarGraficos([]);
 
-        tabela.innerHTML = `
+            tabela.innerHTML = `
             <tr>
                 <td colspan="3" class="text-center text-danger py-4">
                     Erro ao buscar os produtos.
                 </td>
             </tr>
         `;
+        }
     }
-}
 
 
-/* =====================================================
-   EVENTOS
-   ===================================================== */
+    /* =====================================================
+       EVENTOS
+       ===================================================== */
 
-document.getElementById("form-filtros")
-    .addEventListener("submit", function (event) {
-        event.preventDefault();
-        buscarProdutos();
-    });
-
-
-document.getElementById("btn-limpar")
-    .addEventListener("click", function () {
-
-        document.getElementById("filtro-nome").value = "";
-        document.getElementById("filtro-categoria").value = "";
-        document.getElementById("filtro-quantidade").value = "";
-
-        buscarProdutos();
-    });
+    document.getElementById("form-filtros")
+        .addEventListener("submit", function (event) {
+            event.preventDefault();
+            buscarProdutos();
+        });
 
 
-document.addEventListener("DOMContentLoaded", buscarProdutos);
+    document.getElementById("btn-limpar")
+        .addEventListener("click", function () {
+
+            document.getElementById("filtro-nome").value = "";
+            document.getElementById("filtro-categoria").value = "";
+            document.getElementById("filtro-quantidade").value = "";
+
+            buscarProdutos();
+        });
+
+
+    document.addEventListener("DOMContentLoaded", buscarProdutos);
+
+
 
 </script>
 
