@@ -1182,6 +1182,12 @@ o tamnho, espaçamento e também como vai funcionar a animação de aparecer na 
     margin-top: 20px;
 }
 
+.descricao-produto {
+    overflow-wrap: anywhere;  /* quebra palavras longas sem espaço */
+    word-break: break-word; 
+    min-width: 0;
+}
+
 .carrossel_inicial{
     overflow: hidden;
     text-overflow: ellipsis;
