@@ -908,6 +908,11 @@ def buscar_animal(id):
 @app.route("/animal/excluir/<int:animal_id>", methods=["GET", "POST"])
 def excluir_animal(animal_id):
     try:
+        
+        relacao = Animal.has_related_records(animal_id)
+        if relacao:
+            flash("O animal possui relação com outras tabelas, não é possível excluí-lo", "danger")
+            return redirect(url_for("animal"))
         Animal.deletar_animal(animal_id)
         flash("Animal excluído com sucesso.", "success")
     except ValueError as e:
