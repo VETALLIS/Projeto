@@ -27,6 +27,7 @@ class Sensor(Crud_base):
             Manipular.validar_vazio(self.sensor_n_serie, "Numero de serie"), #campo não pode ser vazio
             Manipular.validar_vazio(self.sensor_modelo, "Modelo"), #campo não pode ser vazio
             Manipular.validar_vazio(self.sensor_voltagem, "voltagem"), #campo não pode ser vazio
+            Manipular.validar_numero_negativo(self.sensor_voltagem, "voltagem"), #campo não pode ter número negativo
             Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"), #campo não pode ser vazio
             Manipular.validar_vazio(self.sensor_localizacao, "Localização"), #campo não pode ser vazio
             Manipular.validar_numero(self.sensor_n_serie, "Numero de serie") #o campo nuemro de serie precisa tem numero

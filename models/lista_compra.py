@@ -32,9 +32,11 @@ class Lista_compra(Crud_base):
             Manipular.validar_not_caracter(self.lista_compra_nome, "nome"),# verifica se os dados estão aceitando caractere especial
             Manipular.validar_letra(self.lista_compra_nome, "nome"),# verifica se os dados não estão com número
             Manipular.validar_vazio(self.lista_compra_quantidade, "quantidade"),# verifica se os dados estão vazio
-            Manipular.validar_numero(self.lista_compra_quantidade, "quantidade"),# verifica se os dados estão com número
+            Manipular.validar_numero(self.lista_compra_quantidade, "quantidade"),
+            Manipular.validar_numero_negativo(self.lista_compra_quantidade, "quantidade"),# verifica se os dados estão com número
             Manipular.validar_vazio(self.lista_compra_valor, "valor"),# verifica se os dados estão vazio
             Manipular.validar_numero(self.lista_compra_valor, "valor"),# verifica se os dados estão com número
+            Manipular.validar_numero_negativo(self.lista_compra_valor, "valor"),
             Manipular.validar_vazio(self.lista_compra_status, "status")# verifica se os dados estão vazio
 
             

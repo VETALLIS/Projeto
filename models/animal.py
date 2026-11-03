@@ -38,9 +38,11 @@ class Animal(Crud_base):
             Manipular.validar_not_caracter(self.animal_identificacao, "identificacao"),# verifica se os dados estão aceitando caractere especial
             Manipular.validar_vazio(self.animal_idade, "idade"), # verifica se os dados estão vazio
             Manipular.validar_numero(self.animal_idade, "idade"), # verifica se os dados estão com número
+            Manipular.validar_numero_negativo(self.animal_idade, "idade"), # verifica se os dados estão com número positivo
             Manipular.validar_vazio(self.animal_observacao, "observacao"), # verifica se os dados estão vazio
             Manipular.validar_vazio(self.animal_peso, "peso"), # verifica se os dados estão vazio
             Manipular.validar_numero(self.animal_peso, "peso"), # verifica se os dados estão com número
+            Manipular.validar_numero_negativo(self.animal_idade, "peso"), # verifica se os dados estão com número positivo
         ]
 
         return [ erro for erro in erros if erro] # Retorna  os erros 
