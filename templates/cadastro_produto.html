@@ -4,19 +4,20 @@
 
 <!--Botão de volatar para a tela de listagem de produtos-->
 <div class="d-flex justify-content-start">
-   <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
+    <a href="{{url_for('produtos')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
 </div>
 
 <!--Título da tela-->
 <h3 class="mb-4 text-start titulo-h3">Cadastro de Produto</h3>
 
-<!--Formulário--> 
+<!--Formulário-->
 <form method="POST" action="{{url_for('salvar_produto')}}" enctype="multipart/form-data" class="form-sensor gap-4">
     <div class="mt-4 ">
         <div class="d-flex justify-content-start ">
 
             <!--Campo de adicionar imagem-->
-            <div id="imagem_cadastro_produto" class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4">
+            <div id="imagem_cadastro_produto"
+                class="borda-dashed border-radius-menor position-relative d-flex w-25 me-4">
                 <label for="imagem_produto"
                     class="upload-box w-100 h-100 d-flex align-items-center justify-content-center">
                     <img id="preview_imagem" src="" alt="" class="uploaded-image position-absolute top-0 start-0">
@@ -35,12 +36,11 @@
             </div>
 
             <!--Outros campos-->
-            <div class="divisao-form w-100">
-                <div class="mb-3 text-start">
-                    <label class="texto-a mb-1 d-block">Nome do produto:</label>
-                    <div class="input-group">
-                        <input type="name" name="nome" class="form-control" placeholder="Digite o nome do produto" required>
-                    </div>
+            <div class="col-8 p-0 coluna-info-card">
+                <div class="card-body d-flex gap-1 text-start pe-0 pb-0">
+                    <h5 class="fs-5 titulo-h3 flex-shrink-0">Nome:</h5>
+                    <h5 class="card-title fs-6 mt-1 nome-truncado" title="{{ produto.produto_nome }}">{{
+                        produto.produto_nome }}</h5>
                 </div>
                 <div class="mb-3 text-start">
                     <label class="texto-a mb-1 d-block">Descrição do produto:</label>
@@ -75,10 +75,11 @@
 
                         </select>
                     </div>
-                    
+
                     <!--Botão de enviar os dados para cadastro-->
                     <div class="justify-content-center w-100">
-                        <button id="botao_cadastro_produto" class=" btn w-100 text-white background-verde-medio border-radius-menor"
+                        <button id="botao_cadastro_produto"
+                            class=" btn w-100 text-white background-verde-medio border-radius-menor"
                             type="submit">Cadastrar</button>
                     </div>
                 </div>

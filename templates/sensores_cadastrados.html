@@ -4,31 +4,36 @@
 
 <div class="d-flex justify-content-between">
     <h3 class="mb-4 text-start titulo-h3 w-100">Sensores</h3>
-    <a role="button" aria-label="Adicionar sensor" class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
+    <a role="button" aria-label="Adicionar sensor"
+        class="btn titulo-animal w-100 texto-a d-flex justify-content-center background-verde-medio background-verde-medio border-radius-menor"
         href="{{url_for('novo_sensor')}}">Adicionar Sensor</a>
 </div>
 
 <div class="d-flex flex-wrap justify-content-start gap-4 mt-3">
     {% if sensores %}
     {% for sensor in sensores %}
-    <div class="card card-sensor gap-4 text-white backgroud-glass border-radius-menor">
+    <div class="card card-sensor gap-3 text-white backgroud-glass border-radius-menor">
 
         <div class="dentro_card_sensor row g-0 ">
             <label for="imagem_sensor" class="col-4 p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if sensor.imagem_base64 %}
-                <img role="img" aria-label="Imagem do sensor" src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
+                <img role="img" aria-label="Imagem do sensor"
+                    src="data:{{sensor.imagem_tipo}};base64,{{sensor.imagem_base64}}"
                     class="border-radius-menor img-sensor">
                 {%else%}
-                <img role="img" aria-label="Imagem do sensor" src="/static/imagens/sensor.jpg" class="border-radius-menor img-sensor">
+                <img role="img" aria-label="Imagem do sensor" src="/static/imagens/sensor.jpg"
+                    class="border-radius-menor img-sensor">
                 {%endif%}
             </label>
-            <div class="col-8 p-0 ">
+            <div class="col-8 p-0 coluna-info-sensor">
                 <div class="card-body d-flex gap-1 text-start pe-0 pb-0">
-                    <h5 class="fs-5 titulo-h3">Nome:</h5>
-                    <h5 class="card-title fs-6 mt-1">{{sensor.sensor_nome}}</h5>
+                    <h5 class="fs-5 titulo-h3 flex-shrink-0">Nome:</h5>
+                    <h5 class="card-title fs-6 mt-1 nome-truncado" title="{{ sensor.sensor_nome }}">{{
+                        sensor.sensor_nome }}</h5>
                 </div>
                 <div class="card-body text-start pb-0 pe-0 pt-0">
-                    <a role="button" aria-label="Ver detalhes do sensor" href="/sensor/informacao/{{sensor.sensor_id}}" class="bi bi-arrow-bar-right text-white texto-a">
+                    <a role="button" aria-label="Ver detalhes do sensor" href="/sensor/informacao/{{sensor.sensor_id}}"
+                        class="bi bi-arrow-bar-right text-white texto-a">
                         Ver Detalhes
                     </a>
                 </div>
@@ -37,7 +42,8 @@
                         href="{{ url_for('excluir_sensor', sensor_id= sensor.sensor_id) }}">
                         <i role="img" aria-label="Botão de excluir sensor" class="bi bi-trash"></i>
                     </a>
-                    <a role="button" aria-label="Editar sensor" href="/sensor/editar/{{sensor.sensor_id}}" class="bi bi-pencil text-white texto-a">
+                    <a role="button" aria-label="Editar sensor" href="/sensor/editar/{{sensor.sensor_id}}"
+                        class="bi bi-pencil text-white texto-a">
                         Editar
                     </a>
                 </div>
