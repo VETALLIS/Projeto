@@ -59,12 +59,12 @@
                     <div
                         class="position-relative overflow-hidden d-flex flex-column justify-content-end align-items-start   card-luminosidade luminosidade_res">
                         <p class="ms-3 mb-1 fs-2 mt-3 texto-branco position-relative">Luminosidade</p>
-                        <h4 class="ms-3 mb-3 fw-bold display-3 texto-branco">300lux</h4>
+                        <h4 id="valor-luminosidade" class="ms-3 mb-3 fw-bold display-3 texto-branco">--</h4>
                     </div>
                     <div
                         class="position-relative overflow-hidden d-flex flex-column align-items-start justify-content-center card-umidade">
                         <p class="ms-3 mb-1 fs-2 mt-3 texto-branco position-relative">Umidade</p>
-                        <h4 class="fw-bold display-3 w-50 text-center  texto-branco">20%</h4>
+                        <h4 id="valor-umidade" class="fw-bold display-3 w-50 text-center  texto-branco">--</h4>
                     </div>
                 </div>
 
@@ -74,7 +74,7 @@
                         <p class=" fs-2 mt-3 ms-2 texto-branco  temperatura-label">
                             Temperatura</p>
                         <div class=" p-4 temperatura-valor ">
-                            <h4 class="fw-bold display-3 mt-2  texto-branco">15°C</h4>
+                            <h4 id="valor-temperatura" class="fw-bold display-3 mt-2  texto-branco">--</h4>
                         </div>
                     </div>
                 </div>
@@ -209,4 +209,51 @@
         </div>
     </form>
 </div>
+
+<!--Busca a última leitura dos sensores na API IoT e atualiza os cards a cada 5 segundos-->
+<script>
+    (function () {
+
+        var API = "http://127.0.0.1:8000";
+        var INTERVALO = 5000;
+
+        function ultimaLeitura(sensor) {
+            return fetch(API + "/leituras?sensor=" + sensor + "&limite=1")
+                .then(function (resposta) { return resposta.json(); })
+                .then(function (dados) {
+                    if (dados.leituras && dados.leituras.length > 0) {
+                        return dados.leituras[0];
+                    }
+                    return null;
+                })
+                .catch(function () { return null; });
+        }
+
+        function formatar(valor, unidade) {
+            if (valor === null || valor === undefined) {
+                return "--";
+            }
+            return (Math.round(Number(valor) * 10) / 10) + unidade;
+        }
+
+        function atualizar() {
+
+            ultimaLeitura("DHT11").then(function (leitura) {
+                document.getElementById("valor-temperatura").textContent =
+                    formatar(leitura ? leitura.temperatura : null, "°C");
+                document.getElementById("valor-umidade").textContent =
+                    formatar(leitura ? leitura.umidade : null, "%");
+            });
+
+            ultimaLeitura("LDR").then(function (leitura) {
+                document.getElementById("valor-luminosidade").textContent =
+                    formatar(leitura ? leitura.luminosidade : null, "%");
+            });
+        }
+
+        atualizar();
+        setInterval(atualizar, INTERVALO);
+
+    })();
+</script>
 {% endblock %}
