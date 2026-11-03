@@ -1846,11 +1846,12 @@ os espaçamentos e como os itens vão ser distribuidos */
     background: #1c9e8677;
     padding: 5px;
     height: 160px;
-    width: 320px;
+    width: 250px;
+    max-width: 100% !important;
 }
 
 .dentro_card_sensor{
-    max-width: 250px;
+    max-width: none; 
     width: 100%;
 }
 
@@ -1872,6 +1873,19 @@ os espaçamentos e como os itens vão ser distribuidos */
     font-size: 3rem;
 }
 
+
+/* a coluna do texto precisa poder encolher dentro do flex/row */
+.coluna-info-sensor {
+    min-width: 0;
+}
+
+/* o h5 do nome também precisa poder encolher dentro do d-flex */
+.nome-truncado {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
 /*Define o filtro com curvatura e tamanho*/
 #filtro-e-tabela{
@@ -2240,4 +2254,14 @@ os espaçamentos e como os itens vão ser distribuidos */
     border-color: #34D399;
     box-shadow: none;
     color: #fff;
+}
+
+
+.alerta-contato .btn-close:focus,
+.alerta-contato .btn-close:active,
+.alerta-contato .btn-close:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent !important;
 }

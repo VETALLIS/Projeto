@@ -189,10 +189,11 @@
                     <h1 id="titulo-contato" class="titulo-h3 mb-2">Contato</h1>
                     {% with mensagens = get_flashed_messages(with_categories=true) %}
                     {% for categoria, mensagem in mensagens %}
-                    <div class="alert alert-{{ categoria }} alert-dismissible w-100 mb-0 py-2 texto-p" role="alert">
-                        {{ mensagem }}
-                        <button type="button" class="btn-close" aria-label="Fechar"
-                            onclick="this.parentElement.remove()"></button>
+                    <div class="alert alert-{{ categoria }} alert-dismissible fade show w-100 mb-0 alerta-contato d-flex align-items-center justify-content-center gap-2"
+                        role="alert">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <span>{{ mensagem }}</span>
+                        <button type="button" class="btn-close" aria-label="Fechar" data-bs-dismiss="alert" onclick="this.parentElement.remove()"></button>
                     </div>
                     {% endfor %}
                     {% endwith %}
@@ -202,7 +203,7 @@
                             class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
                         <input type="email" aria-label="Digite seu e-mail" name="email" placeholder="Email"
                             class="dados-contato mb-3 w-100 border-radius-menor backgroud-glass texto-p">
-                        <textarea type="text" aria-label="Digite sua mensagem para nos contatar" name="texto"
+                        <textarea type="text" aria-label="Digite sua mensagem para nos contatar" required name="texto"
                             id="mensagem-contato" placeholder="Escreva sua mensagem"
                             class="border-radius-menor backgroud-glass texto-p"></textarea>
                         <button aria-label="Botão de enviar" id="botao-enviar-contato"
