@@ -2241,3 +2241,13 @@ os espaçamentos e como os itens vão ser distribuidos */
     box-shadow: none;
     color: #fff;
 }
+
+
+.alerta-contato .btn-close:focus,
+.alerta-contato .btn-close:active,
+.alerta-contato .btn-close:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent !important;
+}
