@@ -30,7 +30,7 @@ class Sensor(Crud_base):
             Manipular.validar_numero_negativo(self.sensor_voltagem, "voltagem"), #campo não pode ter número negativo
             Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"), #campo não pode ser vazio
             Manipular.validar_vazio(self.sensor_localizacao, "Localização"), #campo não pode ser vazio
-            Manipular.validar_numero(self.sensor_n_serie, "Numero de serie") #o campo nuemro de serie precisa tem numero
+ #o campo nuemro de serie precisa tem numero
         ]  #chamando as validações que serão usadas nessa tela, elas veem do manipular.py   
             
         return [ erro for erro in erros if erro] #retorna o erro
@@ -105,3 +105,4 @@ class Sensor(Crud_base):
         for i in sensor: #conta os sensores para exibi-los na tela de relatório
             sensores = sensores + 1
         return sensores
+

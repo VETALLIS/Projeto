@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `animal` (
   `animal_observacao` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`animal_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `sensor` (
   `imagem_blob` LONGBLOB NULL DEFAULT NULL,
   PRIMARY KEY (`sensor_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -65,11 +65,12 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dados_sensor` (
   `dados_sensor_id` INT NOT NULL AUTO_INCREMENT,
-  `dados_sensor_temperatura` DECIMAL(5,2) NOT NULL,
-  `dados_sensor_umidade` DECIMAL(5,2) NOT NULL,
-  `dados_sensor_luminosidade` DECIMAL(10,2) NOT NULL,
+  `dados_sensor_temperatura` VARCHAR(100) NULL DEFAULT NULL,
+  `dados_sensor_umidade` DECIMAL(5,2) NULL,
+  `dados_sensor_luminosidade` DECIMAL(10,2) NULL,
   `dados_sensor_data_time` DATETIME NOT NULL,
   `sensor_sensor_id` INT NOT NULL,
+  `dados_sensor_rfid_uid` VARCHAR(1000) NULL DEFAULT NULL,
   PRIMARY KEY (`dados_sensor_id`),
   INDEX `fk_dados_sensor_sensor1` (`sensor_sensor_id` ASC) VISIBLE,
   CONSTRAINT `fk_dados_sensor_sensor1`
@@ -95,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `imagem_blob` LONGBLOB NULL DEFAULT NULL,
   PRIMARY KEY (`usuario_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 8
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -118,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `produto` (
     FOREIGN KEY (`usuario_usuario_id`)
     REFERENCES `usuario` (`usuario_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 24
+AUTO_INCREMENT = 30
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -138,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `estoque` (
     FOREIGN KEY (`produto_produto_id` , `produto_usuario_usuario_id`)
     REFERENCES `produto` (`produto_id` , `usuario_usuario_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -155,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `fornecedor` (
   `fornecedor_tipo_produtos` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`fornecedor_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -175,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `pedido_entrada` (
     FOREIGN KEY (`fornecedor_fornecedor_id`)
     REFERENCES `fornecedor` (`fornecedor_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 16
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -202,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `item_pedido_entrada` (
     FOREIGN KEY (`produto_produto_id`)
     REFERENCES `produto` (`produto_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 16
+AUTO_INCREMENT = 22
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -222,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `pedido_saida` (
     FOREIGN KEY (`animal_animal_id`)
     REFERENCES `animal` (`animal_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 17
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -247,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `item_pedido_saida` (
     FOREIGN KEY (`pedido_saida_pedido_saida_id`)
     REFERENCES `pedido_saida` (`pedido_saida_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -278,6 +279,7 @@ CREATE TABLE IF NOT EXISTS `notificacao` (
   `notificacao_descricao` VARCHAR(150) NOT NULL,
   PRIMARY KEY (`notificacao_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
@@ -290,26 +292,11 @@ CREATE TABLE IF NOT EXISTS `recuperar` (
   `recuperar_codigo` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`recuperar_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = utf8mb3;
+
+SHOW WARNINGS;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
--- ----------------------------------------------------
--- Table 'push_token' 
--- ----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `push_token` (
-  `push_token_id` INT NOT NULL AUTO_INCREMENT,
-  `push_token_valor` VARCHAR(255) NOT NULL,
-  `push_token_criado_em` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `usuario_usuario_id` INT NOT NULL,
-  PRIMARY KEY (`push_token_id`),
-  UNIQUE INDEX `uq_push_token_valor` (`push_token_valor` ASC) VISIBLE,
-  INDEX `fk_push_token_usuario1` (`usuario_usuario_id` ASC) VISIBLE,
-  CONSTRAINT `fk_push_token_usuario1`
-    FOREIGN KEY (`usuario_usuario_id`)
-    REFERENCES `usuario` (`usuario_id`)
-    ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
