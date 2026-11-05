@@ -288,7 +288,7 @@ body {
 /*Define o tamanho da imagem do sensor para ser mostrada no card*/
 .img-sensor {
     width: 100%;
-    height: 100%;
+    height: 120px;
     object-fit: cover;
 }
 /*Define como a parte da imagem vai ser mostrada*/
@@ -303,7 +303,10 @@ body {
 }
 
 .card-sensor {
-    max-width: 24% !important;
+    width: 250px !important;     /* largura fixa, igual para todos */
+    max-width: 100% !important;  /* substitui o 24% */
+    flex: 0 0 auto;
+    overflow: hidden; 
 }
 
 /* Adicionar Imagem Campo */
@@ -1876,16 +1879,23 @@ os espaçamentos e como os itens vão ser distribuidos */
 
 /* a coluna do texto precisa poder encolher dentro do flex/row */
 .coluna-info-sensor {
-    min-width: 0;
+    width: 100%;        
+    max-width: 385px;  
+    flex: 0 0 auto;
 }
 
-/* o h5 do nome também precisa poder encolher dentro do d-flex */
 .nome-truncado {
+    flex: 1 1 auto;
     min-width: 0;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
+
+
+
+/* o h5 do nome também precisa poder encolher dentro do d-flex */
+c
 
 /*Define o filtro com curvatura e tamanho*/
 #filtro-e-tabela{
