@@ -284,6 +284,7 @@ def inicial():
         Alertas.contar_vencidos()
         Alertas.contar_data_relativa()
         Alertas.limpar_notificacoes_antigas()
+        Alertas.contar_sem_estoque()
     except Exception as e:
         print(f"Erro ao verificar notificações: {e}")
     try:
@@ -1056,6 +1057,7 @@ def atualizar_fornecedor(fornecedor_id):
 @app.route("/pedido/editar/<int:pedido_id>", methods=["GET", "POST"])
 def editar_pedido(pedido_id):
     try:
+        
         pedido = Pedido_entrada.buscar_por_id(pedido_id)
         if not pedido:
             flash("Pedido não encontrado.", "danger")
