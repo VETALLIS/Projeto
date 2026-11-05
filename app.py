@@ -1409,8 +1409,7 @@ def pedido_salvar():
         except Exception as e:
             flash(f"Erro ao cadastrar entrada: {e}", "danger")
             print(e)
-            return render_template("pedido.html", fornecedor=fornecedor, produtos=produtos, animal=animal)
-
+            return redirect(url_for('pedidos_cadastrados'))
     else:
         animal = Animal.contar_animal()
         saida = Pedido_saida(**dados_saida)
@@ -1855,4 +1854,4 @@ def atualizar_senha():
 
 # ====== Executar codigo ======#
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
