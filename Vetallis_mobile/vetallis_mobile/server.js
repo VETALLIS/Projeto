@@ -691,7 +691,113 @@ app.get('/api/notificacoes/pendentes', async (req, res) => {
   }
 });
 */
+// ===== Funções equivalentes ao model Alertas (Python) =====
+async function registrarNotificacao(descricao) {
+  const [existentes] = await db.query(
+    `SELECT notificacao_id FROM notificacao
+     WHERE notificacao_descricao = ? AND notificacao_status = 'pendente'`,
+    [descricao]
+  );
+  if (existentes.length > 0) return; // não duplica
 
+  await db.query(
+    `INSERT INTO notificacao (notificacao_status, notificacao_data, notificacao_descricao)
+     VALUES ('pendente', CURDATE(), ?)`,
+    [descricao]
+  );
+}
+
+async function gerarNotificacoes() {
+  const validadeSql = `COALESCE(
+      STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d'),
+      STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y')
+  )`;
+
+  // Estoque baixo / zerado
+  try {
+    const [estoque] = await db.query(`
+      SELECT p.produto_nome AS nome,
+             COALESCE(SUM(CAST(e.estoque_quantidade AS UNSIGNED)), 0) AS quantidade
+      FROM produto p
+      LEFT JOIN estoque e ON e.produto_produto_id = p.produto_id
+      GROUP BY p.produto_id, p.produto_nome
+      HAVING COALESCE(SUM(CAST(e.estoque_quantidade AS UNSIGNED)), 0) < 10
+    `);
+    for (const e of estoque) {
+      const q = Number(e.quantidade);
+      await registrarNotificacao(
+        q === 0
+          ? `Sem estoque: ${e.nome} (0 unidades restantes)`
+          : `Estoque baixo: ${e.nome} (${q} unidades restantes)`
+      );
+    }
+  } catch (e) { console.log('⚠️ Erro gerar estoque:', e.message); }
+
+  // Vencidos
+  try {
+    const [vencidos] = await db.query(`
+      SELECT DISTINCT p.produto_nome AS nome, ipe.item_pedido_entrada_validade AS validade
+      FROM produto p
+      INNER JOIN item_pedido_entrada ipe ON ipe.produto_produto_id = p.produto_id
+      WHERE ${validadeSql} < CURDATE()
+    `);
+    for (const v of vencidos) {
+      await registrarNotificacao(`Produto vencido: ${v.nome} (validade ${v.validade})`);
+    }
+  } catch (e) { console.log('⚠️ Erro gerar vencidos:', e.message); }
+
+  // Vencem em até 7 dias
+  try {
+    const [vencendo] = await db.query(`
+      SELECT DISTINCT p.produto_nome AS nome, ipe.item_pedido_entrada_validade AS validade
+      FROM produto p
+      INNER JOIN item_pedido_entrada ipe ON ipe.produto_produto_id = p.produto_id
+      WHERE ${validadeSql} BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+    `);
+    for (const v of vencendo) {
+      await registrarNotificacao(`Vence em breve: ${v.nome} (validade ${v.validade})`);
+    }
+  } catch (e) { console.log('⚠️ Erro gerar vencendo:', e.message); }
+}
+
+// Converte a linha da tabela `notificacao` no formato que o app espera
+function formatarNotificacao(n) {
+  const desc = n.notificacao_descricao || '';
+  const m = desc.match(/^(.*?)\s*\((.*)\)\s*$/);
+  const titulo = m ? m[1] : desc;
+  const detalhe = m ? m[2] : '';
+
+  let tipo = 'info', icone = 'bell', cor = '#ffffff';
+  if (desc.startsWith('Produto vencido'))      { tipo = 'vencido';  icone = 'exclamation-triangle'; cor = '#ff6b6b'; }
+  else if (desc.startsWith('Sem estoque'))     { tipo = 'zerado';   icone = 'ban';                  cor = '#ff6b6b'; }
+  else if (desc.startsWith('Vence em breve'))  { tipo = 'vencendo'; icone = 'clock-o';              cor = '#ffd166'; }
+  else if (desc.startsWith('Estoque baixo'))   { tipo = 'baixo';    icone = 'archive';              cor = '#ffd166'; }
+
+  return { id: `notif-${n.notificacao_id}`, tipo, icone, cor, titulo, detalhe };
+}
+
+// ===== Rota =====
+app.get('/api/alertas', async (req, res) => {
+  try {
+    await gerarNotificacoes();
+
+    const [linhas] = await db.query(`
+      SELECT notificacao_id, notificacao_status, notificacao_data, notificacao_descricao
+      FROM notificacao
+      WHERE notificacao_status = 'pendente'
+      ORDER BY notificacao_data DESC, notificacao_id DESC
+    `);
+
+    const ordem = { vencido: 0, zerado: 1, vencendo: 2, baixo: 3, info: 4 };
+    const alertas = linhas.map(formatarNotificacao)
+      .sort((a, b) => ordem[a.tipo] - ordem[b.tipo]);
+
+    res.json(alertas);
+  } catch (erro) {
+    console.log('⚠️ Erro /api/alertas:', erro.message);
+    res.status(500).json({ erro: erro.message });
+  }
+});
 
 const PORTA = 3000;
 app.listen(PORTA, () => console.log(`Servidor rodando em http://localhost:${PORTA}`));

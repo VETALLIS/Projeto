@@ -1,48 +1,155 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
+import {
+    View, Text, StyleSheet, Image, TouchableOpacity,
+    ActivityIndicator, ScrollView, RefreshControl,
+    LayoutAnimation, Platform, UIManager,
+} from 'react-native';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../screens/AuthContext';
 import { API_URL } from '../src/services/api';
+
+// Habilita a animação de expandir no Android
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+// Card branco com título e valor em selo verde
+function CardInfo({ titulo, valor, carregando }) {
+    return (
+        <View style={styles.card_menor}>
+            <Text style={styles.letra}>{titulo}</Text>
+            {carregando ? (
+                <ActivityIndicator color="#000" />
+            ) : (
+                <Text style={styles.fundo}>{valor}</Text>
+            )}
+        </View>
+    );
+}
+
+// Linha de alerta com ícone e duas linhas de texto
+function ItemAlerta({ alerta }) {
+    return (
+        <View style={styles.alerta_espaco}>
+            <FontAwesome name={alerta.icone} size={36} color={alerta.cor || 'white'} style={styles.icone_alerta} />
+            <View style={styles.alerta_textos}>
+                <Text style={styles.alerta_subtitulo}>{alerta.titulo}</Text>
+                <Text style={styles.alerta_subtitulo}>{alerta.detalhe}</Text>
+            </View>
+        </View>
+    );
+}
+
+// Card de produto com fallback caso a imagem não carregue
+function CardProduto({ produto }) {
+    const [erroImagem, setErroImagem] = useState(false);
+    const usarImagemDoProduto = produto.temImagem && !erroImagem;
+
+    return (
+        <View style={styles.card_produto}>
+            <Image
+                source={
+                    usarImagemDoProduto
+                        ? { uri: `${API_URL}/api/produtos/${produto.id}/imagem` }
+                        : require('../assets/vetallis.png')
+                }
+                style={styles.imagem_produto}
+                resizeMode={usarImagemDoProduto ? 'cover' : 'contain'}
+                onError={() => setErroImagem(true)}
+            />
+            <Text style={styles.letra_produtos} numberOfLines={1}>
+                {produto.nome}
+            </Text>
+            <Text style={styles.fundo_produto}>{produto.quantidade} un.</Text>
+        </View>
+    );
+}
 
 export default function DashScreen() {
     const { usuario } = useAuth();
 
     const [estoqueTotal, setEstoqueTotal] = useState(0);
     const [produtosDestaque, setProdutosDestaque] = useState([]);
+    // Valores dos sensores: troque pelos campos reais da sua API quando existirem
+    const [sensores, setSensores] = useState({ temperatura: null, luminosidade: null, umidade: null });
+    // Alertas de estoque vindos da API (/api/alertas)
+    const [alertas, setAlertas] = useState([]);
+    const [mostrarTodos, setMostrarTodos] = useState(false);
     const [carregando, setCarregando] = useState(true);
+    const [atualizando, setAtualizando] = useState(false);
     const [erro, setErro] = useState('');
 
     async function carregarDados() {
-        setCarregando(true);
         setErro('');
         try {
-            const [respostaPainel, respostaProdutos] = await Promise.all([
+            const [painel, produtos, alertasResp] = await Promise.allSettled([
                 fetch(`${API_URL}/api/painel`),
                 fetch(`${API_URL}/api/produtos`),
+                fetch(`${API_URL}/api/alertas`),
             ]);
 
-            const dadosPainel = await respostaPainel.json();
-            const dadosProdutos = await respostaProdutos.json();
+            let algumaFalha = false;
 
-            if (respostaPainel.ok) {
+            if (painel.status === 'fulfilled' && painel.value.ok) {
+                const dadosPainel = await painel.value.json();
                 setEstoqueTotal(dadosPainel.totalProdutos || 0);
+                // Exemplo (ajuste os nomes conforme sua API):
+                // setSensores({
+                //     temperatura: dadosPainel.temperatura,
+                //     luminosidade: dadosPainel.luminosidade,
+                //     umidade: dadosPainel.umidade,
+                // });
+            } else {
+                algumaFalha = true;
             }
 
-            if (respostaProdutos.ok) {
-                // Mostra só os 3 primeiros produtos em destaque
+            if (produtos.status === 'fulfilled' && produtos.value.ok) {
+                const dadosProdutos = await produtos.value.json();
                 setProdutosDestaque(dadosProdutos.slice(0, 3));
+            } else {
+                algumaFalha = true;
+            }
+
+            if (alertasResp.status === 'fulfilled' && alertasResp.value.ok) {
+                const dadosAlertas = await alertasResp.value.json();
+                setAlertas(dadosAlertas);
+            } else {
+                algumaFalha = true;
+            }
+
+            if (algumaFalha) {
+                setErro('Alguns dados não puderam ser carregados.');
             }
         } catch (e) {
             setErro('Não foi possível conectar ao servidor.');
         } finally {
             setCarregando(false);
+            setAtualizando(false);
         }
     }
 
     useEffect(() => {
         carregarDados();
     }, []);
+
+    function aoPuxarParaAtualizar() {
+        setAtualizando(true);
+        carregarDados();
+    }
+
+    const formatar = (valor, unidade) => (valor === null ? '--' : `${valor} ${unidade}`);
+
+    // Mostra 3 alertas por padrão; "Ver todos" abre a lista completa
+    const LIMITE_ALERTAS = 3;
+    const alertasVisiveis = mostrarTodos ? alertas : alertas.slice(0, LIMITE_ALERTAS);
+    const temMaisAlertas = alertas.length > LIMITE_ALERTAS;
+
+    // Toque no card de alertas: expande para mostrar todos / recolhe para 3
+    function alternarAlertas() {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        setMostrarTodos(!mostrarTodos);
+    }
 
     return (
         <LinearGradient
@@ -52,189 +159,120 @@ export default function DashScreen() {
             end={{ x: 1, y: 1 }}
             style={styles.container}
         >
-            <View style={styles.menu}>
-                <View style={styles.menuEsquerda}>
-                    
-                    <Image
-                        source={require('../assets/vetallis.png')}
-                        style={styles.logo}
+            <ScrollView
+                contentContainerStyle={styles.conteudo}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={atualizando}
+                        onRefresh={aoPuxarParaAtualizar}
+                        tintColor="#fff"
                     />
-                </View>
-                <View style={styles.menuDireita}>
-                    <TouchableOpacity style={styles.iconCircle} onPress={carregarDados}>
+                }
+            >
+                <View style={styles.menu}>
+                    <Image source={require('../assets/vetallis.png')} style={styles.logo} />
+                    <TouchableOpacity
+                        style={styles.iconCircle}
+                        onPress={() => { setCarregando(true); carregarDados(); }}
+                        accessibilityLabel="Atualizar dados"
+                    >
                         <MaterialCommunityIcons name="refresh" size={30} color="#fefefe" />
                     </TouchableOpacity>
                 </View>
-            </View>
 
-            <View style={styles.header}>
-                <View>
+                <View style={styles.header}>
                     <FontAwesome name="user" size={50} color="white" style={styles.icone_pessoa} />
-                </View>
-                <View>
-                    <Text style={styles.title}>
-                        Bem-vindo
-                    </Text>
-                    <Text style={styles.subtitulo}>
-                        {usuario?.nome || 'Usuário'}
-                    </Text>
-                </View>
-            </View>
-
-            {erro !== '' && (
-                <Text style={styles.mensagemErro}>{erro}</Text>
-            )}
-
-            <View style={styles.card}>
-                <View>
-                    <View style={styles.card_menor}>
-                        <Text style={styles.letra}>Temperatura</Text>
-                        <Text style={styles.fundo}>2 *C</Text>
-                    </View>
-                    <View style={styles.card_menor}>
-                        <Text style={styles.letra}>Luminosidade</Text>
-                        <Text style={styles.fundo}>300 lux</Text>
+                    <View>
+                        <Text style={styles.title}>Bem-vindo</Text>
+                        <Text style={styles.subtitulo}>{usuario?.nome || 'Usuário'}</Text>
                     </View>
                 </View>
-                <View>
-                    <View style={styles.card_menor}>
-                        <Text style={styles.letra}>Estoque total</Text>
-                        {carregando ? (
-                            <ActivityIndicator color="#000" />
-                        ) : (
-                            <Text style={styles.fundo}>{estoqueTotal} unidades</Text>
+
+                {erro !== '' && <Text style={styles.mensagemErro}>{erro}</Text>}
+
+                <View style={styles.card}>
+                    <CardInfo titulo="Temperatura" valor={formatar(sensores.temperatura, '°C')} />
+                    <CardInfo titulo="Luminosidade" valor={formatar(sensores.luminosidade, 'lux')} />
+                    <CardInfo
+                        titulo="Estoque total"
+                        valor={`${estoqueTotal} ${estoqueTotal === 1 ? 'unidade' : 'unidades'}`}
+                        carregando={carregando}
+                    />
+                    <CardInfo titulo="Umidade" valor={formatar(sensores.umidade, '%')} />
+                </View>
+
+                <TouchableOpacity
+                    activeOpacity={0.85}
+                    disabled={!temMaisAlertas}
+                    onPress={alternarAlertas}
+                    style={styles.card_alerta}
+                    accessibilityRole="button"
+                    accessibilityLabel={mostrarTodos ? 'Recolher alertas' : 'Expandir e ver todos os alertas'}
+                >
+                    <View style={styles.alerta}>
+                        <Text style={styles.alerta_titulo}>Alertas</Text>
+                        {temMaisAlertas && (
+                            <View style={styles.alerta_acao}>
+                                <Text style={styles.alerta_titulo}>
+                                    {mostrarTodos ? 'Ver menos' : `Ver todos (${alertas.length})`}
+                                </Text>
+                                <FontAwesome
+                                    name={mostrarTodos ? 'chevron-up' : 'chevron-down'}
+                                    size={14}
+                                    color="#fff"
+                                />
+                            </View>
                         )}
                     </View>
-                    <View style={styles.card_menor}>
-                        <Text style={styles.letra}>Umidade</Text>
-                        <Text style={styles.fundo}>20%</Text>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.card_alerta}>
-                <View style={styles.alerta}>
-                    <Text style={styles.alerta_titulo}>Alertas</Text>
-                    <Text style={styles.alerta_titulo}>  Ver detalhes </Text>
-                </View>
-                <View style={styles.alerta_espaço}>
-                    <View>
-                        <FontAwesome name="thermometer" size={50} color="white" style={styles.icone_pessoa} />
-                    </View>
-                    <View >
-                        <Text style={styles.alerta_subtitulo}>
-                            Temperatura acima do ideal
-                        </Text>
-                        <Text style={styles.alerta_subtitulo}>
-                            Câmera 1 - 15 graus
-                        </Text>
-                    </View>
-                </View>
 
-            </View>
-            <View style={styles.card_produtos}>
-                <Text style={styles.alerta_titulo}>
-                    Produtos em Destaque
-                </Text>
-                {carregando ? (
-                    <ActivityIndicator color="#fff" style={{ marginTop: 15 }} />
-                ) : produtosDestaque.length === 0 ? (
-                    <Text style={styles.alerta_subtitulo}>Nenhum produto cadastrado.</Text>
-                ) : (
-                    <View style={styles.ajuste}>
-                        {produtosDestaque.map((produto) => (
-                            <View key={produto.id} style={styles.card_produto}>
-                                <Image
-                                    source={
-                                        produto.temImagem
-                                            ? { uri: `${API_URL}/api/produtos/${produto.id}/imagem` }
-                                            : require('../assets/vetallis.png')
-                                    }
-                                    style={styles.logo}
-                                />
-                                <Text style={styles.letra_produtos} numberOfLines={1}>
-                                    {produto.nome}
-                                </Text>
-                                <Text style={styles.fundo_produto}>
-                                    {produto.quantidade} un.
-                                </Text>
-                            </View>
-                        ))}
-                    </View>
-                )}
-            </View>
+                    {carregando ? (
+                        <ActivityIndicator color="#fff" />
+                    ) : alertasVisiveis.length === 0 ? (
+                        <Text style={styles.texto_vazio}>Nenhum alerta no momento.</Text>
+                    ) : (
+                        alertasVisiveis.map((alerta) => <ItemAlerta key={alerta.id} alerta={alerta} />)
+                    )}
+                </TouchableOpacity>
+
+                <View style={styles.card_produtos}>
+                    <Text style={styles.titulo_card}>Produtos em Destaque</Text>
+                    {carregando ? (
+                        <ActivityIndicator color="#fff" style={{ marginTop: 15 }} />
+                    ) : produtosDestaque.length === 0 ? (
+                        <Text style={styles.texto_vazio}>Nenhum produto cadastrado.</Text>
+                    ) : (
+                        <View style={styles.ajuste}>
+                            {produtosDestaque.map((produto) => (
+                                <CardProduto key={produto.id} produto={produto} />
+                            ))}
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
         </LinearGradient>
-
-    )
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    conteudo: {
         padding: 20,
-
-    },
-    card: {
-        backgroundColor: 'rgba(255, 255, 255, 0.28)',
-        borderRadius: 15,
-        padding: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 6,
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 5
-    },
-    card_menor: {
-        backgroundColor: '#ffffff',
-        borderRadius: 15,
-        padding: 15,
-        margin: 15,
-    },
-    titulo: {
-        alignSelf: 'center',
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#fff',
-    },
-    subtitulo: {
-        alignSelf: 'center',
-        fontSize: 28,
-        marginBottom: 52,
-        color: '#ccc',
-    },
-    icone: {
-        marginRight: 8,
-    },
-    input: {
-        fontSize: 15,
-        flex: 1,
-        padding: 15,
-        borderColor: "#e0e0e0",
+        paddingBottom: 40,
     },
     menu: {
         flexDirection: 'row',
-        justifyContent: 'space-between',  // empurra esquerda e direita
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 10,
-    },
-    menuEsquerda: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-    },
-    menuDireita: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
     },
     iconCircle: {
         width: 50,
         height: 50,
         borderRadius: 21,
-        backgroundColor: 'rgba(255, 255, 255, 0.15)',  // translúcido
+        backgroundColor: 'rgba(255, 255, 255, 0.15)',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -244,50 +282,69 @@ const styles = StyleSheet.create({
     },
     header: {
         marginTop: 20,
-        marginBottom: 10,
+        marginBottom: 15,
         flexDirection: 'row',
         alignItems: 'center',
     },
-
+    icone_pessoa: {
+        marginRight: 12,
+    },
     title: {
         color: '#fff',
         fontSize: 25,
         fontWeight: 'bold',
     },
-    imagem: {
-        width: 400,
-        height: 400,
-        alignSelf: 'center'
+    subtitulo: {
+        fontSize: 20,
+        color: '#ccc',
+    },
+    mensagemErro: {
+        color: '#fff',
+        textAlign: 'center',
+        marginBottom: 10,
+        fontSize: 14,
+    },
+
+    /* Card principal (grade 2x2) */
+    card: {
+        backgroundColor: 'rgba(255, 255, 255, 0.28)',
+        borderRadius: 15,
+        padding: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 6,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        gap: 12,
+        marginBottom: 15,
+    },
+    card_menor: {
+        backgroundColor: '#ffffff',
+        borderRadius: 15,
+        padding: 15,
+        flexBasis: '47%',
+        flexGrow: 1,
     },
     letra: {
         color: '#000000',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        padding: 5
+        paddingBottom: 6,
     },
     fundo: {
         color: '#000000',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
         backgroundColor: '#0ee83298',
         borderRadius: 5,
         padding: 7,
+        alignSelf: 'flex-start',
     },
-    alerta: {
-        borderBottomColor: '#fff',
-        borderBottomWidth: 2,   // <-- adiciona isso
-        paddingBottom: 8,
-        marginBottom: 20,
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    alerta_titulo: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-        padding: 5
-    },
+
+    /* Alertas */
     card_alerta: {
         backgroundColor: 'rgba(255, 255, 255, 0.28)',
         borderRadius: 15,
@@ -297,38 +354,91 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 6,
-        width: '100%',
-        justifyContent: 'space-between',
-        marginBottom: 5
+        marginBottom: 15,
     },
-    alerta_espaço: {
-        flexDirection: 'row'
+    alerta: {
+        borderBottomColor: '#fff',
+        borderBottomWidth: 2,
+        paddingBottom: 8,
+        marginBottom: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    alerta_acao: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    alerta_titulo: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        padding: 5,
+    },
+    alerta_espaco: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    icone_alerta: {
+        width: 40,
+        textAlign: 'center',
+    },
+    alerta_textos: {
+        flex: 1,
+        marginLeft: 12,
     },
     alerta_subtitulo: {
-        fontsize: 18,
-        marginLeft: 10,
+        fontSize: 16,
         color: '#fff',
     },
-    ajuste: {
-        flexDirection: 'row'
-    },
+
+    /* Produtos em destaque */
     card_produtos: {
         backgroundColor: 'rgba(255, 255, 255, 0.28)',
         borderRadius: 15,
-        padding: 25,
+        padding: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 6,
-        marginBottom: 5
+    },
+    titulo_card: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        paddingBottom: 8,
+        marginBottom: 15,
+        borderBottomColor: '#fff',
+        borderBottomWidth: 2,
+    },
+    texto_vazio: {
+        color: '#fff',
+        fontSize: 14,
+    },
+    ajuste: {
+        flexDirection: 'row',
+        gap: 10,
+    },
+    card_produto: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        borderRadius: 15,
+        padding: 10,
+        alignItems: 'center',
+    },
+    imagem_produto: {
+        width: 60,
+        height: 60,
+        borderRadius: 10,
     },
     letra_produtos: {
         color: '#000000',
         fontSize: 15,
         fontWeight: 'bold',
-        padding: 5,
-        maxWidth: 90,
+        paddingVertical: 5,
+        maxWidth: '100%',
     },
     fundo_produto: {
         color: '#0f5d1c98',
@@ -336,23 +446,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         backgroundColor: '#0ab82798',
         borderRadius: 5,
-        marginLeft: 3,
-        padding: 2
-
+        padding: 2,
     },
-    mensagemErro: {
-        color: '#fff',
-        textAlign: 'center',
-        marginBottom: 10,
-        fontSize: 14,
-    },
-    card_produto: {
-        backgroundColor: '#ffffff',
-        borderRadius: 15,
-        padding: 10,
-        margin: 20,
-        width: '25%',
-        alignItems: 'center'
-    },
-
 });
