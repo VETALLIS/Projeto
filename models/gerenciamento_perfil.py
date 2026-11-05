@@ -53,7 +53,10 @@ class GerenciamentoPerfil(Crud_base):
         if not usuario: # verifica se foi encontrado
             raise ValueError("Usuario não encontrado.") # retorna se tiver erro
 
-           
+        if self.imagem_blob is None:
+            self.usuario_imagem = usuario.get("usuario_imagem")
+            self.imagem_tipo = usuario.get("imagem_tipo")
+            self.imagem_blob = usuario.get("imagem_blob")
         self.atualizar(id) # chama o método de atualizar do Crud_base
         return "Usuario atualizado com sucesso!" # retorna se os dados foram atualizados
 

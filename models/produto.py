@@ -120,6 +120,12 @@ class Produto(Crud_base):
         produto = self.buscar_por_id(id) # chama o método para de buscar por id do Crud_base
         if not produto: # verifica se foi encontrado
             raise ValueError("Produto não encontrado!") #retorna se tiver erro
+        
+        if self.imagem_blob is None:
+            self.produto_imagem = produto.get("produto_imagem")
+            self.imagem_tipo = produto.get("imagem_tipo")
+            self.imagem_blob = produto.get("imagem_blob")
+            
         if self.relacao_entre_tabelas(id): # verifica se tem pedidos ou movimentações vinculadas
             raise ValueError("Não é possível atualizar o produto porque ele possui pedidos ou movimentações vinculadas.")
         self.atualizar(id) # chama o método de atualizar do Crud_base
