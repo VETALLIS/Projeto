@@ -59,6 +59,10 @@ class Sensor(Crud_base):
         if not sensor:
             raise ValueError("Sensor não encontrado") #se o sensor não for encontrado, ele retorna a mensagem 
 
+        if self.imagem_blob is None:
+            self.sensor_imagem = sensor.get("sensor_imagem")
+            self.imagem_tipo = sensor.get("imagem_tipo")
+            self.imagem_blob = sensor.get("imagem_blob")
         self.atualizar(id) #atualiza sensor se encontrar
         return "Sensor atualizado com sucesso!" #mensagem de retorno se encontrar
 
