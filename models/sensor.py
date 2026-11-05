@@ -85,7 +85,7 @@ class Sensor(Crud_base):
         sensores = cls.buscar_tudo(order_by) #busca todos os sensores
 
         if not sensores:
-            raise ValueError("Sensor não encontrato")
+            raise ValueError("Sensor não encontrado!")
         
         for sensor in sensores: #percorre cada sensor e prepara imagem 
             sensor["imagem_base64"] = None 

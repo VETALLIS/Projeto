@@ -306,7 +306,7 @@ class Produto(Crud_base):
             resultado = cursor.fetchone() # pega o resultado da soma
 
             if not resultado: # verifica se encontrou alguma coisa
-                return ValueError("Nenhum produto encontrado") 
+                return ValueError("Nenhum produto encontrado!") 
 
             return resultado['total'] if resultado and resultado['total'] else 0 #retorna o total
         except Exception as e:
