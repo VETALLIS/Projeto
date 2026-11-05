@@ -410,31 +410,30 @@ def atualizar_produto(produto_id):
     produto = Produto(**dados)
     erros = produto.validar_produto()
 
-    # Validando dados editados do produto antes de executar
     if erros:
         for erro in erros:
             flash(erro, "danger")
-        produto_dict = Produto.buscar_por_id(produto_id)
-        return render_template("editar_produtos.html", produto=produto_dict)
+        produto_dict = Produto.buscar_produto_id(produto_id)
+        return render_template("editar_produtos.html", produto=produto_dict, produto_id=produto_id)
 
-    # Testando a existência do produto e se existir seus dados são editados
     try:
         produto_existente = Produto.buscar_por_id(produto_id)
-        
+
         if not produto_existente:
             flash("Produto não encontrado.", "danger")
             return redirect(url_for('produtos'))
 
         produto.atualizar_produto(produto_id)
         flash("Produto atualizado com sucesso.", "success")
-        
-        produto_atualizado = Produto.buscar_por_id(produto_id)
-        return render_template("editar_produtos.html", produto=produto_atualizado)
+
+        # buscar_produto_id monta o imagem_base64
+        produto_atualizado = Produto.buscar_produto_id(produto_id)
+        return render_template("editar_produtos.html", produto=produto_atualizado, produto_id=produto_id)
 
     except Exception as e:
-        produto_dict = Produto.buscar_por_id(produto_id)
+        produto_dict = Produto.buscar_produto_id(produto_id)
         flash(f"Erro ao atualizar produto: {e}", "danger")
-        return render_template("editar_produtos.html", produto=produto_dict)
+        return render_template("editar_produtos.html", produto=produto_dict, produto_id=produto_id)
 
 
 # ====== Deletando produtos ====== #
@@ -774,7 +773,7 @@ def excluir_lista_compra(lista_compra_id):
     try:
         lista_compra = Lista_compra()
         lista_compra.deletar_lista_compra(lista_compra_id)
-        flash("Lista de compra excluíds com sucesso.", "success")
+        flash("Lista de compra excluída com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
     except Exception as e:
@@ -1546,37 +1545,34 @@ def gerenciar_perfil_atualizar(usuario_id):
 
 
 # ======= Rota para executar realmente a atualização do gerenciamento de perfil ====== #
-@app.route("/gerenciar_perfil/salvar", methods=["GET", "POST"])
+@app.route("/gerenciar_perfil/salvar", methods=["POST"])
 def gerenciar_perfil_salvar():
     dados = get_gerenciar_perfil_form()
     atualizar = GerenciamentoPerfil(**dados)
     erros = atualizar.validar_perfil(app.secret_key)
 
-    usuario_id = dados.get("usuario_id") or session.get("usuario_id")
-    dados_usuario = GerenciamentoPerfil.buscar_por_id(usuario_id) if usuario_id else None
-
-    if not dados_usuario:
-        session.clear()
-        flash("Usuário não encontrado. Faça login novamente.", "warning")
-        return redirect(url_for("novo_login"))  
+    usuario_id = session.get("usuario_id")
+    if not usuario_id:
+        flash("Faça login novamente.", "warning")
+        return redirect(url_for("novo_login"))
 
     try:
         if erros:
-            flash(erros, "danger")
-            return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
+            for erro in erros:
+                flash(erro, "danger")
+            return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
 
         atualizar.atualizar_usuario(usuario_id)
-        flash("Dados atualizados.", "success")
 
-        dados_usuario["imagem_base64"] = (
-            base64.b64encode(dados_usuario["imagem_blob"]).decode("utf-8")
-            if dados_usuario.get("imagem_blob") else None
-        )
-        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
+        # mantém o nome do cabeçalho em sincronia
+        session["usuario_nome"] = atualizar.usuario_nome
+
+        flash("Dados atualizados.", "success")
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
 
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")
-        return render_template("gerenciamento_perfil.html", login=dados, usuario=dados_usuario)
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
 
 
 # ====== Rota que exclui o usuario cadastrado no sistema, se der errado leva para o gerenciamento de perfil ======#
