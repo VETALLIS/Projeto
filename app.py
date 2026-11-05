@@ -774,7 +774,7 @@ def excluir_lista_compra(lista_compra_id):
     try:
         lista_compra = Lista_compra()
         lista_compra.deletar_lista_compra(lista_compra_id)
-        flash("Lista de compra excluíds com sucesso.", "success")
+        flash("Lista de compra excluída com sucesso.", "success")
     except ValueError as e:
         flash(str(e), "erro")
     except Exception as e:
