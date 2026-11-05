@@ -74,13 +74,40 @@ class Alertas(Crud_base):
             FROM produto p
             INNER JOIN estoque e
                 ON e.produto_produto_id = p.produto_id
-            WHERE e.estoque_quantidade < 10
+            WHERE e.estoque_quantidade < 20 and e.estoque_quantidade >= 1
             """
             cursor.execute(sql)
             baixo_estoque = cursor.fetchall()
 
             for item in baixo_estoque:
                 descricao = f"Estoque baixo: {item['produto_nome']} ({item['estoque_quantidade']} unidades restantes)"
+                Alertas.registrar_notificacao(cursor, descricao)
+            conexao.commit()
+
+            return baixo_estoque #retorna os q estão abaixo de estoque
+        finally: #fechamento de cursor e conexão
+            cursor.close()
+            conexao.close()
+
+    @staticmethod    
+    def contar_sem_estoque():
+        conexao = Database.connect() #abre conexão com o banco
+        cursor = conexao.cursor(dictionary=True) #linhas voltam como dicionário
+        try:#busca produtos com estoque entre 1 e 9 unidades
+            sql = """
+            SELECT 
+                p.produto_id, p.produto_nome, p.produto_categoria,
+                e.estoque_quantidade
+            FROM produto p
+            INNER JOIN estoque e
+                ON e.produto_produto_id = p.produto_id
+            WHERE e.estoque_quantidade < 1
+            """
+            cursor.execute(sql)
+            sem_estoque = cursor.fetchall()
+
+            for item in sem_estoque:
+                descricao = f"Sem estoque: {item['produto_nome']} ({item['estoque_quantidade']} unidades restantes)"
                 Alertas.registrar_notificacao(cursor, descricao)
             conexao.commit()
 
