@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, FlatList} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -24,6 +24,7 @@ function formatarDataBR(date) {
 export default function ModalPedido({
   visible,
   tipo, // 'entrada' ou 'saida'
+  produtoInicial, 
   produtosDisponiveis, // [{ id, nome, estoque_quantidade }]
   referenciasDisponiveis, // [{ id, nome, subtitulo? }] -> fornecedores (entrada) ou animais (saida)
   onClose,
@@ -58,6 +59,10 @@ export default function ModalPedido({
   // ---- ESTADO DE ENVIO ----
   const [enviando, setEnviando] = useState(false);
   const [erroValidacao, setErroValidacao] = useState('');
+
+  useEffect(() => {
+    if (visible && produtoInicial) setProdutoSelecionado(produtoInicial);
+  }, [visible, produtoInicial]);
 
   function limparCampos() {
     setNome('');
