@@ -111,7 +111,7 @@ class Alertas(Crud_base):
                 Alertas.registrar_notificacao(cursor, descricao)
             conexao.commit()
 
-            return baixo_estoque #retorna os q estão abaixo de estoque
+            return sem_estoque #retorna os q estão abaixo de estoque
         finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()

@@ -286,6 +286,7 @@ def inicial():
         Alertas.contar_data_relativa()
         Alertas.limpar_notificacoes_antigas()
         Alertas.contar_sem_estoque()
+        Alertas.verificar_sensores()
     except Exception as e:
         print(f"Erro ao verificar notificações: {e}")
     try:
