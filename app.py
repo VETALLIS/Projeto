@@ -1756,6 +1756,8 @@ def verificar_notificacoes():
         Alertas.contar_baixo_estoque()
         Alertas.contar_vencidos()
         Alertas.contar_data_relativa()
+        Alertas.verificar_sensores()
+        print(Alertas.verificar_sensores())
         return jsonify({"sucesso": True})
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500
