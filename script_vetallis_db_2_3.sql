@@ -18,7 +18,7 @@ SHOW WARNINGS;
 CREATE SCHEMA IF NOT EXISTS `vetallis_db_2_3` DEFAULT CHARACTER SET utf8mb3 ;
 SHOW WARNINGS;
 USE `vetallis_db_2_3` ;
- 
+
 -- -----------------------------------------------------
 -- Table `animal`
 -- -----------------------------------------------------
@@ -66,8 +66,8 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `dados_sensor` (
   `dados_sensor_id` INT NOT NULL AUTO_INCREMENT,
   `dados_sensor_temperatura` VARCHAR(100) NULL DEFAULT NULL,
-  `dados_sensor_umidade` DECIMAL(5,2) NULL,
-  `dados_sensor_luminosidade` DECIMAL(10,2) NULL,
+  `dados_sensor_umidade` DECIMAL(5,2) NULL DEFAULT NULL,
+  `dados_sensor_luminosidade` DECIMAL(10,2) NULL DEFAULT NULL,
   `dados_sensor_data_time` DATETIME NOT NULL,
   `sensor_sensor_id` INT NOT NULL,
   `dados_sensor_rfid_uid` VARCHAR(1000) NULL DEFAULT NULL,
@@ -86,7 +86,7 @@ SHOW WARNINGS;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `usuario` (
   `usuario_id` INT NOT NULL AUTO_INCREMENT,
-  `usuario_senha` VARCHAR(15) NOT NULL,
+  `usuario_senha` VARCHAR(255) NOT NULL,
   `usuario_email` VARCHAR(255) NOT NULL,
   `usuario_nome` VARCHAR(100) NOT NULL,
   `usuario_cpf` VARCHAR(11) NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `imagem_blob` LONGBLOB NULL DEFAULT NULL,
   PRIMARY KEY (`usuario_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 13
 DEFAULT CHARACTER SET = utf8mb3;
 
 SHOW WARNINGS;
