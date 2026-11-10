@@ -18,7 +18,7 @@ SHOW WARNINGS;
 CREATE SCHEMA IF NOT EXISTS `vetallis_db_2_3` DEFAULT CHARACTER SET utf8mb3 ;
 SHOW WARNINGS;
 USE `vetallis_db_2_3` ;
-
+ 
 -- -----------------------------------------------------
 -- Table `animal`
 -- -----------------------------------------------------
