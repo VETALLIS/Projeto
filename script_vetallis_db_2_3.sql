@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `animal` (
   `animal_identificacao` VARCHAR(45) NOT NULL,
   `animal_idade` VARCHAR(45) NOT NULL,
   `animal_peso` VARCHAR(45) NOT NULL,
-  `animal_observacao` VARCHAR(100) NOT NULL,
+  `animal_observacao` VARCHAR(1000) NOT NULL,
   PRIMARY KEY (`animal_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 8
@@ -44,7 +44,7 @@ SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `sensor` (
   `sensor_id` INT NOT NULL AUTO_INCREMENT,
   `sensor_nome` VARCHAR(50) NOT NULL,
-  `sensor_descricao` VARCHAR(150) NOT NULL,
+  `sensor_descricao` VARCHAR(1000) NOT NULL,
   `sensor_n_serie` VARCHAR(50) NOT NULL,
   `sensor_modelo` VARCHAR(50) NOT NULL,
   `sensor_voltagem` VARCHAR(30) NOT NULL,
