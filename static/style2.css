@@ -2275,3 +2275,8 @@ c
     border: none !important;
     background-color: transparent !important;
 }
+
+.dentro_card_pesquisa{
+    max-width: 250px;
+    width: 100%;
+}

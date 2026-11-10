@@ -18,7 +18,7 @@
     <!--Mostra em formatos de card os itens encontrados-->
     <div class="card card-produto mb-3 text-white backgroud-glass border-radius-menor ">
 
-        <div class="row">
+        <div class="dentro_card_pesquisa row g-0">
             <label for="imagem_sensor" class="col-4  p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if produto.imagem_base64 %}
                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
@@ -29,8 +29,8 @@
             </label>
             <div class="col-8 p-0 ">
                 <div class="card-body d-flex gap-1 text-start pb-0">
-                    <h5 class="fs-5 titulo-h3">Nome:</h5>
-                    <h5 class="card-title fs-6 mt-1">{{produto.produto_nome}}</h5>
+                    <h5 class="fs-5 titulo-h3 flex-shrink-0">Nome:</h5>
+                    <h5 class="card-title fs-6 mt-1 nome-truncado">{{produto.produto_nome}}</h5>
                 </div>
                 <div class="card-body text-start pb-0 pt-0">
                     <a href="/informacao_produto/{{produto.produto_id}}" class="bi bi-arrow-bar-right text-white texto-a">
