@@ -43,7 +43,6 @@ class Animal(Crud_base):
             Manipular.validar_vazio(self.animal_peso, "peso"), # verifica se os dados estão vazio
             Manipular.validar_numero(self.animal_peso, "peso"), # verifica se os dados estão com número
             Manipular.validar_numero_negativo(self.animal_idade, "peso"), # verifica se os dados estão com número positivo
-            Manipular.validar_letra(self.animal_peso, "peso"), # verifica se os dados não estão com número
         ]
 
         return [ erro for erro in erros if erro] # Retorna  os erros 
