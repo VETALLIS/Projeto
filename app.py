@@ -21,6 +21,7 @@ from models.estoque import Estoque
 from models.alertas import Alertas
 from datetime import date, datetime
 from models.redefinir_senha import Redefinir
+from core.securite import gerar_hash_senha, verificar_senha, login_obrigatorio
 
 
 # definição da variavel app

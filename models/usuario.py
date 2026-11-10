@@ -2,6 +2,7 @@ from core.crud_base import Crud_base #importação
 from core.manipular import Manipular #importação
 from core.conectar import Database #importação
 import base64 #importação
+from core.securite import gerar_hash_senha
 
 class Usuario(Crud_base):
     tabela = "usuario" #nome da tabela
@@ -40,9 +41,15 @@ class Usuario(Crud_base):
         ] #chamando as validações que serão usadas nessa tela, elas veem do manipular.py
 
         return [ erro for erro in erros if erro] #retorna o erro
+    
+    def aplicar_hash_senha(self):
+        # transforma a senha em hash, só depois de validar
+        self.usuario_senha = gerar_hash_senha(self.usuario_senha)
+        self.usuario_confirmar_senha = None  # não precisa mais
 
-    def gravar_usuario(self):  #def para criar o usuário e armazena-lo no banco
-        usuario = self.gravar() 
+    def gravar_usuario(self):
+        self.aplicar_hash_senha()  
+        usuario = self.gravar()
 
         if not usuario:
             raise ValueError("Erro ao cadastrar usuário.")
@@ -58,14 +65,20 @@ class Usuario(Crud_base):
 
         cls.deletar(id) #se encontrar o usuario, deleta
 
-    def atualizar_usuario(self, id): #atualizando usuario no editar
-        usuario = self.buscar_por_id(id) #confirma que o usuario existe
+   
+
+    def atualizar_usuario(self, id, nova_senha=False):
+        usuario = self.buscar_por_id(id)
 
         if not usuario:
-            raise ValueError("Usuario não encontrado.") #se não existe, aparece essa mensagem
-           
-        self.atualizar(id) #grava os novos dados no banco
-        return "Usuario atualizado com sucesso!" #mensagem de retorno
+            raise ValueError("Usuario não encontrado.")
+
+        if nova_senha:
+            self.aplicar_hash_senha()   # só quando a senha foi trocada
+        # se não trocou, self.usuario_senha já deve conter o hash do banco
+
+        self.atualizar(id)
+        return "Usuario atualizado com sucesso!"
 
 
     @classmethod #mostrando usuario na tela de funcionários cadastrados
@@ -115,7 +128,8 @@ class Usuario(Crud_base):
             usuario_cargo=dados.get("usuario_cargo"),
         )
 
-        inserir = cls.gravar(usuario) #grava o usuario no campo
+        usuario.aplicar_hash_senha()  
+        inserir = cls.gravar(usuario)
 
 
 

@@ -3,6 +3,7 @@ import smtplib
 from core.crud_base import Crud_base
 from core.conectar import Database
 from core.manipular import Manipular
+from core.securite import gerar_hash_senha
 
 class Redefinir(Crud_base): #Depois de importar e definir a classe para redefinir senha definimos a tabela e seus campos no banco de dados
 
@@ -90,7 +91,7 @@ class Redefinir(Crud_base): #Depois de importar e definir a classe para redefini
         try:
             coluna = "usuario_senha"
             sql = f"UPDATE usuario SET {coluna} = %s WHERE usuario_email = %s"  
-            cursor.execute(sql, (senha, email))
+            cursor.execute(sql, (gerar_hash_senha(senha), email))
             conexao.commit()
 
             return True, "Senha alterada com sucesso!"

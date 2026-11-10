@@ -1,6 +1,7 @@
 # ===== Importar as classes =====#
 from core.crud_base import Crud_base
 from core.manipular import Manipular
+from core.securite import verificar_senha
 
 # ===== Cria a classe GerenciamentoPerfil ===#
 class Login(Crud_base):
@@ -28,9 +29,9 @@ class Login(Crud_base):
         if not usuario:# verifica se o usuário foi encontrado
             raise ValueError("Usuário não encontrado")# retorna se não encontrar
 
-
-        if usuario["usuario_senha"] != self.usuario_senha: # compara a senha do banco com a senha informada
-            raise ValueError("Senha incorreta") # retorna se a senha estiver errada
+        # CORRIGIDO: Linhas alinhadas corretamente com 8 e 12 espaços respetivamente
+        if not verificar_senha(self.usuario_senha, usuario["usuario_senha"]):
+            raise ValueError("Senha incorreta")
 
         return "Login realizado com sucesso", usuario # retorna a mensagem de sucesso e os dados do usuário
     
