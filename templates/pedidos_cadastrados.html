@@ -31,7 +31,7 @@
             <tr>
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_nome }}</td> <!--Mostra o nome do pedido de entrada-->
                 <td class="texto-p text-start">{{ pedido_entrada.pedido_entrada_data }}</td> <!--Mostra a data do pedido de entrada-->
-                <td class="texto-p">{{ pedido_entrada.fornecedor_fornecedor_id}}</td> <!--Mostra o id do fornecedor-->
+                <td class="texto-p">{{ pedido_entrada.fornecedor_nome or "Sem fornecedor" }}</td> <!--Mostra o id do fornecedor-->
                 <td class="texto-p">{{ pedido_entrada.pedido_entrada_status }}</td> <!--Mostra o status do pedido-->
 
 
@@ -69,7 +69,7 @@
             <tr>
                 <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_nome }}</td> <!--Mostra o nome do pedido de saida-->
                 <td class="texto-p text-start ">{{ pedido_saida.pedido_saida_data }}</td>  <!--Mostra a data do pedido de saida-->
-                <td class="texto-p">{{ pedido_saida.animal_animal_id}}</td>  <!--Mostra o id do pedido de saida-->
+                <td class="texto-p">{{ pedido_saida.animal_identificacao or "Sem animal" }}</td>  <!--Mostra o id do pedido de saida-->
                 <td class="texto-p">{{ pedido_saida.pedido_saida_status }}</td>  <!--Mostra o status do pedido de saida-->
 
                 <td class="texto-p ps-4">

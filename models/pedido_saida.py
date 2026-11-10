@@ -64,13 +64,33 @@ class Pedido_saida(Crud_base):
         return "Pedido atualizado com sucesso!"
     
     @classmethod
-    def buscar_todos_pedidos_saida(cls, order_by="pedido_saida_nome"): # Caso queria listar todos os pedidos essa função listará ordenando com o order by
-        pedido_saida  = cls.buscar_tudo(order_by)
+    def buscar_todos_pedidos_saida(cls, order_by="pedido_saida_nome"):
+        colunas_permitidas = ["pedido_saida_nome", "pedido_saida_data", "pedido_entrada_status"]
+        if order_by not in colunas_permitidas:
+            order_by = "pedido_saida_nome"
 
-        if not pedido_saida:
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            sql = f"""
+                SELECT ps.*, a.animal_identificacao
+                FROM pedido_saida ps
+                LEFT JOIN animal a
+                    ON a.animal_id = ps.animal_animal_id
+                ORDER BY ps.{order_by}
+            """
+            cursor.execute(sql)
+            colunas = [desc[0] for desc in cursor.description]
+            linhas = cursor.fetchall()
+            resultado = [dict(zip(colunas, linha)) for linha in linhas]
+        finally:
+            cursor.close()
+            conexao.close()
+
+        if not resultado:
             raise ValueError("Pedido não encontrado!")
 
-        return pedido_saida
+        return resultado
     
 from core.crud_base import Crud_base
 from core.manipular import Manipular 

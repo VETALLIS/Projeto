@@ -85,13 +85,33 @@ class Pedido_entrada(Crud_base):
         return "Pedido de entrada atualizado com sucesso!" #menagem de sucesso 
     
     @classmethod
-    def buscar_todo_pedido_entrada(cls, order_by="pedido_entrada_nome"): #def para buscar todo pedido entrada
-        pedido_entrada = cls.buscar_tudo(order_by) 
+    def buscar_todo_pedido_entrada(cls, order_by="pedido_entrada_nome"):
+        colunas_permitidas = ["pedido_entrada_nome", "pedido_entrada_data", "pedido_entrada_status"]
+        if order_by not in colunas_permitidas:
+            order_by = "pedido_entrada_nome"
 
-        if not pedido_entrada:
-            raise ValueError("Pedidos de entrada não encontrados") #se não encontrar o pedido, retorna essa mensagem
+        conexao = Database.connect()
+        cursor = conexao.cursor()
+        try:
+            sql = f"""
+                SELECT pe.*, f.fornecedor_nome
+                FROM pedido_entrada pe
+                LEFT JOIN fornecedor f
+                    ON f.fornecedor_id = pe.fornecedor_fornecedor_id
+                ORDER BY pe.{order_by}
+            """
+            cursor.execute(sql)
+            colunas = [desc[0] for desc in cursor.description]
+            linhas = cursor.fetchall()
+            resultado = [dict(zip(colunas, linha)) for linha in linhas]
+        finally:
+            cursor.close()
+            conexao.close()
 
-        return pedido_entrada #se der certo, retorna o pedido entrada
+        if not resultado:
+            raise ValueError("Pedidos de entrada não encontrados")
+
+        return resultado
 
 class Item_pedido_entrada(Crud_base): 
     tabela = "item_pedido_entrada" #nome da tabela no banco
@@ -225,4 +245,6 @@ class Item_pedido_entrada(Crud_base):
         finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()
+
+
    
