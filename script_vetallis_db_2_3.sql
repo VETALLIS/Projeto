@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `produto` (
   `produto_nome` VARCHAR(100) NOT NULL,
   `produto_descricao` VARCHAR(1000) NULL DEFAULT NULL,
   `produto_categoria` VARCHAR(20) NOT NULL,
-  'produto_rfid_uid' VARCHAR(50) UNIQUE,
+  `produto_rfid_uid` VARCHAR(50) UNIQUE,
   `usuario_usuario_id` INT NOT NULL,
   `produto_imagem` VARCHAR(255) NULL DEFAULT NULL,
   `imagem_tipo` VARCHAR(100) NULL DEFAULT NULL,
