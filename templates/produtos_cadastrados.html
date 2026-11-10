@@ -14,6 +14,7 @@
     até não ter mais produtos-->
 
     <div class="card card-produto text-white backgroud-glass border-radius-menor">
+        
         <div class="dentro_card_produto row g-0">
             <label for="imagem_produto" class="col-4 p-0 upload-box border-radius-menor sensor-cont-img">
                 {% if produto.imagem_base64 %} <!--Se tiver imagem aparece-->
@@ -29,6 +30,7 @@
                     <h5 class="fs-5 titulo-h3 flex-shrink-0">Nome:</h5>
                     <h5 class="card-title fs-6 mt-1 nome-truncado" title="{{ produto.produto_nome }}">{{produto.produto_nome}}</h5> <!--Mostra o nome-->
                 </div>
+
                 <div class="card-body text-start pb-0 pe-0 pt-0">
                     <a role="button" aria-label="Ver detalhes do produto" href="/informacao_produto/{{produto.produto_id}}"
                         class="bi bi-arrow-bar-right text-white texto-a">

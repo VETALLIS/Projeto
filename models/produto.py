@@ -32,7 +32,7 @@ class Produto(Crud_base):
             Manipular.validar_vazio(self.produto_categoria, "categoria"),# verifica se os dados estão vazio
             Manipular.validar_not_caracter(self.produto_nome, "nome"),# verifica se os dados estão aceitando caractere especial
             Manipular.validar_min_caracter(self.produto_nome, "nome"),# verifica se os dados estão aceitando menos que 3 caracteres
-            
+            Manipular.validar_max_letra(self.produto_nome, "nome"), #campo não pode ter um valor alto de caracteres
         ]
 
         return [ erro for erro in erros if erro] # Retorna  os erros 

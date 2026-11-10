@@ -30,6 +30,7 @@ class Sensor(Crud_base):
             Manipular.validar_numero_negativo(self.sensor_voltagem, "voltagem"), #campo não pode ter número negativo
             Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"), #campo não pode ser vazio
             Manipular.validar_vazio(self.sensor_localizacao, "Localização"), #campo não pode ser vazio
+            Manipular.validar_max_letra(self.sensor_nome, "nome"), #campo não pode ter um valor alto de caracteres
  #o campo nuemro de serie precisa tem numero
         ]  #chamando as validações que serão usadas nessa tela, elas veem do manipular.py   
             

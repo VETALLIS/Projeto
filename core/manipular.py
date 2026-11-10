@@ -24,6 +24,12 @@ class Manipular: #vai comparar a senha inserida com a senha criada para acessar 
         else:
             return f"O campo {field_name} está muito curto"
 
+    def validar_max_letra(dados,field_name): #valida se há no mínimo 3 caracteres pela variável min_carac, pelo len e manda mensagem caso nao atinja 3 carac
+        max_letra= 45
+        if len(dados) <= max_letra:
+            return None
+        else:
+            return f"O campo {field_name} está muito grande, o máximo é 45 caracteres"
 
     def validar_caracter(dados, field_name):
         """Retorna mensagem de erro se NÃO houver caractere especial, senão None."""
