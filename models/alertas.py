@@ -253,17 +253,18 @@ class Alertas(Crud_base):
                 luminosidade = l["dados_sensor_luminosidade"]
 
                 if temperatura is not None:
-                    temperatura = float(temp)
+                    temperatura = float(temperatura)
                     if temperatura < L["temperatura_min"]:
                         alertas.append(f"Temperatura baixa no sensor {n_serie} (abaixo de {L['temperatura_min']}°C)")
                     elif temperatura > L["temperatura_max"]:
                         alertas.append(f"Temperatura alta no sensor {n_serie} (acima de {L['temperatura_max']}°C)")
 
                 if umidade is not None:
-                    umidade = float(umid)
+                    umidade = float(umidade)
                     if umidade < L["umidade_min"]:
                         alertas.append(f"Umidade baixa no sensor {n_serie} (abaixo de {L['umidade_min']}%)")
-                if luminosidade is not None and float(lux) > L["luminosidade_max"]:
+                
+                if luminosidade is not None and float(luminosidade) > L["luminosidade_max"]:
                     alertas.append(f"Luminosidade alta no sensor {n_serie} (acima de {L['luminosidade_max']})")
 
             for descricao in alertas:
