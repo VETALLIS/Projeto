@@ -28,7 +28,8 @@ class GerenciamentoPerfil(Crud_base):
             Manipular.validar_email(self.usuario_email, "email", secret_key),# verifica a avaliação externa do email
             Manipular.validar_min_caracter(self.usuario_nome, "nome"),# verifica se os dados estão aceitando menos que 3 caracteres
             Manipular.validar_letra(self.usuario_nome, "nome"),# verifica se os dados estão aceitando numeros
-            Manipular.validar_not_caracter(self.usuario_nome, "nome") # verifica se os dados estão aceitando caractere especial
+            Manipular.validar_not_caracter(self.usuario_nome, "nome"), # verifica se os dados estão aceitando caractere especial
+            Manipular.validar_max_letra(self.usuario_nome, "nome"), #campo não pode ter um valor alto de caracteres
         ]
 
         return [ erro for erro in erros if erro] # Retorna  os erros 
