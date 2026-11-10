@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% block conteudo%}
 <div class="d-flex gap-3 w-100">
-    <div class="container_inicial_res flex-grow-1">
+    <div class="container_inicial_res flex-grow-1 min-w-0">
         <div class="container row ">
             <div class="d-flex gap-3 w-100 primeira_linha_res p-0">
                 <div class="position-relative overflow-hidden backgroud-glass border-radius-menor w-50 h-100">
@@ -14,7 +14,8 @@
 
                     <h5
                         class="fw-bold mb-0 ps-2 display-5 text-center position-relative titulo-h2 z-index-1 card-estoque-valor">
-                        {{ total_categoria }} <!--Aparece o total ou quantidade de produtos que tem a categoria escolhida-->
+                        {{ total_categoria }}
+                        <!--Aparece o total ou quantidade de produtos que tem a categoria escolhida-->
                     </h5>
                     <p class="text-center text-white-50 z-index-1 texto-unidade-estoque">
                         Unidades em Estoque
@@ -68,7 +69,8 @@
                     </div>
                 </div>
 
-                <div class="px-3 d-flex w-100 mt-1 ms-0 h-50 primeira_linha_card_sensores_container_res justify-content-center gap-3">
+                <div
+                    class="px-3 d-flex w-100 mt-1 ms-0 h-50 primeira_linha_card_sensores_container_res justify-content-center gap-3">
                     <div
                         class="card-temperatura position-relative overflow-hidden d-flex mt-3  justify-content-between align-items-center">
                         <p class=" fs-2 mt-3 ms-2 texto-branco  temperatura-label">
@@ -85,7 +87,7 @@
         </div>
     </div>
     <!--Div que guardar o carrossel de produtos-->
-    <div class="card-destaque position-relative backgroud-glass ">
+    <div class="card-destaque flex-shrink-0 position-relative backgroud-glass">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <p class="mb-0 ms-2 fs-2 texto-branco">Destaques</p>
         </div>
@@ -99,15 +101,15 @@
                 {%for produto in produtos%} <!--Faz um for nos produtos recebidos pelo app.py-->
                 <div class="carousel-item {% if loop.first %}active{% endif %}" data-bs-interval="2000">
                     <div class=" bg-dark p-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div class="produto-texto-container">
                                 <span
                                     class="badge bg-info p-2 d-flex justify-content-center text-dark mb-2 fs-6">{{produto.produto_categoria}}</span>
-                                    <!--Mostra a categoria do produto-->
-                                <h3 class="text-white fw-bold text-start  text-capitalize">{{produto.produto_nome}}</h3> <!--Mostra o nome do produto-->
+                                <h3 class="text-white fw-bold text-start text-capitalize nome-truncado"
+                                    title="{{produto.produto_nome}}">{{produto.produto_nome}}</h3>
                                 <p class="text-secondary text-start">Em estoque</p>
                             </div>
-                            <div class="produto-imagem-container">
+                            <div class="produto-imagem-container flex-shrink-0">
                                 {%if produto.imagem_base64%} <!--Se tem imagem cadastrada aparece na tela-->
                                 <img src="data:{{produto.imagem_tipo}};base64,{{produto.imagem_base64}}"
                                     class="produto-imagem" alt="imagem do produto">
@@ -118,11 +120,14 @@
                         </div>
                         <div class="produto-info-box p-4 text-start">
                             <p class="carrossel_inicial text-secondary  mb-1">Id</p>
-                            <p class=" carrossel_inicial text-white mb-4">{{produto.produto_id}}</p> <!--Mostra o id do produtp-->
+                            <p class=" carrossel_inicial text-white mb-4">{{produto.produto_id}}</p>
+                            <!--Mostra o id do produtp-->
                             <p class=" carrossel_inicial text-secondary mb-1">Quantidade</p>
-                            <p class="carrossel_inicial text-white mb-4">{{ produto.estoque_quantidade | int }}</p> <!--Mostra a quantidade em estoque do produto-->
+                            <p class="carrossel_inicial text-white mb-4">{{ produto.estoque_quantidade | int }}</p>
+                            <!--Mostra a quantidade em estoque do produto-->
                             <p class="carrossel_inicial text-secondary mb-1">Descrição</p>
-                            <p class="carrossel_inicial text-white mb-0">{{produto.produto_descricao}}</p><!--Mostra a descrição do produto-->
+                            <p class="carrossel_inicial text-white mb-0">{{produto.produto_descricao}}</p>
+                            <!--Mostra a descrição do produto-->
                         </div>
                     </div>
                 </div>
@@ -201,24 +206,24 @@
                             <label for="c5"
                                 class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                                 <span>Hormônios</span>
-                                <input type="radio" name="categoria" id="c5" value="Hormônios" class="filtro-check"
-                                    {% if categoria_selecionada=='Hormônios' %}checked{% endif %}>
+                                <input type="radio" name="categoria" id="c5" value="Hormônios" class="filtro-check" {%
+                                    if categoria_selecionada=='Hormônios' %}checked{% endif %}>
                             </label>
                         </li>
                         <li class="list-style-none item-filtro-categoria">
                             <label for="c5"
                                 class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                                 <span>Vermífugos</span>
-                                <input type="radio" name="categoria" id="c5" value="Vermífugos" class="filtro-check"
-                                    {% if categoria_selecionada=='Vermífugos' %}checked{% endif %}>
+                                <input type="radio" name="categoria" id="c5" value="Vermífugos" class="filtro-check" {%
+                                    if categoria_selecionada=='Vermífugos' %}checked{% endif %}>
                             </label>
                         </li>
                         <li class="list-style-none item-filtro-categoria">
                             <label for="c5"
                                 class="d-flex justify-content-between align-items-center py-3 text-white mb-0 w-100">
                                 <span>Vitaminas</span>
-                                <input type="radio" name="categoria" id="c5" value="Vitaminas" class="filtro-check"
-                                    {% if categoria_selecionada=='Vitaminas' %}checked{% endif %}>
+                                <input type="radio" name="categoria" id="c5" value="Vitaminas" class="filtro-check" {%
+                                    if categoria_selecionada=='Vitaminas' %}checked{% endif %}>
                             </label>
                         </li>
                     </div>
