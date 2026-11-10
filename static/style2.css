@@ -2280,3 +2280,58 @@ c
     max-width: 250px;
     width: 100%;
 }
+
+
+.produto-texto-container {
+    flex: 1 1 auto;
+    min-width: 0; 
+}
+
+
+.nome-truncado {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+}
+
+
+.produto-imagem-container {
+    flex: 0 0 auto;      
+    width: 175px;        
+    height: 175px;
+}
+
+.produto-imagem-container .produto-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+.produto-texto-container {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.carousel-vertical .nome-truncado {
+    display: block;
+    max-width: 100%;
+    line-height: 1.3;
+}
+
+.produto-imagem-container {
+    flex: 0 0 auto;
+    width: 140px;
+    height: 140px;
+    /* mantenha o resto do bloco original */
+}
+
+.produto-info-box {
+    min-height: 260px;
+    /* mantenha o resto do bloco original */
+}
