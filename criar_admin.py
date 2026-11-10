@@ -1,4 +1,7 @@
 from models.usuario import Usuario
+from core.securite import gerar_hash_senha
+
+senha_hash = gerar_hash_senha("senha_do_admin")
 
 caminho_imagem = "static/imagens/medicamento.jpg"
 
