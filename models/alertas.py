@@ -111,7 +111,7 @@ class Alertas(Crud_base):
                 Alertas.registrar_notificacao(cursor, descricao)
             conexao.commit()
 
-            return baixo_estoque #retorna os q estão abaixo de estoque
+            return sem_estoque #retorna os q estão abaixo de estoque
         finally: #fechamento de cursor e conexão
             cursor.close()
             conexao.close()
@@ -214,9 +214,9 @@ class Alertas(Crud_base):
         # Limites dos alertas dos sensores (ajuste conforme o ambiente)
     LIMITES_SENSORES = {
         "temperatura_min": 10,   # °C
-        "temperatura_max": 32,   # °C
-        "umidade_min": 30,   # %
-        "luminosidade_max": 3000,  # valor bruto do LDR
+        "temperatura_max": 21,   # °C
+        "umidade_min": 50,   # %
+        "luminosidade_max": 80,  # valor bruto do LDR
     }
 
     @staticmethod
@@ -246,7 +246,7 @@ class Alertas(Crud_base):
             limite = Alertas.LIMITES_SENSORES
             alertas = []
 
-            for limite in leituras:
+            for l in leituras:
                 n_serie = l["sensor_n_serie"]
                 temperatura = l["dados_sensor_temperatura"]
                 umidade = l["dados_sensor_umidade"]
@@ -254,25 +254,23 @@ class Alertas(Crud_base):
 
                 if temperatura is not None:
                     temperatura = float(temperatura)
-                    if temperatura < L["temperatura_min"]:
-                        alertas.append(f"Temperatura baixa no sensor {n_serie} (abaixo de {L['temperatura_min']}°C)")
-                    elif temperatura > L["temperatura_max"]:
-                        alertas.append(f"Temperatura alta no sensor {n_serie} (acima de {L['temperatura_max']}°C)")
+                    if temperatura < limite["temperatura_min"]:
+                        alertas.append(f"Temperatura baixa no sensor {n_serie} (abaixo de {limite['temperatura_min']}°C)")
+                    elif temperatura > limite["temperatura_max"]:
+                        alertas.append(f"Temperatura alta no sensor {n_serie} (acima de {limite['temperatura_max']}°C)")
 
                 if umidade is not None:
                     umidade = float(umidade)
-                    if umidade < L["umidade_min"]:
-                        alertas.append(f"Umidade baixa no sensor {n_serie} (abaixo de {L['umidade_min']}%)")
-                
-                if luminosidade is not None and float(luminosidade) > L["luminosidade_max"]:
-                    alertas.append(f"Luminosidade alta no sensor {n_serie} (acima de {L['luminosidade_max']})")
+                    if umidade < limite["umidade_min"]:
+                        alertas.append(f"Umidade baixa no sensor {n_serie} (abaixo de {limite['umidade_min']}%)")
 
+                if luminosidade is not None and float(luminosidade) > limite["luminosidade_max"]:
+                    alertas.append(f"Luminosidade alta no sensor {n_serie} (acima de {limite['luminosidade_max']}%)")
             for descricao in alertas:
-                Alertas.registrar_notificacao(cursor, descricao)
-
+                Alertas.registrar_notificacao(cursor,descricao)
+            
             conexao.commit()
-            return alertas
+            return alertas 
         finally:
             cursor.close()
             conexao.close()
-    
