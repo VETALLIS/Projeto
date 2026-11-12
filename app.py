@@ -2,6 +2,7 @@
 #from crypt import methods
 from flask import Flask, render_template, request, redirect, url_for, flash,  session, jsonify, current_app
 from models.produto import Produto
+from models.dados_sensor import Dados_sensor
 from models.sensor import Sensor
 from models.usuario import Usuario
 from models.lista_compra import Lista_compra
@@ -21,7 +22,6 @@ from models.estoque import Estoque
 from models.alertas import Alertas
 from datetime import date, datetime
 from models.redefinir_senha import Redefinir
-from core.securite import gerar_hash_senha, verificar_senha, login_obrigatorio
 
 
 # definição da variavel app
@@ -94,6 +94,7 @@ def get_produto_form():
         "produto_nome": request.form.get("nome", "").strip(),
         "produto_descricao": request.form.get("descricao", "").strip(),
         "produto_categoria": request.form.get("categoria", "").strip(),
+        "produto_rfid_uid": Produto.normalizar_rfid_uid(request.form.get("rfid_uid", "")), # tag RFID (None se vazio)
         "usuario_usuario_id": session["usuario_id"],
         "produto_imagem": produto_imagem,  
         "imagem_tipo": imagem_tipo,
@@ -286,7 +287,6 @@ def inicial():
         Alertas.contar_data_relativa()
         Alertas.limpar_notificacoes_antigas()
         Alertas.contar_sem_estoque()
-        Alertas.verificar_sensores()
     except Exception as e:
         print(f"Erro ao verificar notificações: {e}")
     try:
@@ -376,6 +376,11 @@ def salvar_produto():
         for erro in erros:
             flash(erro, "danger")
         return render_template("cadastro_produto.html", produto=dados)
+    # Verifica se a tag RFID já está ligada a outro produto
+    produto_com_tag = Produto.rfid_em_uso(dados["produto_rfid_uid"])
+    if produto_com_tag:
+        flash(f"Esta tag RFID já está vinculada ao produto {produto_com_tag}.", "danger")
+        return render_template("cadastro_produto.html", produto=dados)
     # Try para gravar o produto dentro do estoque
     try:
         id_produto = produto.gravar_produto()
@@ -416,6 +421,13 @@ def atualizar_produto(produto_id):
     if erros:
         for erro in erros:
             flash(erro, "danger")
+        produto_dict = Produto.buscar_produto_id(produto_id)
+        return render_template("editar_produtos.html", produto=produto_dict, produto_id=produto_id)
+
+    # Verifica se a tag RFID já está ligada a outro produto (ignora o próprio produto)
+    produto_com_tag = Produto.rfid_em_uso(dados["produto_rfid_uid"], produto_id)
+    if produto_com_tag:
+        flash(f"Esta tag RFID já está vinculada ao produto {produto_com_tag}.", "danger")
         produto_dict = Produto.buscar_produto_id(produto_id)
         return render_template("editar_produtos.html", produto=produto_dict, produto_id=produto_id)
 
@@ -1737,6 +1749,51 @@ def relatorio():
     )
 
 
+# ====== Rota que informa se o sensor RFID (MFRC522) leu uma tag nova ====== #
+# Sem "depois_de": devolve só o id da última leitura (referência inicial da página).
+# Com "depois_de": devolve a leitura mais nova que esse id, e o produto ligado à tag.
+@app.route("/api/rfid/ultima")
+def api_rfid_ultima():
+    if not session.get("usuario_id"): # só usuário logado consulta
+        return jsonify({"sucesso": False, "erro": "Não autenticado"}), 401
+
+    depois_de = request.args.get("depois_de", type=int)
+
+    try:
+        if depois_de is None: # primeira chamada da página
+            return jsonify({"sucesso": True, "nova": False, "ultimo_id": Dados_sensor.ultimo_id_rfid()})
+
+        leitura = Dados_sensor.buscar_rfid_depois_de(depois_de)
+
+        if not leitura: # nenhuma tag nova
+            return jsonify({"sucesso": True, "nova": False, "ultimo_id": depois_de})
+
+        uid = leitura["dados_sensor_rfid_uid"]
+        produto = Produto.buscar_por_rfid(uid) # produto ligado a essa tag (ou None)
+
+        resposta = {
+            "sucesso": True,
+            "nova": True,
+            "ultimo_id": leitura["dados_sensor_id"],
+            "uid": uid,
+            "encontrado": produto is not None,
+            "produto": None
+        }
+
+        if produto:
+            resposta["produto"] = {
+                "id": produto["produto_id"],
+                "nome": produto["produto_nome"],
+                "categoria": produto["produto_categoria"],
+                "estoque": int(produto["estoque_quantidade"] or 0)
+            }
+
+        return jsonify(resposta)
+
+    except Exception as e:
+        return jsonify({"sucesso": False, "erro": str(e)}), 500
+
+
 #====== Rotas para mostrar as notificações Noficicacoes ========#
 @app.route("/api/notificacoes")
 def api_notificacoes():
@@ -1757,8 +1814,6 @@ def verificar_notificacoes():
         Alertas.contar_baixo_estoque()
         Alertas.contar_vencidos()
         Alertas.contar_data_relativa()
-        Alertas.verificar_sensores()
-        print(Alertas.verificar_sensores())
         return jsonify({"sucesso": True})
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500

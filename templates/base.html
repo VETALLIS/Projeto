@@ -283,6 +283,88 @@
         }
 
     </script>
+
+    <!-- Abre a tela de saída quando o sensor RFID lê uma tag (só na tela inicial e em Pedidos) -->
+    <script>
+        (function () {
+            var URL_API = "{{ url_for('api_rfid_ultima') }}";
+            var URL_PEDIDO = "{{ url_for('pedido') }}";
+            var PAGINAS = ["{{ url_for('inicial') }}", URL_PEDIDO];
+            var INTERVALO = 1500;
+
+            // Em outras telas (formulários) a página não reage, para ninguém perder o que digitou
+            if (PAGINAS.indexOf(window.location.pathname) === -1) {
+                return;
+            }
+
+            var ultimoId = null;
+            var parado = false;
+
+            // Aviso na parte de cima da tela
+            function mostrarAviso(texto) {
+                var aviso = document.createElement("div");
+                aviso.className = "alert alert-warning alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3";
+                aviso.style.zIndex = "2000";
+                aviso.setAttribute("role", "alert");
+                aviso.innerHTML = '<i class="bi bi-info-circle-fill"></i> <strong></strong> ' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>';
+                aviso.querySelector("strong").textContent = texto;
+                document.body.appendChild(aviso);
+                setTimeout(function () { aviso.remove(); }, 8000);
+            }
+
+            // Pergunta ao servidor se chegou uma tag mais nova que a última vista
+            function consultar() {
+                if (parado || ultimoId === null) {
+                    return;
+                }
+
+                fetch(URL_API + "?depois_de=" + ultimoId)
+                    .then(function (resposta) {
+                        if (resposta.status === 401) { // sessão expirada: para de perguntar
+                            parado = true;
+                            return null;
+                        }
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        if (!dados || !dados.sucesso) {
+                            return;
+                        }
+
+                        ultimoId = dados.ultimo_id;
+
+                        if (!dados.nova) {
+                            return;
+                        }
+
+                        if (!dados.encontrado) {
+                            mostrarAviso("A tag " + dados.uid + " não está vinculada a nenhum produto.");
+                            return;
+                        }
+
+                        // Na tela de pedidos, só preenche a saída; nas outras, vai para a tela de pedidos
+                        if (typeof window.aoLerTagSaida === "function") {
+                            window.aoLerTagSaida(dados.produto);
+                        } else {
+                            window.location.href = URL_PEDIDO + "?produto_id=" + dados.produto.id;
+                        }
+                    })
+                    .catch(function () { /* erro de rede: tenta de novo no próximo ciclo */ });
+            }
+
+            // Referência inicial: ignora as tags lidas antes de abrir esta página
+            fetch(URL_API)
+                .then(function (resposta) { return resposta.ok ? resposta.json() : null; })
+                .then(function (dados) {
+                    if (dados && dados.sucesso) {
+                        ultimoId = dados.ultimo_id;
+                        setInterval(consultar, INTERVALO);
+                    }
+                })
+                .catch(function () {});
+        })();
+    </script>
 </body>
 
 </html>

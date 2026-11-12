@@ -34,7 +34,7 @@ class Informacao_Produto(Crud_base): # Essa classe representa um produto. O (Cru
         try:
             sql = (
                 "SELECT p.produto_id, p.produto_nome, p.produto_descricao, p.produto_imagem , p.imagem_tipo, p.imagem_blob,"
-                "p.produto_categoria, p.usuario_usuario_id, e.estoque_id, "
+                "p.produto_categoria, p.usuario_usuario_id, p.produto_rfid_uid, e.estoque_id, "
                 "e.estoque_quantidade, e.estoque_observacao "
                 "FROM produto p "
                 "LEFT JOIN estoque e ON p.produto_id = e.produto_produto_id "
