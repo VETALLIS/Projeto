@@ -77,7 +77,7 @@ MQTT_PASSWORD = "12345678"
 MQTT_CLIENT_ID = "esp32-sensores-01"
 
 
-MQTT_TOPIC = b"sensores/leitura"
+MQTT_TOPIC = b"sensores/leitura/vetallis"
 
 
 
