@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const cron = require('node-cron');
-
+const bcrypt = require('bcrypt');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -17,40 +17,36 @@ const db = mysql.createPool({
   connectionLimit: 10,
 });
 
-/* ---------------------------------------------------------------------
-   OBSERVAÇÕES SOBRE O SCHEMA (vetallis_db_2_2)
-   - Usuários -> tabela `usuario` (usuario_id, usuario_email, usuario_senha, usuario_nome, usuario_cargo...)
-   - Produtos -> tabela `produto` (PK composta: produto_id + usuario_usuario_id)
-   - Estoque  -> tabela `estoque` (estoque_quantidade é VARCHAR, por isso usamos CAST(... AS UNSIGNED))
-   - Movimentações "de verdade" ficam em pedido_entrada/item_pedido_entrada
-     (exige fornecedor_fornecedor_id) e pedido_saida/item_pedido_saida
-     (exige animal_animal_id). Como a rota abaixo só recebe produtoId/tipo/quantidade,
-     a movimentação apenas ajusta o saldo em `estoque`; se quiser registrar o pedido
-     completo (com fornecedor ou animal), me avise que eu adapto a rota.
---------------------------------------------------------------------- */
 
-// 1. Rota de Login
+
+
 app.post('/api/login', async (req, res) => {
   const { email, senha } = req.body;
-  console.log('📥 Recebido do app:', JSON.stringify({ email, senha }));
   try {
     const [linhas] = await db.query(
-      `SELECT usuario_id AS id, usuario_nome AS nome, usuario_email AS email, usuario_cargo AS cargo
+      `SELECT usuario_id AS id, usuario_nome AS nome, usuario_email AS email,
+              usuario_cargo AS cargo, usuario_senha AS senhaHash
        FROM usuario
-       WHERE usuario_email = ? AND usuario_senha = ?`,
-      [email, senha]
+       WHERE usuario_email = ?`,
+      [email]
     );
-    console.log('📤 Linhas encontradas no banco:', linhas);
-    if (linhas.length > 0) {
-      res.json({ sucesso: true, usuario: linhas[0] });
-    } else {
-      res.status(401).json({ sucesso: false, mensagem: 'Credenciais inválidas.' });
+
+    if (linhas.length === 0) {
+      return res.status(401).json({ sucesso: false, mensagem: 'Credenciais inválidas.' });
     }
+
+    const { senhaHash, ...usuario } = linhas[0];
+    const senhaCorreta = await bcrypt.compare(senha, senhaHash);
+
+    if (!senhaCorreta) {
+      return res.status(401).json({ sucesso: false, mensagem: 'Credenciais inválidas.' });
+    }
+
+    res.json({ sucesso: true, usuario });
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
   }
 });
-
 
 // 2. Rota de Painel (Resumo)
 app.get('/api/painel', async (req, res) => {
@@ -83,7 +79,6 @@ app.get('/api/painel', async (req, res) => {
   `);
       atividadesRecentes = linhas;
     } catch (erroAtividades) {
-      console.log('⚠️ Erro ao buscar atividades recentes (ignorado):', erroAtividades.message);
     }
 
     res.json({
@@ -206,9 +201,8 @@ app.post('/api/estoque/movimentar', async (req, res) => {
   }
 });
 
-// ==========================================
+
 // ROTA 6: HISTÓRICO AJUSTADO AO NOVO SCHEMA
-// ==========================================
 app.get('/api/historico', async (req, res) => {
   try {
     const [linhas] = await db.query(`
@@ -242,9 +236,9 @@ app.get('/api/historico', async (req, res) => {
   }
 });
 
-// ==========================================
+
 // ROTA 7: POST UNIFICADO DE PEDIDOS (ENTRADA E SAÍDA)
-// ==========================================
+
 app.post('/api/pedidos', async (req, res) => {
   const connection = await db.getConnection(); // Obtém conexão para gerenciar a Transaction
 
@@ -353,9 +347,7 @@ app.post('/api/pedidos', async (req, res) => {
   }
 });
 
-// ==========================================
 // ROTA 8: LISTAR FORNECEDORES
-// ==========================================
 app.get('/api/fornecedores', async (req, res) => {
   try {
     const [fornecedores] = await db.query(`
@@ -374,9 +366,7 @@ app.get('/api/fornecedores', async (req, res) => {
   }
 });
 
-// ==========================================
 // ROTA 9: LISTAR ANIMAIS
-// ==========================================
 app.get('/api/animais', async (req, res) => {
   try {
     const [animais] = await db.query(`
@@ -502,9 +492,10 @@ app.post('/api/redefinir-senha', async (req, res) => {
   }
 
   try {
+    const hash = await bcrypt.hash(novaSenha, 10);
     const [resultado] = await db.query(
       `UPDATE usuario SET usuario_senha = ? WHERE usuario_email = ?`,
-      [novaSenha, email]
+      [hash, email]
     );
 
     if (resultado.affectedRows === 0) {

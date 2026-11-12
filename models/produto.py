@@ -12,12 +12,12 @@ class Produto(Crud_base):
     pk = "produto_id"
 
     # Define a tabela e os campos do banco  
-    fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id", "produto_imagem", "imagem_tipo", "imagem_blob"]
+    fields = ["produto_nome", "produto_descricao", "produto_categoria", "usuario_usuario_id", "produto_imagem", "imagem_tipo", "imagem_blob", "produto_rfid_uid"]
     fields_estoque = ["estoque_quantidade", "estoque_observacao", "produto_produto_id", "produto_usuario_usuario_id"]
 
 
     #Essa def esta definindo os campos
-    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id=None, produto_imagem=None, imagem_tipo=None, imagem_blob=None, **kwargs):
+    def __init__(self, produto_nome, produto_descricao, produto_categoria, usuario_usuario_id=None, produto_imagem=None, imagem_tipo=None, imagem_blob=None, produto_rfid_uid=None, **kwargs):
         self.produto_nome = produto_nome
         self.produto_descricao = produto_descricao
         self.produto_categoria = produto_categoria
@@ -25,13 +25,15 @@ class Produto(Crud_base):
         self.produto_imagem = produto_imagem
         self.imagem_tipo = imagem_tipo
         self.imagem_blob = imagem_blob
+        self.produto_rfid_uid = self.normalizar_rfid_uid(produto_rfid_uid) # tag RFID ligada ao produto (ou None)
 
     def validar_produto(self):
         erros = [
             Manipular.validar_vazio(self.produto_nome, "nome"),# verifica se os dados estão vazio
             Manipular.validar_vazio(self.produto_categoria, "categoria"),# verifica se os dados estão vazio
             Manipular.validar_min_caracter(self.produto_nome, "nome"),# verifica se os dados estão aceitando menos que 3 caracteres
-            Manipular.validar_max_letra(self.produto_nome, "nome"), #campo não pode ter um valor alto de caracteres
+            ("A tag RFID deve ter no máximo 50 caracteres." if self.produto_rfid_uid and len(self.produto_rfid_uid) > 50 else None), # verifica o tamanho da tag RFID
+            
         ]
 
         return [ erro for erro in erros if erro] # Retorna  os erros 
@@ -332,3 +334,67 @@ class Produto(Crud_base):
         resultado = cursor.fetchone() # pega o resultado da busca 
         return resultado[0] if resultado else "" #retorna o nome ou vazio se não encontro
 
+
+
+    # ===== Método para padronizar o código da tag RFID ===== #
+    @staticmethod
+    def normalizar_rfid_uid(uid):
+        # O ESP32 envia o UID em maiúsculas e separado por hífen (ex.: 93-E0-29-0E)
+        if not uid: # se veio vazio ou None
+            return None # não tem tag (grava NULL no banco, e não texto vazio)
+        texto = str(uid).strip().upper().replace(":", "-").replace(" ", "-") # padroniza o formato
+        return texto or None # se sobrou texto vazio, retorna None
+
+
+    # ===== Método para buscar o produto ligado a uma tag RFID ===== #
+    @classmethod
+    def buscar_por_rfid(cls, uid):
+        uid = cls.normalizar_rfid_uid(uid) # padroniza o UID recebido
+        if not uid: # se não tem UID, não tem o que buscar
+            return None
+
+        conexao = Database.connect() # abre a conexão com o banco
+        cursor = conexao.cursor(dictionary=True) # retorna como dicionário
+        try:
+            # busca o produto da tag e soma o estoque dele
+            sql = """
+                SELECT p.produto_id, p.produto_nome, p.produto_categoria,
+                       COALESCE(SUM(e.estoque_quantidade), 0) AS estoque_quantidade
+                FROM produto p
+                LEFT JOIN estoque e ON e.produto_produto_id = p.produto_id
+                WHERE p.produto_rfid_uid = %s
+                GROUP BY p.produto_id, p.produto_nome, p.produto_categoria
+                LIMIT 1
+            """
+            cursor.execute(sql, (uid,))
+            return cursor.fetchone() # retorna o produto ou None
+        finally:
+            cursor.close() # fecha o cursor
+            conexao.close() # fecha a conexão
+
+
+    # ===== Método para saber se a tag já está ligada a algum produto ===== #
+    @classmethod
+    def rfid_em_uso(cls, uid, ignorar_produto_id=None):
+        uid = cls.normalizar_rfid_uid(uid) # padroniza o UID recebido
+        if not uid: # produto sem tag nunca dá conflito
+            return None
+
+        sql = "SELECT produto_nome FROM produto WHERE produto_rfid_uid = %s"
+        parametros = [uid]
+
+        if ignorar_produto_id is not None: # na edição, ignora o próprio produto
+            sql += " AND produto_id <> %s"
+            parametros.append(ignorar_produto_id)
+
+        sql += " LIMIT 1"
+
+        conexao = Database.connect() # abre a conexão com o banco
+        cursor = conexao.cursor()
+        try:
+            cursor.execute(sql, tuple(parametros))
+            resultado = cursor.fetchone()
+            return resultado[0] if resultado else None # nome do produto que já usa a tag, ou None
+        finally:
+            cursor.close() # fecha o cursor
+            conexao.close() # fecha a conexão

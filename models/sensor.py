@@ -1,6 +1,7 @@
 from core.crud_base import Crud_base #importação
 from core.manipular import Manipular #importação
 import base64 #importação
+from core.conectar import Database
 
 class Sensor(Crud_base):
     tabela = "sensor" #nome da tabela
@@ -31,7 +32,7 @@ class Sensor(Crud_base):
             Manipular.validar_vazio(self.sensor_tipo_conexao, "Tipo conexão"), #campo não pode ser vazio
             Manipular.validar_vazio(self.sensor_localizacao, "Localização"), #campo não pode ser vazio
             Manipular.validar_max_letra(self.sensor_nome, "nome"), #campo não pode ter um valor alto de caracteres
- #o campo nuemro de serie precisa tem numero
+        #o campo nuemro de serie precisa tem numero
         ]  #chamando as validações que serão usadas nessa tela, elas veem do manipular.py   
             
         return [ erro for erro in erros if erro] #retorna o erro

@@ -49,13 +49,20 @@
                             class="form-control textarea-tamanho" required></textarea>
                     </div>
                 </div>
+                <div class="mb-3 text-start">
+                    <label class="texto-a mb-1 d-block">Tag RFID (opcional):</label>
+                    <div class="input-group">
+                        <input type="text" id="campo_rfid" name="rfid_uid" class="form-control" maxlength="50"
+                            autocomplete="off" placeholder="Adicione o código do RFID">
+                    </div>
+                </div>
                 <div class="d-flex gap-3">
                     <div class="text-start w-100">
                         <label class="texto-a mb-1 d-block">Categorias de produto:</label>
                         <select class="form-select" name="categoria">
                             <option value=""> Selecione uma categoria</option>
-                            <option value="Vacinas">
-                                Vacinas
+                            <option value="Vacina">
+                                Vacina
                             </option>
                             <option value="Antiparasitários">
                                 Antiparasitários
@@ -71,15 +78,6 @@
                             </option>
                             <option value="Anestésicos">
                                 Anestésicos
-                            </option>
-                            <option value="Hormônios">
-                                Hormônios
-                            </option>
-                            <option value="Vermífugos">
-                                Vermífugos
-                            </option>
-                            <option value="Vitaminas">
-                                Vitaminas
                             </option>
 
                         </select>
@@ -127,4 +125,5 @@
         }
     });
 </script>
+<script src="{{ url_for('static', filename='ler_tag.js') }}"></script>
 {% endblock%}
