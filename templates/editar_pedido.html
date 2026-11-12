@@ -1,30 +1,28 @@
-{% extends 'base.html'%}
-{%block conteudo%}
+{% extends 'base.html' %}
+{% block conteudo %}
 
-<!-- Div h3 fora da lista ordenada para titular e inserir um link para voltar para tela anterior -->
+<!-- Link para voltar para a tela anterior -->
 <div class="d-flex justify-content-start">
-    <a href="{{url_for('pedidos_cadastrados')}}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
+    <a href="{{ url_for('pedidos_cadastrados') }}" class="bi bi-arrow-bar-left texto-a mb-3">Voltar</a>
 </div>
-<h3 class="text-start titulo-h3 mb-3">
-    Pedidos</h3>
+<h3 class="text-start titulo-h3 mb-3">Pedidos</h3>
 
-<!-- Lista ordenada que contém as seleções dos pedidos já existentes apresentando eles na tela para que possam ser editados -->
+<!-- Abas Entrada / Saída -->
 <ul class="nav nav-tabs mb-3 w-100" id="tipoPedido" role="tablist">
-        <!-- Dois itens dessa lista ordenada que apresentam as informações das telas dos dois pedidos entrada e saída -->
     <li class="nav-item" role="presentation">
-        <button class="nav-link {% if tipo_pedido != 'saida' %}active{% endif %}  text-black" data-bs-toggle="tab"
-            data-bs-target="#entrada" type="button " onclick="
+        <button class="nav-link {% if tipo_pedido != 'saida' %}active{% endif %} text-black" data-bs-toggle="tab"
+            data-bs-target="#entrada" type="button" onclick="
                 this.style.color='#074040';
-                document.querySelector('[data-bs-target=\'#entrada\']').style.color='black';
+                document.querySelector('[data-bs-target=\'#saida\']').style.color='black';
             ">
             Entrada
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link {% if tipo_pedido == 'saida' %} active{% endif %} text-black" data-bs-toggle="tab"
+        <button class="nav-link {% if tipo_pedido == 'saida' %}active{% endif %} text-black" data-bs-toggle="tab"
             data-bs-target="#saida" type="button" onclick="
                 this.style.color='#074040';
-                document.querySelector('[data-bs-target=\'#saida\']').style.color='black';
+                document.querySelector('[data-bs-target=\'#entrada\']').style.color='black';
             ">
             Saída
         </button>
@@ -34,318 +32,157 @@
 <div class="w-100">
     <div class="tab-content">
 
-        <!-- Editar entrada, form com método post pois irá adicionar novas informações , depois chama as funções das rotas do app.py de atualizar pedido de entrada-->
+        <!-- ================= ENTRADA ================= -->
         <div class="tab-pane fade {% if tipo_pedido != 'saida' %}show active{% endif %} w-100" id="entrada">
-            <form method="POST" action="{% if tipo_pedido == 'entrada'  %}{{ url_for('atualizar_pedido_entrada', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}">
-                <input type="hidden" name="tipo_movimentacao" value="entrada">
-                <input type="hidden" name="pedido_entrada_status" value="Concluido">
-                <div class="me-3 w-100">
-                    <div class="d-flex w-100 gap-3">
 
-                        <div class="mb-4 w-100">
-                            <input type="text" name="pedido_entrada_nome" class="form-control" placeholder="Nome:"
-                                value="{{pedido.pedido_entrada_nome}}">
-                        </div>
-                        <p>{{pedido.nome}}</p>
-                        <div class="mb-4 w-100">
-                            <select name="fornecedor_fornecedor_id" id="selectFornecedor" class="form-select">
-                                <option value="">Selecione um fornecedor</option>
-                            </select>
-                        </div>
-                        <div class="mb-4 w-100">
-                            <input type="date" name="pedido_entrada_data" class="form-control" placeholder="Data:"
-                                value="{{ pedido.pedido_entrada_data | data_input if pedido else '' }}">
-                        </div>
-                    </div>
+            {% if tipo_pedido != 'saida' %}
 
-                </div>
+            <!-- Dados do pedido -->
+            <div class="d-flex justify-content-between p-2">
+                <h3 class="text-start text-white">Pedido</h3>
+            </div>
 
-                <div class="d-flex justify-content-between p-2 border-bottom">
-                    <h3 class="text-start text-white">Item do Pedido</h3>
-                </div>
+            <div class="table-responsive mt-2 mb-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-white text-center w-20">Nome</th>
+                            <th class="text-white text-center w-20">Fornecedor</th>
+                            <th class="text-white text-center w-20">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-white text-center">{{ pedido.pedido_entrada_nome }}</td>
+                            <td class="text-white text-center">
+                                {{ pedido.pedido_entrada_fornecedor
+                                   or pedido.fornecedor
+                                   or (itens[0].item_pedido_entrada_fornecedor if itens else '') }}
+                            </td>
+                            <td class="text-white text-center">
+                                {{ pedido.pedido_entrada_data if pedido and pedido.pedido_entrada_data else '' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="table-responsive mt-2">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-white text-center w-25">Produto</th>
-                                <th class="text-white text-center w-25">Lote</th>
-                                <th class="text-white text-center w-25">Qtd</th>
-                                <th class="text-white text-center w-25">Valor Unit</th>
-                                <th class="text-white text-center w-25">Validade</th>
-                                <th class="text-white text-center w-25">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="corpoItensEntrada">
-                            {% for item in itens %}
-                            <tr>
-                                <td>
-                                    <select name="item_pedido_entrada_produto" class="form-select">
-                                        <option value="">Selecione o produto</option>
-                                        {% for p in produtos %}
-                                        <option value="{{ p.produto_id }}" class="text-black" {% if
-                                            p.produto_id==item.produto_produto_id %}selected{% endif %}>
-                                            {{ p.produto_nome }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                </td>
-                                <td class="text-center">
-                                    <input type="text" name="item_pedido_entrada_lote"
-                                        class="form-control border-0 form w-100 text-center"
-                                        value="{{ item.item_pedido_entrada_lote }}">
-                                </td>
-                                <td class="text-center">
-                                    <input type="number" name="item_pedido_entrada_quantidade"
-                                        class="form-control border-0 form w-100 text-center"
-                                        value="{{ item.item_pedido_entrada_quantidade }}" min="0" step="1">
-                                </td>
-                                <td class="text-center">
-                                    <input type="number" name="item_pedido_entrada_valor_unitario"
-                                        class="form-control border-0 form w-100 text-center"
-                                        value="{{ item.item_pedido_entrada_valor_unitario }}" min="0" step="0.1">
-                                </td>
-                                <td class="text-center">
-                                    <input type="date" name="item_pedido_entrada_validade"
-                                        class="form-control border-0 form w-100 text-center"
-                                        value="{{ item.item_pedido_entrada_validade | data_input }}">
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-danger"
-                                        onclick="removerLinha(this)">X</button>
-                                </td>
-                            </tr>
-                            {% endfor %}
+            <!-- Itens do pedido -->
+            <div class="d-flex justify-content-between p-2">
+                <h3 class="text-start text-white">Item do Pedido</h3>
+            </div>
 
-                        </tbody>
-                    </table>
-                </div>
+            <div class="table-responsive mt-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-white text-center w-20">Produto</th>
+                            <th class="text-white text-center w-20">Lote</th>
+                            <th class="text-white text-center w-20">Qtd</th>
+                            <th class="text-white text-center w-20">Valor Unit</th>
+                            <th class="text-white text-center w-20">Validade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoItensEntrada">
+                        {% for item in itens %}
+                        <tr>
+                            <td class="text-white text-center">
+                                {% for p in produtos %}
+                                    {% if p.produto_id == item.produto_produto_id %}{{ p.produto_nome }}{% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="text-white text-center">{{ item.item_pedido_entrada_lote }}</td>
+                            <td class="text-white text-center">{{ item.item_pedido_entrada_quantidade }}</td>
+                            <td class="text-white text-center">{{ item.item_pedido_entrada_valor_unitario }}</td>
+                            <td class="text-white text-center">
+                                {{ item.item_pedido_entrada_validade if item.item_pedido_entrada_validade else '' }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-                <!-- Faz um for na parte de itens do pedido de entrada par listalos e ser possível atualizar -->
-                {% for p in produtos%}
-                <template id="templateItemEntrada">
-                    <tr>
-                        <td>
-                            <select name="item_pedido_entrada_produto" class="form-select">
-                                <option value="">Selecione o produto</option>
-                                <option value="{{ p.produto_id }}" class="text-black">{{ p.produto_nome }}</option>
-                            </select>
-                        </td>
-                        <td class="text-center">
-                            <input type="text" name="item_pedido_entrada_lote"
-                                class="form-control border-0 form w-100 text-center"
-                                value="{{ item_pedido_entrada_lote }}">
-                        </td>
-                        <td class="text-center">
-                            <input type="text" name="item_pedido_entrada_fornecedor"
-                                class="form-control border-0 form w-100 text-center"
-                                value="{{ item_pedido_entrada_fornecedor }}">
-                        </td>
-                        <td class="text-center">
-                            <input type="number" name="item_pedido_entrada_quantidade"
-                                class="form-control border-0 form w-100 text-center" placeholder="0" min="0" step="1">
-                        </td>
-                        <td class="text-center">
-                            <input type="number" name="item_pedido_entrada_valor_unitario"
-                                class="form-control border-0 form w-100 text-center" placeholder="0.0" min="0"
-                                step="0.1">
-                        </td>
-                        <td class="text-center"><input type="date" name="item_pedido_entrada_validade"
-                                class="form-control border-0 form w-100 text-center"></td>
-                        <td class="text-center"><button type="button" class="btn btn-sm btn-danger"
-                                onclick="removerLinha(this)">X</button></td>
-                    </tr>
-                </template>
-                {% endfor %}
+            {% else %}
+            <p class="text-white-50 text-center mt-4">Este pedido é de saída. Nenhuma entrada para exibir.</p>
+            {% endif %}
 
-                <div class="mt-3">
-                    <button
-                        class="btn btn-login w-100 text-white ms-auto background-verde-medio border-radius-menor w-100"
-                        type="submit">Enviar</button>
-                </div>
-            </form>
         </div>
-        
-        <!-- Editar saída, form com método post pois irá adicionar novas informações , depois chama as funções das rotas do app.py de atualizar pedido de saída-->
-        <div class="tab-pane fade  {% if tipo_pedido == 'saida' %}show active{% endif %}" id="saida">
-            <form method="POST"
-                action="{% if tipo_pedido == 'saida' %}{{ url_for('atualizar_pedido_saida', pedido_id=pedido_id) }}{% else %}{{ url_for('pedido') }}{% endif %}"
-                class="w-100">
-                <input type="hidden" name="tipo_movimentacao" value="saida">
-                <input type="hidden" name="pedido_saida_status" value="Concluido">
 
-                <div class="me-3 w-100">
-                    <div class="d-flex gap-3 w-100">
-                        <div class="mb-4 w-100">
-                            <input type="text" name="pedido_saida_nome" class="form-control" placeholder="Nome:"
-                                value="{{ pedido.pedido_saida_nome }}">
-                        </div>
-                        <div class="mb-4 w-100">
-                            <select name="animal_animal_id" class="form-select">
-                                <option value="">Selecione um animal</option>
+        <!-- ================= SAÍDA ================= -->
+        <div class="tab-pane fade {% if tipo_pedido == 'saida' %}show active{% endif %} w-100" id="saida">
+
+            {% if tipo_pedido == 'saida' %}
+
+            <!-- Dados do pedido -->
+             <div class="d-flex justify-content-between p-2">
+                <h3 class="text-start text-white">Pedido</h3>
+            </div>
+          
+       
+
+            <div class="table-responsive mt-2 mb-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-white text-center w-20">Nome</th>
+                            <th class="text-white text-center w-20">Animal</th>
+                            <th class="text-white text-center w-20">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-white text-center">{{ pedido.pedido_saida_nome }}</td>
+                            <td class="text-white text-center">
                                 {% for f in animal %}
-                                <option value="{{ f.animal_id }}" class="text-black" {% if pedido and
-                                    pedido.animal_animal_id==f.animal_id %}selected{% endif %}>
-                                    {{ f.animal_identificacao }}
-                                </option>
+                                    {% if pedido and pedido.animal_animal_id == f.animal_id %}{{ f.animal_identificacao }}{% endif %}
                                 {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-4 w-100">
-                            <input type="date" name="pedido_saida_data" class="form-control" placeholder="Data:"
-                                value="{{ pedido.pedido_saida_data }}">
-                        </div>
-                    </div>
-                </div>
+                            </td>
+                            <td class="text-white text-center">
+                                {{ pedido.pedido_saida_data if pedido and pedido.pedido_saida_data else '' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="d-flex justify-content-between p-2 w-100 border-bottom">
-                    <h3 class="text-start text-white">Item do Pedido</h3>
+            <!-- Itens do pedido -->
+            <div class="d-flex justify-content-between p-2">
+                <h3 class="text-start text-white">Pedido</h3>
+            </div>
 
-                </div>
-
-                <div class="table-responsive mt-2">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="text-white text-center w-50">Produto</th>
-                                <th class="text-white text-center w-25">Lote</th>
-                                <th class="text-white text-center w-25">Qtd</th>
-                                <th class="text-white text-center w-100">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody id="corpoItensSaida">
-                            <!-- Faz um for na parte de itens do pedido de entrada par listalos e ser possível atualizar -->
-                            {% for item in itens %}
-                            <tr>
-                                <td>
-                                    <select name="item_pedido_saida_nome" class="form-select">
-                                        <option value="">Selecione o produto</option>
-                                        {% for p in produtos %}
-                                        <option value="{{ p.produto_id }}" class="text-black" {% if
-                                            p.produto_id==item.produto_produto_id %}selected{% endif %}>
-                                            {{ p.produto_nome }}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="text" name="item_pedido_saida_lote"
-                                        class="form-control border-0 form w-100 text-center"
-                                        value="{{ item.item_pedido_saida_lote }}">
-                                </td>
-                                <td>
-                                    <input type="number" name="item_pedido_saida_quantidade"
-                                        class="form-control border-0 form w-100 text-center"
-                                        value="{{ item.item_pedido_saida_quantidade }}">
-                                </td>
-                                <td class="text-center">
-                                    <input type="hidden" name="item_pedido_saida_id"
-                                        value="{{ item.item_pedido_saida_id }}">
-                                    <button type="button" class="btn btn-sm btn-danger"
-                                        onclick="removerLinha(this)">X</button>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <template id="templateItemSaida">
-                    <tr>
-                        <td>
-                            <select name="item_pedido_saida_nome" class="form-select">
-                                <option value=""> Selecione o produto</option>
-                                {% for p in produtos%}
-                                <option value="{{ p.produto_id }}" class="text-black">{{ p.produto_nome }}
-                                </option>
+            <div class="table-responsive mt-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-white text-center w-50">Produto</th>
+                            <th class="text-white text-center w-25">Lote</th>
+                            <th class="text-white text-center w-25">Qtd</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoItensSaida">
+                        {% for item in itens %}
+                        <tr>
+                            <td class="text-white text-center">
+                                {% for p in produtos %}
+                                    {% if p.produto_id == item.produto_produto_id %}{{ p.produto_nome }}{% endif %}
                                 {% endfor %}
-                            </select>
-                        </td>
-                        <td>
-                            <select name="item_pedido_saida_lote" class="form-select">
-                                <option value=""> Selecione um lote</option>
-                                {% for i in lote%}
-                                <option value="{{ i.item_pedido_entrada_id }}" class="text-black">{{
-                                    i.item_pedido_entrada_lote }}
-                                </option>
-                                {% endfor %}
-                            </select>
-                        </td>
-                        <td><input type="number" name="item_pedido_saida_quantidade"
-                                class="form-control border-0 form w-100 text-center" placeholder="0" min="1" step="1">
+                            </td>
+                            <td class="text-white text-center">{{ item.item_pedido_saida_lote }}</td>
+                            <td class="text-white text-center">{{ item.item_pedido_saida_quantidade }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-                        </td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-sm btn-danger" onclick="removerLinha(this)">X</button>
-                        </td>
-                    </tr>
-                </template>
-                <style>
+            {% else %}
+            <p class="text-white-50 text-center mt-4">Este pedido é de entrada. Nenhuma saída para exibir.</p>
+            {% endif %}
 
-                </style>
-
-                <div class="mt-3">
-                    <button class="btn btn-login text-white ms-auto background-verde-medio border-radius-menor w-100"
-                        type="submit">Enviar</button>
-                </div>
-            </form>
         </div>
 
     </div>
 </div>
 
-
-<!--Adiciona uma nova linha (item) a uma tabela ou container usando um <template> HTML.
-@param {string} templateId - O ID do elemento <template> que contém o esqueleto da linha.
-@param {string} corpoId - O ID do elemento (ex: <tbody>) onde a nova linha será inserida.-->
- 
-<script>
-    function adicionarItem(templateId, corpoId) {
-        //Busca o elemento template que serve de modelo oculto no HTML
-        const template = document.getElementById(templateId);
-        // Busca o container/corpo da tabela onde o item deve entrar
-        const corpo = document.getElementById(corpoId);
-        // Clona o conteúdo de dentro do template (o 'true' garante que copia todos os filhos e textos)
-        const novaLinha = template.content.cloneNode(true);
-        // Adiciona uma nova linha 
-        corpo.appendChild(novaLinha);
-    }
-    //Função que remove uma linha utilizando o botão que dispara a ação
-    function removerLinha(botao) {
-        botao.closest("tr").remove();
-    }
-
-    // Adiciona o evento de clique em cada botão de adicionar item
-    document.addEventListener("DOMContentLoaded", function () {
-
-        document.querySelectorAll(".btn-adicionar-item").forEach(function (botao) {
-            botao.addEventListener("click", function () {
-                const templateId = this.dataset.template;
-                const corpoId = this.dataset.corpo;
-                adicionarItem(templateId, corpoId);
-            });
-        });
-    });
-
-    // Dados dos fornecedores colocados no backend
-    const fornecedores = {{ fornecedor | tojson }};
-    const fornecedorAtual = {{ (pedido.fornecedor_fornecedor_id | default (none)) | tojson }}
-
-    // Preenche o dropdown (<select>) com os fornecedores e marca o atual como selecionado
-    document.addEventListener("DOMContentLoaded", function () {
-        const select = document.getElementById("selectFornecedor");
-        fornecedores.forEach(function (f) {
-            const option = document.createElement("option");
-            option.value = f.fornecedor_id;
-            option.textContent = f.fornecedor_nome;
-            option.className = "text-black";
-            if (f.fornecedor_id === fornecedorAtual) {
-                option.selected = true;
-            }
-            select.appendChild(option);
-        });
-    });
-
-</script>
-
-{%endblock%}
+{% endblock %}
