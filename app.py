@@ -1069,7 +1069,7 @@ def atualizar_fornecedor(fornecedor_id):
 
 # Renderizando a tela para editar o pedido de saída #
 @app.route("/pedido/editar/<int:pedido_id>", methods=["GET", "POST"])
-def editar_pedido(pedido_id):
+def informacao_pedido(pedido_id):
     try:
         
         pedido = Pedido_entrada.buscar_por_id(pedido_id)
@@ -1091,88 +1091,28 @@ def editar_pedido(pedido_id):
 
 # Rota que vai executar a edição dos dados do pedido de entrada #
 @app.route("/pedido/entrada/atualizar/<int:pedido_id>", methods=["GET", "POST"])
-def atualizar_pedido_entrada(pedido_id):
+def informacao_entrada(pedido_id):
     # Testando a busca dos pedidos de entrada, senao mostra a tela de pedidos cadastrados #
     try:
         dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)
         if not dados_pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
+    
+
+        forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
+        produtos = Produto.buscar_tudo(order_by="produto_nome")
+        itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
+
+
+        return render_template(
+            "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
+            produtos=produtos, itens=itens,
+            tipo_pedido="entrada", fornecedor=forncedor
+        )
     except Exception as e:
         flash(f"Erro ao buscar pedido: {str(e)}", "danger")
         return redirect(url_for("pedido"))
-
-    forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
-    produtos = Produto.buscar_tudo(order_by="produto_nome")
-    itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
-    # Se o método for POST ele continuará a execução da atualização validando os dados que serão atualizados #
-    if request.method == "POST":
-        dados = get_pedido_entrada_form()
-        atualizar = Pedido_entrada(**dados)
-        erros = atualizar.validar_pedido_entrada()
-
-        try:
-            if erros:
-                for erro in erros:
-                    flash(erro, "danger")
-                return render_template(
-                    "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
-                     produtos=produtos, itens=itens,
-                    tipo_pedido="entrada", fornecedor=[]
-                )
-
-            atualizar.atualizar_pedido_entrada(pedido_id)
-            
-            # -------- Atualizar itens --------
-            ids = request.form.getlist("item_pedido_entrada_id")
-            produto_ids = request.form.getlist("item_pedido_entrada_produto")  # confira o name= no HTML do select
-            lotes = request.form.getlist("item_pedido_entrada_lote")
-            quantidades = request.form.getlist("item_pedido_entrada_quantidade")
-            valores = request.form.getlist("item_pedido_entrada_valor_unitario")
-            validades = request.form.getlist("item_pedido_entrada_validade")
-
-            for i in range(len(produto_ids)):
-                if not produto_ids[i]:
-                    continue
-
-                produto_id_convertido = int(produto_ids[i])
-                nome_produto = Produto.buscar_nome_produto(produto_id_convertido)
-
-                item = Item_pedido_entrada(
-                    item_pedido_entrada_nome=nome_produto,
-                    item_pedido_entrada_quantidade=quantidades[i],
-                    item_pedido_entrada_lote=lotes[i],
-                    item_pedido_entrada_valor_unitario=valores[i] if i < len(valores) else None,
-                    item_pedido_entrada_validade=validades[i] if i < len(validades) else None,
-                    pedido_entrada_pedido_entrada_id=pedido_id,
-                    produto_produto_id=produto_id_convertido
-                )
-
-                item_id = ids[i] if i < len(ids) else ""
-                if item_id:
-                    item.item_pedido_entrada_id = int(item_id)
-                    item.atualizar_item_pedido_entrada(item.item_pedido_entrada_id)
-                else:
-                    item.gravar_item_pedido_entrada(pedido_id)
-
-            flash("Dados atualizados com sucesso.", "success")
-            return redirect(url_for("atualizar_pedido_entrada", pedido_id=pedido_id))
-
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            flash(f"Erro ao atualizar dados: {str(e)}", "danger")
-            return render_template(
-                "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
-                 produtos=produtos, itens=itens,
-                tipo_pedido="entrada", fornecedor=[]
-            )
-
-    return render_template(
-        "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
-         produtos=produtos, itens=itens,
-        tipo_pedido="entrada", fornecedor=forncedor
-    )
 
 
 #============ Renderizando a tela para editar o pedido de saida =========#
