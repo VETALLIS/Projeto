@@ -31,7 +31,6 @@ class Produto(Crud_base):
         erros = [
             Manipular.validar_vazio(self.produto_nome, "nome"),# verifica se os dados estão vazio
             Manipular.validar_vazio(self.produto_categoria, "categoria"),# verifica se os dados estão vazio
-            Manipular.validar_not_caracter(self.produto_nome, "nome"),# verifica se os dados estão aceitando caractere especial
             Manipular.validar_min_caracter(self.produto_nome, "nome"),# verifica se os dados estão aceitando menos que 3 caracteres
             ("A tag RFID deve ter no máximo 50 caracteres." if self.produto_rfid_uid and len(self.produto_rfid_uid) > 50 else None), # verifica o tamanho da tag RFID
             

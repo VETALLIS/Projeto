@@ -9,10 +9,30 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../screens/AuthContext';
 import { API_URL } from '../src/services/api';
 
+const IOT_URL = API_URL.replace(/:\d+$/, ':8000');
+
 // Habilita a animação de expandir no Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+
+// Busca a última leitura de um sensor (mesma lógica da versão web)
+async function ultimaLeitura(sensor) {
+    try {
+        const resp = await fetch(`${IOT_URL}/leituras?sensor=${sensor}&limite=1`);
+        if (!resp.ok) return null;
+        const dados = await resp.json();
+        return dados.leituras && dados.leituras.length > 0 ? dados.leituras[0] : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+// Arredonda para 1 casa decimal e trata valores vazios
+const arredondar = (v) =>
+    v === null || v === undefined || isNaN(Number(v))
+        ? null
+        : Math.round(Number(v) * 10) / 10;
 
 // Card branco com título e valor em selo verde
 function CardInfo({ titulo, valor, carregando }) {
@@ -71,7 +91,7 @@ export default function DashScreen() {
 
     const [estoqueTotal, setEstoqueTotal] = useState(0);
     const [produtosDestaque, setProdutosDestaque] = useState([]);
-    // Valores dos sensores: troque pelos campos reais da sua API quando existirem
+    // Valores dos sensores vindos da API IoT (FastAPI)
     const [sensores, setSensores] = useState({ temperatura: null, luminosidade: null, umidade: null });
     // Alertas de estoque vindos da API (/api/alertas)
     const [alertas, setAlertas] = useState([]);
@@ -80,9 +100,25 @@ export default function DashScreen() {
     const [atualizando, setAtualizando] = useState(false);
     const [erro, setErro] = useState('');
 
+    // Busca DHT11 (temperatura/umidade) e LDR (luminosidade)
+    async function carregarSensores() {
+        const [dht, ldr] = await Promise.all([
+            ultimaLeitura('DHT11'),
+            ultimaLeitura('LDR'),
+        ]);
+
+        setSensores({
+            temperatura: arredondar(dht?.temperatura),
+            umidade: arredondar(dht?.umidade),
+            luminosidade: arredondar(ldr?.luminosidade),
+        });
+    }
+
     async function carregarDados() {
         setErro('');
         try {
+            carregarSensores();
+
             const [painel, produtos, alertasResp] = await Promise.allSettled([
                 fetch(`${API_URL}/api/painel`),
                 fetch(`${API_URL}/api/produtos`),
@@ -94,12 +130,6 @@ export default function DashScreen() {
             if (painel.status === 'fulfilled' && painel.value.ok) {
                 const dadosPainel = await painel.value.json();
                 setEstoqueTotal(dadosPainel.totalProdutos || 0);
-                // Exemplo (ajuste os nomes conforme sua API):
-                // setSensores({
-                //     temperatura: dadosPainel.temperatura,
-                //     luminosidade: dadosPainel.luminosidade,
-                //     umidade: dadosPainel.umidade,
-                // });
             } else {
                 algumaFalha = true;
             }
@@ -131,6 +161,13 @@ export default function DashScreen() {
 
     useEffect(() => {
         carregarDados();
+    }, []);
+
+    // Atualiza os sensores a cada 5 segundos (como na versão web)
+    useEffect(() => {
+        carregarSensores();
+        const intervalo = setInterval(carregarSensores, 5000);
+        return () => clearInterval(intervalo);
     }, []);
 
     function aoPuxarParaAtualizar() {
@@ -193,7 +230,7 @@ export default function DashScreen() {
 
                 <View style={styles.card}>
                     <CardInfo titulo="Temperatura" valor={formatar(sensores.temperatura, '°C')} />
-                    <CardInfo titulo="Luminosidade" valor={formatar(sensores.luminosidade, 'lux')} />
+                    <CardInfo titulo="Luminosidade" valor={formatar(sensores.luminosidade, '%')} />
                     <CardInfo
                         titulo="Estoque total"
                         valor={`${estoqueTotal} ${estoqueTotal === 1 ? 'unidade' : 'unidades'}`}
