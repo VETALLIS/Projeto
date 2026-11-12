@@ -189,9 +189,10 @@
                             <select name="produto_produto_id" class="form-select">
                                 <option value=""> Selecione o produto</option>
                                 {% for p in produtos%}
-                                <option value="{{ p.produto_id }}" class="text-black">{{ p.produto_nome }}</option>
+                                <option value="{{ p.produto_id }}" data-estoque="{{ p.estoque_quantidade | int }}" class="text-black">{{ p.produto_nome }}</option>
                                 {% endfor %}
                             </select>
+                            <small class="estoque-atual text-white-50 d-block mt-1 text-start"></small>
                         </td>
                         <td>
                             <select name="item_pedido_saida_lote" class="form-select">
@@ -239,6 +240,97 @@
         botao.closest("tr").remove();
     }
 
+    // ===== Saída com tag RFID ===== //
+
+    // Mostra embaixo do select o estoque atual do produto escolhido
+    function atualizarEstoqueDaLinha(linha) {
+        const select = linha.querySelector('select[name="produto_produto_id"]');
+        const aviso = linha.querySelector(".estoque-atual");
+        if (!select || !aviso) {
+            return;
+        }
+        const opcao = select.options[select.selectedIndex];
+        if (opcao && opcao.value && opcao.dataset.estoque !== undefined) {
+            aviso.textContent = "Estoque atual: " + opcao.dataset.estoque;
+        } else {
+            aviso.textContent = "";
+        }
+    }
+
+    // Data de hoje no formato do campo date (AAAA-MM-DD), usando o horário local
+    function dataDeHoje() {
+        const hoje = new Date();
+        const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+        const dia = String(hoje.getDate()).padStart(2, "0");
+        return hoje.getFullYear() + "-" + mes + "-" + dia;
+    }
+
+    // Abre a aba de saída
+    function abrirAbaSaida() {
+        const botao = document.querySelector('[data-bs-target="#saida"]');
+        if (botao) {
+            botao.click();
+        }
+    }
+
+    // Preenche a saída com o produto da tag lida. O usuário completa animal, lote e quantidade.
+    // Também é chamada pelo script do base.html quando uma tag é lida com esta tela aberta.
+    window.aoLerTagSaida = function (produto) {
+        abrirAbaSaida();
+
+        const corpo = document.getElementById("corpoItensSaida");
+        let linhaAlvo = null;
+        let jaExiste = false;
+
+        // Se o produto já está em alguma linha, só usa essa linha
+        corpo.querySelectorAll("tr").forEach(function (linha) {
+            const select = linha.querySelector('select[name="produto_produto_id"]');
+            if (select && select.value === String(produto.id)) {
+                linhaAlvo = linha;
+                jaExiste = true;
+            }
+        });
+
+        // Senão, procura uma linha ainda sem produto
+        if (!linhaAlvo) {
+            corpo.querySelectorAll("tr").forEach(function (linha) {
+                const select = linha.querySelector('select[name="produto_produto_id"]');
+                if (!linhaAlvo && select && !select.value) {
+                    linhaAlvo = linha;
+                }
+            });
+        }
+
+        // Se não há linha livre, cria uma nova
+        if (!linhaAlvo) {
+            adicionarItem("templateItemSaida", "corpoItensSaida");
+            linhaAlvo = corpo.lastElementChild;
+        }
+
+        if (!jaExiste) {
+            const select = linhaAlvo.querySelector('select[name="produto_produto_id"]');
+            select.value = String(produto.id);
+            atualizarEstoqueDaLinha(linhaAlvo);
+        }
+
+        // Sugere o nome e a data se ainda estiverem vazios
+        const campoNome = document.querySelector('#saida input[name="pedido_saida_nome"]');
+        if (campoNome && !campoNome.value) {
+            campoNome.value = "Saída - " + produto.nome;
+        }
+
+        const campoData = document.querySelector('#saida input[name="pedido_saida_data"]');
+        if (campoData && !campoData.value) {
+            campoData.value = dataDeHoje();
+        }
+
+        // Leva o cursor para a quantidade (pequena espera por causa da animação da aba)
+        const quantidade = linhaAlvo.querySelector('input[name="item_pedido_saida_quantidade"]');
+        if (quantidade) {
+            setTimeout(function () { quantidade.focus(); }, 300);
+        }
+    };
+
     // Inicializa o comportamento da página após o carregamento completo do HTML
     document.addEventListener("DOMContentLoaded", function () {
         // Insere automaticamente a primeira linha padrão tanto na Entrada quanto na Saída
@@ -253,6 +345,25 @@
                 adicionarItem(templateId, corpoId);
             });
         });
+
+        // Atualiza o estoque mostrado quando o usuário troca o produto de uma linha da saída
+        document.getElementById("corpoItensSaida").addEventListener("change", function (evento) {
+            if (evento.target.name === "produto_produto_id") {
+                atualizarEstoqueDaLinha(evento.target.closest("tr"));
+            }
+        });
+
+        // Se a tela foi aberta por uma tag RFID, a URL traz o id do produto
+        const produtoId = new URLSearchParams(window.location.search).get("produto_id");
+        if (produtoId && /^[0-9]+$/.test(produtoId)) {
+            const opcao = document.querySelector('#templateItemSaida').content
+                .querySelector('option[value="' + produtoId + '"]');
+            if (opcao) {
+                window.aoLerTagSaida({ id: produtoId, nome: opcao.textContent.trim() });
+            }
+            // Limpa a URL para um F5 não repetir o preenchimento
+            window.history.replaceState({}, "", window.location.pathname);
+        }
     });
 
 </script>

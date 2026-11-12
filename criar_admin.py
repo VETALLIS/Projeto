@@ -10,7 +10,7 @@ with open(caminho_imagem, "rb") as arquivo:
 
 dados = {
     "usuario_nome": "Administrador",
-    "usuario_email": "admin@sistema.com",
+    "usuario_email": "admin2@sistema.com",
     "usuario_senha": "123456",
     "usuario_cpf": "12345678901",
     "usuario_cargo": "adm",

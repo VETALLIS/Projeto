@@ -2,6 +2,7 @@
 #from crypt import methods
 from flask import Flask, render_template, request, redirect, url_for, flash,  session, jsonify, current_app
 from models.produto import Produto
+from models.dados_sensor import Dados_sensor
 from models.sensor import Sensor
 from models.usuario import Usuario
 from models.lista_compra import Lista_compra
@@ -21,7 +22,6 @@ from models.estoque import Estoque
 from models.alertas import Alertas
 from datetime import date, datetime
 from models.redefinir_senha import Redefinir
-from core.securite import gerar_hash_senha, verificar_senha, login_obrigatorio
 
 
 # definição da variavel app
@@ -94,6 +94,7 @@ def get_produto_form():
         "produto_nome": request.form.get("nome", "").strip(),
         "produto_descricao": request.form.get("descricao", "").strip(),
         "produto_categoria": request.form.get("categoria", "").strip(),
+        "produto_rfid_uid": Produto.normalizar_rfid_uid(request.form.get("rfid_uid", "")), # tag RFID (None se vazio)
         "usuario_usuario_id": session["usuario_id"],
         "produto_imagem": produto_imagem,  
         "imagem_tipo": imagem_tipo,
@@ -286,7 +287,6 @@ def inicial():
         Alertas.contar_data_relativa()
         Alertas.limpar_notificacoes_antigas()
         Alertas.contar_sem_estoque()
-        Alertas.verificar_sensores()
     except Exception as e:
         print(f"Erro ao verificar notificações: {e}")
     try:
@@ -376,6 +376,11 @@ def salvar_produto():
         for erro in erros:
             flash(erro, "danger")
         return render_template("cadastro_produto.html", produto=dados)
+    # Verifica se a tag RFID já está ligada a outro produto
+    produto_com_tag = Produto.rfid_em_uso(dados["produto_rfid_uid"])
+    if produto_com_tag:
+        flash(f"Esta tag RFID já está vinculada ao produto {produto_com_tag}.", "danger")
+        return render_template("cadastro_produto.html", produto=dados)
     # Try para gravar o produto dentro do estoque
     try:
         id_produto = produto.gravar_produto()
@@ -416,6 +421,13 @@ def atualizar_produto(produto_id):
     if erros:
         for erro in erros:
             flash(erro, "danger")
+        produto_dict = Produto.buscar_produto_id(produto_id)
+        return render_template("editar_produtos.html", produto=produto_dict, produto_id=produto_id)
+
+    # Verifica se a tag RFID já está ligada a outro produto (ignora o próprio produto)
+    produto_com_tag = Produto.rfid_em_uso(dados["produto_rfid_uid"], produto_id)
+    if produto_com_tag:
+        flash(f"Esta tag RFID já está vinculada ao produto {produto_com_tag}.", "danger")
         produto_dict = Produto.buscar_produto_id(produto_id)
         return render_template("editar_produtos.html", produto=produto_dict, produto_id=produto_id)
 
@@ -1057,7 +1069,7 @@ def atualizar_fornecedor(fornecedor_id):
 
 # Renderizando a tela para editar o pedido de saída #
 @app.route("/pedido/editar/<int:pedido_id>", methods=["GET", "POST"])
-def editar_pedido(pedido_id):
+def informacao_pedido(pedido_id):
     try:
         
         pedido = Pedido_entrada.buscar_por_id(pedido_id)
@@ -1079,88 +1091,28 @@ def editar_pedido(pedido_id):
 
 # Rota que vai executar a edição dos dados do pedido de entrada #
 @app.route("/pedido/entrada/atualizar/<int:pedido_id>", methods=["GET", "POST"])
-def atualizar_pedido_entrada(pedido_id):
+def informacao_entrada(pedido_id):
     # Testando a busca dos pedidos de entrada, senao mostra a tela de pedidos cadastrados #
     try:
         dados_pedido = Pedido_entrada.buscar_por_id(pedido_id)
         if not dados_pedido:
             flash("Pedido não encontrado.", "danger")
             return redirect(url_for("pedido"))
+    
+
+        forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
+        produtos = Produto.buscar_tudo(order_by="produto_nome")
+        itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
+
+
+        return render_template(
+            "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
+            produtos=produtos, itens=itens,
+            tipo_pedido="entrada", fornecedor=forncedor
+        )
     except Exception as e:
         flash(f"Erro ao buscar pedido: {str(e)}", "danger")
         return redirect(url_for("pedido"))
-
-    forncedor = Fornecedor.buscar_tudo(order_by="fornecedor_nome")
-    produtos = Produto.buscar_tudo(order_by="produto_nome")
-    itens = Item_pedido_entrada.buscar_por_pedido_entrada(pedido_id)
-    # Se o método for POST ele continuará a execução da atualização validando os dados que serão atualizados #
-    if request.method == "POST":
-        dados = get_pedido_entrada_form()
-        atualizar = Pedido_entrada(**dados)
-        erros = atualizar.validar_pedido_entrada()
-
-        try:
-            if erros:
-                for erro in erros:
-                    flash(erro, "danger")
-                return render_template(
-                    "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
-                     produtos=produtos, itens=itens,
-                    tipo_pedido="entrada", fornecedor=[]
-                )
-
-            atualizar.atualizar_pedido_entrada(pedido_id)
-            
-            # -------- Atualizar itens --------
-            ids = request.form.getlist("item_pedido_entrada_id")
-            produto_ids = request.form.getlist("item_pedido_entrada_produto")  # confira o name= no HTML do select
-            lotes = request.form.getlist("item_pedido_entrada_lote")
-            quantidades = request.form.getlist("item_pedido_entrada_quantidade")
-            valores = request.form.getlist("item_pedido_entrada_valor_unitario")
-            validades = request.form.getlist("item_pedido_entrada_validade")
-
-            for i in range(len(produto_ids)):
-                if not produto_ids[i]:
-                    continue
-
-                produto_id_convertido = int(produto_ids[i])
-                nome_produto = Produto.buscar_nome_produto(produto_id_convertido)
-
-                item = Item_pedido_entrada(
-                    item_pedido_entrada_nome=nome_produto,
-                    item_pedido_entrada_quantidade=quantidades[i],
-                    item_pedido_entrada_lote=lotes[i],
-                    item_pedido_entrada_valor_unitario=valores[i] if i < len(valores) else None,
-                    item_pedido_entrada_validade=validades[i] if i < len(validades) else None,
-                    pedido_entrada_pedido_entrada_id=pedido_id,
-                    produto_produto_id=produto_id_convertido
-                )
-
-                item_id = ids[i] if i < len(ids) else ""
-                if item_id:
-                    item.item_pedido_entrada_id = int(item_id)
-                    item.atualizar_item_pedido_entrada(item.item_pedido_entrada_id)
-                else:
-                    item.gravar_item_pedido_entrada(pedido_id)
-
-            flash("Dados atualizados com sucesso.", "success")
-            return redirect(url_for("atualizar_pedido_entrada", pedido_id=pedido_id))
-
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            flash(f"Erro ao atualizar dados: {str(e)}", "danger")
-            return render_template(
-                "editar_pedido.html", pedido=dados, pedido_id=pedido_id,
-                 produtos=produtos, itens=itens,
-                tipo_pedido="entrada", fornecedor=[]
-            )
-
-    return render_template(
-        "editar_pedido.html", pedido=dados_pedido, pedido_id=pedido_id,
-         produtos=produtos, itens=itens,
-        tipo_pedido="entrada", fornecedor=forncedor
-    )
 
 
 #============ Renderizando a tela para editar o pedido de saida =========#
@@ -1737,6 +1689,51 @@ def relatorio():
     )
 
 
+# ====== Rota que informa se o sensor RFID (MFRC522) leu uma tag nova ====== #
+# Sem "depois_de": devolve só o id da última leitura (referência inicial da página).
+# Com "depois_de": devolve a leitura mais nova que esse id, e o produto ligado à tag.
+@app.route("/api/rfid/ultima")
+def api_rfid_ultima():
+    if not session.get("usuario_id"): # só usuário logado consulta
+        return jsonify({"sucesso": False, "erro": "Não autenticado"}), 401
+
+    depois_de = request.args.get("depois_de", type=int)
+
+    try:
+        if depois_de is None: # primeira chamada da página
+            return jsonify({"sucesso": True, "nova": False, "ultimo_id": Dados_sensor.ultimo_id_rfid()})
+
+        leitura = Dados_sensor.buscar_rfid_depois_de(depois_de)
+
+        if not leitura: # nenhuma tag nova
+            return jsonify({"sucesso": True, "nova": False, "ultimo_id": depois_de})
+
+        uid = leitura["dados_sensor_rfid_uid"]
+        produto = Produto.buscar_por_rfid(uid) # produto ligado a essa tag (ou None)
+
+        resposta = {
+            "sucesso": True,
+            "nova": True,
+            "ultimo_id": leitura["dados_sensor_id"],
+            "uid": uid,
+            "encontrado": produto is not None,
+            "produto": None
+        }
+
+        if produto:
+            resposta["produto"] = {
+                "id": produto["produto_id"],
+                "nome": produto["produto_nome"],
+                "categoria": produto["produto_categoria"],
+                "estoque": int(produto["estoque_quantidade"] or 0)
+            }
+
+        return jsonify(resposta)
+
+    except Exception as e:
+        return jsonify({"sucesso": False, "erro": str(e)}), 500
+
+
 #====== Rotas para mostrar as notificações Noficicacoes ========#
 @app.route("/api/notificacoes")
 def api_notificacoes():
@@ -1757,8 +1754,6 @@ def verificar_notificacoes():
         Alertas.contar_baixo_estoque()
         Alertas.contar_vencidos()
         Alertas.contar_data_relativa()
-        Alertas.verificar_sensores()
-        print(Alertas.verificar_sensores())
         return jsonify({"sucesso": True})
     except Exception as e:
         return jsonify({"sucesso": False, "mensagem": str(e)}), 500

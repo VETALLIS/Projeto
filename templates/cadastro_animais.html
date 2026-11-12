@@ -37,7 +37,7 @@
                 <div class="col-12">
                     <label class="texto-a mb-1 d-block">Idade:</label>
                     <div class="input-group">
-                        <input type="number" name="faixa_etaria" class="form-control" placeholder="Digite a idade:" required>
+                        <input step="0.1" min="0" max="100" type="number" name="faixa_etaria" class="form-control" placeholder="Digite a idade:" required>
                     </div>
                 </div>
             </div>
@@ -68,8 +68,8 @@
             <div class="mb-3 text-start">
                 <label class="texto-a mb-1 d-block">Peso do animal:</label>
                 <div class="input-group">
-                    <input type="text" name="peso" class="form-control"
-                        placeholder="Digite o peso em gramas:" required> <!--O required garante que os campos devem ser preenchidos-->
+                    <input type="number" step="0.001" min="0" max="1000" name="peso" class="form-control"
+                        placeholder="Digite o peso em quilos:" required> <!--O required garante que os campos devem ser preenchidos-->
                 </div>
             </div>
             <div class="text-center mt-5 "> <!--o Botão envia as informações para a função-->
