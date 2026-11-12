@@ -138,11 +138,6 @@ export default function Perfil() {
             style={styles.logo}
           />
         </View>
-        <View style={styles.menuDireita}>
-          <View style={styles.iconCircle}>
-            <MaterialCommunityIcons name="cog-outline" size={26} color="#fefefe" />
-          </View>
-        </View>
       </View>
 
       <View style={styles.header}>

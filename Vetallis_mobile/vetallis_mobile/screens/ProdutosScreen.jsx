@@ -224,9 +224,6 @@ export default function ProdutosScreen() {
         >
             <View style={styles.menu}>
                 <Image source={require('../assets/vetallis.png')} style={styles.logo} />
-                <TouchableOpacity style={styles.iconCircle} onPress={() => { /* abrir configurações */ }}>
-                    <MaterialCommunityIcons name="cog-outline" size={28} color="#fefefe" />
-                </TouchableOpacity>
             </View>
 
             <View style={styles.header}>
