@@ -17,17 +17,6 @@ const db = mysql.createPool({
   connectionLimit: 10,
 });
 
-/* ---------------------------------------------------------------------
-   OBSERVAÇÕES SOBRE O SCHEMA (vetallis_db_2_2)
-   - Usuários -> tabela `usuario` (usuario_id, usuario_email, usuario_senha, usuario_nome, usuario_cargo...)
-   - Produtos -> tabela `produto` (PK composta: produto_id + usuario_usuario_id)
-   - Estoque  -> tabela `estoque` (estoque_quantidade é VARCHAR, por isso usamos CAST(... AS UNSIGNED))
-   - Movimentações "de verdade" ficam em pedido_entrada/item_pedido_entrada
-     (exige fornecedor_fornecedor_id) e pedido_saida/item_pedido_saida
-     (exige animal_animal_id). Como a rota abaixo só recebe produtoId/tipo/quantidade,
-     a movimentação apenas ajusta o saldo em `estoque`; se quiser registrar o pedido
-     completo (com fornecedor ou animal), me avise que eu adapto a rota.
---------------------------------------------------------------------- */
 
 // 1. Rota de Login
 app.post('/api/login', async (req, res) => {
@@ -206,9 +195,8 @@ app.post('/api/estoque/movimentar', async (req, res) => {
   }
 });
 
-// ==========================================
+
 // ROTA 6: HISTÓRICO AJUSTADO AO NOVO SCHEMA
-// ==========================================
 app.get('/api/historico', async (req, res) => {
   try {
     const [linhas] = await db.query(`
@@ -242,9 +230,9 @@ app.get('/api/historico', async (req, res) => {
   }
 });
 
-// ==========================================
+
 // ROTA 7: POST UNIFICADO DE PEDIDOS (ENTRADA E SAÍDA)
-// ==========================================
+
 app.post('/api/pedidos', async (req, res) => {
   const connection = await db.getConnection(); // Obtém conexão para gerenciar a Transaction
 
@@ -374,9 +362,7 @@ app.get('/api/fornecedores', async (req, res) => {
   }
 });
 
-// ==========================================
 // ROTA 9: LISTAR ANIMAIS
-// ==========================================
 app.get('/api/animais', async (req, res) => {
   try {
     const [animais] = await db.query(`
