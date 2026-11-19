@@ -466,8 +466,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     imagem_produto: {
-        width: 60,
-        height: 60,
+        width: 100,
+        height: 120,
         borderRadius: 10,
     },
     letra_produtos: {
