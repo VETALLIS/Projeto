@@ -29,7 +29,7 @@ const ProdutoCard = React.memo(function ProdutoCard({ item, onEntrada, onSaida }
         <View style={styles.card}>
             <View style={styles.imagemBox}>
                 <Image
-                    source={uri ? { uri } : require('../assets/vetallis.png')}
+                    source={uri ? { uri } : require('../assets/medicamento.jpg')}
                     style={styles.imagem}
                 />
                 {(zerado || baixo) && (

@@ -72,7 +72,7 @@ function CardProduto({ produto }) {
                 source={
                     usarImagemDoProduto
                         ? { uri: `${API_URL}/api/produtos/${produto.id}/imagem` }
-                        : require('../assets/vetallis.png')
+                        : require('../assets/medicamento.jpg')
                 }
                 style={styles.imagem_produto}
                 resizeMode={usarImagemDoProduto ? 'cover' : 'contain'}
