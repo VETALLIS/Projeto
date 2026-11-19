@@ -10,16 +10,43 @@ app.use(express.json());
 // Configuração da Conexão com o MySQL
 const db = mysql.createPool({
   host: 'localhost',
-  user: 'root',        // Altere para seu usuário do MySQL
-  password: '123456',  // Altere para sua senha do MySQL
+  user: 'root',        
+  password: '123456',  
   database: 'vetallis_db_2_3',
   waitForConnections: true,
   connectionLimit: 10,
 });
 
+// SELECT de produto usado na listagem e na busca por ID
+const SQL_PRODUTO = `
+  SELECT p.produto_id AS id,
+         p.produto_nome AS nome,
+         p.produto_descricao AS descricao,
+         p.produto_categoria AS categoria,
+         (p.imagem_blob IS NOT NULL) AS temImagem,
+         COALESCE(CAST(e.estoque_quantidade AS UNSIGNED), 0) AS quantidade
+  FROM produto p
+  LEFT JOIN estoque e ON e.produto_produto_id = p.produto_id
+                      AND e.produto_usuario_usuario_id = p.usuario_usuario_id`;
 
+// Entradas + saídas juntas (usado no painel e no histórico)
+const SQL_MOVIMENTACOES = `
+  (SELECT ipe.item_pedido_entrada_id AS id, 'Entrada' AS tipo,
+          ipe.item_pedido_entrada_quantidade AS quantidade,
+          pe.pedido_entrada_data AS data, NULL AS hora, pr.produto_nome AS produto
+   FROM item_pedido_entrada ipe
+   JOIN produto pr ON ipe.produto_produto_id = pr.produto_id
+   JOIN pedido_entrada pe ON ipe.pedido_entrada_pedido_entrada_id = pe.pedido_entrada_id)
+  UNION ALL
+  (SELECT ips.item_pedido_saida_id AS id, 'Saída' AS tipo,
+          ips.item_pedido_saida_quantidade AS quantidade,
+          ps.pedido_saida_data AS data, NULL AS hora, pr.produto_nome AS produto
+   FROM item_pedido_saida ips
+   JOIN produto pr ON ips.produto_produto_id = pr.produto_id
+   JOIN pedido_saida ps ON ips.pedido_saida_pedido_saida_id = ps.pedido_saida_id)
+  ORDER BY id DESC`;
 
-
+// 1. Login
 app.post('/api/login', async (req, res) => {
   const { email, senha } = req.body;
   try {
@@ -58,27 +85,13 @@ app.get('/api/painel', async (req, res) => {
       `SELECT COUNT(*) AS estoqueBaixoCount FROM estoque WHERE CAST(estoque_quantidade AS UNSIGNED) <= 5`
     );
 
+    // Se as atividades falharem, o painel continua funcionando sem elas
     let atividadesRecentes = [];
     try {
-      const [linhas] = await db.query(`
-    (SELECT ipe.item_pedido_entrada_id AS id, 'Entrada' AS tipo,
-            ipe.item_pedido_entrada_quantidade AS quantidade,
-            pr.produto_nome AS produto, pe.pedido_entrada_data AS data
-     FROM item_pedido_entrada ipe
-     JOIN produto pr ON ipe.produto_produto_id = pr.produto_id
-     JOIN pedido_entrada pe ON ipe.pedido_entrada_pedido_entrada_id = pe.pedido_entrada_id)
-    UNION ALL
-    (SELECT ips.item_pedido_saida_id AS id, 'Saída' AS tipo,
-            ips.item_pedido_saida_quantidade AS quantidade,
-            pr.produto_nome AS produto, ps.pedido_saida_data AS data
-     FROM item_pedido_saida ips
-     JOIN produto pr ON ips.produto_produto_id = pr.produto_id
-     JOIN pedido_saida ps ON ips.pedido_saida_pedido_saida_id = ps.pedido_saida_id)
-    ORDER BY id DESC
-    LIMIT 5
-  `);
+      const [linhas] = await db.query(`${SQL_MOVIMENTACOES} LIMIT 5`);
       atividadesRecentes = linhas;
     } catch (erroAtividades) {
+      console.log('⚠️ Erro nas atividades recentes:', erroAtividades.message);
     }
 
     res.json({
@@ -94,18 +107,7 @@ app.get('/api/painel', async (req, res) => {
 // 3. Listar Produtos (com quantidade em estoque)
 app.get('/api/produtos', async (req, res) => {
   try {
-    const [produtos] = await db.query(`
-      SELECT p.produto_id AS id,
-             p.produto_nome AS nome,
-             p.produto_descricao AS descricao,
-             p.produto_categoria AS categoria,
-             (p.imagem_blob IS NOT NULL) AS temImagem,
-             COALESCE(CAST(e.estoque_quantidade AS UNSIGNED), 0) AS quantidade
-      FROM produto p
-      LEFT JOIN estoque e ON e.produto_produto_id = p.produto_id
-                          AND e.produto_usuario_usuario_id = p.usuario_usuario_id
-      ORDER BY p.produto_nome ASC
-    `);
+    const [produtos] = await db.query(`${SQL_PRODUTO} ORDER BY p.produto_nome ASC`);
     res.json(produtos);
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
@@ -116,19 +118,7 @@ app.get('/api/produtos', async (req, res) => {
 app.get('/api/produtos/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [linhas] = await db.query(
-      `SELECT p.produto_id AS id,
-              p.produto_nome AS nome,
-              p.produto_descricao AS descricao,
-              p.produto_categoria AS categoria,
-              (p.imagem_blob IS NOT NULL) AS temImagem,
-              COALESCE(CAST(e.estoque_quantidade AS UNSIGNED), 0) AS quantidade
-       FROM produto p
-       LEFT JOIN estoque e ON e.produto_produto_id = p.produto_id
-                           AND e.produto_usuario_usuario_id = p.usuario_usuario_id
-       WHERE p.produto_id = ?`,
-      [id]
-    );
+    const [linhas] = await db.query(`${SQL_PRODUTO} WHERE p.produto_id = ?`, [id]);
     if (linhas.length > 0) {
       res.json(linhas[0]);
     } else {
@@ -201,46 +191,19 @@ app.post('/api/estoque/movimentar', async (req, res) => {
   }
 });
 
-
-// ROTA 6: HISTÓRICO AJUSTADO AO NOVO SCHEMA
+// 6. Histórico de movimentações
 app.get('/api/historico', async (req, res) => {
   try {
-    const [linhas] = await db.query(`
-      (SELECT ipe.item_pedido_entrada_id AS id, 
-              'Entrada' AS tipo,
-              ipe.item_pedido_entrada_quantidade AS quantidade,
-              pe.pedido_entrada_data AS data, 
-              NULL AS hora,
-              pr.produto_nome AS produto
-       FROM item_pedido_entrada ipe
-       JOIN produto pr ON ipe.produto_produto_id = pr.produto_id
-       JOIN pedido_entrada pe ON ipe.pedido_entrada_pedido_entrada_id = pe.pedido_entrada_id)
-      
-      UNION ALL
-      
-      (SELECT ips.item_pedido_saida_id AS id, 
-              'Saída' AS tipo,
-              ips.item_pedido_saida_quantidade AS quantidade,
-              ps.pedido_saida_data AS data, 
-              NULL AS hora,
-              pr.produto_nome AS produto
-       FROM item_pedido_saida ips
-       JOIN produto pr ON ips.produto_produto_id = pr.produto_id
-       JOIN pedido_saida ps ON ips.pedido_saida_pedido_saida_id = ps.pedido_saida_id)
-      
-      ORDER BY id DESC
-    `);
+    const [linhas] = await db.query(SQL_MOVIMENTACOES);
     res.json(linhas);
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
   }
 });
 
-
-// ROTA 7: POST UNIFICADO DE PEDIDOS (ENTRADA E SAÍDA)
-
+// 7. POST unificado de pedidos (entrada e saída)
 app.post('/api/pedidos', async (req, res) => {
-  const connection = await db.getConnection(); // Obtém conexão para gerenciar a Transaction
+  const connection = await db.getConnection(); // conexão própria pra poder usar transaction
 
   try {
     await connection.beginTransaction();
@@ -252,20 +215,19 @@ app.post('/api/pedidos', async (req, res) => {
     }
 
     if (tipo === 'entrada') {
-      // 1. Cria o Pedido de Entrada
+      // Cria o pedido de entrada ('fornecedor' deve ser o fornecedor_id)
       const [resultPedido] = await connection.query(
         `INSERT INTO pedido_entrada (pedido_entrada_nome, pedido_entrada_data, pedido_entrada_status, fornecedor_fornecedor_id)
          VALUES (?, ?, ?, ?)`,
-        [nome, data, 'Concluído', fornecedor] // 'fornecedor' deve ser o ID (fornecedor_id)
+        [nome, data, 'Concluído', fornecedor]
       );
-
       const pedidoId = resultPedido.insertId;
 
-      // 2. Insere os Itens e Atualiza o Estoque
+      // Insere os itens e soma no estoque
       for (const item of itens) {
         await connection.query(
-          `INSERT INTO item_pedido_entrada 
-           (item_pedido_entrada_lote, item_pedido_entrada_quantidade, item_pedido_entrada_valor_unitario, 
+          `INSERT INTO item_pedido_entrada
+           (item_pedido_entrada_lote, item_pedido_entrada_quantidade, item_pedido_entrada_valor_unitario,
             pedido_entrada_pedido_entrada_id, item_pedido_entrada_nome, item_pedido_entrada_validade, produto_produto_id)
            VALUES (?, ?, ?, ?, ?, ?, ?)`,
           [
@@ -279,7 +241,6 @@ app.post('/api/pedidos', async (req, res) => {
           ]
         );
 
-        // Soma no estoque
         await connection.query(
           `UPDATE estoque SET estoque_quantidade = estoque_quantidade + ? WHERE produto_produto_id = ?`,
           [item.qtd, item.produto_id]
@@ -287,7 +248,7 @@ app.post('/api/pedidos', async (req, res) => {
       }
 
     } else if (tipo === 'saida') {
-      // 1. Valida se há estoque disponível para todos os itens antes de dar saída
+      // Antes de tudo, confere se tem estoque pra todos os itens
       for (const item of itens) {
         const [est] = await connection.query(
           `SELECT estoque_quantidade FROM estoque WHERE produto_produto_id = ?`,
@@ -300,31 +261,23 @@ app.post('/api/pedidos', async (req, res) => {
         }
       }
 
-      // 2. Cria o Pedido de Saída
+      // Cria o pedido de saída ('animal' deve ser o animal_id)
       const [resultPedido] = await connection.query(
         `INSERT INTO pedido_saida (pedido_saida_nome, pedido_saida_data, pedido_entrada_status, animal_animal_id)
          VALUES (?, ?, ?, ?)`,
-        [nome, data, 'Concluído', animal] // 'animal' deve ser o ID (animal_id)
+        [nome, data, 'Concluído', animal]
       );
-
       const pedidoId = resultPedido.insertId;
 
-      // 3. Insere os Itens e Subtrai do Estoque
+      // Insere os itens e subtrai do estoque
       for (const item of itens) {
         await connection.query(
-          `INSERT INTO item_pedido_saida 
+          `INSERT INTO item_pedido_saida
            (item_pedido_saida_lote, item_pedido_saida_quantidade, pedido_saida_pedido_saida_id, item_pedido_saida_nome, produto_produto_id)
            VALUES (?, ?, ?, ?, ?)`,
-          [
-            item.lote || 'S/L',
-            item.qtd,
-            pedidoId,
-            item.produto_nome,
-            item.produto_id
-          ]
+          [item.lote || 'S/L', item.qtd, pedidoId, item.produto_nome, item.produto_id]
         );
 
-        // Subtrai do estoque
         await connection.query(
           `UPDATE estoque SET estoque_quantidade = estoque_quantidade - ? WHERE produto_produto_id = ?`,
           [item.qtd, item.produto_id]
@@ -334,12 +287,12 @@ app.post('/api/pedidos', async (req, res) => {
       throw new Error('Tipo de pedido inválido.');
     }
 
-    // Se tudo ocorreu bem, confirma no banco
+    // Deu tudo certo, confirma no banco
     await connection.commit();
     res.status(201).json({ mensagem: 'Pedido registrado com sucesso!' });
 
   } catch (erro) {
-    // Se der erro, desfaz qualquer alteração no banco
+    // Deu erro, desfaz tudo
     await connection.rollback();
     res.status(400).json({ erro: erro.message });
   } finally {
@@ -347,16 +300,12 @@ app.post('/api/pedidos', async (req, res) => {
   }
 });
 
-// ROTA 8: LISTAR FORNECEDORES
+// 8. Listar fornecedores
 app.get('/api/fornecedores', async (req, res) => {
   try {
     const [fornecedores] = await db.query(`
-      SELECT fornecedor_id,
-             fornecedor_nome,
-             fornecedor_cnpj,
-             fornecedor_endereco AS fornecedor_endereco,
-             fornecedor_pedido_minimo,
-             fornecedor_tipo_produtos
+      SELECT fornecedor_id, fornecedor_nome, fornecedor_cnpj, fornecedor_endereco,
+             fornecedor_pedido_minimo, fornecedor_tipo_produtos
       FROM fornecedor
       ORDER BY fornecedor_nome ASC
     `);
@@ -366,16 +315,12 @@ app.get('/api/fornecedores', async (req, res) => {
   }
 });
 
-// ROTA 9: LISTAR ANIMAIS
+// 9. Listar animais
 app.get('/api/animais', async (req, res) => {
   try {
     const [animais] = await db.query(`
-      SELECT animal_id,
-             animal_especie,
-             animal_sexo,
-             animal_raca,
-             animal_identificacao,
-             animal_idade
+      SELECT animal_id, animal_especie, animal_sexo, animal_raca,
+             animal_identificacao, animal_idade
       FROM animal
       ORDER BY animal_identificacao ASC
     `);
@@ -385,7 +330,7 @@ app.get('/api/animais', async (req, res) => {
   }
 });
 
-// 10. Buscar Usuário Específico por ID
+// 10. Buscar usuário específico por ID
 app.get('/api/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -404,7 +349,7 @@ app.get('/api/usuarios/:id', async (req, res) => {
   }
 });
 
-// 11. Atualizar Usuário (nome, email e/ou cargo)
+// 11. Atualizar usuário (nome, email e/ou cargo)
 app.put('/api/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   const { nome, email, cargo } = req.body;
@@ -414,9 +359,10 @@ app.put('/api/usuarios/:id', async (req, res) => {
   }
 
   try {
+    // Monta o UPDATE só com os campos que vieram na requisição
     const campos = [];
     const valores = [];
-    if (nome) { campos.push('usuario_nome = ?'); valores.push(nome); }
+    if (nome)  { campos.push('usuario_nome = ?');  valores.push(nome); }
     if (email) { campos.push('usuario_email = ?'); valores.push(email); }
     if (cargo) { campos.push('usuario_cargo = ?'); valores.push(cargo); }
     valores.push(id);
@@ -442,7 +388,7 @@ app.put('/api/usuarios/:id', async (req, res) => {
   }
 });
 
-// 12. Excluir Usuário
+// 12. Excluir usuário
 app.delete('/api/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -455,9 +401,6 @@ app.delete('/api/usuarios/:id', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-
-
-
 
 // 13. Verificar se o email existe (Esqueci a senha - passo 1)
 app.post('/api/esqueci-senha', async (req, res) => {
@@ -507,8 +450,9 @@ app.post('/api/redefinir-senha', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
+
 /*
-15. Cadastrar/Atualizar Push Token do dispositivo
+// 15. Cadastrar/Atualizar push token do dispositivo
 app.post('/api/push-token', async (req, res) => {
   const { usuarioId, token } = req.body;
 
@@ -529,9 +473,8 @@ app.post('/api/push-token', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-*/
-// Envia o push pra todos os tokens cadastrados (broadcast simples).
-/*
+
+// Envia o push pra todos os tokens cadastrados (broadcast simples)
 async function enviarPushParaTodos(titulo, corpo) {
   const [tokens] = await db.query(`SELECT push_token_valor FROM push_token`);
 
@@ -547,19 +490,15 @@ async function enviarPushParaTodos(titulo, corpo) {
   try {
     await fetch('https://exp.host/--/api/v2/push/send', {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(mensagens),
     });
   } catch (erro) {
     console.log('⚠️ Erro ao enviar push:', erro.message);
   }
 }
-*/
-// Evita duplicar notificação já pendente
-/*
+
+// Versão com push (só dispara quando a notificação é realmente nova)
 async function registrarNotificacao(descricao) {
   const [existentes] = await db.query(
     `SELECT notificacao_id FROM notificacao
@@ -574,14 +513,11 @@ async function registrarNotificacao(descricao) {
     [descricao]
   );
 
-  // Só dispara push quando a notificação é realmente nova
   await enviarPushParaTodos('Vetallis', descricao);
-
   return resultado.insertId;
 }
-*/
+
 // 16. Verificar estoque baixo e registrar notificações
-/*
 app.get('/api/notificacoes/estoque-baixo', async (req, res) => {
   try {
     const [itens] = await db.query(`
@@ -593,8 +529,9 @@ app.get('/api/notificacoes/estoque-baixo', async (req, res) => {
     `);
 
     for (const item of itens) {
-      const descricao = `Estoque baixo: ${item.produto_nome} (${item.estoque_quantidade} unidades restantes)`;
-      await registrarNotificacao(descricao);
+      await registrarNotificacao(
+        `Estoque baixo: ${item.produto_nome} (${item.estoque_quantidade} unidades restantes)`
+      );
     }
 
     res.json(itens);
@@ -602,17 +539,15 @@ app.get('/api/notificacoes/estoque-baixo', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-*/
+
 // 17. Verificar produtos vencidos e registrar notificações
-/*
 app.get('/api/notificacoes/vencidos', async (req, res) => {
   try {
     const [itens] = await db.query(`
       SELECT p.produto_id, p.produto_nome, p.produto_categoria,
              ipe.item_pedido_entrada_validade
       FROM produto p
-      INNER JOIN item_pedido_entrada ipe
-        ON p.produto_id = ipe.produto_produto_id
+      INNER JOIN item_pedido_entrada ipe ON p.produto_id = ipe.produto_produto_id
       WHERE (
         STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d') < CURDATE()
         OR STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y') < CURDATE()
@@ -620,8 +555,9 @@ app.get('/api/notificacoes/vencidos', async (req, res) => {
     `);
 
     for (const item of itens) {
-      const descricao = `Produto vencido: ${item.produto_nome} (validade ${item.item_pedido_entrada_validade})`;
-      await registrarNotificacao(descricao);
+      await registrarNotificacao(
+        `Produto vencido: ${item.produto_nome} (validade ${item.item_pedido_entrada_validade})`
+      );
     }
 
     res.json(itens);
@@ -629,9 +565,8 @@ app.get('/api/notificacoes/vencidos', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-*/
+
 // 18. Listar notificações pendentes (já salvas na tabela)
-/*
 app.get('/api/notificacoes/pendentes', async (req, res) => {
   try {
     const [linhas] = await db.query(`
@@ -645,11 +580,11 @@ app.get('/api/notificacoes/pendentes', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
-*/
-// Roda a cada 15 minutos, chamando as mesmas checagens das rotas 16 e 17
 
-//cron.schedule('*/1 * * * *', async () => {
- /* console.log('⏰ Verificando alertas automaticamente...');
+// Roda de tempos em tempos chamando as mesmas checagens das rotas 16 e 17
+
+cron.schedule('*\/1 * * * *', async () => {
+  console.log('⏰ Verificando alertas automaticamente...');
   try {
     const [baixoEstoque] = await db.query(`
       SELECT p.produto_nome, CAST(e.estoque_quantidade AS UNSIGNED) AS estoque_quantidade
@@ -682,7 +617,7 @@ app.get('/api/notificacoes/pendentes', async (req, res) => {
   }
 });
 */
-// ===== Funções equivalentes ao model Alertas (Python) =====
+
 async function registrarNotificacao(descricao) {
   const [existentes] = await db.query(
     `SELECT notificacao_id FROM notificacao
@@ -699,6 +634,7 @@ async function registrarNotificacao(descricao) {
 }
 
 async function gerarNotificacoes() {
+  // A validade pode estar salva como AAAA-MM-DD ou DD/MM/AAAA, então tenta os dois
   const validadeSql = `COALESCE(
       STR_TO_DATE(ipe.item_pedido_entrada_validade, '%Y-%m-%d'),
       STR_TO_DATE(ipe.item_pedido_entrada_validade, '%d/%m/%Y')
@@ -716,11 +652,11 @@ async function gerarNotificacoes() {
     `);
     for (const e of estoque) {
       const q = Number(e.quantidade);
-      await registrarNotificacao(
-        q === 0
-          ? `Sem estoque: ${e.nome} (0 unidades restantes)`
-          : `Estoque baixo: ${e.nome} (${q} unidades restantes)`
-      );
+      if (q === 0) {
+        await registrarNotificacao(`Sem estoque: ${e.nome} (0 unidades restantes)`);
+      } else {
+        await registrarNotificacao(`Estoque baixo: ${e.nome} (${q} unidades restantes)`);
+      }
     }
   } catch (e) { console.log('⚠️ Erro gerar estoque:', e.message); }
 
@@ -759,15 +695,15 @@ function formatarNotificacao(n) {
   const detalhe = m ? m[2] : '';
 
   let tipo = 'info', icone = 'bell', cor = '#ffffff';
-  if (desc.startsWith('Produto vencido'))      { tipo = 'vencido';  icone = 'exclamation-triangle'; cor = '#ff6b6b'; }
-  else if (desc.startsWith('Sem estoque'))     { tipo = 'zerado';   icone = 'ban';                  cor = '#ff6b6b'; }
-  else if (desc.startsWith('Vence em breve'))  { tipo = 'vencendo'; icone = 'clock-o';              cor = '#ffd166'; }
-  else if (desc.startsWith('Estoque baixo'))   { tipo = 'baixo';    icone = 'archive';              cor = '#ffd166'; }
+  if (desc.startsWith('Produto vencido'))     { tipo = 'vencido';  icone = 'exclamation-triangle'; cor = '#ff6b6b'; }
+  else if (desc.startsWith('Sem estoque'))    { tipo = 'zerado';   icone = 'ban';                  cor = '#ff6b6b'; }
+  else if (desc.startsWith('Vence em breve')) { tipo = 'vencendo'; icone = 'clock-o';              cor = '#ffd166'; }
+  else if (desc.startsWith('Estoque baixo'))  { tipo = 'baixo';    icone = 'archive';              cor = '#ffd166'; }
 
   return { id: `notif-${n.notificacao_id}`, tipo, icone, cor, titulo, detalhe };
 }
 
-// ===== Rota =====
+// 19. Alertas (gera as notificações e devolve a lista pro app)
 app.get('/api/alertas', async (req, res) => {
   try {
     await gerarNotificacoes();
@@ -779,6 +715,7 @@ app.get('/api/alertas', async (req, res) => {
       ORDER BY notificacao_data DESC, notificacao_id DESC
     `);
 
+    // vencido e zerado primeiro, depois vencendo, baixo e info
     const ordem = { vencido: 0, zerado: 1, vencendo: 2, baixo: 3, info: 4 };
     const alertas = linhas.map(formatarNotificacao)
       .sort((a, b) => ordem[a.tipo] - ordem[b.tipo]);
