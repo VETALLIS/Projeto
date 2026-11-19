@@ -11,7 +11,7 @@ app.use(express.json());
 const db = mysql.createPool({
   host: 'localhost',
   user: 'root',        
-  password: '123456',  
+  password: '123456',  // Altere para sua senha do MySQL
   database: 'vetallis_db_2_3',
   waitForConnections: true,
   connectionLimit: 10,
