@@ -7,7 +7,7 @@ import { API_URL } from '../src/services/api';
 
 // Deixe true enquanto estiver investigando. Mostra na tela o endereço da API e o resultado de cada chamada.
 // Quando tudo funcionar, troque para false.
-const MOSTRAR_DIAGNOSTICO = true;
+const MOSTRAR_DIAGNOSTICO = false;
 
 // Busca uma lista na API. Nunca lança erro: devolve { lista, erro }.
 async function buscarLista(caminho) {

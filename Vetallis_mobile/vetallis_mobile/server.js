@@ -323,7 +323,7 @@ app.get('/api/animais', async (req, res) => {
              animal_identificacao, animal_idade
       FROM animal
       ORDER BY animal_identificacao ASC
-    `);
+    `);console.log('>>> /api/animais chamado. Primeiro item:', animais[0]);
     res.json(animais);
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
