@@ -315,7 +315,7 @@ export default function ModalPedido({
             <Text style={styles.tituloSeletor}>Selecione o produto</Text>
             <FlatList
               data={produtosDisponiveis}
-              keyExtractor={(item) => String(item.id)}
+              keyExtractor={(item, index) => String(item.id ?? index)}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.produtoOpcao}
@@ -349,7 +349,7 @@ export default function ModalPedido({
             <Text style={styles.tituloSeletor}>Selecione o {labelReferencia.toLowerCase()}</Text>
             <FlatList
               data={referenciasDisponiveis}
-              keyExtractor={(item) => String(item.id)}
+              keyExtractor={(item, index) => String(item.id ?? index)}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.produtoOpcao}

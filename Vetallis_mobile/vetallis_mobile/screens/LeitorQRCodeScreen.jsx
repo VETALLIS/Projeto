@@ -30,9 +30,17 @@ export default function LeitorScreen() {
     try {
       const res = await fetch(`${API_URL}/api/produtos`);
       const data = await res.json();
-      setProdutosEstoque(data);
+      // LOG TEMPORÁRIO: veja no terminal os nomes reais dos campos (remova depois)
+      console.log('PRODUTO[0]:', JSON.stringify(Array.isArray(data) ? data[0] : data));
+      if (Array.isArray(data)) {
+        setProdutosEstoque(data);
+      } else {
+        console.log('Resposta inesperada de /api/produtos:', data);
+        setProdutosEstoque([]);
+      }
     } catch (err) {
       console.log('Erro ao carregar produtos:', err);
+      setProdutosEstoque([]);
     } finally {
       setCarregandoProdutos(false);
     }
@@ -58,6 +66,8 @@ export default function LeitorScreen() {
     try {
       const res = await fetch(`${API_URL}/api/animais`);
       const data = await res.json();
+      // LOG TEMPORÁRIO: veja no terminal os nomes reais dos campos (remova depois)
+      console.log('ANIMAL[0]:', JSON.stringify(Array.isArray(data) ? data[0] : data));
       if (Array.isArray(data)) {
         setAnimais(data);
       } else {
@@ -78,16 +88,24 @@ export default function LeitorScreen() {
   }
 
   // Listas já formatadas pro formato que o ModalPedido espera ({ id, nome, subtitulo })
-  const fornecedoresFormatados = fornecedores.map((f) => ({
-    id: f.fornecedor_id,
+  const fornecedoresFormatados = fornecedores.map((f, i) => ({
+    id: f.fornecedor_id ?? i,
     nome: f.fornecedor_nome,
     subtitulo: f.fornecedor_tipo_produtos,
   }));
 
-  const animaisFormatados = animais.map((a) => ({
-    id: a.animal_id,
+  const animaisFormatados = animais.map((a, i) => ({
+    id: a.animal_id ?? a.id ?? i,
     nome: a.animal_identificacao,
     subtitulo: `${a.animal_especie} • ${a.animal_raca}`,
+  }));
+
+  // Produtos no formato que o ModalPedido espera ({ id, nome, estoque_quantidade })
+  // Se o log "PRODUTO[0]" mostrar outros nomes de campo, ajuste aqui.
+  const produtosFormatados = produtosEstoque.map((p, i) => ({
+    id: p.produto_id ?? p.id ?? i,
+    nome: p.produto_nome ?? p.nome,
+    estoque_quantidade: p.estoque_quantidade ?? 0,
   }));
 
   // Escolhe a lista certa de acordo com o tipo de movimentação aberto
@@ -184,8 +202,8 @@ export default function LeitorScreen() {
         {fornecedores.length === 0 ? (
           <Text style={styles.vazio}>Nenhum fornecedor cadastrado.</Text>
         ) : (
-          fornecedores.map((f) => (
-            <View key={f.fornecedor_id} style={styles.itemCard}>
+          fornecedores.map((f, index) => (
+            <View key={f.fornecedor_id ?? `fornecedor-${index}`} style={styles.itemCard}>
               <View style={styles.itemIcone}>
                 <MaterialCommunityIcons name="truck-outline" size={24} color="#86EFAC" />
               </View>
@@ -217,8 +235,8 @@ export default function LeitorScreen() {
         {animais.length === 0 ? (
           <Text style={styles.vazio}>Nenhum animal cadastrado.</Text>
         ) : (
-          animais.map((a) => (
-            <View key={a.animal_id} style={styles.itemCard}>
+          animais.map((a, index) => (
+            <View key={a.animal_id ?? a.id ?? `animal-${index}`} style={styles.itemCard}>
               <View style={styles.itemIcone}>
                 <MaterialCommunityIcons name="paw" size={24} color="#86EFAC" />
               </View>
@@ -242,7 +260,7 @@ export default function LeitorScreen() {
         <ModalPedido
           visible={modalVisible}
           tipo={tipoMovimentacao}
-          produtosDisponiveis={produtosEstoque}
+          produtosDisponiveis={produtosFormatados}
           referenciasDisponiveis={referenciasDoModal}
           onClose={() => setModalVisible(false)}
           onConfirmar={enviarPedido}
