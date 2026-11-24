@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, RefreshControl } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { CameraView, useCameraPermissions } from 'expo-camera';
 import ModalPedido from './ModalPedido';
 import { API_URL } from '../src/services/api';
 
@@ -10,9 +9,7 @@ import { API_URL } from '../src/services/api';
 export default function LeitorScreen() {
   const [mensagem, setMensagem] = useState('');
   const [sucesso, setSucesso] = useState('');
-  const [scanning, setScanning] = useState(false);
-  const [scannedData, setScannedData] = useState(null);
-  const [permission, requestPermission] = useCameraPermissions();
+  const [atualizando, setAtualizando] = useState(false);
 
   // ---- ESTADOS DO MODAL DE PEDIDO ----
   const [modalVisible, setModalVisible] = useState(false);
@@ -73,6 +70,13 @@ export default function LeitorScreen() {
     }
   }
 
+  // Puxar a tela pra baixo recarrega tudo
+  async function atualizarTudo() {
+    setAtualizando(true);
+    await Promise.all([carregarProdutos(), carregarFornecedores(), carregarAnimais()]);
+    setAtualizando(false);
+  }
+
   // Listas já formatadas pro formato que o ModalPedido espera ({ id, nome, subtitulo })
   const fornecedoresFormatados = fornecedores.map((f) => ({
     id: f.fornecedor_id,
@@ -122,24 +126,6 @@ export default function LeitorScreen() {
     }
   }
 
-  async function abrirLeitor() {
-    if (!permission?.granted) {
-      const res = await requestPermission();
-      if (!res.granted) {
-        setMensagem('Permissão de câmera negada');
-        setSucesso(false);
-        return;
-      }
-    }
-    setScannedData(null);
-    setScanning(true);
-  }
-
-  function handleBarcodeScanned({ data }) {
-    setScanning(false);
-    setScannedData(data);
-  }
-
   return (
     <LinearGradient
       colors={['#000000', '#0d3b2e', '#0a4a3a', '#1a6b4a']}
@@ -161,48 +147,95 @@ export default function LeitorScreen() {
         <Text style={styles.title}>Movimentação de produtos</Text>
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false}>
-        <View style={styles.card}>
-          {scanning ? (
-            <View style={styles.cameraBox}>
-              <CameraView
-                style={StyleSheet.absoluteFillObject}
-                facing="back"
-                barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
-                onBarcodeScanned={handleBarcodeScanned}
-              />
-              <TouchableOpacity style={styles.botao_saida} onPress={() => setScanning(false)}>
-                <Text style={styles.textoBotao}>Cancelar</Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={styles.iconBox}>
-              <MaterialCommunityIcons name="qrcode-scan" size={100} color="#11686F" />
-              {scannedData && (
-                <Text style={styles.escrita}>Código lido: {scannedData}</Text>
-              )}
-            </View>
-          )}
-
-          <TouchableOpacity style={styles.botao} onPress={abrirLeitor}>
-            <Text style={styles.textoBotao}>
-              {scanning ? 'Escaneando...' : 'Escanear QR Code'}
-            </Text>
-          </TouchableOpacity>
-
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 30 }}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={atualizando} onRefresh={atualizarTudo} tintColor="#fff" colors={['#03A64A']} />
+        }
+      >
+        {/* ---- BOTÕES ---- */}
+        <View style={styles.botoesLinha}>
           <TouchableOpacity style={styles.botao} onPress={() => abrirModalPedido('entrada')}>
+            <MaterialCommunityIcons name="plus-circle-outline" size={22} color="#fff" />
             <Text style={styles.textoBotao}>Adicionar produto</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.botao_saida} onPress={() => abrirModalPedido('saida')}>
+            <MaterialCommunityIcons name="minus-circle-outline" size={22} color="#fff" />
             <Text style={styles.textoBotao}>Retirar produto</Text>
           </TouchableOpacity>
-
-          {mensagem !== '' && (
-            <Text style={[styles.mensagem, { color: sucesso ? '#2e7d32' : '#d32f2f' }]}>
-              {mensagem}
-            </Text>
-          )}
         </View>
+
+        {mensagem !== '' && (
+          <Text style={[styles.mensagem, { color: sucesso ? '#86EFAC' : '#FCA5A5' }]}>
+            {mensagem}
+          </Text>
+        )}
+
+        {/* ---- LISTA DE FORNECEDORES ---- */}
+        <View style={styles.secaoTitulo}>
+          <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="#fff" />
+          <Text style={styles.secaoTexto}>Fornecedores</Text>
+          <View style={styles.contador}>
+            <Text style={styles.contadorTexto}>{fornecedores.length}</Text>
+          </View>
+        </View>
+
+        {fornecedores.length === 0 ? (
+          <Text style={styles.vazio}>Nenhum fornecedor cadastrado.</Text>
+        ) : (
+          fornecedores.map((f) => (
+            <View key={f.fornecedor_id} style={styles.itemCard}>
+              <View style={styles.itemIcone}>
+                <MaterialCommunityIcons name="truck-outline" size={24} color="#86EFAC" />
+              </View>
+              <View style={styles.itemInfo}>
+                <Text style={styles.itemNome} numberOfLines={1}>{f.fornecedor_nome}</Text>
+                {!!f.fornecedor_tipo_produtos && (
+                  <Text style={styles.itemDetalhe} numberOfLines={1}>{f.fornecedor_tipo_produtos}</Text>
+                )}
+                {!!f.fornecedor_cnpj && (
+                  <Text style={styles.itemDetalhe}>CNPJ: {f.fornecedor_cnpj}</Text>
+                )}
+                {!!f.fornecedor_endereco && (
+                  <Text style={styles.itemDetalhe} numberOfLines={2}>{f.fornecedor_endereco}</Text>
+                )}
+              </View>
+            </View>
+          ))
+        )}
+
+        {/* ---- LISTA DE ANIMAIS ---- */}
+        <View style={[styles.secaoTitulo, { marginTop: 28 }]}>
+          <MaterialCommunityIcons name="paw" size={22} color="#fff" />
+          <Text style={styles.secaoTexto}>Animais</Text>
+          <View style={styles.contador}>
+            <Text style={styles.contadorTexto}>{animais.length}</Text>
+          </View>
+        </View>
+
+        {animais.length === 0 ? (
+          <Text style={styles.vazio}>Nenhum animal cadastrado.</Text>
+        ) : (
+          animais.map((a) => (
+            <View key={a.animal_id} style={styles.itemCard}>
+              <View style={styles.itemIcone}>
+                <MaterialCommunityIcons name="paw" size={24} color="#86EFAC" />
+              </View>
+              <View style={styles.itemInfo}>
+                <Text style={styles.itemNome} numberOfLines={1}>{a.animal_identificacao}</Text>
+                <Text style={styles.itemDetalhe} numberOfLines={1}>
+                  {[a.animal_especie, a.animal_raca].filter(Boolean).join(' • ')}
+                </Text>
+                <Text style={styles.itemDetalhe}>
+                  {[a.animal_sexo, a.animal_idade != null && a.animal_idade !== '' ? `${a.animal_idade} anos` : null]
+                    .filter(Boolean)
+                    .join(' • ')}
+                </Text>
+              </View>
+            </View>
+          ))
+        )}
       </ScrollView>
 
       {tipoMovimentacao && (
@@ -224,52 +257,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  card: {
-    backgroundColor: '#ffffffd5',
-    borderRadius: 25,
-    padding: 25,
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowRadius: 10,
-    width: '100%',
-    alignSelf: 'center',
-    paddingTop: 25,
-  },
-  iconBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
-    borderRadius: 16,
-    paddingVertical: 40,
-    minHeight: 250,
-  },
-  titulo: {
-    alignSelf: 'center',
-    fontSize: 50,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  subtitulo: {
-    alignSelf: 'center',
-    fontSize: 28,
-    marginBottom: 52,
-    color: '#ccc',
-  },
-  escrita: {
-    fontSize: 25,
-    marginBottom: 20,
-    color: '#11686F',
-  },
-  icone: {
-    marginRight: 8,
-  },
-  input: {
-    fontSize: 15,
-    flex: 1,
-    padding: 15,
-    borderColor: '#e0e0e0',
-  },
   menu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -281,19 +268,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  menuDireita: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  iconCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 21,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   logo: {
     width: 60,
     height: 60,
@@ -302,7 +276,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#fff',
     borderBottomWidth: 2,
     paddingBottom: 8,
-    marginBottom: 50,
+    marginBottom: 24,
     marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -313,44 +287,101 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
   },
-  imagem: {
-    width: 400,
-    height: 400,
-    alignSelf: 'center',
+
+  // Botões
+  botoesLinha: {
+    flexDirection: 'row',
+    gap: 12,
   },
   botao: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
     backgroundColor: '#03A64A',
     padding: 15,
     borderRadius: 10,
+  },
+  botao_saida: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    gap: 8,
+    backgroundColor: '#bd0404',
+    padding: 15,
+    borderRadius: 10,
   },
   textoBotao: {
     color: '#ffff',
     fontWeight: 'bold',
-    fontSize: 16,
-    alignSelf: 'center',
+    fontSize: 14,
   },
   mensagem: {
-    marginTop: 20,
+    marginTop: 16,
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold',
   },
-  botao_saida: {
-    backgroundColor: '#bd0404',
-    marginTop: 50,
-    padding: 15,
-    borderRadius: 10,
+
+  // Listas
+  secaoTitulo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 28,
+    marginBottom: 12,
+  },
+  secaoTexto: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  contador: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+  },
+  contadorTexto: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 13,
+  },
+  itemCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    borderRadius: 18,
+    padding: 14,
+    marginBottom: 10,
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  cameraBox: {
-    width: '100%',
-    height: 350,
-    borderRadius: 16,
-    overflow: 'hidden',
-    backgroundColor: '#000',
-    justifyContent: 'flex-end',  // empurra o botão pro FUNDO da caixa
-
+  itemIcone: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    backgroundColor: 'rgba(34, 197, 94, 0.18)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 14,
+  },
+  itemInfo: {
+    flex: 1,
+  },
+  itemNome: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  itemDetalhe: {
+    color: '#CBD5E1',
+    fontSize: 13,
+    marginTop: 3,
+  },
+  vazio: {
+    color: '#ffffffaa',
+    textAlign: 'center',
+    paddingVertical: 14,
   },
 });

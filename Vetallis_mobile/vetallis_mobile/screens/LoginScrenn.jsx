@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Checkbox from 'expo-checkbox';
@@ -101,64 +101,77 @@ export default function Login() {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
-      <Text style={styles.titulo}>VETALLIS</Text>
-      <Text style={styles.subtitulo}>Acesse sua conta</Text>
-      <View style={styles.card}>
-        <Text style={styles.escrita}>Email</Text>
-        <View style={styles.inputContainer}>
-          <MaterialCommunityIcons name="email-outline" size={22} color="#999" style={styles.icone} />
-          <TextInput
-            style={styles.input}
-            placeholder='Digite seu email'
-            placeholderTextColor="#999"
-            value={Email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            editable={!carregando}
-          />
-        </View>
-        <Text style={styles.escrita}>Senha</Text>
-        <View style={styles.inputContainer}>
-          <Ionicons name="lock-closed-outline" size={22} color="#999" style={styles.icone} />
-          <TextInput
-            style={styles.input}
-            placeholder='Digite sua senha'
-            placeholderTextColor="#999"
-            value={Senha}
-            onChangeText={setSenha}
-            secureTextEntry
-            editable={!carregando}
-          />
-        </View>
-        <View style={styles.checkrow}>
-          <Checkbox
-            style={styles.checkbox}
-            value={isChecked}
-            onValueChange={setChecked}
-            color={isChecked ? '#4630EB' : undefined}
-          />
-          <Text style={styles.label}>Lembrar-me</Text>
-        </View>
-        <TouchableOpacity style={styles.botao} onPress={fazerLogin} disabled={carregando}>
-          {carregando ? (
-            <ActivityIndicator color="#ffff" />
-          ) : (
-            <Text style={styles.textoBotao}>Entrar</Text>
-          )}
-        </TouchableOpacity>
-        {mensagem !== '' && (
-          <Text style={[
-            styles.mensagem,
-            { color: sucesso ? '#2e7d32' : '#d32f2f' }
-          ]}>{mensagem}</Text>
-        )}
-      </View>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.navigate('EsqueceuSenha')}>
-          <Text style={styles.textoBotao}>Esqueceu sua senha</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Sobe a tela quando o teclado abre */}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        {/* Se a tela for pequena, dá pra rolar em vez de estourar */}
+        <ScrollView
+          contentContainerStyle={styles.scroll}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <Text style={styles.titulo}>VETALLIS</Text>
+          <Text style={styles.subtitulo}>Acesse sua conta</Text>
+
+          <View style={styles.card}>
+            <Text style={styles.escrita}>Email</Text>
+            <View style={styles.inputContainer}>
+              <MaterialCommunityIcons name="email-outline" size={22} color="#999" style={styles.icone} />
+              <TextInput
+                style={styles.input}
+                placeholder='Digite seu email'
+                placeholderTextColor="#999"
+                value={Email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                editable={!carregando}
+              />
+            </View>
+            <Text style={styles.escrita}>Senha</Text>
+            <View style={styles.inputContainer}>
+              <Ionicons name="lock-closed-outline" size={22} color="#999" style={styles.icone} />
+              <TextInput
+                style={styles.input}
+                placeholder='Digite sua senha'
+                placeholderTextColor="#999"
+                value={Senha}
+                onChangeText={setSenha}
+                secureTextEntry
+                editable={!carregando}
+              />
+            </View>
+            <View style={styles.checkrow}>
+              <Checkbox
+                style={styles.checkbox}
+                value={isChecked}
+                onValueChange={setChecked}
+                color={isChecked ? '#4630EB' : undefined}
+              />
+              <Text style={styles.label}>Lembrar-me</Text>
+            </View>
+            <TouchableOpacity style={styles.botao} onPress={fazerLogin} disabled={carregando}>
+              {carregando ? (
+                <ActivityIndicator color="#ffff" />
+              ) : (
+                <Text style={styles.textoBotao}>Entrar</Text>
+              )}
+            </TouchableOpacity>
+            {mensagem !== '' && (
+              <Text style={[
+                styles.mensagem,
+                { color: sucesso ? '#2e7d32' : '#d32f2f' }
+              ]}>{mensagem}</Text>
+            )}
+          </View>
+
+          <TouchableOpacity style={styles.linkSenha} onPress={() => navigation.navigate('EsqueceuSenha')}>
+            <Text style={styles.textoBotao}>Esqueceu sua senha</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </LinearGradient>
   );
 }
@@ -166,45 +179,41 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scroll: {
+    flexGrow: 1,
+    justifyContent: 'center', // centraliza quando sobra espaço
     padding: 20,
-
+    paddingVertical: 40,
   },
   card: {
     backgroundColor: '#ffff',
     borderRadius: 16,
-    padding: 25,
-    marginTop: 35,
+    padding: 20,
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },
     shadowRadius: 10,
-    height: 600,
-    width: 500,
+    width: '100%',      // ocupa a largura do celular...
+    maxWidth: 500,      // ...mas não passa de 500 (tablet)
     alignSelf: 'center',
   },
   titulo: {
     alignSelf: 'center',
-    fontSize: 50,
-    marginTop: 20,
+    fontSize: 40,
     fontWeight: 'bold',
     color: '#fff',
   },
   subtitulo: {
     alignSelf: 'center',
-    fontSize: 28,
-    marginBottom: 52,
+    fontSize: 20,
+    marginBottom: 30,
     color: '#ccc',
   },
   escrita: {
-    fontSize: 25,
-    marginBottom: 20,
+    fontSize: 18,
+    marginBottom: 8,
     color: '#116f22',
-  },
-  logo: {
-    width: 175,
-    height: 175,
-    resizeMode: 'contain',
-    alignSelf: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -212,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#e0e0e0",
-    marginBottom: 62,
+    marginBottom: 20,
     paddingHorizontal: 10,
   },
   icone: {
@@ -222,18 +231,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
     flex: 1,
     padding: 15,
-
   },
   checkrow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 62,
+    marginBottom: 20,
   },
   checkbox: {
     alignSelf: 'center',
   },
   label: {
-    fontSize: 18,
+    fontSize: 16,
     margin: 8,
     color: '#116f13',
   },
@@ -255,5 +263,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     fontWeight: 'bold'
-  }
+  },
+  linkSenha: {
+    marginTop: 25,
+    padding: 10,
+    alignSelf: 'center',
+  },
 });

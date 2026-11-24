@@ -72,7 +72,7 @@ function CardProduto({ produto }) {
                 source={
                     usarImagemDoProduto
                         ? { uri: `${API_URL}/api/produtos/${produto.id}/imagem` }
-                        : require('../assets/vetallis.png')
+                        : require('../assets/medicamento.jpg')
                 }
                 style={styles.imagem_produto}
                 resizeMode={usarImagemDoProduto ? 'cover' : 'contain'}
@@ -466,8 +466,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     imagem_produto: {
-        width: 60,
-        height: 60,
+        width: 100,
+        height: 120,
         borderRadius: 10,
     },
     letra_produtos: {
