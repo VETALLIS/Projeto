@@ -1503,47 +1503,63 @@ def gerenciar_perfil_atualizar(usuario_id):
 # ======= Rota para executar realmente a atualização do gerenciamento de perfil ====== #
 @app.route("/gerenciar_perfil/salvar", methods=["POST"])
 def gerenciar_perfil_salvar():
-    dados = get_gerenciar_perfil_form()
-    atualizar = GerenciamentoPerfil(**dados)
-    erros = atualizar.validar_perfil(app.secret_key)
-
-    usuario_id = session.get("usuario_id")
-    if not usuario_id:
+    usuario_logado = session.get("usuario_id")
+    if not usuario_logado:
         flash("Faça login novamente.", "warning")
         return redirect(url_for("novo_login"))
+
+    # Garante que só o administrador altera perfis
+    if session.get("usuario_cargo") != "adm": 
+        flash("Sem permissão.", "danger")
+        return redirect(url_for("inicial"))
+
+    dados = get_gerenciar_perfil_form()
+    id_alvo = to_int(dados["usuario_id"])
+    if not id_alvo:
+        flash("Usuário inválido.", "danger")
+        return redirect(url_for("inicial"))
+
+    atualizar = GerenciamentoPerfil(**dados)
+    erros = atualizar.validar_perfil(app.secret_key)
 
     try:
         if erros:
             for erro in erros:
                 flash(erro, "danger")
-            return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
+            return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=id_alvo))
 
-        atualizar.atualizar_usuario(usuario_id)
+        atualizar.atualizar_usuario(id_alvo)
 
-        # mantém o nome do cabeçalho em sincronia
-        session["usuario_nome"] = atualizar.usuario_nome
+        # só atualiza o nome da sessão se o admin editou a si mesmo
+        if id_alvo == usuario_logado:
+            session["usuario_nome"] = atualizar.usuario_nome
+            session["usuario_cargo"] = atualizar.usuario_cargo
 
         flash("Dados atualizados.", "success")
-        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=id_alvo))
 
     except Exception as e:
         flash(f"Erro ao atualizar dados: {str(e)}", "danger")
-        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
+        return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=id_alvo))
 
 
 # ====== Rota que exclui o usuario cadastrado no sistema, se der errado leva para o gerenciamento de perfil ======#
 @app.route("/gerenciar_perfil/excluir/<int:usuario_id>", methods=["POST"])
 def excluir_usuario(usuario_id):
+    if session.get("usuario_cargo") != "Administrador":
+        flash("Sem permissão.", "danger")
+        return redirect(url_for("inicial"))
     try:
         Usuario.safe_delete(usuario_id)
-        session.clear()  
+        if usuario_id == session.get("usuario_id"):
+            session.clear()
+            flash("Sua conta foi excluída.", "success")
+            return redirect(url_for("novo_login"))
         flash("Usuário excluído com sucesso!", "success")
-        return redirect(url_for("novo_login"))  
-            
+        return redirect(url_for("funcionarios"))
     except ValueError as e:
-        flash(str(e), "danger") 
+        flash(str(e), "danger")
         return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
-        
     except Exception as e:
         flash(f"Erro ao excluir Usuario: {e}", "danger")
         return redirect(url_for("gerenciar_perfil_atualizar", usuario_id=usuario_id))
