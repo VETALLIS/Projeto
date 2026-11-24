@@ -60,9 +60,14 @@ export default function ModalPedido({
   const [enviando, setEnviando] = useState(false);
   const [erroValidacao, setErroValidacao] = useState('');
 
+  // Ao abrir com um produto já escolhido: seleciona o produto
+  // e preenche o nome do pedido com o tipo + nome do produto
   useEffect(() => {
-    if (visible && produtoInicial) setProdutoSelecionado(produtoInicial);
-  }, [visible, produtoInicial]);
+    if (visible && produtoInicial) {
+      setProdutoSelecionado(produtoInicial);
+      setNome(`${tipo === 'entrada' ? 'Entrada' : 'Saída'} - ${produtoInicial.nome}`);
+    }
+  }, [visible, produtoInicial, tipo]);
 
   function limparCampos() {
     setNome('');
@@ -168,6 +173,9 @@ export default function ModalPedido({
           <Text style={styles.titulo}>
             {tipo === 'entrada' ? 'Entrada de produtos' : 'Saída de produtos'}
           </Text>
+          {!!produtoInicial && (
+            <Text style={styles.subtituloProduto}>{produtoInicial.nome}</Text>
+          )}
 
           {/* ---- BLOCO PEDIDO ---- */}
           <Text style={styles.secao}>Pedido</Text>
@@ -384,6 +392,13 @@ export default function ModalPedido({
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: '#0a4a3a', padding: 20, paddingTop: 60 },
   titulo: { color: '#fff', fontSize: 26, fontWeight: 'bold', marginBottom: 20 },
+  subtituloProduto: {
+    color: '#86EFAC',
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: -12,
+    marginBottom: 16,
+  },
   secao: { color: '#fff', fontSize: 18, fontWeight: 'bold', marginTop: 16, marginBottom: 10 },
   linha: { flexDirection: 'row', marginBottom: 4 },
   label: { color: '#e0e0e0', marginBottom: 6, marginTop: 10 },

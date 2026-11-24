@@ -175,12 +175,26 @@ export default function ProdutosScreen() {
             produto: { ...produto, estoque_quantidade: produto.quantidade },
         });
 
-        // AJUSTE os endpoints para os do seu backend
         const rota = tipo === 'entrada' ? 'fornecedores' : 'animais';
         try {
             const r = await fetch(`${API_URL}/api/${rota}`);
             const d = await r.json();
-            if (r.ok) setReferencias(d.map((x) => ({ id: x.id, nome: x.nome, subtitulo: x.subtitulo })));
+            if (r.ok) {
+                const lista = d.map((x, i) =>
+                    tipo === 'entrada'
+                        ? {
+                              id: x.fornecedor_id ?? i,
+                              nome: x.fornecedor_nome ?? '(sem nome)',
+                              subtitulo: x.fornecedor_tipo_produtos ?? '',
+                          }
+                        : {
+                              id: x.animal_id ?? i,
+                              nome: x.animal_identificacao ?? '(sem nome)',
+                              subtitulo: [x.animal_especie, x.animal_raca].filter(Boolean).join(' • '),
+                          }
+                );
+                setReferencias(lista);
+            }
         } catch (e) {
             // a lista fica vazia e o modal mostra "Nenhum ... disponível"
         }
@@ -198,7 +212,7 @@ export default function ProdutosScreen() {
             body: JSON.stringify(pedido),
         });
         const d = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(d.mensagem || 'Erro ao enviar pedido');
+        if (!r.ok) throw new Error(d.mensagem || d.erro || 'Erro ao enviar pedido');
         carregarProdutos(); // estoque atualizado na hora
     }
 

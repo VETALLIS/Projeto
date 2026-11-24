@@ -255,7 +255,7 @@ app.post('/api/pedidos', async (req, res) => {
           [item.produto_id]
         );
 
-        const qtdAtual = est[0]?.estoque_quantidade || 0;
+        const qtdAtual = Number(est[0]?.estoque_quantidade) || 0;
         if (qtdAtual < item.qtd) {
           throw new Error(`Estoque insuficiente para o produto ${item.produto_nome}. Disponível: ${qtdAtual}`);
         }
