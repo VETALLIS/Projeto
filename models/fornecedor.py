@@ -31,7 +31,6 @@ class Fornecedor(Crud_base):
             Manipular.validar_not_caracter(self.fornecedor_nome, "nome"),# verifica se os dados estão aceitando caractere especial
             Manipular.validar_min_caracter(self.fornecedor_nome, "nome"),# verifica se os dados estão aceitando menos que 3 caracteres
             Manipular.validar_letra(self.fornecedor_nome, "nome"),# verifica se os dados estão aceitando numeros
-            Manipular.validar_not_caracter(self.fornecedor_tipo_produtos, "produtos"),# verifica se os dados estão aceitando caractere especial
             Manipular.validar_letra(self.fornecedor_tipo_produtos, "produtos"),# verifica se os dados estão aceitando numeros
             Manipular.validar_max_letra(self.fornecedor_nome, "nome"), #campo não pode ter um valor alto de caracteres
         ]          
