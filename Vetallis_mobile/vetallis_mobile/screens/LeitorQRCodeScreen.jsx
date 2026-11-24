@@ -5,6 +5,44 @@ import { useState, useEffect } from 'react';
 import ModalPedido from './ModalPedido';
 import { API_URL } from '../src/services/api';
 
+// Deixe true enquanto estiver investigando. Mostra na tela o endereço da API e o resultado de cada chamada.
+// Quando tudo funcionar, troque para false.
+const MOSTRAR_DIAGNOSTICO = true;
+
+// Busca uma lista na API. Nunca lança erro: devolve { lista, erro }.
+async function buscarLista(caminho) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(`${API_URL}${caminho}`, { signal: controller.signal });
+    const texto = await res.text();
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    let data;
+    try {
+      data = JSON.parse(texto);
+    } catch {
+      throw new Error(`Resposta não é JSON: ${texto.slice(0, 60)}`);
+    }
+
+    if (!Array.isArray(data)) {
+      throw new Error(`Formato inesperado: ${JSON.stringify(data).slice(0, 80)}`);
+    }
+
+    return { lista: data, erro: null };
+  } catch (err) {
+    const erro =
+      err.name === 'AbortError'
+        ? 'Tempo esgotado: o servidor não respondeu'
+        : err.message || 'Falha de conexão';
+    return { lista: [], erro };
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 export default function LeitorScreen() {
   const [mensagem, setMensagem] = useState('');
@@ -19,6 +57,9 @@ export default function LeitorScreen() {
   const [animais, setAnimais] = useState([]);
   const [carregandoProdutos, setCarregandoProdutos] = useState(false);
 
+  // ---- DIAGNÓSTICO: resultado de cada chamada ----
+  const [erros, setErros] = useState({ produtos: null, fornecedores: null, animais: null });
+
   useEffect(() => {
     carregarProdutos();
     carregarFornecedores();
@@ -27,57 +68,25 @@ export default function LeitorScreen() {
 
   async function carregarProdutos() {
     setCarregandoProdutos(true);
-    try {
-      const res = await fetch(`${API_URL}/api/produtos`);
-      const data = await res.json();
-      // LOG TEMPORÁRIO: veja no terminal os nomes reais dos campos (remova depois)
-      console.log('PRODUTO[0]:', JSON.stringify(Array.isArray(data) ? data[0] : data));
-      if (Array.isArray(data)) {
-        setProdutosEstoque(data);
-      } else {
-        console.log('Resposta inesperada de /api/produtos:', data);
-        setProdutosEstoque([]);
-      }
-    } catch (err) {
-      console.log('Erro ao carregar produtos:', err);
-      setProdutosEstoque([]);
-    } finally {
-      setCarregandoProdutos(false);
-    }
+    const { lista, erro } = await buscarLista('/api/produtos');
+    setProdutosEstoque(lista);
+    setErros((e) => ({ ...e, produtos: erro }));
+    if (erro) console.log('Erro em /api/produtos:', erro);
+    setCarregandoProdutos(false);
   }
 
   async function carregarFornecedores() {
-    try {
-      const res = await fetch(`${API_URL}/api/fornecedores`);
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setFornecedores(data);
-      } else {
-        console.log('Resposta inesperada de /api/fornecedores:', data);
-        setFornecedores([]);
-      }
-    } catch (err) {
-      console.log('Erro ao carregar fornecedores:', err);
-      setFornecedores([]);
-    }
+    const { lista, erro } = await buscarLista('/api/fornecedores');
+    setFornecedores(lista);
+    setErros((e) => ({ ...e, fornecedores: erro }));
+    if (erro) console.log('Erro em /api/fornecedores:', erro);
   }
 
   async function carregarAnimais() {
-    try {
-      const res = await fetch(`${API_URL}/api/animais`);
-      const data = await res.json();
-      // LOG TEMPORÁRIO: veja no terminal os nomes reais dos campos (remova depois)
-      console.log('ANIMAL[0]:', JSON.stringify(Array.isArray(data) ? data[0] : data));
-      if (Array.isArray(data)) {
-        setAnimais(data);
-      } else {
-        console.log('Resposta inesperada de /api/animais:', data);
-        setAnimais([]);
-      }
-    } catch (err) {
-      console.log('Erro ao carregar animais:', err);
-      setAnimais([]);
-    }
+    const { lista, erro } = await buscarLista('/api/animais');
+    setAnimais(lista);
+    setErros((e) => ({ ...e, animais: erro }));
+    if (erro) console.log('Erro em /api/animais:', erro);
   }
 
   // Puxar a tela pra baixo recarrega tudo
@@ -90,21 +99,21 @@ export default function LeitorScreen() {
   // Listas já formatadas pro formato que o ModalPedido espera ({ id, nome, subtitulo })
   const fornecedoresFormatados = fornecedores.map((f, i) => ({
     id: f.fornecedor_id ?? i,
-    nome: f.fornecedor_nome,
-    subtitulo: f.fornecedor_tipo_produtos,
+    nome: f.fornecedor_nome ?? f.nome ?? '(sem nome)',
+    subtitulo: f.fornecedor_tipo_produtos ?? f.tipo_produtos ?? '',
   }));
 
   const animaisFormatados = animais.map((a, i) => ({
     id: a.animal_id ?? a.id ?? i,
-    nome: a.animal_identificacao,
-    subtitulo: `${a.animal_especie} • ${a.animal_raca}`,
+    nome: a.animal_identificacao ?? a.nome ?? '(sem nome)',
+    subtitulo: [a.animal_especie, a.animal_raca].filter(Boolean).join(' • '),
   }));
 
   // Produtos no formato que o ModalPedido espera ({ id, nome, estoque_quantidade })
-  // Se o log "PRODUTO[0]" mostrar outros nomes de campo, ajuste aqui.
+  // A API devolve { id, nome, quantidade, ... }
   const produtosFormatados = produtosEstoque.map((p, i) => ({
-    id: p.produto_id ?? p.id ?? i,
-    nome: p.produto_nome ?? p.nome,
+    id: p.id ?? p.produto_id ?? i,
+    nome: p.nome ?? p.produto_nome,
     estoque_quantidade: p.quantidade ?? p.estoque_quantidade ?? 0,
   }));
 
@@ -144,6 +153,8 @@ export default function LeitorScreen() {
     }
   }
 
+  const temErro = erros.produtos || erros.fornecedores || erros.animais;
+
   return (
     <LinearGradient
       colors={['#000000', '#0d3b2e', '#0a4a3a', '#1a6b4a']}
@@ -172,6 +183,28 @@ export default function LeitorScreen() {
           <RefreshControl refreshing={atualizando} onRefresh={atualizarTudo} tintColor="#fff" colors={['#03A64A']} />
         }
       >
+        {/* ---- DIAGNÓSTICO (remova quando tudo funcionar: MOSTRAR_DIAGNOSTICO = false) ---- */}
+        {MOSTRAR_DIAGNOSTICO && (
+          <View style={styles.diagnostico}>
+            <Text style={styles.diagnosticoTitulo}>Diagnóstico</Text>
+            <Text style={styles.diagnosticoLinha}>API_URL: {String(API_URL)}</Text>
+            <Text style={styles.diagnosticoLinha}>
+              Produtos: {erros.produtos ? `ERRO - ${erros.produtos}` : `${produtosEstoque.length} itens`}
+            </Text>
+            <Text style={styles.diagnosticoLinha}>
+              Fornecedores: {erros.fornecedores ? `ERRO - ${erros.fornecedores}` : `${fornecedores.length} itens`}
+            </Text>
+            <Text style={styles.diagnosticoLinha}>
+              Animais: {erros.animais ? `ERRO - ${erros.animais}` : `${animais.length} itens`}
+            </Text>
+            {temErro && (
+              <Text style={styles.diagnosticoDica}>
+                Puxe a tela para baixo para tentar de novo.
+              </Text>
+            )}
+          </View>
+        )}
+
         {/* ---- BOTÕES ---- */}
         <View style={styles.botoesLinha}>
           <TouchableOpacity style={styles.botao} onPress={() => abrirModalPedido('entrada')}>
@@ -200,7 +233,9 @@ export default function LeitorScreen() {
         </View>
 
         {fornecedores.length === 0 ? (
-          <Text style={styles.vazio}>Nenhum fornecedor cadastrado.</Text>
+          <Text style={styles.vazio}>
+            {erros.fornecedores ? 'Não foi possível carregar os fornecedores.' : 'Nenhum fornecedor cadastrado.'}
+          </Text>
         ) : (
           fornecedores.map((f, index) => (
             <View key={f.fornecedor_id ?? `fornecedor-${index}`} style={styles.itemCard}>
@@ -233,7 +268,9 @@ export default function LeitorScreen() {
         </View>
 
         {animais.length === 0 ? (
-          <Text style={styles.vazio}>Nenhum animal cadastrado.</Text>
+          <Text style={styles.vazio}>
+            {erros.animais ? 'Não foi possível carregar os animais.' : 'Nenhum animal cadastrado.'}
+          </Text>
         ) : (
           animais.map((a, index) => (
             <View key={a.animal_id ?? a.id ?? `animal-${index}`} style={styles.itemCard}>
@@ -304,6 +341,31 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 32,
     fontWeight: 'bold',
+  },
+
+  // Diagnóstico
+  diagnostico: {
+    backgroundColor: 'rgba(0, 0, 0, 0.45)',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#FCD34D',
+  },
+  diagnosticoTitulo: {
+    color: '#FCD34D',
+    fontWeight: 'bold',
+    marginBottom: 6,
+  },
+  diagnosticoLinha: {
+    color: '#fff',
+    fontSize: 12,
+    marginTop: 2,
+  },
+  diagnosticoDica: {
+    color: '#FCD34D',
+    fontSize: 12,
+    marginTop: 8,
   },
 
   // Botões

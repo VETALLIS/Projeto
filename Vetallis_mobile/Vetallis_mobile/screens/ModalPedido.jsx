@@ -324,8 +324,8 @@ export default function ModalPedido({
                     setSeletorProdutoVisible(false);
                   }}
                 >
-                  <Text style={styles.produtoOpcaoNome}>{item.nome}</Text>
-                  <Text style={styles.produtoOpcaoEstoque}>Estoque: {item.estoque_quantidade}</Text>
+                  <Text style={styles.produtoOpcaoNome}>{item.nome ?? '(sem nome)'}</Text>
+                  <Text style={styles.produtoOpcaoEstoque}>Estoque: {item.estoque_quantidade ?? 0}</Text>
                 </TouchableOpacity>
               )}
               ItemSeparatorComponent={() => <View style={styles.separador} />}
@@ -358,7 +358,7 @@ export default function ModalPedido({
                     setSeletorReferenciaVisible(false);
                   }}
                 >
-                  <Text style={styles.produtoOpcaoNome}>{item.nome}</Text>
+                  <Text style={styles.produtoOpcaoNome}>{item.nome ?? '(sem nome)'}</Text>
                   {!!item.subtitulo && (
                     <Text style={styles.produtoOpcaoEstoque}>{item.subtitulo}</Text>
                   )}
@@ -457,7 +457,7 @@ const styles = StyleSheet.create({
   },
   tituloSeletor: { fontWeight: 'bold', fontSize: 16, marginBottom: 12 },
   produtoOpcao: { paddingVertical: 10 },
-  produtoOpcaoNome: { fontSize: 15, fontWeight: '500' },
+  produtoOpcaoNome: { fontSize: 15, fontWeight: '500', color: '#000' },
   produtoOpcaoEstoque: { fontSize: 12, color: '#777', marginTop: 2 },
   separador: { height: 1, backgroundColor: '#eee' },
 });
