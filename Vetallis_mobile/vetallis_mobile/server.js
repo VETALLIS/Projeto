@@ -335,7 +335,8 @@ app.get('/api/usuarios/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const [linhas] = await db.query(
-      `SELECT usuario_id AS id, usuario_nome AS nome, usuario_email AS email, usuario_cargo AS cargo
+      `SELECT usuario_id AS id, usuario_nome AS nome, usuario_email AS email, usuario_cargo AS cargo,
+              (imagem_blob IS NOT NULL) AS temImagem
        FROM usuario WHERE usuario_id = ?`,
       [id]
     );
@@ -377,7 +378,8 @@ app.put('/api/usuarios/:id', async (req, res) => {
     }
 
     const [linhas] = await db.query(
-      `SELECT usuario_id AS id, usuario_nome AS nome, usuario_email AS email, usuario_cargo AS cargo
+      `SELECT usuario_id AS id, usuario_nome AS nome, usuario_email AS email, usuario_cargo AS cargo,
+              (imagem_blob IS NOT NULL) AS temImagem
        FROM usuario WHERE usuario_id = ?`,
       [id]
     );
@@ -387,6 +389,7 @@ app.put('/api/usuarios/:id', async (req, res) => {
     res.status(500).json({ erro: erro.message });
   }
 });
+
 
 // 12. Excluir usuário
 app.delete('/api/usuarios/:id', async (req, res) => {
@@ -402,18 +405,19 @@ app.delete('/api/usuarios/:id', async (req, res) => {
   }
 });
 
+// 12b. Servir a imagem do usuário (armazenada como BLOB, igual à do produto)
 app.get('/api/usuarios/:id/imagem', async (req, res) => {
   const { id } = req.params;
   try {
     const [linhas] = await db.query(
-      `SELECT usuario_imagem, usuario_imagem_tipo FROM usuario WHERE usuario_id = ? LIMIT 1`,
+      `SELECT imagem_blob, imagem_tipo FROM usuario WHERE usuario_id = ? LIMIT 1`,
       [id]
     );
-    if (linhas.length === 0 || !linhas[0].usuario_imagem) {
+    if (linhas.length === 0 || !linhas[0].imagem_blob) {
       return res.status(404).json({ mensagem: 'Imagem não encontrada' });
     }
-    res.set('Content-Type', linhas[0].usuario_imagem_tipo || 'image/jpeg');
-    res.send(linhas[0].usuario_imagem);
+    res.set('Content-Type', linhas[0].imagem_tipo || 'image/jpeg');
+    res.send(linhas[0].imagem_blob);
   } catch (erro) {
     res.status(500).json({ erro: erro.message });
   }
