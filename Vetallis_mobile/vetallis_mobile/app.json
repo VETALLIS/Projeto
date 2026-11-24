@@ -27,8 +27,7 @@
     },
     "plugins": [
       "@react-native-community/datetimepicker",
-      "expo-secure-store",
-      "react-native-nfc-manager"
+      "expo-secure-store"
     ]
   }
 }

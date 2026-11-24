@@ -105,7 +105,7 @@ export default function LeitorScreen() {
   const produtosFormatados = produtosEstoque.map((p, i) => ({
     id: p.produto_id ?? p.id ?? i,
     nome: p.produto_nome ?? p.nome,
-    estoque_quantidade: p.estoque_quantidade ?? 0,
+    estoque_quantidade: p.quantidade ?? p.estoque_quantidade ?? 0,
   }));
 
   // Escolhe a lista certa de acordo com o tipo de movimentação aberto
