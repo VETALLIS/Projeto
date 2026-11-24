@@ -402,6 +402,23 @@ app.delete('/api/usuarios/:id', async (req, res) => {
   }
 });
 
+app.get('/api/usuarios/:id/imagem', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [linhas] = await db.query(
+      `SELECT usuario_imagem, usuario_imagem_tipo FROM usuario WHERE usuario_id = ? LIMIT 1`,
+      [id]
+    );
+    if (linhas.length === 0 || !linhas[0].usuario_imagem) {
+      return res.status(404).json({ mensagem: 'Imagem não encontrada' });
+    }
+    res.set('Content-Type', linhas[0].usuario_imagem_tipo || 'image/jpeg');
+    res.send(linhas[0].usuario_imagem);
+  } catch (erro) {
+    res.status(500).json({ erro: erro.message });
+  }
+});
+
 // 13. Verificar se o email existe (Esqueci a senha - passo 1)
 app.post('/api/esqueci-senha', async (req, res) => {
   const { email } = req.body;

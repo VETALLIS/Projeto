@@ -16,6 +16,10 @@ export default function Perfil() {
   const [email, setEmail] = useState('');
   const [cargo, setCargo] = useState('');
 
+  // Foto do usuário (só aparece se existir no banco)
+  const [temImagem, setTemImagem] = useState(false);
+  const [imagemVersao, setImagemVersao] = useState(Date.now()); // evita o app mostrar a foto antiga em cache
+
   // Campos para alterar os dados
   const [alterarEmail, setAlterarEmail] = useState('');
   const [alterarNome, setAlterarNome] = useState('');
@@ -38,6 +42,8 @@ export default function Perfil() {
           setNome(dados.nome);
           setEmail(dados.email);
           setCargo(dados.cargo);
+          setTemImagem(!!dados.temImagem);
+          setImagemVersao(Date.now());
         }
       } catch (erro) {
         setMensagem('Não foi possível carregar os dados do usuário.');
@@ -147,31 +153,41 @@ export default function Perfil() {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>
         <View style={styles.card}>
-          
-          
+
+
           <View style={styles.perfilRow}>
-            <View style={styles.frameDashed}>
-              <MaterialCommunityIcons name="account" size={80} color="#9e9e9e" />
+            {/* Se tiver foto mostra ela, senão mostra o ícone de sempre */}
+            <View style={[styles.frameDashed, temImagem && styles.frameComFoto]}>
+              {temImagem ? (
+                <Image
+                  source={{ uri: `${API_URL}/api/usuarios/${usuario.id}/imagem?v=${imagemVersao}` }}
+                  style={styles.fotoUsuario}
+                  resizeMode="cover"
+                  onError={() => setTemImagem(false)} // se a imagem falhar, volta pro ícone
+                />
+              ) : (
+                <MaterialCommunityIcons name="account" size={80} color="#9e9e9e" />
+              )}
             </View>
-            
+
             <View style={styles.dadosLaterais}>
-              <TextInput 
-                style={styles.inputLinha} 
-                placeholder="Nome" 
+              <TextInput
+                style={styles.inputLinha}
+                placeholder="Nome"
                 placeholderTextColor="#999"
                 value={nome}
                 editable={false}
               />
-              <TextInput 
-                style={styles.inputLinha} 
-                placeholder="Email" 
+              <TextInput
+                style={styles.inputLinha}
+                placeholder="Email"
                 placeholderTextColor="#999"
                 value={email}
                 editable={false}
               />
-              <TextInput 
-                style={styles.inputLinha} 
-                placeholder="Cargo" 
+              <TextInput
+                style={styles.inputLinha}
+                placeholder="Cargo"
                 placeholderTextColor="#999"
                 value={cargo}
                 editable={false}
@@ -179,11 +195,11 @@ export default function Perfil() {
             </View>
           </View>
 
-          
+
           <View style={styles.inputGrandeContainer}>
-            <TextInput 
-              style={styles.inputGrande} 
-              placeholder="Alterar email" 
+            <TextInput
+              style={styles.inputGrande}
+              placeholder="Alterar email"
               placeholderTextColor="#999"
               value={alterarEmail}
               onChangeText={setAlterarEmail}
@@ -194,9 +210,9 @@ export default function Perfil() {
           </View>
 
           <View style={styles.inputGrandeContainer}>
-            <TextInput 
-              style={styles.inputGrande} 
-              placeholder="Alterar nome" 
+            <TextInput
+              style={styles.inputGrande}
+              placeholder="Alterar nome"
               placeholderTextColor="#999"
               value={alterarNome}
               onChangeText={setAlterarNome}
@@ -204,12 +220,12 @@ export default function Perfil() {
             />
           </View>
 
-          
+
           <View style={styles.senhaRow}>
             <View style={[styles.inputGrandeContainer, { flex: 1, marginRight: 10 }]}>
-              <TextInput 
-                style={styles.inputGrande} 
-                placeholder="Alterar Cargo" 
+              <TextInput
+                style={styles.inputGrande}
+                placeholder="Alterar Cargo"
                 placeholderTextColor="#999"
                 value={alterarCargo}
                 onChangeText={setAlterarCargo}
@@ -217,9 +233,9 @@ export default function Perfil() {
               />
             </View>
             <View style={[styles.inputGrandeContainer, { flex: 1 }]}>
-              <TextInput 
-                style={styles.inputGrande} 
-                placeholder="Confirmar Cargo" 
+              <TextInput
+                style={styles.inputGrande}
+                placeholder="Confirmar Cargo"
                 placeholderTextColor="#999"
                 value={confirmarCargo}
                 onChangeText={setConfirmarCargo}
@@ -228,7 +244,7 @@ export default function Perfil() {
             </View>
           </View>
 
-         
+
           <TouchableOpacity style={styles.botaoSalvar} onPress={salvarAlteracoes} disabled={carregando}>
             <View style={styles.btnContent}>
               {carregando ? (
@@ -267,7 +283,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 40,
-    
+
   },
   menu: {
     flexDirection: 'row',
@@ -337,7 +353,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#E0E0E0'
+    backgroundColor: '#E0E0E0',
+    overflow: 'hidden', // a foto respeita o canto arredondado
+  },
+  frameComFoto: {
+    borderStyle: 'solid',
+    borderColor: '#03A64A',
+  },
+  fotoUsuario: {
+    width: '100%',
+    height: '100%',
   },
   dadosLaterais: {
     flex: 1,
