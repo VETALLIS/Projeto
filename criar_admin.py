@@ -3,14 +3,14 @@ from core.securite import gerar_hash_senha
 
 senha_hash = gerar_hash_senha("senha_do_admin")
 
-caminho_imagem = "static/imagens/medicamento.jpg"
+caminho_imagem = "static/imagens/usuario_padrao.png"
 
 with open(caminho_imagem, "rb") as arquivo:
     imagem_blob = arquivo.read()
 
 dados = {
     "usuario_nome": "Administrador",
-    "usuario_email": "admin2@sistema.com",
+    "usuario_email": "admin@sistema.com",
     "usuario_senha": "123456",
     "usuario_cpf": "12345678901",
     "usuario_cargo": "adm",
