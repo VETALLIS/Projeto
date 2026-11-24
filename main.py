@@ -133,7 +133,7 @@ if USAR_LDR:
 # Se ficar instavel, teste 0x48 ou 0x68.
 
 
-RFID_GANHO = 0x68
+RFID_GANHO = 0x58
 
 
 # Quantas leituras seguidas sem cartao para considerar
